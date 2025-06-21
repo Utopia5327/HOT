@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Design-Canvas - Project | Manas Bhatia</title>
+    <link rel="stylesheet" href="../css/project.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <script>
+        fetch('../header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+    </script>
+    <section class="framer-hero">
+        <div class="framer-hero-image">
+            <img src="../img/codesigncanvascover2.jpg" alt="Co-Design-Canvas Project Main Image">
+        </div>
+        <div class="framer-hero-content">
+            <div class="framer-hero-col-left">
+                <h2 class="framer-hero-title">Co-Design-Canvas</h2>
+                <div class="framer-hero-meta">
+                    <div class="framer-hero-meta-row">
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Project Type</span>
+                            <span class="framer-hero-meta-value">Web Application</span>
+                        </div>
+
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Role</span>
+                            <span class="framer-hero-meta-value">Capstone Project</span>
+                        </div>
+
+
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Methods/Tools</span>
+                            <span class="framer-hero-meta-value">Vibe Coding, Full Stack development, Generative AI, ComfyUI, Python, HTML, Javascript, Flask, API integration, LLM function calling</span>
+                        </div>
+                    </div>
+                    <div class="framer-hero-meta-row">
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Course</span>
+                            <span class="framer-hero-meta-value">A4146-1 / Spring 2025 / Colloquium III: Design in Action</span>
+                        </div>
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Course Instructors</span>
+                            <span class="framer-hero-meta-value">Seth Thompson, Catherine Griffiths</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="framer-hero-buttons">
+                    <a class="framer-hero-btn" href="https://gsapp-cdp.github.io/archive/projects/2025/co-design-canvas-mb5327/" target="_blank" rel="noopener">View Project</a>
+                    <a class="framer-hero-btn" href="https://gsapp-cdp.github.io/colloquium-2-2024/work/manas/" target="_blank" rel="noopener">Past Research</a>
+                </div>
+            </div>
+            
+            <div class="framer-hero-col-right">
+                <div class="framer-hero-desc">
+                    Co-Design-Canvas is an innovative collaborative design tool that enables teams to work together in real-time on design projects.<br><br>
+                    This project combines modern web technologies with intuitive user interfaces to create a seamless collaborative design experience, fostering creativity and efficiency in team-based design processes.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="framer-krewez">
+        <div class="framer-container">
+            <div class="framer-header">
+                <div class="framer-text-container">
+                    <h5 class="framer-title">about.</h5>
+                </div>
+            </div>
+            <div class="framer-description">
+                <p class="framer-text">Co-Design-Canvas represents a significant advancement in collaborative design tools, offering a unique platform where designers can work together seamlessly in real-time. The project integrates modern web technologies with an intuitive interface to facilitate efficient team collaboration. Through its innovative features, the tool enables multiple users to simultaneously contribute to design projects, share ideas, and provide feedback in a dynamic, interactive environment. This platform serves as both a practical tool for design teams and a demonstration of how technology can enhance collaborative creative processes.</p>
+            </div>
+            
+               
+            </div>
+        </div>
+    </section>
+
+    <div id="site-footer"></div>
+    <script>
+        function includeHTML(id, url) {
+            fetch(url)
+                .then(res => res.text())
+                .then(html => { document.getElementById(id).innerHTML = html; });
+        }
+        includeHTML('site-footer', '../footer.html');
+    </script>
+</body>
+</html> 

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial AI - Project | Manas Bhatia</title>
+    <link rel="stylesheet" href="../css/project.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <script>
+        fetch('../header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+    </script>
+    <section class="framer-hero">
+        <div class="framer-hero-image">
+            <img src="../img/spatialaicover.jpg" alt="Co-Design-Canvas Project Main Image">
+        </div>
+        <div class="framer-hero-content">
+            <div class="framer-hero-col-left">
+                <h2 class="framer-hero-title">Studio-In-Flux</h2>
+                <div class="framer-hero-meta">
+                    <div class="framer-hero-meta-row">
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Project Type</span>
+                            <span class="framer-hero-meta-value">Artificial Intelligence</span>
+                        </div>
+
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Role</span>
+                            <span class="framer-hero-meta-value">Team - Manas Bhatia, Vaibhav Jain</span>
+                        </div>
+
+
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Tools Used</span>
+                            <span class="framer-hero-meta-value">Python, LLM, Hugging Face, Agent-based Modeling</span>
+                        </div>
+                    </div>
+                    <div class="framer-hero-meta-row">
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Course</span>
+                            <span class="framer-hero-meta-value">A6956-1 / Spring 2025 / Spatial AI</span>
+                        </div>
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Course Instructors</span>
+                            <span class="framer-hero-meta-value">William Martin, Sebastian Schloesser (TA)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="framer-hero-buttons">
+                    <a class="framer-hero-btn" href="https://0209vaibhav.github.io/Studio-In-Flux/" target="_blank" rel="noopener">View Project</a>
+                    <a class="framer-hero-btn" href="https://docs.google.com/presentation/d/1oOsJsFR-BgMYyUwRByNHsfNrAwJqQDG52RE3ZD6VsjU/edit?usp=sharing" target="_blank" rel="noopener">View Presentation</a>
+                </div>
+            </div>
+            <div class="framer-hero-col-right">
+                <div class="framer-hero-desc">
+                    This project investigates the potential of 3D and physical AI to facilitate insights, decisions, and predictions for problems involving higher-level spatial reasoning.
+                    <br><br>
+                    By leveraging open source AI models, we developed a chain-of-inference system that can analyze spatial patterns, simulate agent behaviour, and recommend optimized spatial configurations.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="framer-krewez">
+        <div class="framer-container">
+            <div class="framer-header">
+                <div class="framer-text-container">
+                    <h5 class="framer-title">about.</h5>
+                </div>
+            </div>
+            <div class="framer-description">
+                <p class="framer-text">Our team explored how semantic models, computational structures, and artificial intelligence can together form a reasoning pipeline that reads space not just as geometry, but as behavior, constraint, and opportunity. Grounded in real-world contexts but abstracted through spatial theory, we built a prototype AI system that reflects and tests our spatial hypothesis through simulation and inference. This work is both a technical experiment and a conceptual proposition for how AI might help designers observe, interpret, and intervene in complex spatial environments.</p>
+            </div>
+
+            <div class="project-link-container">
+                <a href="https://0209vaibhav.github.io/Studio-In-Flux/Simulation/" target="_blank" rel="noopener" class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    View Interactive Simulation
+                </a>
+            </div>
+
+            <div class="video-container">
+                <video autoplay loop muted playsinline>
+                    <source src="../img/simulation.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    
+
+    <div id="site-footer"></div>
+    <script>
+        function includeHTML(id, url) {
+            fetch(url)
+                .then(res => res.text())
+                .then(html => { document.getElementById(id).innerHTML = html; });
+        }
+        includeHTML('site-footer', '../footer.html');
+    </script>
+</body>
+</html> 
