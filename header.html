@@ -1,0 +1,336 @@
+<nav class="minimal-navbar">
+    <div class="minimal-nav-wrapper">
+        <a class="minimal-logo" href="/manasbhatiawebsite/index.html#hero-section">
+            <span>M B</span>
+        </a>
+        <div class="minimal-links">
+            <div class="dropdown">
+                <a href="/manasbhatiawebsite/projects.html" class="glass-link dropdown-toggle">Projects</a>
+                <div class="dropdown-menu">
+                    <a href="/manasbhatiawebsite/projects/project1.html">MANAV</a>
+                    <a href="/manasbhatiawebsite/projects/project2.html">TerraCurve Tower</a>
+                    <a href="/manasbhatiawebsite/projects/project3.html">NYC Carbon Atlas</a>
+                    <a href="/manasbhatiawebsite/projects/project4.html">Co-Design-Canvas</a>
+                    <a href="/manasbhatiawebsite/projects/project5.html">TensileBloom</a>
+                    <a href="/manasbhatiawebsite/projects/project6.html">EmotionEcho.exe</a>
+                    <a href="/manasbhatiawebsite/projects/project7.html">Computational Modeling</a>
+                    <a href="/manasbhatiawebsite/projects/project8.html">Studio-In-Flux</a>
+                    <a href="/manasbhatiawebsite/projects/project9.html">Environmental Data Analysis</a>
+                </div>
+            </div>
+            <a href="/manasbhatiawebsite/about.html" class="glass-link">About/Contact</a>
+            <button class="dark-mode-toggle glass-link" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+<link href="https://fonts.cdnfonts.com/css/asher-punk" rel="stylesheet">
+<style>
+@font-face {
+    font-family: 'AsherPunkDemoVersion';
+    src: url('fonts/AsherPunkDemoVersion.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+:root {
+    --bg-primary: #fafafa;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: rgba(240, 240, 240, 0.8);
+    --bg-tertiary-hover: rgba(240, 240, 240, 1);
+    --text-primary: #111;
+    --text-secondary: #444;
+    --text-tertiary: #3e3e3e;
+    --border-color: rgba(200, 200, 200, 0.18);
+    --shadow-color: rgba(0, 0, 0, 0.04);
+    --shadow-hover: rgba(0, 0, 0, 0.08);
+    --dropdown-bg: rgba(240, 240, 240, 0.95);
+    --dropdown-hover: rgba(220, 220, 220, 1);
+    --canvas-bg: rgb(252, 250, 245);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: rgba(60, 60, 60, 0.8);
+    --bg-tertiary-hover: rgba(60, 60, 60, 1);
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-tertiary: #e0e0e0;
+    --border-color: rgba(80, 80, 80, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --shadow-hover: rgba(0, 0, 0, 0.3);
+    --dropdown-bg: rgba(60, 60, 60, 0.95);
+    --dropdown-hover: rgba(80, 80, 80, 1);
+    --canvas-bg: rgb(26, 26, 26);
+}
+
+.minimal-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    pointer-events: none;
+}
+.minimal-nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0.7rem 1.5rem 0.7rem 1.5rem;
+    pointer-events: auto;
+}
+.minimal-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    font-family: 'AsherPunkDemoVersion', 'General Sans', 'Inter', Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-right: 1.5rem;
+    text-decoration: none;
+    box-shadow: 0 2px 12px 0 var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
+}
+.minimal-logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+.minimal-logo:hover {
+    background: var(--bg-tertiary-hover);
+    color: var(--text-primary);
+    box-shadow: 0 6px 20px 0 var(--shadow-hover);
+    transform: translateY(-2px) scale(1.02);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+.minimal-logo:hover::before {
+    left: 100%;
+}
+.minimal-logo:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px 0 var(--shadow-color);
+    transition: all 0.1s ease;
+}
+.minimal-logo span {
+    padding: 0 12px;
+    line-height: 44px;
+}
+.minimal-links {
+    display: flex;
+    gap: 1.1rem;
+}
+.glass-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.08rem;
+    font-weight: 500;
+    padding: 0.4rem 1.3rem;
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    backdrop-filter: blur(7px);
+    box-shadow: 0 2px 12px 0 var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
+}
+.glass-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+.glass-link:hover {
+    background: var(--bg-tertiary-hover);
+    color: var(--text-primary);
+    box-shadow: 0 6px 20px 0 var(--shadow-hover);
+    transform: translateY(-2px) scale(1.02);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+.glass-link:hover::before {
+    left: 100%;
+}
+.glass-link:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px 0 var(--shadow-color);
+    transition: all 0.1s ease;
+}
+.glass-link.active {
+    background: var(--bg-tertiary-hover);
+    color: var(--text-primary);
+    box-shadow: 0 4px 16px 0 var(--shadow-hover);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+.dark-mode-toggle {
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    padding: 0.4rem 1rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+.dark-mode-toggle:hover {
+    background: var(--bg-tertiary-hover);
+    transform: scale(1.05);
+}
+.dark-mode-toggle i {
+    transition: transform 0.3s ease;
+}
+[data-theme="dark"] .dark-mode-toggle i {
+    transform: rotate(180deg);
+}
+[data-theme="dark"] .glass-link:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+[data-theme="dark"] .glass-link.active {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-toggle {
+    cursor: pointer;
+}
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    min-width: 180px;
+    background: var(--dropdown-bg);
+    backdrop-filter: blur(7px);
+    border-radius: 10px;
+    box-shadow: 0 4px 24px 0 var(--shadow-hover);
+    border: 1px solid var(--border-color);
+    z-index: 200;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--dropdown-bg);
+    filter: drop-shadow(0 -1px 2px var(--shadow-color));
+}
+.dropdown-menu::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: transparent;
+}
+.dropdown-menu a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 500;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    transition: background 0.18s, color 0.18s;
+    display: block;
+}
+.dropdown-menu a:hover {
+    background: var(--dropdown-hover);
+    color: var(--text-primary);
+}
+.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+@media (max-width: 700px) {
+    .minimal-nav-wrapper {
+        flex-direction: row;
+        padding: 0.7rem 0.7rem;
+        max-width: 98vw;
+    }
+    .minimal-links {
+        gap: 0.7rem;
+    }
+    .minimal-logo {
+        min-width: 36px;
+        min-height: 36px;
+        font-size: 1rem;
+    }
+    .minimal-logo span {
+        line-height: 36px;
+        padding: 0 8px;
+    }
+    .glass-link {
+        font-size: 0.98rem;
+        padding: 0.3rem 1rem;
+    }
+    .dropdown-menu {
+        left: 0;
+        right: 0;
+        min-width: 140px;
+    }
+}
+[data-theme="dark"] .minimal-logo:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+</style> 
+<script>
+// Show dropdown on click for mobile
+const dropdownToggle = document.querySelector('.dropdown-toggle');
+const dropdownMenu = document.querySelector('.dropdown-menu');
+if (dropdownToggle && dropdownMenu) {
+    dropdownToggle.addEventListener('click', function(e) {
+        // Only toggle on mobile
+        if (window.innerWidth <= 900) {
+            e.preventDefault();
+            dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+        }
+    });
+    // Hide dropdown when clicking outside (mobile)
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 900 && !dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+}
+</script> 

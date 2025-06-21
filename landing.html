@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="sketch-projects.js"></script>
+  <script src="js/theme.js"></script>
+  <style>
+    :root {
+      --bg-primary: rgb(252, 250, 245);
+      --text-primary: #3e3e3e;
+      --text-secondary: #3e3e3e;
+      --text-tertiary: #3e3e3e;
+      --transition-overlay: rgb(255, 255, 255);
+      --particle-color: #525252;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: rgb(26, 26, 26);
+      --text-primary: #e0e0e0;
+      --text-secondary: #e0e0e0;
+      --text-tertiary: #e0e0e0;
+      --transition-overlay: rgb(26, 26, 26);
+      --particle-color: #a0a0a0;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Asher Punk Demo Version', Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      cursor: url('cursor.svg') 16 16, auto;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    #mycelium-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .content {
+      position: relative;
+      z-index: 2;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    .content.fade-out {
+      opacity: 0;
+    }
+    .name-container {
+      margin-top: 35vh;
+    }
+    .name {
+      font-size: 8vw;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      cursor: url('cursor.svg') 16 16, pointer;
+      transition: all 0.5s ease;
+      padding: 1rem 2rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      position: relative;
+      font-family: 'Asher Punk Demo Version', Arial, sans-serif;
+      line-height: 0.9;
+    }
+    .hindi-name {
+      font-size: 1.0vw;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      margin-top: 0.5rem;
+      color: var(--text-secondary);
+      font-family: 'Poppins', sans-serif;
+    }
+    .click-instruction {
+      font-size: 0.9vw;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 10vh;
+      color: var(--text-tertiary);
+      font-family: 'Poppins', sans-serif;
+      opacity: 0.8;
+      animation: fadeInOut 2s ease-in-out infinite;
+    }
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+    .name:hover {
+      transform: scale(1.05);
+      letter-spacing: 0.01em;
+    }
+    
+    /* Glitch effect styles */
+    .glitch {
+      position: relative;
+      color: var(--text-primary);
+      mix-blend-mode: lighten;
+    }
+
+    .glitch:before,
+    .glitch:after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-primary);
+        clip: rect(0, 0, 0, 0);
+        font-size: inherit;
+        font-weight: inherit;
+        letter-spacing: inherit;
+        line-height: inherit;
+        text-transform: inherit;
+        font-family: inherit;
+        padding: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .glitch:before {
+        left: -1px;
+        text-shadow: 1px 0 rgba(255, 0, 0, 0.7);
+    }
+
+    .glitch:after {
+        left: 1px;
+        text-shadow: -1px 0 rgba(0, 0, 255, 0.7);
+    }
+
+    .glitch:hover:before {
+      text-shadow: 4px 0 rgba(255, 0, 0, 0.7);
+      animation: glitch-loop-1 0.8s infinite ease-in-out alternate-reverse;
+    }
+    
+    .glitch:hover:after {
+      text-shadow: -5px 0 rgba(0, 0, 255, 0.7);
+      animation: glitch-loop-2 0.8s infinite ease-in-out alternate-reverse;
+    }
+
+    @keyframes glitch-loop-1 {
+      0% { clip: rect(36px, 9999px, 9px, 0) }
+      25% { clip: rect(25px, 9999px, 99px, 0) }
+      50% { clip: rect(50px, 9999px, 102px, 0) }
+      75% { clip: rect(30px, 9999px, 92px, 0) }
+      100% { clip: rect(91px, 9999px, 98px, 0) }
+    }
+
+    @keyframes glitch-loop-2 {
+      0% { top: -1px; left: 1px; clip: rect(65px, 9999px, 119px, 0) }
+      25% { top: -6px; left: 4px; clip: rect(79px, 9999px, 19px, 0) }
+      50% { top: -3px; left: 2px; clip: rect(68px, 9999px, 11px, 0) }
+      75% { top: 0px; left: -4px; clip: rect(95px, 9999px, 53px, 0) }
+      100% { top: -1px; left: -1px; clip: rect(31px, 9999px, 149px, 0) }
+    }
+    
+    .transition-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--transition-overlay);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2s ease, background 0.3s ease;
+    }
+    .transition-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .growth-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      background: var(--particle-color);
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+    .particle.active {
+      opacity: 1;
+    }
+    .particle.growing {
+      transform: scale(1.5);
+    }
+    @media (max-width: 700px) {
+      .name {
+        font-size: 12vw;
+      }
+    }
+    .dark-mode-toggle-standalone {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1000;
+      cursor: pointer;
+      border: none;
+      font-size: 1.2rem;
+      padding: 0.8rem 1rem;
+      background: rgba(240, 240, 240, 0.8);
+      color: #111;
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 16px 0 rgba(0,0,0,0.1);
+      border: 1px solid rgba(200,200,200,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .dark-mode-toggle-standalone:hover {
+      background: rgba(240, 240, 240, 1);
+      transform: scale(1.05);
+    }
+    
+    .dark-mode-toggle-standalone i {
+      transition: transform 0.3s ease;
+    }
+    
+    [data-theme="dark"] .dark-mode-toggle-standalone {
+      background: rgba(60, 60, 60, 0.8);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    [data-theme="dark"] .dark-mode-toggle-standalone:hover {
+      background: rgba(60, 60, 60, 1);
+    }
+    
+    [data-theme="dark"] .dark-mode-toggle-standalone i {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body>
+  <!-- Standalone dark mode toggle button -->
+  <button class="dark-mode-toggle-standalone" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+    <i class="fas fa-moon"></i>
+  </button>
+  
+  <div class="content" onclick="transitionToHome(event)">
+    <div class="name-container">
+      <a href="#" class="name glitch" data-text="Manas Bhatia">Manas Bhatia</a>
+      <div class="hindi-name">Architecture | Computational Design</div>
+    </div>
+    <div class="click-instruction">Click anywhere to enter</div>
+  </div>
+  <div class="transition-overlay"></div>
+  <div class="growth-particles"></div>
+  <script>
+    function createParticles() {
+      const container = document.querySelector('.growth-particles');
+      const name = document.querySelector('.name');
+      const rect = name.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const rings = 3;
+      const particlesPerRing = 40;
+      for (let ring = 0; ring < rings; ring++) {
+        for (let i = 0; i < particlesPerRing; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          const size = Math.random() * 6 + 2;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          const angle = (i / particlesPerRing) * Math.PI * 2;
+          const radius = (Math.min(rect.width, rect.height) / 2) * (ring + 1);
+          const x = centerX + Math.cos(angle) * radius;
+          const y = centerY + Math.sin(angle) * radius;
+          const startX = Math.random() * window.innerWidth;
+          const startY = Math.random() * window.innerHeight;
+          particle.style.left = `${startX}px`;
+          particle.style.top = `${startY}px`;
+          container.appendChild(particle);
+        }
+      }
+    }
+    function animateParticles() {
+      const particles = document.querySelectorAll('.particle');
+      particles.forEach((particle, index) => {
+        setTimeout(() => {
+          particle.classList.add('active');
+          const name = document.querySelector('.name');
+          const rect = name.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const angle = (index % 40) * (Math.PI * 2 / 40);
+          const radius = (Math.min(rect.width, rect.height) / 2) * (Math.floor(index / 40) + 1);
+          const targetX = centerX + Math.cos(angle) * radius;
+          const targetY = centerY + Math.sin(angle) * radius;
+          const rotation = Math.random() * 360;
+          particle.style.transform = `translate(${targetX - parseFloat(particle.style.left)}px, ${targetY - parseFloat(particle.style.top)}px) rotate(${rotation}deg)`;
+          setTimeout(() => {
+            particle.classList.add('growing');
+          }, 100);
+        }, index * 0.5);
+      });
+    }
+    function transitionToHome(event) {
+      event.preventDefault();
+      createParticles();
+      animateParticles();
+      document.querySelector('.transition-overlay').classList.add('active');
+      setTimeout(() => {
+        window.location.href = 'projects.html';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

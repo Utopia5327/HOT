@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<!-- Redeploy trigger: GitHub Pages re-enabled -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Manas Bhatia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: rgba(240, 240, 240, 0.8);
+            --bg-tertiary-hover: rgba(240, 240, 240, 1);
+            --text-primary: #111;
+            --text-secondary: #444;
+            --text-tertiary: #3e3e3e;
+            --border-color: rgba(200, 200, 200, 0.18);
+            --shadow-color: rgba(0, 0, 0, 0.04);
+            --shadow-hover: rgba(0, 0, 0, 0.08);
+            --dropdown-bg: rgba(240, 240, 240, 0.95);
+            --dropdown-hover: rgba(220, 220, 220, 1);
+            --canvas-bg: rgb(255, 255, 255);
+            --project-card-bg: #ffffff;
+            --project-card-shadow: rgba(0,0,0,0.06);
+            --project-card-shadow-hover: rgba(0,0,0,0.10);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: rgba(60, 60, 60, 0.8);
+            --bg-tertiary-hover: rgba(60, 60, 60, 1);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-tertiary: #e0e0e0;
+            --border-color: rgba(80, 80, 80, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --shadow-hover: rgba(0, 0, 0, 0.3);
+            --dropdown-bg: rgba(60, 60, 60, 0.95);
+            --dropdown-hover: rgba(80, 80, 80, 1);
+            --canvas-bg: rgb(26, 26, 26);
+            --project-card-bg: #2d2d2d;
+            --project-card-shadow: rgba(0,0,0,0.2);
+            --project-card-shadow-hover: rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            cursor: url('cursor.svg') 16 16, auto;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        body, html {
+            cursor: url('cursor.svg') 16 16, auto;
+        }
+        .framer-sleek-navbar {
+            position: fixed;
+            top: 24px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .framer-sleek-nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 900px;
+            background: rgba(17, 17, 17, 0.7);
+            border-radius: 32px;
+            box-shadow: 0 4px 32px 0 rgba(0,0,0,0.10);
+            border: 1px solid rgba(255,255,255,0.10);
+            backdrop-filter: blur(12px);
+            padding: 0.5rem 2.2rem;
+            pointer-events: auto;
+        }
+        [data-theme="dark"] .framer-sleek-nav-wrapper {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.20);
+        }
+        .framer-sleek-logo {
+            display: flex;
+            align-items: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #232323;
+            margin-right: 1.5rem;
+        }
+        [data-theme="dark"] .framer-sleek-logo {
+            background: #404040;
+        }
+        .framer-sleek-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 16px;
+        }
+        .framer-sleek-links {
+            display: flex;
+            gap: 1.8rem;
+        }
+        .framer-sleek-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.18rem;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 12px;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .framer-sleek-link:hover, .framer-sleek-link.active {
+            background: rgba(255,255,255,0.10);
+            color: #a3e635;
+        }
+        .projects-section {
+            max-width: 100vw;
+            margin: 80px 0 0 0;
+            padding: 0 3vw 90px 3vw;
+        }
+        .projects-header-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2.5vw;
+        }
+        .projects-title {
+            font-size: 6vw;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            text-align: left;
+            text-transform: uppercase;
+            margin-bottom: 0.5vw;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        .projects-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 2vw;
+            line-height: 1.5;
+            text-align: left;
+            font-weight: 700;
+            align-self: flex-end;
+            transition: color 0.3s ease;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2vw;
+            width: 100%;
+        }
+        .framer-project-card {
+            display: block;
+            background: var(--project-card-bg);
+            width: 100%;
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.18s, transform 0.18s, background 0.3s ease;
+            box-shadow: 0 2px 16px 0 var(--project-card-shadow);
+            aspect-ratio: 1/1;
+        }
+        .framer-project-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 32px 0 var(--project-card-shadow-hover);
+            cursor: pointer;
+        }
+        .framer-image-container {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+        }
+        .framer-image-shadow {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .framer-image-shadow img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: inherit;
+        }
+        .framer-arrow-icon {
+            display: none;
+        }
+        @media (max-width: 1200px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 700px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .framer-sleek-nav-wrapper {
+                flex-direction: row;
+                padding: 0.5rem 1rem;
+                max-width: 98vw;
+            }
+            .projects-section {
+                margin-top: 60px;
+                padding-bottom: 70px;
+            }
+            .projects-title {
+                font-size: 10vw;
+            }
+            .framer-sleek-links {
+                gap: 1rem;
+            }
+        }
+        @media (max-width: 900px) {
+            .projects-description {
+                align-self: stretch;
+            }
+        }
+        #mycelium-canvas {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 0 !important;
+            pointer-events: none;
+        }
+        .framer-sleek-navbar, .projects-section {
+            position: relative;
+            z-index: 1;
+        }
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        .framer-project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .project-details {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="site-header"></div>
+    <div class="projects-section">
+        <div class="projects-header-row">
+            <h1 class="projects-title">Projects</h1>
+            <p class="projects-description">
+                A selection of my 2024–25 MSCDP work at Columbia GSAPP. Click on any project to learn more about the process, technology, and outcomes behind each piece.
+            </p>
+        </div>
+        <div class="projects-grid">
+            <a class="framer-project-card" href="./projects/project1.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/manavthumbnail.jpg" alt="Project 1 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">MANAV</div>
+                    <div class="project-details">Grasshopper Workflow/Script<br>Generative Design</div>
+                </div>
+            </a>
+            <a class="framer-project-card" href="./projects/project2.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/terracurvetowerthumbnail.jpg" alt="Project 2 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">TerraCurve Tower</div>
+                    <div class="project-details">BIM<br>Rhino-to-Revit Interoperability</div>
+                </div>
+            </a>
+            <a class="framer-project-card" href="./projects/project3.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/NYCthumbnail.jpg" alt="Project 3 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">NYC Carbon Atlas</div>
+                    <div class="project-details">Geographic Information System (GIS)<br>Data Visualization and Mapping</div>
+                </div>
+            </a>
+            <a class="framer-project-card" href="./projects/project4.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/codesigncanvasthubnail.jpg" alt="Project 4 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">Co-Design Canvas</div>
+                    <div class="project-details">Capstone Project<br>Colloquium III: Design in Action</div>
+                </div>
+            </a>
+            <a class="framer-project-card" href="./projects/project5.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/tensilebloomthumb2.jpg" alt="Project 5 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">TensileBloom</div>
+                    <div class="project-details">Fabrication<br>Kinetic Installation</div>
+                </div>
+            </a>
+            <a class="framer-project-card" href="./projects/project6.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/gamethumb.jpg" alt="Project 6 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">EmotionEcho.exe</div>
+                    <div class="project-details">Interactive Design<br>Game Development</div>
+                </div>
+            </a>
+            <a class="framer-project-card" href="./projects/project7.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/compmodelthumb.jpg" alt="Project 7 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">Computational Modeling</div>
+                    <div class="project-details">Data-driven design<br>Parametric Design</div>
+                </div>
+            </a>
+            <a class="framer-project-card" href="./projects/project8.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/spatialaithumb.jpg" alt="Project 8 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">Studio-In-Flux</div>
+                    <div class="project-details">Semantic Modeling<br>Agent-based Simulation</div>
+                </div>
+            </a>
+            <a class="framer-project-card" href="./projects/project9.html">
+                <div class="framer-image-container">
+                    <div class="framer-image-shadow">
+                        <img src="img/edathumbnail.jpg" alt="Project 9 Thumbnail">
+                    </div>
+                </div>
+                <div class="project-overlay">
+                    <div class="project-title">Environmental Data Analysis</div>
+                    <div class="project-details">Machine Learning<br>Data Science</div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="site-footer"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+    <script src="sketch-projects.js"></script>
+    <script src="js/theme.js"></script>
+    <script>
+    function includeHTML(id, url) {
+      fetch(url)
+        .then(res => res.text())
+        .then(html => { 
+          document.getElementById(id).innerHTML = html; 
+          // Re-initialize theme after header is loaded to ensure toggle button works
+          if (id === 'site-header') {
+            initializeTheme();
+          }
+        });
+    }
+    includeHTML('site-header', 'header.html');
+    includeHTML('site-footer', 'footer.html');
+    </script>
+    <script>
+        let spacing = 28;   // Spacing for clear lines
+        let time = 0;
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            pixelDensity(1);
+            noFill();
+            frameRate(60);
+        }
+
+        function draw() {
+            // Use CSS variable for background color
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const bgColor = isDark ? color(26, 26, 26) : color(255, 255, 255);
+            background(bgColor);
+            
+            time += 0.003;
+
+            // Draw dipole field dotted lines
+            for (let x = 0; x < width; x += spacing) {
+                for (let y = 0; y < height; y += spacing) {
+                    let dx = x - mouseX;
+                    let dy = y - mouseY;
+                    let r = sqrt(dx * dx + dy * dy) + 0.001; // Avoid div by zero
+                    let theta = atan2(dy, dx);
+
+                    // Dipole field direction (tangent to circles around the cursor)
+                    let angle = theta + PI/2;
+
+                    // Fade with distance - adjust colors based on theme
+                    let alpha = map(r, 0, width/2, 100, 20);
+                    if (isDark) {
+                        stroke(200, 200, 200, alpha);  // Much whiter for dark mode
+                    } else {
+                        stroke(100, 100, 100, alpha);  // Original gray for light mode
+                    }
+                    strokeWeight(1);  // Thinner lines
+
+                    // Shorter line length
+                    let len = map(r, 0, width/2, spacing * 0.8, spacing * 0.4);
+
+                    // More dotted: smaller dash and gap
+                    let dashLength = 2;
+                    let gapLength = 2;
+                    let numDashes = Math.floor(len / (dashLength + gapLength));
+
+                    push();
+                    translate(x, y);
+                    rotate(angle);
+                    for (let i = 0; i < numDashes; i++) {
+                        let start = i * (dashLength + gapLength);
+                        let end = start + dashLength;
+                        if (end > len) end = len;
+                        line(start, 0, end, 0);
+                    }
+                    pop();
+                }
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        // Listen for theme changes
+        window.addEventListener('themeChange', function(e) {
+            // Redraw canvas with new theme
+            draw();
+        });
+    </script>
+</body>
+</html> 

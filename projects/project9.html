@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Data Analysis - Project | Manas Bhatia</title>
+    <link rel="stylesheet" href="../css/project.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../js/theme.js"></script>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <script>
+        fetch('../header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+            });
+    </script>
+    <section class="framer-hero">
+        <div class="framer-hero-image">
+            <img src="../img/EDAGIF.gif" alt="Environmental Data Analysis Project Main Image">
+        </div>
+        <div class="framer-hero-content">
+            <div class="framer-hero-col-left">
+                <h2 class="framer-hero-title">Environmental Data Analysis</h2>
+                <div class="framer-hero-meta">
+                    <div class="framer-hero-meta-row">
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Project Type</span>
+                            <span class="framer-hero-meta-value">Data Science/Data Analysis</span>
+                        </div>
+
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Role</span>
+                            <span class="framer-hero-meta-value">Individual Project</span>
+                        </div>
+
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Tools Used</span>
+                            <span class="framer-hero-meta-value">R, R studio, Machine Learning, Geospatial Analysis</span>
+                        </div>
+                    </div>
+                    <div class="framer-hero-meta-row">
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Course</span>
+                            <span class="framer-hero-meta-value">PLANA6009 - Environmental Data Analysis</span>
+                        </div>
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Course Instructors</span>
+                            <span class="framer-hero-meta-value">Peter Marcotullio + Kaz Sakamoto</span>
+                        </div>
+                    </div>
+                
+                    <br><br>
+                    
+            <div class="framer-hero-col-right">
+                <div class="framer-hero-desc">
+                    This project is part of the Environmental Data Analysis course (PLANA6009) at Columbia GSAPP, which equips students with advanced tools and methodologies to interpret, model, and visualize the environmental dimensions of urban planning in the context of climate change. 
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="framer-krewez">
+        <div class="framer-container">
+            <div class="framer-header">
+                <div class="framer-text-container">
+                    <h5 class="framer-title">about.</h5>
+                </div>
+            </div>
+            <div class="framer-description">
+                <p class="framer-text">Through a series of multi-scalar modules—global, national, regional, and city-level—we explored pressing environmental issues such as urban heat waves, renewable energy transitions, transportation-related emissions, and urban heat island effects. Each module combined climate data, geospatial analysis, and computational modeling in R to derive actionable insights for planners. This project synthesizes those analytical skills to assess spatial vulnerabilities, model future scenarios, and propose planning strategies grounded in data-driven environmental decision-making.</p>
+            </div>
+            
+        </div>
+    </section>
+
+    <section class="framer-krewez">
+        <div class="framer-container">
+            <div class="framer-header">
+                <div class="framer-text-container">
+                    <h5 class="framer-title">National Analysis.</h5>
+                </div>
+            </div>
+            <div class="framer-description">
+                <p class="framer-text">We applied the Kaya identity framework to a global sample of countries, using R Markdown to (1) compute and tabulate each nation's regression coefficients for population (p), GDP per capita (g/p), energy intensity (e/g), and emissions efficiency (f/e) via a purrr-powered workflow; (2) generate pairwise scatter plots of those coefficients—sized by population and complete with titles, legends, and axis labels; and (3) offer a concise interpretation of the observed patterns and outliers, revealing which drivers most strongly explain cross-country CO₂ differences and where policy interventions could yield the greatest emissions reductions.</p>
+            </div>
+
+            <div class="framer-images">
+                <div class="framer-image-container">
+                    <img src="../img/national.jpg" alt="Environmental Data Analysis Main View" style="width: 1200px; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+
+
+            <div class="framer-images">
+                <div class="framer-image-container">
+                    <iframe src="eda/national.html" style="width: 1200px; height: 675px; border: none; overflow: hidden;"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="framer-krewez">
+        <div class="framer-container">
+            <div class="framer-header">
+                <div class="framer-text-container">
+                    <h5 class="framer-title">Regional Analysis.</h5>
+                </div>
+            </div>
+            <div class="framer-description">
+                <p class="framer-text">The regional analysis projects Grenada's VMT for 2020 and 2040 by sampling one of two annual growth rates (1.003 or 1.005) from a 2015 population baseline, estimating vehicles at one per two people, and computing two-way travel between St. George and Grenville. Running 20 simulations per year produces a VMT table and mean projections, revealing how demographic changes could drive future travel demand.</p>
+            </div>
+
+            <div class="framer-images">
+                <div class="framer-image-container">
+                    <img src="../img/regional.jpg" alt="Environmental Data Analysis Main View" style="width: 1200px; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+
+            <div class="framer-images">
+                <div class="framer-image-container">
+                    <iframe src="eda/Assignment_5.html" style="width: 1200px; height: 675px; border: none; overflow: hidden;"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="framer-krewez">
+        <div class="framer-container">
+            <div class="framer-header">
+                <div class="framer-text-container">
+                    <h5 class="framer-title">Local Analysis.</h5>
+                </div>
+            </div>
+            <div class="framer-description">
+                <p class="framer-text">We applied geospatial and machine‐learning methods to quantify urban heat island effects across the continental U.S. We compute each station's 2022 daily temperature range, extract spatial predictors (night lights, urban footprint, population density, climate zone, elevation), and fit three regression models—linear, random forest, and XGBoost—evaluating them by RMSE. After choosing the best model, we produce state‐level 3D ray-shader maps of its residuals, overlaying station points and state borders to visualize spatial patterns of over- and under-prediction.</p>
+            </div>
+
+            <div class="framer-images">
+                <div class="framer-image-container">
+                    <img src="../img/localanalysis.jpg" alt="Environmental Data Analysis Main View" style="width: 1200px; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+
+            <div class="framer-images">
+                <div class="framer-image-container">
+                    <img src="../img/local2.jpg" alt="Environmental Data Analysis Main View" style="width: 1200px; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+
+            <div class="framer-images">
+                <div class="framer-image-container">
+                    <iframe src="eda/Bhatia_Manas_Assignment6.html" style="width: 1200px; height: 675px; border: none; overflow: hidden;"></iframe>
+                </div>
+            </div>
+
+            
+
+          
+
+        </div>
+    </section>
+
+   
+
+    <div id="site-footer"></div>
+    <script>
+        function includeHTML(id, url) {
+            fetch(url)
+                .then(res => res.text())
+                .then(html => { document.getElementById(id).innerHTML = html; });
+        }
+        includeHTML('site-footer', '../footer.html');
+        includeHTML('national-level-analysis-placeholder', 'eda/national.html');
+        includeHTML('regional-analysis-placeholder', 'eda/Assignment_5.html');
+        includeHTML('local-analysis-placeholder', 'eda/Bhatia_Manas_Assignment6.html');
+    </script>
+</body>
+</html> 

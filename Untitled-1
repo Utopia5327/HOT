@@ -1,0 +1,17 @@
+import ghpythonlib.components as ghcomp
+import Rhino.Geometry as rh
+import scriptcontext as sc
+
+from Grasshopper import DataTree
+from Grasshopper.Kernel.Data import GH_Path
+
+
+a = DataTree[object]()
+
+for i in range(x.BranchCount):
+    newPath = GH_Path(i)
+    for pt in x.Branch(i):
+        # Get the actual geometry from the GUID
+        point = sc.doc.Objects.Find(pt).Geometry
+        radius = point.DistanceTo(y) / 5.0
+        a.Add(rh.Circle(point, radius), newPath) 
