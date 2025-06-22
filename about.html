@@ -266,9 +266,26 @@
         .then(res => res.text())
         .then(html => { 
           document.getElementById(id).innerHTML = html; 
+          
+          // Execute scripts after HTML is loaded
+          const scripts = document.getElementById(id).getElementsByTagName('script');
+          for (let script of scripts) {
+            if (script.src) {
+              // For external scripts, create a new script element
+              const newScript = document.createElement('script');
+              newScript.src = script.src;
+              document.head.appendChild(newScript);
+            } else {
+              // For inline scripts, execute them
+              eval(script.innerHTML);
+            }
+          }
+          
           // Re-initialize theme after header is loaded to ensure toggle button works
           if (id === 'site-header') {
-            initializeTheme();
+            if (typeof initializeTheme === 'function') {
+              initializeTheme();
+            }
           }
         });
     }

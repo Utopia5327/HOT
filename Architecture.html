@@ -292,7 +292,7 @@
             </p>
         </div>
         <div class="projects-grid">
-            <a class="framer-project-card" href="./projects/project1.html">
+            <a class="framer-project-card" href="./architecture/project1.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
                         <img src="img/SHAHIDSMARAKTHUMB.jpg" alt="Project 1 Thumbnail">
@@ -303,7 +303,7 @@
                     <div class="project-details">Master Planning<br>Public/Cultural</div>
                 </div>
             </a>
-            <a class="framer-project-card" href="./projects/project2.html">
+            <a class="framer-project-card" href="./architecture/project2.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
                         <img src="img/pangolinthumbnail.jpg" alt="Project 2 Thumbnail">
@@ -314,7 +314,7 @@
                     <div class="project-details">Parametric Design<br>Fabrication</div>
                 </div>
             </a>
-            <a class="framer-project-card" href="./projects/project3.html">
+            <a class="framer-project-card" href="./architecture/project3.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
                         <img src="img/curiousthumb.jpg" alt="Project 3 Thumbnail">
@@ -325,7 +325,7 @@
                     <div class="project-details">Kindergarten<br>Institutional</div>
                 </div>
             </a>
-            <a class="framer-project-card" href="./projects/project4.html">
+            <a class="framer-project-card" href="./architecture/project4.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
                         <img src="img/hopethumb.jpg" alt="Project 4 Thumbnail">
@@ -336,7 +336,7 @@
                     <div class="project-details">Healthcare Clinic<br></div>
                 </div>
             </a>
-            <a class="framer-project-card" href="./projects/project5.html">
+            <a class="framer-project-card" href="./architecture/project5.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
                         <img src="img/chandigarhthumb1.jpg" alt="Project 5 Thumbnail">
@@ -347,7 +347,7 @@
                     <div class="project-details">Residence<br>VASTU compliant design</div>
                 </div>
             </a>
-            <a class="framer-project-card" href="./projects/project6.html">
+            <a class="framer-project-card" href="./architecture/project6.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
                         <img src="img/ma83thumb.jpg" alt="Project 6 Thumbnail">
@@ -358,7 +358,7 @@
                     <div class="project-details">Residence<br>Courtyard Design</div>
                 </div>
             </a>
-            <a class="framer-project-card" href="./projects/project7.html">
+            <a class="framer-project-card" href="./architecture/project7.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
                         <img src="img/satolithumb.jpg" alt="Project 7 Thumbnail">
@@ -366,10 +366,10 @@
                 </div>
                 <div class="project-overlay">
                     <div class="project-title">Satoli Residence</div>
-                    <div class="project-details">Hospitality<br>AirBnB stay</div>
+                    <div class="project-details">Residential<br>AirBnB</div>
                 </div>
             </a>
-            <a class="framer-project-card" href="./projects/project8.html">
+            <a class="framer-project-card" href="./architecture/project8.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
                         <img src="img/goldlinksthumb.jpg" alt="Project 8 Thumbnail">
@@ -377,18 +377,18 @@
                 </div>
                 <div class="project-overlay">
                     <div class="project-title">Golf Links</div>
-                    <div class="project-details">Residence</div>
+                    <div class="project-details">Residential</div>
                 </div>
             </a>
-            <a class="framer-project-card" href="./projects/project9.html">
+            <a class="framer-project-card" href="./architecture/project9.html">
                 <div class="framer-image-container">
                     <div class="framer-image-shadow">
-                        <img src="img/edathumbnail.jpg" alt="Project 9 Thumbnail">
+                        <img src="img/mangothumb.jpg" alt="Project 9 Thumbnail">
                     </div>
                 </div>
                 <div class="project-overlay">
-                    <div class="project-title">Environmental Data Analysis</div>
-                    <div class="project-details">Machine Learning<br>Data Science</div>
+                    <div class="project-title">Mango Grove Villas</div>
+                    <div class="project-details">Residential<br>Villa Complex</div>
                 </div>
             </a>
         </div>
@@ -403,9 +403,26 @@
         .then(res => res.text())
         .then(html => { 
           document.getElementById(id).innerHTML = html; 
+          
+          // Execute scripts after HTML is loaded
+          const scripts = document.getElementById(id).getElementsByTagName('script');
+          for (let script of scripts) {
+            if (script.src) {
+              // For external scripts, create a new script element
+              const newScript = document.createElement('script');
+              newScript.src = script.src;
+              document.head.appendChild(newScript);
+            } else {
+              // For inline scripts, execute them
+              eval(script.innerHTML);
+            }
+          }
+          
           // Re-initialize theme after header is loaded to ensure toggle button works
           if (id === 'site-header') {
-            initializeTheme();
+            if (typeof initializeTheme === 'function') {
+              initializeTheme();
+            }
           }
         });
     }
