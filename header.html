@@ -569,6 +569,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof initializeTheme === 'function') {
         initializeTheme();
     }
+    // Add overlay click-to-close for hamburger menu
+    var overlay = document.getElementById('hamburgerOverlay');
+    if (overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                window.toggleHamburgerMenu();
+            }
+        });
+    }
 });
 
 // Close hamburger menu when clicking outside

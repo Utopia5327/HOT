@@ -423,6 +423,15 @@
             if (typeof initializeTheme === 'function') {
               initializeTheme();
             }
+            // Attach overlay click-to-close handler for hamburger menu
+            var overlay = document.getElementById('hamburgerOverlay');
+            if (overlay) {
+              overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                  window.toggleHamburgerMenu();
+                }
+              });
+            }
           }
         });
     }

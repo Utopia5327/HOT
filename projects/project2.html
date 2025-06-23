@@ -7,6 +7,53 @@
     <link rel="stylesheet" href="../css/project.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="../js/theme.js"></script>
+    <style>
+        /* Fix header positioning */
+        body {
+            padding-top: 80px; /* Add top padding to account for fixed header */
+        }
+        
+        /* Ensure header is properly positioned */
+        #header-placeholder {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        /* Adjust hero section to account for header */
+        .framer-hero {
+            margin-top: -80px; /* Compensate for body padding */
+        }
+
+        #header-placeholder .minimal-nav-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 32px;
+            box-shadow: 0 4px 32px 0 var(--shadow-color);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            padding: 0.5rem 2.2rem;
+            background: var(--bg-tertiary);
+        }
+
+        #header-placeholder .minimal-navbar {
+            padding: 24px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #header-placeholder .minimal-logo,
+        #header-placeholder .glass-link {
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
 </head>
 <body>
     <div id="header-placeholder"></div>
@@ -15,6 +62,33 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('header-placeholder').innerHTML = data;
+                
+                // Execute any script tags that were loaded
+                const scripts = document.getElementById('header-placeholder').getElementsByTagName('script');
+                for (let script of scripts) {
+                    if (script.innerHTML) {
+                        eval(script.innerHTML);
+                    }
+                }
+                
+                // Attach overlay click-to-close handler
+                var overlay = document.getElementById('hamburgerOverlay');
+                if (overlay) {
+                    overlay.addEventListener('click', function(e) {
+                        if (e.target === overlay) {
+                            window.toggleHamburgerMenu();
+                        }
+                    });
+                }
+                
+                // Since the nav bar links are now loaded, we can apply the active class
+                var currentPath = window.location.pathname;
+                var navLinks = document.querySelectorAll('#header-placeholder .minimal-nav-wrapper a');
+                navLinks.forEach(function(link) {
+                    if (link.pathname === currentPath) {
+                        link.classList.add('active');
+                    }
+                });
             });
     </script>
     <section class="framer-hero">
@@ -100,7 +174,7 @@
             </div>
 
             <div class="framer-description">
-                <p class="framer-text">We began our design evolution with simple hand sketches that rapidly translated into a series of 3D massing studies in Rhino to expose—and eliminate—the most obvious form options. Using Grasshopper, we then conducted rigorous performance analyses, including daylight and shadow simulations to balance winter sun access with summer glare control, view‐shed studies to optimize sightlines toward the Empire State Building, and seasonal wind assessments to mitigate winter cold‐stress and summer heat‐stress. Finally, a careful reading of the site context guided our material strategy: while brick façades prevail nearby, Manhattan’s skyline is defined by a dynamic interplay of glass and terracotta, a language we embraced in our final façade palette.</p>
+                <p class="framer-text">We began our design evolution with simple hand sketches that rapidly translated into a series of 3D massing studies in Rhino to expose—and eliminate—the most obvious form options. Using Grasshopper, we then conducted rigorous performance analyses, including daylight and shadow simulations to balance winter sun access with summer glare control, view‐shed studies to optimize sightlines toward the Empire State Building, and seasonal wind assessments to mitigate winter cold‐stress and summer heat‐stress. Finally, a careful reading of the site context guided our material strategy: while brick façades prevail nearby, Manhattan's skyline is defined by a dynamic interplay of glass and terracotta, a language we embraced in our final façade palette.</p>
             </div>
             
             <div class="framer-images">

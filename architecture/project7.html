@@ -43,6 +43,33 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('header-placeholder').innerHTML = data;
+                
+                // Execute any script tags that were loaded
+                const scripts = document.getElementById('header-placeholder').getElementsByTagName('script');
+                for (let script of scripts) {
+                    if (script.innerHTML) {
+                        eval(script.innerHTML);
+                    }
+                }
+                
+                // Attach overlay click-to-close handler
+                var overlay = document.getElementById('hamburgerOverlay');
+                if (overlay) {
+                    overlay.addEventListener('click', function(e) {
+                        if (e.target === overlay) {
+                            window.toggleHamburgerMenu();
+                        }
+                    });
+                }
+                
+                // Since the nav bar links are now loaded, we can apply the active class
+                var currentPath = window.location.pathname;
+                var navLinks = document.querySelectorAll('#header-placeholder .minimal-nav-wrapper a');
+                navLinks.forEach(function(link) {
+                    if (link.pathname === currentPath) {
+                        link.classList.add('active');
+                    }
+                });
             });
     </script>
     <section class="framer-hero">
