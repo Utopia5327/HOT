@@ -7,6 +7,505 @@
     <link rel="stylesheet" href="../css/project.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="../js/theme.js"></script>
+    <style>
+        #header-placeholder .minimal-nav-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 32px;
+            box-shadow: 0 4px 32px 0 var(--shadow-color);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            padding: 0.5rem 2.2rem;
+            background: var(--bg-tertiary);
+        }
+
+        #header-placeholder .minimal-navbar {
+            padding: 24px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #header-placeholder .minimal-logo,
+        #header-placeholder .glass-link {
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f5f5f5;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-slide img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Navigation Arrows */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .carousel-prev {
+            left: 20px;
+        }
+
+        .carousel-next {
+            right: 20px;
+        }
+
+        .carousel-arrow i {
+            color: #333;
+            font-size: 18px;
+        }
+
+        /* Navigation Dots */
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+        .dot.active {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+        }
+
+        /* Auto-play Controls */
+        .carousel-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .auto-play-toggle {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .auto-play-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        .auto-play-toggle i {
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Full Screen Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2010;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .modal-carousel {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            max-width: 1200px;
+            max-height: 800px;
+        }
+
+        .modal-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-slide.active {
+            opacity: 1;
+        }
+
+        .modal-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal Navigation Arrows */
+        .modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2010;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev {
+            left: 30px;
+        }
+
+        .modal-next {
+            right: 30px;
+        }
+
+        .modal-arrow i {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        /* Modal Dots */
+        .modal-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 2010;
+        }
+
+        .modal-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.2);
+        }
+
+        .modal-dot.active {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+        }
+
+        /* Image Counter */
+        .image-counter {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            z-index: 2010;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Touch/Swipe Support */
+        .carousel-wrapper {
+            touch-action: pan-y pinch-zoom;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .carousel-wrapper {
+                height: 400px;
+            }
+            
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .carousel-arrow i {
+                font-size: 14px;
+            }
+            
+            .carousel-prev {
+                left: 10px;
+            }
+            
+            .carousel-next {
+                right: 10px;
+            }
+            
+            .carousel-dots {
+                bottom: 15px;
+                gap: 8px;
+            }
+            
+            .dot {
+                width: 10px;
+                height: 10px;
+            }
+            
+            .carousel-controls {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .auto-play-toggle {
+                width: 35px;
+                height: 35px;
+            }
+
+            /* Modal responsive styles */
+            .modal-carousel {
+                width: 95%;
+                height: 95%;
+            }
+
+            .close-modal {
+                top: 15px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 30px;
+            }
+
+            .modal-arrow {
+                width: 50px;
+                height: 50px;
+            }
+
+            .modal-prev {
+                left: 15px;
+            }
+
+            .modal-next {
+                right: 15px;
+            }
+
+            .modal-arrow i {
+                font-size: 18px;
+            }
+
+            .modal-dots {
+                bottom: 20px;
+                gap: 10px;
+            }
+
+            .modal-dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .image-counter {
+                top: 20px;
+                left: 20px;
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-wrapper {
+                height: 300px;
+            }
+
+            .modal-carousel {
+                width: 98%;
+                height: 98%;
+            }
+
+            .close-modal {
+                top: 10px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 24px;
+            }
+
+            .modal-arrow {
+                width: 40px;
+                height: 40px;
+            }
+
+            .modal-prev {
+                left: 10px;
+            }
+
+            .modal-next {
+                right: 10px;
+            }
+
+            .modal-arrow i {
+                font-size: 16px;
+            }
+
+            .modal-dots {
+                bottom: 15px;
+                gap: 8px;
+            }
+
+            .modal-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .image-counter {
+                top: 15px;
+                left: 15px;
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="header-placeholder"></div>
@@ -93,19 +592,39 @@
             
             <div class="framer-images">
                 <div class="carousel-container">
-                    <div class="carousel">
-                        <div class="carousel-slide">
-                            <img src="../img/tbloom1.jpg" alt="Fabrication Image 1">
+                    <div class="carousel-wrapper">
+                        <div class="carousel-slide active">
+                            <img src="../img/tbloom1.jpg" alt="Fabrication Image 1" loading="lazy" onclick="openModal(0, 'fabrication')">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/tbloom2.jpg" alt="Fabrication Image 2">
+                            <img src="../img/tbloom2.jpg" alt="Fabrication Image 2" loading="lazy" onclick="openModal(1, 'fabrication')">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/tbloom3.jpg" alt="Fabrication Image 3">
+                            <img src="../img/tbloom3.jpg" alt="Fabrication Image 3" loading="lazy" onclick="openModal(2, 'fabrication')">
                         </div>
                     </div>
-                    <button class="carousel-button prev">❮</button>
-                    <button class="carousel-button next">❯</button>
+                    
+                    <!-- Navigation arrows -->
+                    <button class="carousel-arrow carousel-prev" onclick="changeSlide(-1, 'fabrication')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-arrow carousel-next" onclick="changeSlide(1, 'fabrication')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Navigation dots -->
+                    <div class="carousel-dots">
+                        <span class="dot active" onclick="currentSlide(1, 'fabrication')"></span>
+                        <span class="dot" onclick="currentSlide(2, 'fabrication')"></span>
+                        <span class="dot" onclick="currentSlide(3, 'fabrication')"></span>
+                    </div>
+                    
+                    <!-- Auto-play toggle -->
+                    <div class="carousel-controls">
+                        <button class="auto-play-toggle" onclick="toggleAutoPlay('fabrication')">
+                            <i class="fas fa-pause" id="auto-play-icon-fabrication"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,143 +640,572 @@
             
             <div class="framer-images">
                 <div class="carousel-container">
-                    <div class="carousel">
-                        <div class="carousel-slide">
-                            <img src="../img/senses1.JPG" alt="Documentation Image 1">
+                    <div class="carousel-wrapper">
+                        <div class="carousel-slide active">
+                            <img src="../img/senses1.JPG" alt="Documentation Image 1" loading="lazy" onclick="openModal(0, 'documentation')">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/senses2.JPG" alt="Documentation Image 2">
+                            <img src="../img/senses2.JPG" alt="Documentation Image 2" loading="lazy" onclick="openModal(1, 'documentation')">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/senses3.JPG" alt="Documentation Image 3">
+                            <img src="../img/senses3.JPG" alt="Documentation Image 3" loading="lazy" onclick="openModal(2, 'documentation')">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/senses4.JPG" alt="Documentation Image 3">
+                            <img src="../img/senses4.JPG" alt="Documentation Image 4" loading="lazy" onclick="openModal(3, 'documentation')">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/senses5.JPG" alt="Documentation Image 3">
+                            <img src="../img/senses5.JPG" alt="Documentation Image 5" loading="lazy" onclick="openModal(4, 'documentation')">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/senses6.JPG" alt="Documentation Image 3">
+                            <img src="../img/senses6.JPG" alt="Documentation Image 6" loading="lazy" onclick="openModal(5, 'documentation')">
                         </div>
                     </div>
-                    <button class="carousel-button prev">❮</button>
-                    <button class="carousel-button next">❯</button>
+                    
+                    <!-- Navigation arrows -->
+                    <button class="carousel-arrow carousel-prev" onclick="changeSlide(-1, 'documentation')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-arrow carousel-next" onclick="changeSlide(1, 'documentation')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Navigation dots -->
+                    <div class="carousel-dots">
+                        <span class="dot active" onclick="currentSlide(1, 'documentation')"></span>
+                        <span class="dot" onclick="currentSlide(2, 'documentation')"></span>
+                        <span class="dot" onclick="currentSlide(3, 'documentation')"></span>
+                        <span class="dot" onclick="currentSlide(4, 'documentation')"></span>
+                        <span class="dot" onclick="currentSlide(5, 'documentation')"></span>
+                        <span class="dot" onclick="currentSlide(6, 'documentation')"></span>
+                    </div>
+                    
+                    <!-- Auto-play toggle -->
+                    <div class="carousel-controls">
+                        <button class="auto-play-toggle" onclick="toggleAutoPlay('documentation')">
+                            <i class="fas fa-pause" id="auto-play-icon-documentation"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <style>
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .carousel {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            height: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f5f5f5;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: auto;
-            max-height: 80vh;
-            object-fit: contain;
-        }
-
-        .carousel-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 1rem;
-            border: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            transition: background 0.3s;
-        }
-
-        .carousel-button:hover {
-            background: rgba(0, 0, 0, 0.8);
-        }
-
-        .prev {
-            left: 0;
-        }
-
-        .next {
-            right: 0;
-        }
-    </style>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Function to initialize a carousel
-            function initializeCarousel(carouselContainer) {
-                const carousel = carouselContainer.querySelector('.carousel');
-                const slides = carouselContainer.querySelectorAll('.carousel-slide');
-                const prevButton = carouselContainer.querySelector('.prev');
-                const nextButton = carouselContainer.querySelector('.next');
-                let currentSlide = 0;
-                let autoSlideInterval;
-
-                function updateCarousel() {
-                    carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-                }
-
-                function nextSlide() {
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    updateCarousel();
-                }
-
-                function prevSlide() {
-                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                    updateCarousel();
-                }
-
-                function startAutoSlide() {
-                    autoSlideInterval = setInterval(nextSlide, 5000);
-                }
-
-                function stopAutoSlide() {
-                    clearInterval(autoSlideInterval);
-                }
-
-                prevButton.addEventListener('click', () => {
-                    stopAutoSlide();
-                    prevSlide();
-                    startAutoSlide();
-                });
-
-                nextButton.addEventListener('click', () => {
-                    stopAutoSlide();
-                    nextSlide();
-                    startAutoSlide();
-                });
-
-                // Start auto-sliding
-                startAutoSlide();
+        // Carousel state management for multiple carousels
+        const carouselStates = {
+            fabrication: {
+                currentSlideIndex: 0,
+                autoPlayInterval: null,
+                isAutoPlaying: true,
+                touchStartX: 0,
+                touchEndX: 0,
+                slides: null,
+                dots: null,
+                totalSlides: 3,
+                autoPlayDelay: 4000
+            },
+            documentation: {
+                currentSlideIndex: 0,
+                autoPlayInterval: null,
+                isAutoPlaying: true,
+                touchStartX: 0,
+                touchEndX: 0,
+                slides: null,
+                dots: null,
+                totalSlides: 6,
+                autoPlayDelay: 4000
             }
+        };
 
-            // Initialize all carousels on the page
-            const carouselContainers = document.querySelectorAll('.carousel-container');
-            carouselContainers.forEach(initializeCarousel);
+        // Modal state management
+        const modalStates = {
+            fabrication: {
+                currentModalSlideIndex: 0,
+                modalTouchStartX: 0,
+                modalTouchEndX: 0,
+                modalSlides: null,
+                modalDots: null
+            },
+            documentation: {
+                currentModalSlideIndex: 0,
+                modalTouchStartX: 0,
+                modalTouchEndX: 0,
+                modalSlides: null,
+                modalDots: null
+            }
+        };
+
+        // Hamburger Menu Functions
+        window.toggleHamburgerMenu = function() {
+            const overlay = document.getElementById('hamburgerOverlay');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (overlay && overlay.classList.contains('active')) {
+                overlay.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else if (overlay) {
+                overlay.classList.add('active');
+                hamburger.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.toggleSection = function(sectionName) {
+            const links = document.getElementById(sectionName + '-links');
+            const icon = document.getElementById(sectionName + '-icon');
+            
+            if (links && links.classList.contains('expanded')) {
+                links.classList.remove('expanded');
+                icon.classList.remove('active');
+            } else if (links) {
+                links.classList.add('expanded');
+                icon.classList.add('active');
+            }
+        };
+
+        // Initialize carousel for a specific section
+        function initCarousel(section) {
+            const state = carouselStates[section];
+            const container = document.querySelector(`[onclick*="${section}"]`).closest('.carousel-container');
+            
+            state.slides = container.querySelectorAll('.carousel-slide');
+            state.dots = container.querySelectorAll('.dot');
+            
+            showSlide(state.currentSlideIndex, section);
+            startAutoPlay(section);
+            setupTouchEvents(section);
+        }
+
+        // Show specific slide
+        function showSlide(index, section) {
+            const state = carouselStates[section];
+            
+            // Remove active class from all slides and dots
+            state.slides.forEach(slide => slide.classList.remove('active'));
+            state.dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Add active class to current slide and dot
+            state.slides[index].classList.add('active');
+            state.dots[index].classList.add('active');
+            
+            state.currentSlideIndex = index;
+        }
+
+        // Change slide (next/previous)
+        function changeSlide(direction, section) {
+            const state = carouselStates[section];
+            let newIndex = state.currentSlideIndex + direction;
+            
+            if (newIndex >= state.totalSlides) {
+                newIndex = 0;
+            } else if (newIndex < 0) {
+                newIndex = state.totalSlides - 1;
+            }
+            
+            showSlide(newIndex, section);
+        }
+
+        // Go to specific slide
+        function currentSlide(index, section) {
+            showSlide(index - 1, section); // Convert to 0-based index
+        }
+
+        // Auto-play functionality
+        function startAutoPlay(section) {
+            const state = carouselStates[section];
+            
+            if (state.autoPlayInterval) {
+                clearInterval(state.autoPlayInterval);
+            }
+            
+            if (state.isAutoPlaying) {
+                state.autoPlayInterval = setInterval(() => {
+                    changeSlide(1, section);
+                }, state.autoPlayDelay);
+            }
+        }
+
+        function stopAutoPlay(section) {
+            const state = carouselStates[section];
+            if (state.autoPlayInterval) {
+                clearInterval(state.autoPlayInterval);
+                state.autoPlayInterval = null;
+            }
+        }
+
+        function toggleAutoPlay(section) {
+            const state = carouselStates[section];
+            state.isAutoPlaying = !state.isAutoPlaying;
+            const icon = document.getElementById(`auto-play-icon-${section}`);
+            
+            if (state.isAutoPlaying) {
+                icon.className = 'fas fa-pause';
+                startAutoPlay(section);
+            } else {
+                icon.className = 'fas fa-play';
+                stopAutoPlay(section);
+            }
+        }
+
+        // Touch/Swipe functionality
+        function setupTouchEvents(section) {
+            const state = carouselStates[section];
+            const container = document.querySelector(`[onclick*="${section}"]`).closest('.carousel-container');
+            const carouselWrapper = container.querySelector('.carousel-wrapper');
+            
+            carouselWrapper.addEventListener('touchstart', (event) => handleTouchStart(event, section), false);
+            carouselWrapper.addEventListener('touchend', (event) => handleTouchEnd(event, section), false);
+        }
+
+        function handleTouchStart(event, section) {
+            const state = carouselStates[section];
+            state.touchStartX = event.changedTouches[0].screenX;
+        }
+
+        function handleTouchEnd(event, section) {
+            const state = carouselStates[section];
+            state.touchEndX = event.changedTouches[0].screenX;
+            handleSwipe(section);
+        }
+
+        function handleSwipe(section) {
+            const state = carouselStates[section];
+            const swipeThreshold = 50; // Minimum swipe distance
+            const swipeDistance = state.touchEndX - state.touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Swipe right - go to previous slide
+                    changeSlide(-1, section);
+                } else {
+                    // Swipe left - go to next slide
+                    changeSlide(1, section);
+                }
+            }
+        }
+
+        // Modal functionality
+        function openModal(slideIndex, section) {
+            const modalState = modalStates[section];
+            const modal = document.getElementById(`imageModal-${section}`);
+            
+            modalState.currentModalSlideIndex = slideIndex;
+            showModalSlide(slideIndex, section);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Setup modal touch events
+            setupModalTouchEvents(section);
+            
+            // Stop auto-play when modal is open
+            stopAutoPlay(section);
+        }
+
+        function closeModal(section) {
+            const modal = document.getElementById(`imageModal-${section}`);
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            
+            // Resume auto-play when modal is closed
+            const state = carouselStates[section];
+            if (state.isAutoPlaying) {
+                startAutoPlay(section);
+            }
+        }
+
+        function showModalSlide(index, section) {
+            const modalState = modalStates[section];
+            const modal = document.getElementById(`imageModal-${section}`);
+            
+            if (!modalState.modalSlides) {
+                modalState.modalSlides = modal.querySelectorAll('.modal-slide');
+                modalState.modalDots = modal.querySelectorAll('.modal-dot');
+            }
+            
+            // Remove active class from all modal slides and dots
+            modalState.modalSlides.forEach(slide => slide.classList.remove('active'));
+            modalState.modalDots.forEach(dot => dot.classList.remove('active'));
+            
+            // Add active class to current modal slide and dot
+            modalState.modalSlides[index].classList.add('active');
+            modalState.modalDots[index].classList.add('active');
+            
+            modalState.currentModalSlideIndex = index;
+            
+            // Update image counter
+            document.getElementById(`currentImageNumber-${section}`).textContent = index + 1;
+        }
+
+        function changeModalSlide(direction, section) {
+            const modalState = modalStates[section];
+            const state = carouselStates[section];
+            let newIndex = modalState.currentModalSlideIndex + direction;
+            
+            if (newIndex >= state.totalSlides) {
+                newIndex = 0;
+            } else if (newIndex < 0) {
+                newIndex = state.totalSlides - 1;
+            }
+            
+            showModalSlide(newIndex, section);
+        }
+
+        function currentModalSlide(index, section) {
+            showModalSlide(index - 1, section); // Convert to 0-based index
+        }
+
+        function setupModalTouchEvents(section) {
+            const modal = document.getElementById(`imageModal-${section}`);
+            const modalCarousel = modal.querySelector('.modal-carousel');
+            
+            modalCarousel.addEventListener('touchstart', (event) => handleModalTouchStart(event, section), false);
+            modalCarousel.addEventListener('touchend', (event) => handleModalTouchEnd(event, section), false);
+        }
+
+        function handleModalTouchStart(event, section) {
+            const modalState = modalStates[section];
+            modalState.modalTouchStartX = event.changedTouches[0].screenX;
+        }
+
+        function handleModalTouchEnd(event, section) {
+            const modalState = modalStates[section];
+            modalState.modalTouchEndX = event.changedTouches[0].screenX;
+            handleModalSwipe(section);
+        }
+
+        function handleModalSwipe(section) {
+            const modalState = modalStates[section];
+            const swipeThreshold = 50; // Minimum swipe distance
+            const swipeDistance = modalState.modalTouchEndX - modalState.modalTouchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Swipe right - go to previous slide
+                    changeModalSlide(-1, section);
+                } else {
+                    // Swipe left - go to next slide
+                    changeModalSlide(1, section);
+                }
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            const fabricationModal = document.getElementById('imageModal-fabrication');
+            const documentationModal = document.getElementById('imageModal-documentation');
+            const isFabricationModalOpen = fabricationModal.style.display === 'block';
+            const isDocumentationModalOpen = documentationModal.style.display === 'block';
+            
+            if (isFabricationModalOpen) {
+                // Fabrication modal keyboard controls
+                switch(event.key) {
+                    case 'Escape':
+                        closeModal('fabrication');
+                        break;
+                    case 'ArrowLeft':
+                        changeModalSlide(-1, 'fabrication');
+                        break;
+                    case 'ArrowRight':
+                        changeModalSlide(1, 'fabrication');
+                        break;
+                }
+            } else if (isDocumentationModalOpen) {
+                // Documentation modal keyboard controls
+                switch(event.key) {
+                    case 'Escape':
+                        closeModal('documentation');
+                        break;
+                    case 'ArrowLeft':
+                        changeModalSlide(-1, 'documentation');
+                        break;
+                    case 'ArrowRight':
+                        changeModalSlide(1, 'documentation');
+                        break;
+                }
+            } else {
+                // Carousel keyboard controls (affect the first carousel found)
+                switch(event.key) {
+                    case 'ArrowLeft':
+                        changeSlide(-1, 'fabrication');
+                        break;
+                    case 'ArrowRight':
+                        changeSlide(1, 'fabrication');
+                        break;
+                    case ' ':
+                        event.preventDefault();
+                        toggleAutoPlay('fabrication');
+                        break;
+                }
+            }
+        });
+
+        // Pause auto-play on hover for both carousels
+        document.addEventListener('DOMContentLoaded', function() {
+            const fabricationContainer = document.querySelector('[onclick*="fabrication"]').closest('.carousel-container');
+            const documentationContainer = document.querySelector('[onclick*="documentation"]').closest('.carousel-container');
+            
+            fabricationContainer.addEventListener('mouseenter', () => {
+                if (carouselStates.fabrication.isAutoPlaying) {
+                    stopAutoPlay('fabrication');
+                }
+            });
+
+            fabricationContainer.addEventListener('mouseleave', () => {
+                if (carouselStates.fabrication.isAutoPlaying) {
+                    startAutoPlay('fabrication');
+                }
+            });
+
+            documentationContainer.addEventListener('mouseenter', () => {
+                if (carouselStates.documentation.isAutoPlaying) {
+                    stopAutoPlay('documentation');
+                }
+            });
+
+            documentationContainer.addEventListener('mouseleave', () => {
+                if (carouselStates.documentation.isAutoPlaying) {
+                    startAutoPlay('documentation');
+                }
+            });
+        });
+
+        // Close modal when clicking outside the image
+        document.addEventListener('DOMContentLoaded', function() {
+            const fabricationModal = document.getElementById('imageModal-fabrication');
+            const documentationModal = document.getElementById('imageModal-documentation');
+            
+            fabricationModal.addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeModal('fabrication');
+                }
+            });
+
+            documentationModal.addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeModal('documentation');
+                }
+            });
+        });
+
+        // Hamburger menu event listeners
+        document.addEventListener('click', function(e) {
+            const overlay = document.getElementById('hamburgerOverlay');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (overlay && overlay.classList.contains('active') && 
+                !overlay.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                window.toggleHamburgerMenu();
+            }
+        });
+
+        // Close hamburger menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('hamburgerOverlay');
+                if (overlay && overlay.classList.contains('active')) {
+                    window.toggleHamburgerMenu();
+                }
+            }
+        });
+
+        // Initialize carousels when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initCarousel('fabrication');
+            initCarousel('documentation');
         });
     </script>
+
+    <!-- Full Screen Modal for Fabrication -->
+    <div id="imageModal-fabrication" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('fabrication')">&times;</span>
+            
+            <div class="modal-carousel">
+                <div class="modal-slide active">
+                    <img src="../img/tbloom1.jpg" alt="Fabrication Image 1">
+                </div>
+                <div class="modal-slide">
+                    <img src="../img/tbloom2.jpg" alt="Fabrication Image 2">
+                </div>
+                <div class="modal-slide">
+                    <img src="../img/tbloom3.jpg" alt="Fabrication Image 3">
+                </div>
+            </div>
+            
+            <!-- Modal Navigation -->
+            <button class="modal-arrow modal-prev" onclick="changeModalSlide(-1, 'fabrication')">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="modal-arrow modal-next" onclick="changeModalSlide(1, 'fabrication')">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <!-- Modal Dots -->
+            <div class="modal-dots">
+                <span class="modal-dot active" onclick="currentModalSlide(1, 'fabrication')"></span>
+                <span class="modal-dot" onclick="currentModalSlide(2, 'fabrication')"></span>
+                <span class="modal-dot" onclick="currentModalSlide(3, 'fabrication')"></span>
+            </div>
+            
+            <!-- Image Counter -->
+            <div class="image-counter">
+                <span id="currentImageNumber-fabrication">1</span> / <span id="totalImages-fabrication">3</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Screen Modal for Documentation -->
+    <div id="imageModal-documentation" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('documentation')">&times;</span>
+            
+            <div class="modal-carousel">
+                <div class="modal-slide active">
+                    <img src="../img/senses1.JPG" alt="Documentation Image 1">
+                </div>
+                <div class="modal-slide">
+                    <img src="../img/senses2.JPG" alt="Documentation Image 2">
+                </div>
+                <div class="modal-slide">
+                    <img src="../img/senses3.JPG" alt="Documentation Image 3">
+                </div>
+                <div class="modal-slide">
+                    <img src="../img/senses4.JPG" alt="Documentation Image 4">
+                </div>
+                <div class="modal-slide">
+                    <img src="../img/senses5.JPG" alt="Documentation Image 5">
+                </div>
+                <div class="modal-slide">
+                    <img src="../img/senses6.JPG" alt="Documentation Image 6">
+                </div>
+            </div>
+            
+            <!-- Modal Navigation -->
+            <button class="modal-arrow modal-prev" onclick="changeModalSlide(-1, 'documentation')">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="modal-arrow modal-next" onclick="changeModalSlide(1, 'documentation')">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <!-- Modal Dots -->
+            <div class="modal-dots">
+                <span class="modal-dot active" onclick="currentModalSlide(1, 'documentation')"></span>
+                <span class="modal-dot" onclick="currentModalSlide(2, 'documentation')"></span>
+                <span class="modal-dot" onclick="currentModalSlide(3, 'documentation')"></span>
+                <span class="modal-dot" onclick="currentModalSlide(4, 'documentation')"></span>
+                <span class="modal-dot" onclick="currentModalSlide(5, 'documentation')"></span>
+                <span class="modal-dot" onclick="currentModalSlide(6, 'documentation')"></span>
+            </div>
+            
+            <!-- Image Counter -->
+            <div class="image-counter">
+                <span id="currentImageNumber-documentation">1</span> / <span id="totalImages-documentation">6</span>
+            </div>
+        </div>
+    </div>
 
     <div id="site-footer"></div>
     <script>

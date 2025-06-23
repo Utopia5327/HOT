@@ -7,6 +7,668 @@
     <link rel="stylesheet" href="../css/project.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="../js/theme.js"></script>
+    <style>
+        #header-placeholder .minimal-nav-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 32px;
+            box-shadow: 0 4px 32px 0 var(--shadow-color);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            padding: 0.5rem 2.2rem;
+            background: var(--bg-tertiary);
+        }
+
+        #header-placeholder .minimal-navbar {
+            padding: 24px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        #header-placeholder .minimal-logo,
+        #header-placeholder .glass-link {
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f5f5f5;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        /* Dummy Image Styles */
+        .dummy-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dummy-image:hover {
+            transform: scale(1.02);
+        }
+
+        .dummy-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .dummy-image:hover::before {
+            left: 100%;
+        }
+
+        .dummy-content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        .dummy-content i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .dummy-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .dummy-content p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* Navigation Arrows */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .carousel-prev {
+            left: 20px;
+        }
+
+        .carousel-next {
+            right: 20px;
+        }
+
+        .carousel-arrow i {
+            color: #333;
+            font-size: 18px;
+        }
+
+        /* Navigation Dots */
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+        .dot.active {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+        }
+
+        /* Auto-play Controls */
+        .carousel-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .auto-play-toggle {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .auto-play-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        .auto-play-toggle i {
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Full Screen Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2010;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .modal-carousel {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            max-width: 1200px;
+            max-height: 800px;
+        }
+
+        .modal-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-slide.active {
+            opacity: 1;
+        }
+
+        /* Large Dummy Image for Modal */
+        .dummy-image-large {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dummy-image-large::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.1) 100%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .dummy-content-large {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            padding: 3rem;
+            max-width: 600px;
+        }
+
+        .dummy-content-large i {
+            font-size: 6rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .dummy-content-large h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dummy-content-large p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .dummy-features {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .dummy-features span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Modal Navigation Arrows */
+        .modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2010;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev {
+            left: 30px;
+        }
+
+        .modal-next {
+            right: 30px;
+        }
+
+        .modal-arrow i {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        /* Modal Dots */
+        .modal-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 2010;
+        }
+
+        .modal-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.2);
+        }
+
+        .modal-dot.active {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+        }
+
+        /* Image Counter */
+        .image-counter {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            z-index: 2010;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Touch/Swipe Support */
+        .carousel-wrapper {
+            touch-action: pan-y pinch-zoom;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .carousel-wrapper {
+                height: 400px;
+            }
+            
+            .dummy-content i {
+                font-size: 3rem;
+            }
+            
+            .dummy-content h3 {
+                font-size: 1.5rem;
+            }
+            
+            .dummy-content p {
+                font-size: 1rem;
+            }
+            
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .carousel-arrow i {
+                font-size: 14px;
+            }
+            
+            .carousel-prev {
+                left: 10px;
+            }
+            
+            .carousel-next {
+                right: 10px;
+            }
+            
+            .carousel-dots {
+                bottom: 15px;
+                gap: 8px;
+            }
+            
+            .dot {
+                width: 10px;
+                height: 10px;
+            }
+            
+            .carousel-controls {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .auto-play-toggle {
+                width: 35px;
+                height: 35px;
+            }
+
+            /* Modal responsive styles */
+            .modal-carousel {
+                width: 95%;
+                height: 95%;
+            }
+
+            .close-modal {
+                top: 15px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 30px;
+            }
+
+            .modal-arrow {
+                width: 50px;
+                height: 50px;
+            }
+
+            .modal-prev {
+                left: 15px;
+            }
+
+            .modal-next {
+                right: 15px;
+            }
+
+            .modal-arrow i {
+                font-size: 18px;
+            }
+
+            .modal-dots {
+                bottom: 20px;
+                gap: 10px;
+            }
+
+            .modal-dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .image-counter {
+                top: 20px;
+                left: 20px;
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+
+            .dummy-content-large {
+                padding: 2rem;
+            }
+
+            .dummy-content-large i {
+                font-size: 4rem;
+            }
+
+            .dummy-content-large h2 {
+                font-size: 2rem;
+            }
+
+            .dummy-content-large p {
+                font-size: 1.1rem;
+            }
+
+            .dummy-features {
+                gap: 0.5rem;
+            }
+
+            .dummy-features span {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-wrapper {
+                height: 300px;
+            }
+
+            .modal-carousel {
+                width: 98%;
+                height: 98%;
+            }
+
+            .close-modal {
+                top: 10px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 24px;
+            }
+
+            .modal-arrow {
+                width: 40px;
+                height: 40px;
+            }
+
+            .modal-prev {
+                left: 10px;
+            }
+
+            .modal-next {
+                right: 10px;
+            }
+
+            .modal-arrow i {
+                font-size: 16px;
+            }
+
+            .modal-dots {
+                bottom: 15px;
+                gap: 8px;
+            }
+
+            .modal-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .image-counter {
+                top: 15px;
+                left: 15px;
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+
+            .dummy-content-large {
+                padding: 1.5rem;
+            }
+
+            .dummy-content-large i {
+                font-size: 3rem;
+            }
+
+            .dummy-content-large h2 {
+                font-size: 1.5rem;
+            }
+
+            .dummy-content-large p {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="header-placeholder"></div>
@@ -81,6 +743,156 @@
                     </div>
                 </div>
                 
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <div class="carousel-slide active">
+                            <div class="dummy-image" onclick="openModal(0)">
+                                <div class="dummy-content">
+                                    <i class="fas fa-brain"></i>
+                                    <h3>Emotion Detection</h3>
+                                    <p>Real-time facial expression and body language analysis</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="dummy-image" onclick="openModal(1)">
+                                <div class="dummy-content">
+                                    <i class="fas fa-palette"></i>
+                                    <h3>Generative Art</h3>
+                                    <p>Dynamic visual responses to emotional states</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="dummy-image" onclick="openModal(2)">
+                                <div class="dummy-content">
+                                    <i class="fas fa-music"></i>
+                                    <h3>Responsive Sound</h3>
+                                    <p>Adaptive audio that mirrors emotional intensity</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="dummy-image" onclick="openModal(3)">
+                                <div class="dummy-content">
+                                    <i class="fas fa-vr-cardboard"></i>
+                                    <h3>Immersive Experience</h3>
+                                    <p>Interactive environment with emotional feedback loops</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation arrows -->
+                    <button class="carousel-arrow carousel-prev" onclick="changeSlide(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-arrow carousel-next" onclick="changeSlide(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Navigation dots -->
+                    <div class="carousel-dots">
+                        <span class="dot active" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                        <span class="dot" onclick="currentSlide(4)"></span>
+                    </div>
+                    
+                    <!-- Auto-play toggle -->
+                    <div class="carousel-controls">
+                        <button class="auto-play-toggle" onclick="toggleAutoPlay()">
+                            <i class="fas fa-pause" id="auto-play-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Full Screen Modal -->
+                <div id="imageModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-modal" onclick="closeModal()">&times;</span>
+                        
+                        <div class="modal-carousel">
+                            <div class="modal-slide active">
+                                <div class="dummy-image-large">
+                                    <div class="dummy-content-large">
+                                        <i class="fas fa-brain"></i>
+                                        <h2>Emotion Detection</h2>
+                                        <p>Real-time facial expression and body language analysis</p>
+                                        <div class="dummy-features">
+                                            <span>AI algorithms</span>
+                                            <span>Real-time processing</span>
+                                            <span>Multi-modal analysis</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-slide">
+                                <div class="dummy-image-large">
+                                    <div class="dummy-content-large">
+                                        <i class="fas fa-palette"></i>
+                                        <h2>Generative Art</h2>
+                                        <p>Dynamic visual responses to emotional states</p>
+                                        <div class="dummy-features">
+                                            <span>Procedural generation</span>
+                                            <span>Emotional mapping</span>
+                                            <span>Visual feedback</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-slide">
+                                <div class="dummy-image-large">
+                                    <div class="dummy-content-large">
+                                        <i class="fas fa-music"></i>
+                                        <h2>Responsive Sound</h2>
+                                        <p>Adaptive audio that mirrors emotional intensity</p>
+                                        <div class="dummy-features">
+                                            <span>Dynamic audio</span>
+                                            <span>Emotional mapping</span>
+                                            <span>3D spatial sound</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-slide">
+                                <div class="dummy-image-large">
+                                    <div class="dummy-content-large">
+                                        <i class="fas fa-vr-cardboard"></i>
+                                        <h2>Immersive Experience</h2>
+                                        <p>Interactive environment with emotional feedback loops</p>
+                                        <div class="dummy-features">
+                                            <span>VR integration</span>
+                                            <span>Interactive elements</span>
+                                            <span>Emotional feedback</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Navigation -->
+                        <button class="modal-arrow modal-prev" onclick="changeModalSlide(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="modal-arrow modal-next" onclick="changeModalSlide(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        
+                        <!-- Modal Dots -->
+                        <div class="modal-dots">
+                            <span class="modal-dot active" onclick="currentModalSlide(1)"></span>
+                            <span class="modal-dot" onclick="currentModalSlide(2)"></span>
+                            <span class="modal-dot" onclick="currentModalSlide(3)"></span>
+                            <span class="modal-dot" onclick="currentModalSlide(4)"></span>
+                        </div>
+                        
+                        <!-- Image Counter -->
+                        <div class="image-counter">
+                            <span id="currentImageNumber">1</span> / <span id="totalImages">4</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -93,6 +905,325 @@
                 .then(html => { document.getElementById(id).innerHTML = html; });
         }
         includeHTML('site-footer', '../footer.html');
+    </script>
+
+    <!-- Carousel JavaScript -->
+    <script>
+        let currentSlideIndex = 0;
+        let autoPlayInterval;
+        let isAutoPlaying = true;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+        const autoPlayDelay = 4000; // 4 seconds
+
+        // Modal variables
+        let currentModalSlideIndex = 0;
+        let modalTouchStartX = 0;
+        let modalTouchEndX = 0;
+        const modalSlides = document.querySelectorAll('.modal-slide');
+        const modalDots = document.querySelectorAll('.modal-dot');
+
+        // Hamburger Menu Functions
+        window.toggleHamburgerMenu = function() {
+            const overlay = document.getElementById('hamburgerOverlay');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (overlay && overlay.classList.contains('active')) {
+                overlay.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else if (overlay) {
+                overlay.classList.add('active');
+                hamburger.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.toggleSection = function(sectionName) {
+            const links = document.getElementById(sectionName + '-links');
+            const icon = document.getElementById(sectionName + '-icon');
+            
+            if (links && links.classList.contains('expanded')) {
+                links.classList.remove('expanded');
+                icon.classList.remove('active');
+            } else if (links) {
+                links.classList.add('expanded');
+                icon.classList.add('active');
+            }
+        };
+
+        // Initialize carousel
+        function initCarousel() {
+            showSlide(currentSlideIndex);
+            startAutoPlay();
+            setupTouchEvents();
+        }
+
+        // Show specific slide
+        function showSlide(index) {
+            // Remove active class from all slides and dots
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Add active class to current slide and dot
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            
+            currentSlideIndex = index;
+        }
+
+        // Change slide (next/previous)
+        function changeSlide(direction) {
+            let newIndex = currentSlideIndex + direction;
+            
+            if (newIndex >= totalSlides) {
+                newIndex = 0;
+            } else if (newIndex < 0) {
+                newIndex = totalSlides - 1;
+            }
+            
+            showSlide(newIndex);
+        }
+
+        // Go to specific slide
+        function currentSlide(index) {
+            showSlide(index - 1); // Convert to 0-based index
+        }
+
+        // Auto-play functionality
+        function startAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+            
+            if (isAutoPlaying) {
+                autoPlayInterval = setInterval(() => {
+                    changeSlide(1);
+                }, autoPlayDelay);
+            }
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+            }
+        }
+
+        function toggleAutoPlay() {
+            isAutoPlaying = !isAutoPlaying;
+            const icon = document.getElementById('auto-play-icon');
+            
+            if (isAutoPlaying) {
+                icon.className = 'fas fa-pause';
+                startAutoPlay();
+            } else {
+                icon.className = 'fas fa-play';
+                stopAutoPlay();
+            }
+        }
+
+        // Touch/Swipe functionality
+        function setupTouchEvents() {
+            const carouselWrapper = document.querySelector('.carousel-wrapper');
+            
+            carouselWrapper.addEventListener('touchstart', handleTouchStart, false);
+            carouselWrapper.addEventListener('touchend', handleTouchEnd, false);
+        }
+
+        function handleTouchStart(event) {
+            touchStartX = event.changedTouches[0].screenX;
+        }
+
+        function handleTouchEnd(event) {
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipe();
+        }
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimum swipe distance
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Swipe right - go to previous slide
+                    changeSlide(-1);
+                } else {
+                    // Swipe left - go to next slide
+                    changeSlide(1);
+                }
+            }
+        }
+
+        // Modal functionality
+        function openModal(slideIndex) {
+            currentModalSlideIndex = slideIndex;
+            showModalSlide(slideIndex);
+            document.getElementById('imageModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Setup modal touch events
+            setupModalTouchEvents();
+            
+            // Stop auto-play when modal is open
+            stopAutoPlay();
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            
+            // Resume auto-play when modal is closed
+            if (isAutoPlaying) {
+                startAutoPlay();
+            }
+        }
+
+        function showModalSlide(index) {
+            // Remove active class from all modal slides and dots
+            modalSlides.forEach(slide => slide.classList.remove('active'));
+            modalDots.forEach(dot => dot.classList.remove('active'));
+            
+            // Add active class to current modal slide and dot
+            modalSlides[index].classList.add('active');
+            modalDots[index].classList.add('active');
+            
+            currentModalSlideIndex = index;
+            
+            // Update image counter
+            document.getElementById('currentImageNumber').textContent = index + 1;
+        }
+
+        function changeModalSlide(direction) {
+            let newIndex = currentModalSlideIndex + direction;
+            
+            if (newIndex >= totalSlides) {
+                newIndex = 0;
+            } else if (newIndex < 0) {
+                newIndex = totalSlides - 1;
+            }
+            
+            showModalSlide(newIndex);
+        }
+
+        function currentModalSlide(index) {
+            showModalSlide(index - 1); // Convert to 0-based index
+        }
+
+        function setupModalTouchEvents() {
+            const modalCarousel = document.querySelector('.modal-carousel');
+            
+            modalCarousel.addEventListener('touchstart', handleModalTouchStart, false);
+            modalCarousel.addEventListener('touchend', handleModalTouchEnd, false);
+        }
+
+        function handleModalTouchStart(event) {
+            modalTouchStartX = event.changedTouches[0].screenX;
+        }
+
+        function handleModalTouchEnd(event) {
+            modalTouchEndX = event.changedTouches[0].screenX;
+            handleModalSwipe();
+        }
+
+        function handleModalSwipe() {
+            const swipeThreshold = 50; // Minimum swipe distance
+            const swipeDistance = modalTouchEndX - modalTouchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Swipe right - go to previous slide
+                    changeModalSlide(-1);
+                } else {
+                    // Swipe left - go to next slide
+                    changeModalSlide(1);
+                }
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('imageModal');
+            const isModalOpen = modal.style.display === 'block';
+            
+            if (isModalOpen) {
+                // Modal keyboard controls
+                switch(event.key) {
+                    case 'Escape':
+                        closeModal();
+                        break;
+                    case 'ArrowLeft':
+                        changeModalSlide(-1);
+                        break;
+                    case 'ArrowRight':
+                        changeModalSlide(1);
+                        break;
+                }
+            } else {
+                // Carousel keyboard controls
+                switch(event.key) {
+                    case 'ArrowLeft':
+                        changeSlide(-1);
+                        break;
+                    case 'ArrowRight':
+                        changeSlide(1);
+                        break;
+                    case ' ':
+                        event.preventDefault();
+                        toggleAutoPlay();
+                        break;
+                }
+            }
+        });
+
+        // Pause auto-play on hover
+        const carouselContainer = document.querySelector('.carousel-container');
+        carouselContainer.addEventListener('mouseenter', () => {
+            if (isAutoPlaying) {
+                stopAutoPlay();
+            }
+        });
+
+        carouselContainer.addEventListener('mouseleave', () => {
+            if (isAutoPlaying) {
+                startAutoPlay();
+            }
+        });
+
+        // Close modal when clicking outside the image
+        document.getElementById('imageModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // Hamburger menu event listeners
+        document.addEventListener('click', function(e) {
+            const overlay = document.getElementById('hamburgerOverlay');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (overlay && overlay.classList.contains('active') && 
+                !overlay.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                window.toggleHamburgerMenu();
+            }
+        });
+
+        // Close hamburger menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('hamburgerOverlay');
+                if (overlay && overlay.classList.contains('active')) {
+                    window.toggleHamburgerMenu();
+                }
+            }
+        });
+
+        // Initialize carousel when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initCarousel);
     </script>
 </body>
 </html> 

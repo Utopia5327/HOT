@@ -1,6 +1,8 @@
 <footer class="minimal-footer">
   <div class="footer-content">
-    <span>© 2025 Manas Bhatia, Assoc. AIA | New York, NY, USA | All rights reserved.</span>
+    <div class="footer-text-wrapper">
+      <span>© 2025 Manas Bhatia, Assoc. AIA | New York, NY, USA | All rights reserved.</span>
+    </div>
     <div class="footer-socials">
       <a href="https://www.instagram.com/manasbhatiadesign" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
       <a href="https://www.linkedin.com/in/manasbhatiadesign" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
@@ -82,10 +84,20 @@
   color: var(--footer-social-hover-color);
   box-shadow: 0 4px 16px 0 var(--footer-shadow-hover);
 }
+
+.footer-text-wrapper {
+    background: var(--footer-social-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 32px;
+    padding: 0.5rem 1.5rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 32px 0 var(--footer-shadow);
+}
+
 @media (max-width: 700px) {
   .footer-content {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 0.7rem;
     margin-bottom: 1.5rem;
     padding: 0 1vw;
