@@ -71,15 +71,33 @@
         </div>
     </div>
 </nav>
+<link rel="preload" href="/HOT/fonts/AsherPunkDemoVersion.ttf" as="font" type="font/ttf" crossorigin>
 <link href="https://fonts.cdnfonts.com/css/asher-punk" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="js/theme.js"></script>
 <style>
 @font-face {
     font-family: 'AsherPunkDemoVersion';
-    src: url('fonts/AsherPunkDemoVersion.ttf') format('truetype');
+    src: url('/HOT/fonts/AsherPunkDemoVersion.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Asher Punk';
+    src: url('/HOT/fonts/AsherPunkDemoVersion.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Asher Punk Demo Version';
+    src: url('/HOT/fonts/AsherPunkDemoVersion.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 :root {
     --bg-primary: #fafafa;
@@ -146,7 +164,7 @@
     min-height: 44px;
     border-radius: 8px;
     background: var(--bg-tertiary);
-    font-family: 'AsherPunkDemoVersion', 'General Sans', 'Inter', Arial, sans-serif;
+    font-family: 'Asher Punk Demo Version', 'AsherPunkDemoVersion', 'Asher Punk', 'General Sans', 'Inter', Arial, sans-serif !important;
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -569,6 +587,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof initializeTheme === 'function') {
         initializeTheme();
     }
+    
+    // Check if custom font is loaded
+    if (document.fonts) {
+        document.fonts.ready.then(function() {
+            console.log('Fonts loaded');
+            // Force a repaint to ensure the logo font is applied
+            const logo = document.querySelector('.minimal-logo');
+            if (logo) {
+                logo.style.fontFamily = '"Asher Punk Demo Version", AsherPunkDemoVersion, "Asher Punk", "General Sans", "Inter", Arial, sans-serif';
+            }
+        });
+    }
+    
     // Add overlay click-to-close for hamburger menu
     var overlay = document.getElementById('hamburgerOverlay');
     if (overlay) {
