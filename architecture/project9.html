@@ -787,37 +787,18 @@
                 <div class="carousel-container">
                     <div class="carousel-wrapper">
                         <div class="carousel-slide active">
-                            <img src="../img/national.jpg" alt="National Analysis" loading="lazy" onclick="openModal(0)">
+                            <img src="../img/ma83wide.jpg" alt="MA83 Wide" loading="lazy" onclick="openModal(0)">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/regional.jpg" alt="Regional Analysis" loading="lazy" onclick="openModal(1)">
+                            <img src="../img/ma83thumb.jpg" alt="MA83 Thumbnail" loading="lazy" onclick="openModal(1)">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/localanalysis.jpg" alt="Local Analysis" loading="lazy" onclick="openModal(2)">
+                            <img src="../img/regional.jpg" alt="Regional" loading="lazy" onclick="openModal(2)">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/local2.jpg" alt="Local Analysis 2" loading="lazy" onclick="openModal(3)">
-                        </div>
-                        <div class="carousel-slide">
-                            <div class="dummy-image" onclick="openModal(4)">
-                                <div class="dummy-content">
-                                    <i class="fas fa-chart-line"></i>
-                                    <h3>Data Visualization</h3>
-                                    <p>Advanced R-based data visualization and analysis</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-slide">
-                            <div class="dummy-image" onclick="openModal(5)">
-                                <div class="dummy-content">
-                                    <i class="fas fa-map-marked-alt"></i>
-                                    <h3>Geospatial Analysis</h3>
-                                    <p>Spatial modeling and environmental mapping</p>
-                                </div>
-                            </div>
+                            <img src="../img/local2.jpg" alt="Local 2" loading="lazy" onclick="openModal(3)">
                         </div>
                     </div>
-                    
                     <!-- Navigation arrows -->
                     <button class="carousel-arrow carousel-prev" onclick="changeSlide(-1)">
                         <i class="fas fa-chevron-left"></i>
@@ -825,17 +806,13 @@
                     <button class="carousel-arrow carousel-next" onclick="changeSlide(1)">
                         <i class="fas fa-chevron-right"></i>
                     </button>
-                    
                     <!-- Navigation dots -->
                     <div class="carousel-dots">
                         <span class="dot active" onclick="currentSlide(1)"></span>
                         <span class="dot" onclick="currentSlide(2)"></span>
                         <span class="dot" onclick="currentSlide(3)"></span>
                         <span class="dot" onclick="currentSlide(4)"></span>
-                        <span class="dot" onclick="currentSlide(5)"></span>
-                        <span class="dot" onclick="currentSlide(6)"></span>
                     </div>
-                    
                     <!-- Auto-play toggle -->
                     <div class="carousel-controls">
                         <button class="auto-play-toggle" onclick="toggleAutoPlay()">
@@ -843,55 +820,24 @@
                         </button>
                     </div>
                 </div>
-
                 <!-- Full Screen Modal -->
                 <div id="imageModal" class="modal">
                     <div class="modal-content">
                         <span class="close-modal" onclick="closeModal()">&times;</span>
-                        
                         <div class="modal-carousel">
                             <div class="modal-slide active">
-                                <img src="../img/national.jpg" alt="National Analysis">
+                                <img src="../img/ma83wide.jpg" alt="MA83 Wide">
                             </div>
                             <div class="modal-slide">
-                                <img src="../img/regional.jpg" alt="Regional Analysis">
+                                <img src="../img/ma83thumb.jpg" alt="MA83 Thumbnail">
                             </div>
                             <div class="modal-slide">
-                                <img src="../img/localanalysis.jpg" alt="Local Analysis">
+                                <img src="../img/regional.jpg" alt="Regional">
                             </div>
                             <div class="modal-slide">
-                                <img src="../img/local2.jpg" alt="Local Analysis 2">
-                            </div>
-                            <div class="modal-slide">
-                                <div class="dummy-image-large">
-                                    <div class="dummy-content-large">
-                                        <i class="fas fa-chart-line"></i>
-                                        <h2>Data Visualization</h2>
-                                        <p>Advanced R-based data visualization and analysis</p>
-                                        <div class="dummy-features">
-                                            <span>R Markdown</span>
-                                            <span>Statistical modeling</span>
-                                            <span>Interactive plots</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-slide">
-                                <div class="dummy-image-large">
-                                    <div class="dummy-content-large">
-                                        <i class="fas fa-map-marked-alt"></i>
-                                        <h2>Geospatial Analysis</h2>
-                                        <p>Spatial modeling and environmental mapping</p>
-                                        <div class="dummy-features">
-                                            <span>GIS integration</span>
-                                            <span>Spatial modeling</span>
-                                            <span>Environmental mapping</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <img src="../img/local2.jpg" alt="Local 2">
                             </div>
                         </div>
-                        
                         <!-- Modal Navigation -->
                         <button class="modal-arrow modal-prev" onclick="changeModalSlide(-1)">
                             <i class="fas fa-chevron-left"></i>
@@ -899,20 +845,16 @@
                         <button class="modal-arrow modal-next" onclick="changeModalSlide(1)">
                             <i class="fas fa-chevron-right"></i>
                         </button>
-                        
                         <!-- Modal Dots -->
                         <div class="modal-dots">
                             <span class="modal-dot active" onclick="currentModalSlide(1)"></span>
                             <span class="modal-dot" onclick="currentModalSlide(2)"></span>
                             <span class="modal-dot" onclick="currentModalSlide(3)"></span>
                             <span class="modal-dot" onclick="currentModalSlide(4)"></span>
-                            <span class="modal-dot" onclick="currentModalSlide(5)"></span>
-                            <span class="modal-dot" onclick="currentModalSlide(6)"></span>
                         </div>
-                        
                         <!-- Image Counter -->
                         <div class="image-counter">
-                            <span id="currentImageNumber">1</span> / <span id="totalImages">6</span>
+                            <span id="currentImageNumber">1</span> / <span id="totalImages">4</span>
                         </div>
                     </div>
                 </div>

@@ -74,7 +74,80 @@
     </script>
     <section class="framer-hero">
         <div class="framer-hero-image">
-            <img src="../img/compcovernew.gif" alt="Computational Modeling Project Main Image">
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <div class="carousel-slide active">
+                        <img src="../img/compcovernew.gif" alt="Computational Modeling Cover" loading="lazy" onclick="openModal(0)">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="../img/compmodelthumb.jpg" alt="Computational Model Thumbnail" loading="lazy" onclick="openModal(1)">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="../img/urbanobservation.jpg" alt="Urban Observation" loading="lazy" onclick="openModal(2)">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="../img/goldcity.jpg" alt="Gold City" loading="lazy" onclick="openModal(3)">
+                    </div>
+                </div>
+                <!-- Navigation arrows -->
+                <button class="carousel-arrow carousel-prev" onclick="changeSlide(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-arrow carousel-next" onclick="changeSlide(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <!-- Navigation dots -->
+                <div class="carousel-dots">
+                    <span class="dot active" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                </div>
+                <!-- Auto-play toggle -->
+                <div class="carousel-controls">
+                    <button class="auto-play-toggle" onclick="toggleAutoPlay()">
+                        <i class="fas fa-pause" id="auto-play-icon"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Full Screen Modal -->
+            <div id="imageModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal" onclick="closeModal()">&times;</span>
+                    <div class="modal-carousel">
+                        <div class="modal-slide active">
+                            <img src="../img/compcovernew.gif" alt="Computational Modeling Cover">
+                        </div>
+                        <div class="modal-slide">
+                            <img src="../img/compmodelthumb.jpg" alt="Computational Model Thumbnail">
+                        </div>
+                        <div class="modal-slide">
+                            <img src="../img/urbanobservation.jpg" alt="Urban Observation">
+                        </div>
+                        <div class="modal-slide">
+                            <img src="../img/goldcity.jpg" alt="Gold City">
+                        </div>
+                    </div>
+                    <!-- Modal Navigation -->
+                    <button class="modal-arrow modal-prev" onclick="changeModalSlide(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="modal-arrow modal-next" onclick="changeModalSlide(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <!-- Modal Dots -->
+                    <div class="modal-dots">
+                        <span class="modal-dot active" onclick="currentModalSlide(1)"></span>
+                        <span class="modal-dot" onclick="currentModalSlide(2)"></span>
+                        <span class="modal-dot" onclick="currentModalSlide(3)"></span>
+                        <span class="modal-dot" onclick="currentModalSlide(4)"></span>
+                    </div>
+                    <!-- Image Counter -->
+                    <div class="image-counter">
+                        <span id="currentImageNumber">1</span> / <span id="totalImages">4</span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="framer-hero-content">
             <div class="framer-hero-col-left">

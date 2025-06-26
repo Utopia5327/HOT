@@ -786,43 +786,15 @@
                 <div class="carousel-container">
                     <div class="carousel-wrapper">
                         <div class="carousel-slide active">
-                            <div class="dummy-image" onclick="openModal(0)">
-                                <div class="dummy-content">
-                                    <i class="fas fa-brain"></i>
-                                    <h3>Spatial AI Models</h3>
-                                    <p>Advanced AI models for spatial reasoning and analysis</p>
-                                </div>
-                            </div>
+                            <img src="../img/satoliwide.jpg" alt="Satoli Wide" loading="lazy" onclick="openModal(0)">
                         </div>
                         <div class="carousel-slide">
-                            <div class="dummy-image" onclick="openModal(1)">
-                                <div class="dummy-content">
-                                    <i class="fas fa-robot"></i>
-                                    <h3>Agent Simulation</h3>
-                                    <p>Multi-agent behavior modeling and simulation</p>
-                                </div>
-                            </div>
+                            <img src="../img/satoliwide2.jpg" alt="Satoli Wide 2" loading="lazy" onclick="openModal(1)">
                         </div>
                         <div class="carousel-slide">
-                            <div class="dummy-image" onclick="openModal(2)">
-                                <div class="dummy-content">
-                                    <i class="fas fa-chart-network"></i>
-                                    <h3>Spatial Analysis</h3>
-                                    <p>Pattern recognition and spatial optimization</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-slide">
-                            <div class="dummy-image" onclick="openModal(3)">
-                                <div class="dummy-content">
-                                    <i class="fas fa-cogs"></i>
-                                    <h3>Chain of Inference</h3>
-                                    <p>Multi-step reasoning pipeline for complex decisions</p>
-                                </div>
-                            </div>
+                            <img src="../img/satolithumb.jpg" alt="Satoli Thumbnail" loading="lazy" onclick="openModal(2)">
                         </div>
                     </div>
-                    
                     <!-- Navigation arrows -->
                     <button class="carousel-arrow carousel-prev" onclick="changeSlide(-1)">
                         <i class="fas fa-chevron-left"></i>
@@ -830,15 +802,12 @@
                     <button class="carousel-arrow carousel-next" onclick="changeSlide(1)">
                         <i class="fas fa-chevron-right"></i>
                     </button>
-                    
                     <!-- Navigation dots -->
                     <div class="carousel-dots">
                         <span class="dot active" onclick="currentSlide(1)"></span>
                         <span class="dot" onclick="currentSlide(2)"></span>
                         <span class="dot" onclick="currentSlide(3)"></span>
-                        <span class="dot" onclick="currentSlide(4)"></span>
                     </div>
-                    
                     <!-- Auto-play toggle -->
                     <div class="carousel-controls">
                         <button class="auto-play-toggle" onclick="toggleAutoPlay()">
@@ -846,71 +815,21 @@
                         </button>
                     </div>
                 </div>
-
                 <!-- Full Screen Modal -->
                 <div id="imageModal" class="modal">
                     <div class="modal-content">
                         <span class="close-modal" onclick="closeModal()">&times;</span>
-                        
                         <div class="modal-carousel">
                             <div class="modal-slide active">
-                                <div class="dummy-image-large">
-                                    <div class="dummy-content-large">
-                                        <i class="fas fa-brain"></i>
-                                        <h2>Spatial AI Models</h2>
-                                        <p>Advanced AI models for spatial reasoning and analysis</p>
-                                        <div class="dummy-features">
-                                            <span>Semantic models</span>
-                                            <span>Computational structures</span>
-                                            <span>AI reasoning</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <img src="../img/satoliwide.jpg" alt="Satoli Wide">
                             </div>
                             <div class="modal-slide">
-                                <div class="dummy-image-large">
-                                    <div class="dummy-content-large">
-                                        <i class="fas fa-robot"></i>
-                                        <h2>Agent Simulation</h2>
-                                        <p>Multi-agent behavior modeling and simulation</p>
-                                        <div class="dummy-features">
-                                            <span>Behavior modeling</span>
-                                            <span>Multi-agent systems</span>
-                                            <span>Simulation engine</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <img src="../img/satoliwide2.jpg" alt="Satoli Wide 2">
                             </div>
                             <div class="modal-slide">
-                                <div class="dummy-image-large">
-                                    <div class="dummy-content-large">
-                                        <i class="fas fa-chart-network"></i>
-                                        <h2>Spatial Analysis</h2>
-                                        <p>Pattern recognition and spatial optimization</p>
-                                        <div class="dummy-features">
-                                            <span>Pattern recognition</span>
-                                            <span>Spatial optimization</span>
-                                            <span>Data visualization</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-slide">
-                                <div class="dummy-image-large">
-                                    <div class="dummy-content-large">
-                                        <i class="fas fa-cogs"></i>
-                                        <h2>Chain of Inference</h2>
-                                        <p>Multi-step reasoning pipeline for complex decisions</p>
-                                        <div class="dummy-features">
-                                            <span>Multi-step reasoning</span>
-                                            <span>Decision pipeline</span>
-                                            <span>Complex analysis</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <img src="../img/satolithumb.jpg" alt="Satoli Thumbnail">
                             </div>
                         </div>
-                        
                         <!-- Modal Navigation -->
                         <button class="modal-arrow modal-prev" onclick="changeModalSlide(-1)">
                             <i class="fas fa-chevron-left"></i>
@@ -918,18 +837,15 @@
                         <button class="modal-arrow modal-next" onclick="changeModalSlide(1)">
                             <i class="fas fa-chevron-right"></i>
                         </button>
-                        
                         <!-- Modal Dots -->
                         <div class="modal-dots">
                             <span class="modal-dot active" onclick="currentModalSlide(1)"></span>
                             <span class="modal-dot" onclick="currentModalSlide(2)"></span>
                             <span class="modal-dot" onclick="currentModalSlide(3)"></span>
-                            <span class="modal-dot" onclick="currentModalSlide(4)"></span>
                         </div>
-                        
                         <!-- Image Counter -->
                         <div class="image-counter">
-                            <span id="currentImageNumber">1</span> / <span id="totalImages">4</span>
+                            <span id="currentImageNumber">1</span> / <span id="totalImages">3</span>
                         </div>
                     </div>
                 </div>
