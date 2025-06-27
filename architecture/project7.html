@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computational Modeling - Project | Manas Bhatia</title>
+    <title>Satoli Residence - Architecture | Ant Studio</title>
     <link rel="stylesheet" href="../css/project.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="../js/theme.js"></script>
@@ -33,6 +33,477 @@
             background: none;
             border: none;
             box-shadow: none;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f5f5f5;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-slide img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Navigation Arrows */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .carousel-prev {
+            left: 20px;
+        }
+
+        .carousel-next {
+            right: 20px;
+        }
+
+        .carousel-arrow i {
+            color: #333;
+            font-size: 18px;
+        }
+
+        /* Navigation Dots */
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+        .dot.active {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+        }
+
+        /* Auto-play Controls */
+        .carousel-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .auto-play-toggle {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .auto-play-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        .auto-play-toggle i {
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Full Screen Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2010;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .modal-carousel {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            max-width: 1200px;
+            max-height: 800px;
+        }
+
+        .modal-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-slide.active {
+            opacity: 1;
+        }
+
+        .modal-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal Navigation Arrows */
+        .modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2010;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev {
+            left: 30px;
+        }
+
+        .modal-next {
+            right: 30px;
+        }
+
+        .modal-arrow i {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        /* Modal Dots */
+        .modal-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 2010;
+        }
+
+        .modal-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.2);
+        }
+
+        .modal-dot.active {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+        }
+
+        /* Image Counter */
+        .image-counter {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            z-index: 2010;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Touch/Swipe Support */
+        .carousel-wrapper {
+            touch-action: pan-y pinch-zoom;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .carousel-wrapper {
+                height: 400px;
+            }
+            
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .carousel-arrow i {
+                font-size: 14px;
+            }
+            
+            .carousel-prev {
+                left: 10px;
+            }
+            
+            .carousel-next {
+                right: 10px;
+            }
+            
+            .carousel-dots {
+                bottom: 15px;
+                gap: 8px;
+            }
+            
+            .dot {
+                width: 10px;
+                height: 10px;
+            }
+            
+            .carousel-controls {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .auto-play-toggle {
+                width: 35px;
+                height: 35px;
+            }
+
+            /* Modal responsive styles */
+            .modal-carousel {
+                width: 95%;
+                height: 95%;
+            }
+
+            .close-modal {
+                top: 15px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 30px;
+            }
+
+            .modal-arrow {
+                width: 50px;
+                height: 50px;
+            }
+
+            .modal-prev {
+                left: 15px;
+            }
+
+            .modal-next {
+                right: 15px;
+            }
+
+            .modal-arrow i {
+                font-size: 18px;
+            }
+
+            .modal-dots {
+                bottom: 20px;
+                gap: 10px;
+            }
+
+            .modal-dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .image-counter {
+                top: 20px;
+                left: 20px;
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-wrapper {
+                height: 300px;
+            }
+
+            .modal-carousel {
+                width: 98%;
+                height: 98%;
+            }
+
+            .close-modal {
+                top: 10px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 24px;
+            }
+
+            .modal-arrow {
+                width: 40px;
+                height: 40px;
+            }
+
+            .modal-prev {
+                left: 10px;
+            }
+
+            .modal-next {
+                right: 10px;
+            }
+
+            .modal-arrow i {
+                font-size: 16px;
+            }
+
+            .modal-dots {
+                bottom: 15px;
+                gap: 8px;
+            }
+
+            .modal-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .image-counter {
+                top: 15px;
+                left: 15px;
+                font-size: 14px;
+                padding: 6px 12px;
+            }
         }
     </style>
 </head>
@@ -74,118 +545,49 @@
     </script>
     <section class="framer-hero">
         <div class="framer-hero-image">
-            <div class="carousel-container">
-                <div class="carousel-wrapper">
-                    <div class="carousel-slide active">
-                        <img src="../img/compcovernew.gif" alt="Computational Modeling Cover" loading="lazy" onclick="openModal(0)">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="../img/compmodelthumb.jpg" alt="Computational Model Thumbnail" loading="lazy" onclick="openModal(1)">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="../img/urbanobservation.jpg" alt="Urban Observation" loading="lazy" onclick="openModal(2)">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="../img/goldcity.jpg" alt="Gold City" loading="lazy" onclick="openModal(3)">
-                    </div>
-                </div>
-                <!-- Navigation arrows -->
-                <button class="carousel-arrow carousel-prev" onclick="changeSlide(-1)">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="carousel-arrow carousel-next" onclick="changeSlide(1)">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                <!-- Navigation dots -->
-                <div class="carousel-dots">
-                    <span class="dot active" onclick="currentSlide(1)"></span>
-                    <span class="dot" onclick="currentSlide(2)"></span>
-                    <span class="dot" onclick="currentSlide(3)"></span>
-                    <span class="dot" onclick="currentSlide(4)"></span>
-                </div>
-                <!-- Auto-play toggle -->
-                <div class="carousel-controls">
-                    <button class="auto-play-toggle" onclick="toggleAutoPlay()">
-                        <i class="fas fa-pause" id="auto-play-icon"></i>
-                    </button>
-                </div>
-            </div>
-            <!-- Full Screen Modal -->
-            <div id="imageModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-modal" onclick="closeModal()">&times;</span>
-                    <div class="modal-carousel">
-                        <div class="modal-slide active">
-                            <img src="../img/compcovernew.gif" alt="Computational Modeling Cover">
-                        </div>
-                        <div class="modal-slide">
-                            <img src="../img/compmodelthumb.jpg" alt="Computational Model Thumbnail">
-                        </div>
-                        <div class="modal-slide">
-                            <img src="../img/urbanobservation.jpg" alt="Urban Observation">
-                        </div>
-                        <div class="modal-slide">
-                            <img src="../img/goldcity.jpg" alt="Gold City">
-                        </div>
-                    </div>
-                    <!-- Modal Navigation -->
-                    <button class="modal-arrow modal-prev" onclick="changeModalSlide(-1)">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="modal-arrow modal-next" onclick="changeModalSlide(1)">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                    <!-- Modal Dots -->
-                    <div class="modal-dots">
-                        <span class="modal-dot active" onclick="currentModalSlide(1)"></span>
-                        <span class="modal-dot" onclick="currentModalSlide(2)"></span>
-                        <span class="modal-dot" onclick="currentModalSlide(3)"></span>
-                        <span class="modal-dot" onclick="currentModalSlide(4)"></span>
-                    </div>
-                    <!-- Image Counter -->
-                    <div class="image-counter">
-                        <span id="currentImageNumber">1</span> / <span id="totalImages">4</span>
-                    </div>
-                </div>
-            </div>
+            <img src="../img/satoliwide.jpg" alt="Satoli Residence Project Main Image">
         </div>
         <div class="framer-hero-content">
             <div class="framer-hero-col-left">
-                <h2 class="framer-hero-title">Computational Modeling</h2>
+                <h2 class="framer-hero-title">Satoli Residence</h2>
                 <div class="framer-hero-meta">
                     <div class="framer-hero-meta-row">
                         <div class="framer-hero-meta-block">
                             <span class="framer-hero-meta-label">Project Type</span>
-                            <span class="framer-hero-meta-value">Parametric Design</span>
+                            <span class="framer-hero-meta-value">Residential</span>
                         </div>
 
                         <div class="framer-hero-meta-block">
-                            <span class="framer-hero-meta-label">Role</span>
-                            <span class="framer-hero-meta-value">Individual Project</span>
+                            <span class="framer-hero-meta-label">Team</span>
+                            <span class="framer-hero-meta-value">Manas Bhatia, Monish Siripurapu</span>
                         </div>
-                        
+
                         <div class="framer-hero-meta-block">
-                            <span class="framer-hero-meta-label">Tools Used</span>
-                            <span class="framer-hero-meta-value">Grasshopper, Python, Rhino</span>
+                            <span class="framer-hero-meta-label">Status/Year</span>
+                            <span class="framer-hero-meta-value">Proposed/2022</span>
                         </div>
                     </div>
                     <div class="framer-hero-meta-row">
                         <div class="framer-hero-meta-block">
-                            <span class="framer-hero-meta-label">Course</span>
-                            <span class="framer-hero-meta-value">A4162‑1 / Summer 2024 / Computational Modeling</span>
+                            <span class="framer-hero-meta-label">Lead Architect</span>
+                            <span class="framer-hero-meta-value">Monish Siripurapu- Founder @ Ant Studio</span>
                         </div>
                         <div class="framer-hero-meta-block">
-                            <span class="framer-hero-meta-label">Course Instructors</span>
-                            <span class="framer-hero-meta-value">Luc Wilson, Meli Harvey</span>
+                            <span class="framer-hero-meta-label">Location</span>
+                            <span class="framer-hero-meta-value">Uttarakhand, India</span>
+                        </div>
+                        <div class="framer-hero-meta-block">
+                            <span class="framer-hero-meta-label">Responsibilities</span>
+                            <span class="framer-hero-meta-value">Concept and working drawings, 3D
+                                modeling and rendering, consultants coordination.</span>
                         </div>
                     </div>
                 </div>
-                <a class="framer-hero-btn" href="https://gsapp-cdp.github.io/colloquium-1-2024/work/manas-bhatia/#saplings" target="_blank" rel="noopener">View Project</a>
+                <a class="framer-hero-btn" href="https://ant.studio/satoliresidence" target="_blank" rel="noopener">View Project</a>
             </div>
             <div class="framer-hero-col-right">
                 <div class="framer-hero-desc">
-                    Over the semester, we leveraged Rhino and Grasshopper as a powerful GIS and computational design suite—importing shapefiles and CSVs, performing spatial joins, and extracting geometry to map streets, parcels, and environmental data—while simultaneously building parametric building and network models linked to daylight, wind, and energy analyses. We developed custom Grasshopper tools for origin–destination and walkability metrics, iteratively testing scenarios via live sliders, then exported our results as GeoJSONs and 3D JSONs for interactive web visualization in Scout and Mapbox.
-                </div>
+                    Satoli Residence is a proposed 5-bedroom home designed as an Airbnb retreat for five friends on a hillside site in Uttarakhand. Anchored by a massive natural rock formation, the design responds directly to the site's stepped contours and dense tree cover.</div>
             </div>
         </div>
     </section>
@@ -194,95 +596,36 @@
         <div class="framer-container">
             <div class="framer-header">
                 <div class="framer-text-container">
-                    <h5 class="framer-title">Asking Questions With Data
-                    </h5>
-                </div>
-            </div>
-
-            
-            <div class="framer-description">
-                <p class="framer-text"> The idea came from an urban observation and hypothesis that the rental prices in Manhattan are influenced by the views of the Hudson River.                    
-                    
-                    For the final project, I developed a computational model to
-                    investigate the relationship between the Hudson River and rental
-                    prices in Manhattan. Leveraging spatial data and custom view
-                    analysis tools in Grasshopper, I examined a section of Chelsea to
-                    quantify the influence of river views on rental valuations.
-                    The project demonstrated how computational modeling can be
-                    used not only for generative design but also for targeted urban
-                    analysis grounded in real-world data.</p>
-            </div>
-
-           
-            
-            <div class="framer-images">
-                <div class="framer-image-container">
-                    <img src="../img/compmodelthumb.jpg" alt="Computational Modeling Main View" style="width: 1200px; height: 100%; object-fit: cover;">
-                </div>
-            </div>
-
-            <div class="framer-images">
-                <div class="framer-image-container">
-                    <img src="../img/urbanobservation.jpg" alt="Computational Modeling Main View" style="width: 1200px; height: 100%; object-fit: cover;">
-                </div>
-            </div>
-
-            <div class="framer-images">
-                <div class="framer-image-container">
-                    <img src="../img/goldcity.jpg" alt="Computational Modeling Process" style="width: 1200px; height: 100%; object-fit: cover;">
-                </div>
-            </div>
-            
-
-        </div>
-    </section>
-
-    <section class="framer-krewez">
-        <div class="framer-container">
-            <div class="framer-header">
-                <div class="framer-text-container">
-                    <h5 class="framer-title">Interactive View.</h5>
+                    <h5 class="framer-title">about.</h5>
                 </div>
             </div>
             <div class="framer-description">
-                <p class="framer-text">Explore the interactive version of this project through the embedded viewer below.</p>
+                <p class="framer-text">Three distinct volumes are carefully positioned around and atop the rock, with the uppermost cantilevering dramatically over the terrain. The massing is strategically arranged to preserve existing trees—some of which penetrate interior spaces—and to frame unobstructed views of the snow-capped Himalayan range.
+
+                    Circulation flows organically via stairs embedded into the landscape, capitalizing on the site's natural slopes. The lower level accommodates the living room, utilities, and a bedroom. The mid-level contains a bedroom, kitchen opening onto the garden, and a combined lounge and dining area. At the top, perched on the rock, are two bedrooms and an office, opening onto a hilltop terrace featuring an outdoor barbecue and bonfire pit.</p>
             </div>
             <div class="framer-images">
-                <div class="framer-image-container" style="width: 100%; height: 800px;">
-                    <iframe 
-                        src="https://gsapp-cdp.github.io/colloquium-1-2024/work/manas-bhatia/#saplings" 
-                        style="width: 100%; height: 100%; border: none;"
-                        title="Interactive Project View"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-           
-        </div>
-    </section>
-
-
-    <section class="framer-krewez">
-        <div class="framer-container">
-            <div class="framer-header">
-                <div class="framer-text-container">
-                    <h5 class="framer-title"></h5>
-                </div>
-            </div>
-            <div class="framer-description">
-                <p class="framer-text">The process involved developing custom tool in Grasshopper to analyse the views of the Hudson River from the buildings in the area, quantify and visualise the data, and export geometry as Three.JS to embedd in the website. The rental data was sourced from Zillow and the spatial data was obtained from OpenStreetMap. I used python to clean the dataset and used Kepler.gl to create the interactive map, while visualising the data using a combination of Chart.js</p>
-            </div>
-
-
-
-            <div class="framer-images">
+                
+                
                 <div class="carousel-container">
                     <div class="carousel-wrapper">
                         <div class="carousel-slide active">
-                            <img src="../img/viewanalysis.jpg" alt="View Analysis" loading="lazy" onclick="openModal(0)">
+                            <img src="../img/front.jpg" alt="Satoli 1" loading="lazy" onclick="openModal(0)">
                         </div>
                         <div class="carousel-slide">
-                            <img src="../img/ghworkflow.jpg" alt="Grasshopper Workflow" loading="lazy" onclick="openModal(1)">
+                            <img src="../img/ff.png" alt="Satoli 2" loading="lazy" onclick="openModal(1)">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="../img/new2_9 - Photo (2).jpg" alt="Satoli 3" loading="lazy" onclick="openModal(2)">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="../img/sample 2 set_3 - Photo.jpg" alt="Satoli 4" loading="lazy" onclick="openModal(3)">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="../img/siten.png" alt="Satoli 5" loading="lazy" onclick="openModal(4)">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="../img/autumn.png" alt="Satoli 6" loading="lazy" onclick="openModal(5)">
                         </div>
                     </div>
                     
@@ -298,6 +641,10 @@
                     <div class="carousel-dots">
                         <span class="dot active" onclick="currentSlide(1)"></span>
                         <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                        <span class="dot" onclick="currentSlide(4)"></span>
+                        <span class="dot" onclick="currentSlide(5)"></span>
+                        <span class="dot" onclick="currentSlide(6)"></span>
                     </div>
                     
                     <!-- Auto-play toggle -->
@@ -315,10 +662,22 @@
                         
                         <div class="modal-carousel">
                             <div class="modal-slide active">
-                                <img src="../img/viewanalysis.jpg" alt="View Analysis">
+                                <img src="../img/front.jpg" alt="Satoli 1">
                             </div>
                             <div class="modal-slide">
-                                <img src="../img/ghworkflow.jpg" alt="Grasshopper Workflow">
+                                <img src="../img/ff.png" alt="Satoli 2">
+                            </div>
+                            <div class="modal-slide">
+                                <img src="../img/new2_9 - Photo (2).jpg" alt="Satoli 3">
+                            </div>
+                            <div class="modal-slide">
+                                <img src="../img/sample 2 set_3 - Photo.jpg" alt="Satoli 4">
+                            </div>
+                            <div class="modal-slide">
+                                <img src="../img/siten.png" alt="Satoli 5">
+                            </div>
+                            <div class="modal-slide">
+                                <img src="../img/autumn.png" alt="Satoli 6">
                             </div>
                         </div>
                         
@@ -334,862 +693,25 @@
                         <div class="modal-dots">
                             <span class="modal-dot active" onclick="currentModalSlide(1)"></span>
                             <span class="modal-dot" onclick="currentModalSlide(2)"></span>
+                            <span class="modal-dot" onclick="currentModalSlide(3)"></span>
+                            <span class="modal-dot" onclick="currentModalSlide(4)"></span>
+                            <span class="modal-dot" onclick="currentModalSlide(5)"></span>
+                            <span class="modal-dot" onclick="currentModalSlide(6)"></span>
                         </div>
                         
                         <!-- Image Counter -->
                         <div class="image-counter">
-                            <span id="currentImageNumber">1</span> / <span id="totalImages">2</span>
+                            <span id="currentImageNumber">1</span> / <span id="totalImages">6</span>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <style>
-                /* Carousel Styles */
-                .carousel-container {
-                    position: relative;
-                    width: 100%;
-                    max-width: 1000px;
-                    margin: 0 auto;
-                    border-radius: 12px;
-                    overflow: hidden;
-                    background: #f5f5f5;
-                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-                }
-
-                .carousel-wrapper {
-                    position: relative;
-                    width: 100%;
-                    height: 600px;
-                    overflow: hidden;
-                }
-
-                .carousel-slide {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    opacity: 0;
-                    transition: opacity 0.5s ease-in-out;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .carousel-slide.active {
-                    opacity: 1;
-                }
-
-                .carousel-slide img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center;
-                    cursor: pointer;
-                    transition: transform 0.3s ease;
-                }
-
-                .carousel-slide img:hover {
-                    transform: scale(1.02);
-                }
-
-                /* Navigation Arrows */
-                .carousel-arrow {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    background: rgba(255, 255, 255, 0.9);
-                    border: none;
-                    border-radius: 50%;
-                    width: 50px;
-                    height: 50px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    z-index: 10;
-                    backdrop-filter: blur(10px);
-                    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-                }
-
-                .carousel-arrow:hover {
-                    background: rgba(255, 255, 255, 1);
-                    transform: translateY(-50%) scale(1.1);
-                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-                }
-
-                .carousel-prev {
-                    left: 20px;
-                }
-
-                .carousel-next {
-                    right: 20px;
-                }
-
-                .carousel-arrow i {
-                    color: #333;
-                    font-size: 18px;
-                }
-
-                /* Navigation Dots */
-                .carousel-dots {
-                    position: absolute;
-                    bottom: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    display: flex;
-                    gap: 12px;
-                    z-index: 10;
-                }
-
-                .dot {
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.6);
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    border: 2px solid rgba(255, 255, 255, 0.8);
-                }
-
-                .dot:hover {
-                    background: rgba(255, 255, 255, 0.8);
-                    transform: scale(1.2);
-                }
-
-                .dot.active {
-                    background: rgba(255, 255, 255, 1);
-                    transform: scale(1.2);
-                }
-
-                /* Auto-play Controls */
-                .carousel-controls {
-                    position: absolute;
-                    top: 20px;
-                    right: 20px;
-                    z-index: 10;
-                }
-
-                .auto-play-toggle {
-                    background: rgba(255, 255, 255, 0.9);
-                    border: none;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    backdrop-filter: blur(10px);
-                    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-                }
-
-                .auto-play-toggle:hover {
-                    background: rgba(255, 255, 255, 1);
-                    transform: scale(1.1);
-                }
-
-                .auto-play-toggle i {
-                    color: #333;
-                    font-size: 14px;
-                }
-
-                /* Full Screen Modal Styles */
-                .modal {
-                    display: none;
-                    position: fixed;
-                    z-index: 2000;
-                    left: 0;
-                    top: 0;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.95);
-                    backdrop-filter: blur(10px);
-                    animation: fadeIn 0.3s ease-out;
-                }
-
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-
-                .modal-content {
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .close-modal {
-                    position: absolute;
-                    top: 20px;
-                    right: 30px;
-                    color: #fff;
-                    font-size: 40px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    z-index: 2010;
-                    transition: all 0.3s ease;
-                    background: rgba(0, 0, 0, 0.5);
-                    border-radius: 50%;
-                    width: 60px;
-                    height: 60px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    backdrop-filter: blur(10px);
-                }
-
-                .close-modal:hover {
-                    background: rgba(255, 255, 255, 0.2);
-                    transform: scale(1.1);
-                }
-
-                .modal-carousel {
-                    position: relative;
-                    width: 90%;
-                    height: 90%;
-                    max-width: 1200px;
-                    max-height: 800px;
-                }
-
-                .modal-slide {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    opacity: 0;
-                    transition: opacity 0.5s ease-in-out;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                .modal-slide.active {
-                    opacity: 1;
-                }
-
-                .modal-slide img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    object-fit: contain;
-                    border-radius: 8px;
-                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                }
-
-                /* Modal Navigation Arrows */
-                .modal-arrow {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    background: rgba(255, 255, 255, 0.2);
-                    border: none;
-                    border-radius: 50%;
-                    width: 60px;
-                    height: 60px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    z-index: 2010;
-                    backdrop-filter: blur(10px);
-                }
-
-                .modal-arrow:hover {
-                    background: rgba(255, 255, 255, 0.3);
-                    transform: translateY(-50%) scale(1.1);
-                }
-
-                .modal-prev {
-                    left: 30px;
-                }
-
-                .modal-next {
-                    right: 30px;
-                }
-
-                .modal-arrow i {
-                    color: #fff;
-                    font-size: 24px;
-                }
-
-                /* Modal Dots */
-                .modal-dots {
-                    position: absolute;
-                    bottom: 30px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    display: flex;
-                    gap: 15px;
-                    z-index: 2010;
-                }
-
-                .modal-dot {
-                    width: 15px;
-                    height: 15px;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.4);
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    border: 2px solid rgba(255, 255, 255, 0.6);
-                }
-
-                .modal-dot:hover {
-                    background: rgba(255, 255, 255, 0.6);
-                    transform: scale(1.2);
-                }
-
-                .modal-dot.active {
-                    background: rgba(255, 255, 255, 1);
-                    transform: scale(1.2);
-                }
-
-                /* Image Counter */
-                .image-counter {
-                    position: absolute;
-                    top: 30px;
-                    left: 30px;
-                    color: #fff;
-                    font-size: 18px;
-                    font-weight: 500;
-                    z-index: 2010;
-                    background: rgba(0, 0, 0, 0.5);
-                    padding: 10px 20px;
-                    border-radius: 25px;
-                    backdrop-filter: blur(10px);
-                }
-
-                /* Touch/Swipe Support */
-                .carousel-wrapper {
-                    touch-action: pan-y pinch-zoom;
-                }
-
-                /* Responsive Design */
-                @media (max-width: 768px) {
-                    .carousel-wrapper {
-                        height: 400px;
-                    }
-                    
-                    .carousel-arrow {
-                        width: 40px;
-                        height: 40px;
-                    }
-                    
-                    .carousel-arrow i {
-                        font-size: 14px;
-                    }
-                    
-                    .carousel-prev {
-                        left: 10px;
-                    }
-                    
-                    .carousel-next {
-                        right: 10px;
-                    }
-                    
-                    .carousel-dots {
-                        bottom: 15px;
-                        gap: 8px;
-                    }
-                    
-                    .dot {
-                        width: 10px;
-                        height: 10px;
-                    }
-                    
-                    .carousel-controls {
-                        top: 15px;
-                        right: 15px;
-                    }
-                    
-                    .auto-play-toggle {
-                        width: 35px;
-                        height: 35px;
-                    }
-
-                    /* Modal responsive styles */
-                    .modal-carousel {
-                        width: 95%;
-                        height: 95%;
-                    }
-
-                    .close-modal {
-                        top: 15px;
-                        right: 20px;
-                        width: 50px;
-                        height: 50px;
-                        font-size: 30px;
-                    }
-
-                    .modal-arrow {
-                        width: 50px;
-                        height: 50px;
-                    }
-
-                    .modal-prev {
-                        left: 15px;
-                    }
-
-                    .modal-next {
-                        right: 15px;
-                    }
-
-                    .modal-arrow i {
-                        font-size: 18px;
-                    }
-
-                    .modal-dots {
-                        bottom: 20px;
-                        gap: 10px;
-                    }
-
-                    .modal-dot {
-                        width: 12px;
-                        height: 12px;
-                    }
-
-                    .image-counter {
-                        top: 20px;
-                        left: 20px;
-                        font-size: 16px;
-                        padding: 8px 16px;
-                    }
-                }
-
-                @media (max-width: 480px) {
-                    .carousel-wrapper {
-                        height: 300px;
-                    }
-
-                    .modal-carousel {
-                        width: 98%;
-                        height: 98%;
-                    }
-
-                    .close-modal {
-                        top: 10px;
-                        right: 15px;
-                        width: 40px;
-                        height: 40px;
-                        font-size: 24px;
-                    }
-
-                    .modal-arrow {
-                        width: 40px;
-                        height: 40px;
-                    }
-
-                    .modal-prev {
-                        left: 10px;
-                    }
-
-                    .modal-next {
-                        right: 10px;
-                    }
-
-                    .modal-arrow i {
-                        font-size: 16px;
-                    }
-
-                    .modal-dots {
-                        bottom: 15px;
-                        gap: 8px;
-                    }
-
-                    .modal-dot {
-                        width: 10px;
-                        height: 10px;
-                    }
-
-                    .image-counter {
-                        top: 15px;
-                        left: 15px;
-                        font-size: 14px;
-                        padding: 6px 12px;
-                    }
-                }
-            </style>
-
-            <script>
-                let currentSlideIndex = 0;
-                let autoPlayInterval;
-                let isAutoPlaying = true;
-                let touchStartX = 0;
-                let touchEndX = 0;
-                const slides = document.querySelectorAll('.carousel-slide');
-                const dots = document.querySelectorAll('.dot');
-                const totalSlides = slides.length;
-                const autoPlayDelay = 4000; // 4 seconds
-
-                // Modal variables
-                let currentModalSlideIndex = 0;
-                let modalTouchStartX = 0;
-                let modalTouchEndX = 0;
-                const modalSlides = document.querySelectorAll('.modal-slide');
-                const modalDots = document.querySelectorAll('.modal-dot');
-
-                // Hamburger Menu Functions
-                window.toggleHamburgerMenu = function() {
-                    const overlay = document.getElementById('hamburgerOverlay');
-                    const hamburger = document.querySelector('.hamburger-menu');
-                    
-                    if (overlay && overlay.classList.contains('active')) {
-                        overlay.classList.remove('active');
-                        hamburger.classList.remove('active');
-                        document.body.style.overflow = 'auto';
-                    } else if (overlay) {
-                        overlay.classList.add('active');
-                        hamburger.classList.add('active');
-                        document.body.style.overflow = 'hidden';
-                    }
-                };
-
-                window.toggleSection = function(sectionName) {
-                    const links = document.getElementById(sectionName + '-links');
-                    const icon = document.getElementById(sectionName + '-icon');
-                    
-                    if (links && links.classList.contains('expanded')) {
-                        links.classList.remove('expanded');
-                        icon.classList.remove('active');
-                    } else if (links) {
-                        links.classList.add('expanded');
-                        icon.classList.add('active');
-                    }
-                };
-
-                // Initialize carousel
-                function initCarousel() {
-                    showSlide(currentSlideIndex);
-                    startAutoPlay();
-                    setupTouchEvents();
-                }
-
-                // Show specific slide
-                function showSlide(index) {
-                    // Remove active class from all slides and dots
-                    slides.forEach(slide => slide.classList.remove('active'));
-                    dots.forEach(dot => dot.classList.remove('active'));
-                    
-                    // Add active class to current slide and dot
-                    slides[index].classList.add('active');
-                    dots[index].classList.add('active');
-                    
-                    currentSlideIndex = index;
-                }
-
-                // Change slide (next/previous)
-                function changeSlide(direction) {
-                    let newIndex = currentSlideIndex + direction;
-                    
-                    if (newIndex >= totalSlides) {
-                        newIndex = 0;
-                    } else if (newIndex < 0) {
-                        newIndex = totalSlides - 1;
-                    }
-                    
-                    showSlide(newIndex);
-                }
-
-                // Go to specific slide
-                function currentSlide(index) {
-                    showSlide(index - 1); // Convert to 0-based index
-                }
-
-                // Auto-play functionality
-                function startAutoPlay() {
-                    if (autoPlayInterval) {
-                        clearInterval(autoPlayInterval);
-                    }
-                    
-                    if (isAutoPlaying) {
-                        autoPlayInterval = setInterval(() => {
-                            changeSlide(1);
-                        }, autoPlayDelay);
-                    }
-                }
-
-                function stopAutoPlay() {
-                    if (autoPlayInterval) {
-                        clearInterval(autoPlayInterval);
-                        autoPlayInterval = null;
-                    }
-                }
-
-                function toggleAutoPlay() {
-                    isAutoPlaying = !isAutoPlaying;
-                    const icon = document.getElementById('auto-play-icon');
-                    
-                    if (isAutoPlaying) {
-                        icon.className = 'fas fa-pause';
-                        startAutoPlay();
-                    } else {
-                        icon.className = 'fas fa-play';
-                        stopAutoPlay();
-                    }
-                }
-
-                // Touch/Swipe functionality
-                function setupTouchEvents() {
-                    const carouselWrapper = document.querySelector('.carousel-wrapper');
-                    
-                    carouselWrapper.addEventListener('touchstart', handleTouchStart, false);
-                    carouselWrapper.addEventListener('touchend', handleTouchEnd, false);
-                }
-
-                function handleTouchStart(event) {
-                    touchStartX = event.changedTouches[0].screenX;
-                }
-
-                function handleTouchEnd(event) {
-                    touchEndX = event.changedTouches[0].screenX;
-                    handleSwipe();
-                }
-
-                function handleSwipe() {
-                    const swipeThreshold = 50; // Minimum swipe distance
-                    const swipeDistance = touchEndX - touchStartX;
-                    
-                    if (Math.abs(swipeDistance) > swipeThreshold) {
-                        if (swipeDistance > 0) {
-                            // Swipe right - go to previous slide
-                            changeSlide(-1);
-                        } else {
-                            // Swipe left - go to next slide
-                            changeSlide(1);
-                        }
-                    }
-                }
-
-                // Modal functionality
-                function openModal(slideIndex) {
-                    currentModalSlideIndex = slideIndex;
-                    showModalSlide(slideIndex);
-                    document.getElementById('imageModal').style.display = 'block';
-                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-                    
-                    // Setup modal touch events
-                    setupModalTouchEvents();
-                    
-                    // Stop auto-play when modal is open
-                    stopAutoPlay();
-                }
-
-                function closeModal() {
-                    document.getElementById('imageModal').style.display = 'none';
-                    document.body.style.overflow = 'auto'; // Restore scrolling
-                    
-                    // Resume auto-play when modal is closed
-                    if (isAutoPlaying) {
-                        startAutoPlay();
-                    }
-                }
-
-                function showModalSlide(index) {
-                    // Remove active class from all modal slides and dots
-                    modalSlides.forEach(slide => slide.classList.remove('active'));
-                    modalDots.forEach(dot => dot.classList.remove('active'));
-                    
-                    // Add active class to current modal slide and dot
-                    modalSlides[index].classList.add('active');
-                    modalDots[index].classList.add('active');
-                    
-                    currentModalSlideIndex = index;
-                    
-                    // Update image counter
-                    document.getElementById('currentImageNumber').textContent = index + 1;
-                }
-
-                function changeModalSlide(direction) {
-                    let newIndex = currentModalSlideIndex + direction;
-                    
-                    if (newIndex >= totalSlides) {
-                        newIndex = 0;
-                    } else if (newIndex < 0) {
-                        newIndex = totalSlides - 1;
-                    }
-                    
-                    showModalSlide(newIndex);
-                }
-
-                function currentModalSlide(index) {
-                    showModalSlide(index - 1); // Convert to 0-based index
-                }
-
-                function setupModalTouchEvents() {
-                    const modalCarousel = document.querySelector('.modal-carousel');
-                    
-                    modalCarousel.addEventListener('touchstart', handleModalTouchStart, false);
-                    modalCarousel.addEventListener('touchend', handleModalTouchEnd, false);
-                }
-
-                function handleModalTouchStart(event) {
-                    modalTouchStartX = event.changedTouches[0].screenX;
-                }
-
-                function handleModalTouchEnd(event) {
-                    modalTouchEndX = event.changedTouches[0].screenX;
-                    handleModalSwipe();
-                }
-
-                function handleModalSwipe() {
-                    const swipeThreshold = 50; // Minimum swipe distance
-                    const swipeDistance = modalTouchEndX - modalTouchStartX;
-                    
-                    if (Math.abs(swipeDistance) > swipeThreshold) {
-                        if (swipeDistance > 0) {
-                            // Swipe right - go to previous slide
-                            changeModalSlide(-1);
-                        } else {
-                            // Swipe left - go to next slide
-                            changeModalSlide(1);
-                        }
-                    }
-                }
-
-                // Keyboard navigation
-                document.addEventListener('keydown', function(event) {
-                    const modal = document.getElementById('imageModal');
-                    const isModalOpen = modal.style.display === 'block';
-                    
-                    if (isModalOpen) {
-                        // Modal keyboard controls
-                        switch(event.key) {
-                            case 'Escape':
-                                closeModal();
-                                break;
-                            case 'ArrowLeft':
-                                changeModalSlide(-1);
-                                break;
-                            case 'ArrowRight':
-                                changeModalSlide(1);
-                                break;
-                        }
-                    } else {
-                        // Carousel keyboard controls
-                        switch(event.key) {
-                            case 'ArrowLeft':
-                                changeSlide(-1);
-                                break;
-                            case 'ArrowRight':
-                                changeSlide(1);
-                                break;
-                            case ' ':
-                                event.preventDefault();
-                                toggleAutoPlay();
-                                break;
-                        }
-                    }
-                });
-
-                // Pause auto-play on hover
-                const carouselContainer = document.querySelector('.carousel-container');
-                carouselContainer.addEventListener('mouseenter', () => {
-                    if (isAutoPlaying) {
-                        stopAutoPlay();
-                    }
-                });
-
-                carouselContainer.addEventListener('mouseleave', () => {
-                    if (isAutoPlaying) {
-                        startAutoPlay();
-                    }
-                });
-
-                // Close modal when clicking outside the image
-                document.getElementById('imageModal').addEventListener('click', function(event) {
-                    if (event.target === this) {
-                        closeModal();
-                    }
-                });
-
-                // Hamburger menu event listeners
-                document.addEventListener('click', function(e) {
-                    const overlay = document.getElementById('hamburgerOverlay');
-                    const hamburger = document.querySelector('.hamburger-menu');
-                    
-                    if (overlay && overlay.classList.contains('active') && 
-                        !overlay.contains(e.target) && 
-                        !hamburger.contains(e.target)) {
-                        window.toggleHamburgerMenu();
-                    }
-                });
-
-                // Close hamburger menu on escape key
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape') {
-                        const overlay = document.getElementById('hamburgerOverlay');
-                        if (overlay && overlay.classList.contains('active')) {
-                            window.toggleHamburgerMenu();
-                        }
-                    }
-                });
-
-                // Initialize carousel when DOM is loaded
-                document.addEventListener('DOMContentLoaded', initCarousel);
-            </script>
-
-         
         </div>
     </section>
 
+   
 
-    <section class="framer-krewez">
-        <div class="framer-container">
-            <div class="framer-header">
-                <div class="framer-text-container">
-                    <h5 class="framer-title">GH to GIS</h5>
-                </div>
-            </div>
-            <div class="framer-description">
-                <p class="framer-text">Using Rhino and grasshopper as GIS tool to derive spatial relationships</p>
-            </div>
-            <div class="framer-images">
-                <div class="framer-image-row">
-                    <div class="framer-image-container">
-                        <img src="../img/compGISgif.gif" alt="NYC Carbon Atlas Overview" loading="lazy">
-                    </div>
-                </div>
-                <div class="framer-image-row">
-                    <div class="framer-image-container">
-                        <img src="../img/compmodelGIS.jpg" alt="NYC Carbon Atlas Analysis" loading="lazy">
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="framer-krewez">
-        <div class="framer-container">
-            <div class="framer-header">
-                <div class="framer-text-container">
-                    <h5 class="framer-title">Procedural Urbanism</h5>
-                </div>
-            </div>
-            <div class="framer-description">
-                <p class="framer-text">For this course, we built a parametric design space in Grasshopper—generating and exporting hundreds of massing options and their performance metrics—compiled the results into a structured CSV and color‐coded worksheet, analyzed form–performance trends to uncover how street grids and density distributions impact daylight and views, and distilled our findings into clear scenario-based design guidelines and a concise slide deck reflecting on our workflow, biases, and next steps.</p>
-            </div>
-           
-    <div class="framer-images">
-        <div class="framer-image-container">
-            <img src="../img/compmodelsheet2.jpg" alt="Computational Modeling Process" style="width: 1200px; height: 100%; object-fit: cover;">
-        </div>
-    </div>
-    
-           
-        </div>
-    </section>
-
-
-
+   
 
     <div id="site-footer"></div>
     <script>
@@ -1199,6 +721,325 @@
                 .then(html => { document.getElementById(id).innerHTML = html; });
         }
         includeHTML('site-footer', '../footer.html');
+    </script>
+
+    <!-- Carousel JavaScript -->
+    <script>
+        let currentSlideIndex = 0;
+        let autoPlayInterval;
+        let isAutoPlaying = true;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+        const autoPlayDelay = 4000; // 4 seconds
+
+        // Modal variables
+        let currentModalSlideIndex = 0;
+        let modalTouchStartX = 0;
+        let modalTouchEndX = 0;
+        const modalSlides = document.querySelectorAll('.modal-slide');
+        const modalDots = document.querySelectorAll('.modal-dot');
+
+        // Hamburger Menu Functions
+        window.toggleHamburgerMenu = function() {
+            const overlay = document.getElementById('hamburgerOverlay');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (overlay && overlay.classList.contains('active')) {
+                overlay.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else if (overlay) {
+                overlay.classList.add('active');
+                hamburger.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.toggleSection = function(sectionName) {
+            const links = document.getElementById(sectionName + '-links');
+            const icon = document.getElementById(sectionName + '-icon');
+            
+            if (links && links.classList.contains('expanded')) {
+                links.classList.remove('expanded');
+                icon.classList.remove('active');
+            } else if (links) {
+                links.classList.add('expanded');
+                icon.classList.add('active');
+            }
+        };
+
+        // Initialize carousel
+        function initCarousel() {
+            showSlide(currentSlideIndex);
+            startAutoPlay();
+            setupTouchEvents();
+        }
+
+        // Show specific slide
+        function showSlide(index) {
+            // Remove active class from all slides and dots
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Add active class to current slide and dot
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            
+            currentSlideIndex = index;
+        }
+
+        // Change slide (next/previous)
+        function changeSlide(direction) {
+            let newIndex = currentSlideIndex + direction;
+            
+            if (newIndex >= totalSlides) {
+                newIndex = 0;
+            } else if (newIndex < 0) {
+                newIndex = totalSlides - 1;
+            }
+            
+            showSlide(newIndex);
+        }
+
+        // Go to specific slide
+        function currentSlide(index) {
+            showSlide(index - 1); // Convert to 0-based index
+        }
+
+        // Auto-play functionality
+        function startAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+            
+            if (isAutoPlaying) {
+                autoPlayInterval = setInterval(() => {
+                    changeSlide(1);
+                }, autoPlayDelay);
+            }
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+            }
+        }
+
+        function toggleAutoPlay() {
+            isAutoPlaying = !isAutoPlaying;
+            const icon = document.getElementById('auto-play-icon');
+            
+            if (isAutoPlaying) {
+                icon.className = 'fas fa-pause';
+                startAutoPlay();
+            } else {
+                icon.className = 'fas fa-play';
+                stopAutoPlay();
+            }
+        }
+
+        // Touch/Swipe functionality
+        function setupTouchEvents() {
+            const carouselWrapper = document.querySelector('.carousel-wrapper');
+            
+            carouselWrapper.addEventListener('touchstart', handleTouchStart, false);
+            carouselWrapper.addEventListener('touchend', handleTouchEnd, false);
+        }
+
+        function handleTouchStart(event) {
+            touchStartX = event.changedTouches[0].screenX;
+        }
+
+        function handleTouchEnd(event) {
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipe();
+        }
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimum swipe distance
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Swipe right - go to previous slide
+                    changeSlide(-1);
+                } else {
+                    // Swipe left - go to next slide
+                    changeSlide(1);
+                }
+            }
+        }
+
+        // Modal functionality
+        function openModal(slideIndex) {
+            currentModalSlideIndex = slideIndex;
+            showModalSlide(slideIndex);
+            document.getElementById('imageModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Setup modal touch events
+            setupModalTouchEvents();
+            
+            // Stop auto-play when modal is open
+            stopAutoPlay();
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            
+            // Resume auto-play when modal is closed
+            if (isAutoPlaying) {
+                startAutoPlay();
+            }
+        }
+
+        function showModalSlide(index) {
+            // Remove active class from all modal slides and dots
+            modalSlides.forEach(slide => slide.classList.remove('active'));
+            modalDots.forEach(dot => dot.classList.remove('active'));
+            
+            // Add active class to current modal slide and dot
+            modalSlides[index].classList.add('active');
+            modalDots[index].classList.add('active');
+            
+            currentModalSlideIndex = index;
+            
+            // Update image counter
+            document.getElementById('currentImageNumber').textContent = index + 1;
+        }
+
+        function changeModalSlide(direction) {
+            let newIndex = currentModalSlideIndex + direction;
+            
+            if (newIndex >= totalSlides) {
+                newIndex = 0;
+            } else if (newIndex < 0) {
+                newIndex = totalSlides - 1;
+            }
+            
+            showModalSlide(newIndex);
+        }
+
+        function currentModalSlide(index) {
+            showModalSlide(index - 1); // Convert to 0-based index
+        }
+
+        function setupModalTouchEvents() {
+            const modalCarousel = document.querySelector('.modal-carousel');
+            
+            modalCarousel.addEventListener('touchstart', handleModalTouchStart, false);
+            modalCarousel.addEventListener('touchend', handleModalTouchEnd, false);
+        }
+
+        function handleModalTouchStart(event) {
+            modalTouchStartX = event.changedTouches[0].screenX;
+        }
+
+        function handleModalTouchEnd(event) {
+            modalTouchEndX = event.changedTouches[0].screenX;
+            handleModalSwipe();
+        }
+
+        function handleModalSwipe() {
+            const swipeThreshold = 50; // Minimum swipe distance
+            const swipeDistance = modalTouchEndX - modalTouchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Swipe right - go to previous slide
+                    changeModalSlide(-1);
+                } else {
+                    // Swipe left - go to next slide
+                    changeModalSlide(1);
+                }
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('imageModal');
+            const isModalOpen = modal.style.display === 'block';
+            
+            if (isModalOpen) {
+                // Modal keyboard controls
+                switch(event.key) {
+                    case 'Escape':
+                        closeModal();
+                        break;
+                    case 'ArrowLeft':
+                        changeModalSlide(-1);
+                        break;
+                    case 'ArrowRight':
+                        changeModalSlide(1);
+                        break;
+                }
+            } else {
+                // Carousel keyboard controls
+                switch(event.key) {
+                    case 'ArrowLeft':
+                        changeSlide(-1);
+                        break;
+                    case 'ArrowRight':
+                        changeSlide(1);
+                        break;
+                    case ' ':
+                        event.preventDefault();
+                        toggleAutoPlay();
+                        break;
+                }
+            }
+        });
+
+        // Pause auto-play on hover
+        const carouselContainer = document.querySelector('.carousel-container');
+        carouselContainer.addEventListener('mouseenter', () => {
+            if (isAutoPlaying) {
+                stopAutoPlay();
+            }
+        });
+
+        carouselContainer.addEventListener('mouseleave', () => {
+            if (isAutoPlaying) {
+                startAutoPlay();
+            }
+        });
+
+        // Close modal when clicking outside the image
+        document.getElementById('imageModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // Hamburger menu event listeners
+        document.addEventListener('click', function(e) {
+            const overlay = document.getElementById('hamburgerOverlay');
+            const hamburger = document.querySelector('.hamburger-menu');
+            
+            if (overlay && overlay.classList.contains('active') && 
+                !overlay.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                window.toggleHamburgerMenu();
+            }
+        });
+
+        // Close hamburger menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('hamburgerOverlay');
+                if (overlay && overlay.classList.contains('active')) {
+                    window.toggleHamburgerMenu();
+                }
+            }
+        });
+
+        // Initialize carousel when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initCarousel);
     </script>
 </body>
 </html> 
