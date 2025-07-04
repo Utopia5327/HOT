@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symbiotic Architecture - Art Project | Manas Bhatia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: rgba(240, 240, 240, 0.8);
+            --bg-tertiary-hover: rgba(240, 240, 240, 1);
+            --text-primary: #111;
+            --text-secondary: #444;
+            --text-tertiary: #3e3e3e;
+            --border-color: rgba(200, 200, 200, 0.18);
+            --shadow-color: rgba(0, 0, 0, 0.04);
+            --shadow-hover: rgba(0, 0, 0, 0.08);
+            --dropdown-bg: rgba(240, 240, 240, 0.95);
+            --dropdown-hover: rgba(220, 220, 220, 1);
+            --canvas-bg: rgb(255, 255, 255);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: rgba(60, 60, 60, 0.8);
+            --bg-tertiary-hover: rgba(60, 60, 60, 1);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-tertiary: #e0e0e0;
+            --border-color: rgba(80, 80, 80, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --shadow-hover: rgba(0, 0, 0, 0.3);
+            --dropdown-bg: rgba(60, 60, 60, 0.95);
+            --dropdown-hover: rgba(80, 80, 80, 1);
+            --canvas-bg: rgb(26, 26, 26);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            cursor: url('../cursor.svg') 16 16, auto;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .framer-hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .framer-hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            z-index: 3;
+        }
+
+        .carousel-nav:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .carousel-prev {
+            left: 20px;
+        }
+
+        .carousel-next {
+            right: 20px;
+        }
+
+
+
+        .framer-hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .framer-hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.7), 0 2px 4px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 4;
+        }
+
+        .framer-hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 4;
+        }
+
+        .framer-hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .framer-hero-meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .framer-hero-meta-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .framer-hero-meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .framer-hero-btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .framer-hero-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .framer-content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .framer-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .framer-text-container {
+            padding: 2rem;
+        }
+
+        .framer-text-container h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .framer-text-container p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .framer-image-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .framer-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .project-link-container {
+            margin-top: 2rem;
+        }
+
+        .project-link {
+            display: inline-block;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .project-link:hover {
+            background: var(--bg-tertiary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--shadow-hover);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .framer-hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .framer-hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .framer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .framer-hero-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .featured-section {
+            margin-bottom: 4rem;
+        }
+
+        .featured-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .featured-scroll-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .featured-scroll {
+            display: flex;
+            gap: 2rem;
+            animation: scroll-left 30s linear infinite;
+            width: max-content;
+        }
+
+        .featured-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .featured-item {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .featured-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .featured-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .featured-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .featured-item:hover .featured-overlay {
+            transform: translateY(0);
+        }
+
+        .featured-overlay h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-overlay p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .featured-overlay a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .featured-overlay a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .highlights-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .highlight-item i {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            width: 20px;
+        }
+
+        .highlight-item span {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .image-grid-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .image-grid-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .featured-title {
+                font-size: 2rem;
+            }
+            
+            .featured-item {
+                width: 250px;
+                height: 160px;
+            }
+            
+            .featured-overlay {
+                padding: 1rem;
+            }
+            
+            .featured-overlay h3 {
+                font-size: 1rem;
+            }
+            
+            .featured-overlay p {
+                font-size: 0.8rem;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 2rem;
+        }
+
+        .modal-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 16px 64px rgba(0,0,0,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .modal-nav:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        .image-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .modal-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .close-modal {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-header"></div>
+    
+    <div class="framer-hero-section">
+        <div class="framer-hero-background">
+            <div class="carousel-container">
+                <div class="carousel-slide active">
+                    <img src="../img/symbiotic.jpg" alt="Symbiotic Architecture Project Main Image">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../img/symbioticthumb.jpg" alt="Symbiotic Architecture Concept 1">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../img/symbiotic.jpg" alt="Symbiotic Architecture Concept 2">
+                </div>
+            </div>
+            <button class="carousel-nav carousel-prev" onclick="changeCarouselSlide(-1)">&#10094;</button>
+            <button class="carousel-nav carousel-next" onclick="changeCarouselSlide(1)">&#10095;</button>
+            <div class="carousel-indicators">
+                <div class="carousel-indicator active" onclick="goToSlide(0)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(1)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(2)"></div>
+            </div>
+        </div>
+        <div class="framer-hero-content">
+            <h1 class="framer-hero-title">Symbiotic Architecture</h1>
+            <p class="framer-hero-subtitle">Exploring the harmonious relationship between built environments and natural ecosystems</p>
+            <div class="framer-hero-meta">
+                <div class="framer-hero-meta-item">
+                    <span class="framer-hero-meta-label">Year</span>
+                    <span class="framer-hero-meta-value">2022</span>
+                </div>
+                <div class="framer-hero-meta-item">
+                    <span class="framer-hero-meta-label">Category</span>
+                    <span class="framer-hero-meta-value">Design Fiction, Surrealism, Speculative Architecture</span>
+                </div>
+                <div class="framer-hero-meta-item">
+                    <span class="framer-hero-meta-label">Tools</span>
+                    <span class="framer-hero-meta-value">Midjourney</span>
+                </div>
+            </div>
+            <a class="framer-hero-btn" href="#" target="_blank" rel="noopener">View Project</a>
+        </div>
+    </div>
+
+    <div class="framer-content-section">
+        <div class="featured-section">
+            <h2 class="featured-title">Featured In</h2>
+            <div class="featured-scroll-container">
+                <div class="featured-scroll">
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.cnn.com/style/article/ai-architecture-manas-bhatia&screenshot=true&meta=false&embed=screenshot.url" alt="CNN Style" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>CNN Style</h3>
+                            <p>AI architecture: The future of sustainable cities</p>
+                            <a href="https://www.cnn.com/style/article/ai-architecture-manas-bhatia" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn&screenshot=true&meta=false&embed=screenshot.url" alt="CNN Video" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>CNN Video</h3>
+                            <p>AI-generated nature-inspired architectural designs</p>
+                            <a href="https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn" target="_blank" rel="noopener">Watch Video</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://good.rp3agency.com/manas-bhatia-interview&screenshot=true&meta=false&embed=screenshot.url" alt="Good RP3 Agency" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Good RP3 Agency</h3>
+                            <p>Interview with Manas Bhatia on AI architecture</p>
+                            <a href="https://good.rp3agency.com/manas-bhatia-interview" target="_blank" rel="noopener">Read Interview</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia&screenshot=true&meta=false&embed=screenshot.url" alt="Amazing Architecture" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Amazing Architecture</h3>
+                            <p>Symbiotic architecture by Manas Bhatia</p>
+                            <a href="https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/&screenshot=true&meta=false&embed=screenshot.url" alt="Designboom" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Designboom</h3>
+                            <p>AI-generated surreal symbiotic architecture</p>
+                            <a href="https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://parametric-architecture.com/ai-x-symbiotic-architecture-a-residential-self-growing-tower-conceptual-design-by-manas-bhatia/?srsltid=AfmBOopS6r_nAFfLlTOW70JNVIqFMFDTD9yrUm6Trjt2GCqZZdCQ_9Jl&screenshot=true&meta=false&embed=screenshot.url" alt="Parametric Architecture" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Parametric Architecture</h3>
+                            <p>AI x Symbiotic Architecture: Self-growing tower design</p>
+                            <a href="https://parametric-architecture.com/ai-x-symbiotic-architecture-a-residential-self-growing-tower-conceptual-design-by-manas-bhatia/?srsltid=AfmBOopS6r_nAFfLlTOW70JNVIqFMFDTD9yrUm6Trjt2GCqZZdCQ_9Jl" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://mymodernmet.com/manas-bhatia-ai-concept-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="My Modern Met" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>My Modern Met</h3>
+                            <p>AI concept architecture by Manas Bhatia</p>
+                            <a href="https://mymodernmet.com/manas-bhatia-ai-concept-architecture/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://thursd.com/articles/mania-bhatia-imagines-a-surreal-architectural-future-in-his-newest-project&screenshot=true&meta=false&embed=screenshot.url" alt="Thursd" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Thursd</h3>
+                            <p>Surreal architectural future in newest project</p>
+                            <a href="https://thursd.com/articles/mania-bhatia-imagines-a-surreal-architectural-future-in-his-newest-project" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.arch2o.com/surreal-symbiotic-architecture-created-by-artificial-intelligence-in-manas-bhatia/&screenshot=true&meta=false&embed=screenshot.url" alt="Arch2O" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Arch2O</h3>
+                            <p>Surreal symbiotic architecture created by AI</p>
+                            <a href="https://www.arch2o.com/surreal-symbiotic-architecture-created-by-artificial-intelligence-in-manas-bhatia/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.re-thinkingthefuture.com/residential/7561-ai-x-symbiotic-architecture-by-manas-bhatia/&screenshot=true&meta=false&embed=screenshot.url" alt="Rethinking The Future" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Rethinking The Future</h3>
+                            <p>AI x Symbiotic Architecture by Manas Bhatia</p>
+                            <a href="https://www.re-thinkingthefuture.com/residential/7561-ai-x-symbiotic-architecture-by-manas-bhatia/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://archello.com/project/ai-generated-symbiotic-architecture&screenshot=true&meta=false&embed=screenshot.url" alt="Archello" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Archello</h3>
+                            <p>AI-generated symbiotic architecture project</p>
+                            <a href="https://archello.com/project/ai-generated-symbiotic-architecture" target="_blank" rel="noopener">View Project</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://coolhunting.com/tech/computation-designer-manas-bhatias-ai-generated-living-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="Cool Hunting" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Cool Hunting</h3>
+                            <p>AI-generated living architecture by Manas Bhatia</p>
+                            <a href="https://coolhunting.com/tech/computation-designer-manas-bhatias-ai-generated-living-architecture/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.wallprotex.com/architecture-newsletter/manas-bhatia-s-ai-generated-surreal-symbiotic-architecture-breathes&screenshot=true&meta=false&embed=screenshot.url" alt="Wallprotex" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Wallprotex</h3>
+                            <p>AI-generated surreal symbiotic architecture breathes</p>
+                            <a href="https://www.wallprotex.com/architecture-newsletter/manas-bhatia-s-ai-generated-surreal-symbiotic-architecture-breathes" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://ottmarliebert.com/2022/09/05/symbiotic-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="Ottmar Liebert" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Ottmar Liebert</h3>
+                            <p>Symbiotic architecture exploration</p>
+                            <a href="https://ottmarliebert.com/2022/09/05/symbiotic-architecture/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://mossandfog.com/manas-bhatias-symbiotic-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="Moss and Fog" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Moss and Fog</h3>
+                            <p>Manas Bhatia's symbiotic architecture</p>
+                            <a href="https://mossandfog.com/manas-bhatias-symbiotic-architecture/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.demilked.com/ai-images-symbiotic-structures-manas-bhatia/&screenshot=true&meta=false&embed=screenshot.url" alt="DeMilked" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>DeMilked</h3>
+                            <p>AI images of symbiotic structures by Manas Bhatia</p>
+                            <a href="https://www.demilked.com/ai-images-symbiotic-structures-manas-bhatia/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.yahoo.com/news/symbiotic-architecture-artificial-intelligence-envisions-225808659.html?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAFHCMjQM89aeYCgJZ4osmkSlrQAUCUEI-PmaULv3Kgfju9NnlnQawqlOH-E1Ff34MDXO8iJR-jKNbYn_H_3JXrLy6JbhQcggfog-3YDIdiF1oh9OsToD7EKb1njnjsRad_aCLoxYgSO4-7fHc5n4Ok5VSXXeL6Vfd9Z9UL2tiRIb&screenshot=true&meta=false&embed=screenshot.url" alt="Yahoo News" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Yahoo News</h3>
+                            <p>Symbiotic architecture: AI envisions living buildings</p>
+                            <a href="https://www.yahoo.com/news/symbiotic-architecture-artificial-intelligence-envisions-225808659.html?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAFHCMjQM89aeYCgJZ4osmkSlrQAUCUEI-PmaULv3Kgfju9NnlnQawqlOH-E1Ff34MDXO8iJR-jKNbYn_H_3JXrLy6JbhQcggfog-3YDIdiF1oh9OsToD7EKb1njnjsRad_aCLoxYgSO4-7fHc5n4Ok5VSXXeL6Vfd9Z9UL2tiRIb" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://themindcircle.com/symbiotic-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="The Mind Circle" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>The Mind Circle</h3>
+                            <p>Symbiotic architecture: Nature meets technology</p>
+                            <a href="https://themindcircle.com/symbiotic-architecture/" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://www.designindaba.com/articles/creative-work/living-space&screenshot=true&meta=false&embed=screenshot.url" alt="Design Indaba" onerror="this.src='../img/symbiotic.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Design Indaba</h3>
+                            <p>Living space: The future of architectural design</p>
+                            <a href="https://www.designindaba.com/articles/creative-work/living-space" target="_blank" rel="noopener">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="featured-item">
+                        <img src="https://api.microlink.io?url=https://architectureurbanism.com/Projects/view_project/R1FHblJtRHMzVGc3d3ZtRVlJdEsrdz09&screenshot=true&meta=false&embed=screenshot.url" alt="Architecture Urbanism" onerror="this.src='../img/symbioticthumb.jpg'">
+                        <div class="featured-overlay">
+                            <h3>Architecture Urbanism</h3>
+                            <p>Symbiotic architecture project showcase</p>
+                            <a href="https://architectureurbanism.com/Projects/view_project/R1FHblJtRHMzVGc3d3ZtRVlJdEsrdz09" target="_blank" rel="noopener">View Project</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="framer-container">
+            <div class="framer-text-container">
+                <h2>Design Philosophy</h2>
+                <p>Symbiotic Architecture envisions a future where buildings are living systems — structures that grow, breathe, and evolve alongside nature. Inspired by the intricate habitats of insects and micro-creatures, the project imagines architecture as an extension of natural ecosystems, where apartment towers resemble hollowed trees with inward-facing homes, light-filled atriums, and living facades.</p>
+                <p>Using AI tools like Midjourney, the series explores what it means for architecture to behave like a living organism. Can structures grow? Can the spaces we inhabit adapt and age like forests? Through iterative, AI-driven image-making, the project blurs the boundary between built form and natural life, proposing a romantic future where architecture is symbiotic, not imposed.</p>
+            </div>
+            <div class="framer-image-container">
+                <img src="../img/symbiotic.jpg" alt="Design Philosophy in Practice" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+
+        <div class="framer-container">
+            <div class="framer-image-container">
+                <img src="../img/symbioticthumb.jpg" alt="Project Recognition" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="framer-text-container">
+                <h2>Highlights & Recognition</h2>
+                <div class="highlights-list">
+                    
+                    <div class="highlight-item">
+                        <i class="fas fa-globe"></i>
+                        <span>Featured on cover : Fundamentals of Sustainable Development 4th edition by Niko Roorda</span>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-book"></i>
+                        <span>Licensed for use across collections, brands, and media — from fine art prints to web and editorial campaigns</span>
+                    </div>
+                
+                    <div class="highlight-item">
+                        <i class="fas fa-users"></i>
+                        <span>Presented at 3 international art exhibitions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Grid Section -->
+    <div class="image-grid-section">
+        <h2 class="image-grid-title">Project Gallery</h2>
+        <div class="image-grid">
+            <div class="grid-item" onclick="openModal(0)">
+                <img src="../img/symbiotic/wide 1.jpg" alt="Symbiotic Architecture 1">
+            </div>
+            <div class="grid-item" onclick="openModal(1)">
+                <img src="../img/symbiotic/wide 2.jpg" alt="Symbiotic Architecture 2">
+            </div>
+            <div class="grid-item" onclick="openModal(2)">
+                <img src="../img/symbiotic/wide 3.jpg" alt="Symbiotic Architecture 3">
+            </div>
+            <div class="grid-item" onclick="openModal(3)">
+                <img src="../img/symbiotic/m.jpg" alt="Symbiotic Architecture 4">
+            </div>
+            <div class="grid-item" onclick="openModal(4)">
+                <img src="../img/symbiotic/yfe45GCA_4x.jpg" alt="Symbiotic Architecture 5">
+            </div>
+            <div class="grid-item" onclick="openModal(5)">
+                <img src="../img/symbiotic/k.jpg" alt="Symbiotic Architecture 6">
+            </div>
+            <div class="grid-item" onclick="openModal(6)">
+                <img src="../img/symbiotic/YWngJAVS_4x.jpg" alt="Symbiotic Architecture 7">
+            </div>
+            <div class="grid-item" onclick="openModal(7)">
+                <img src="../img/symbiotic/JIOB4Tbc_4x.jpg" alt="Symbiotic Architecture 8">
+            </div>
+            <div class="grid-item" onclick="openModal(8)">
+                <img src="../img/symbiotic/GcIpi3vV_4x.jpg" alt="Symbiotic Architecture 9">
+            </div>
+            <div class="grid-item" onclick="openModal(9)">
+                <img src="../img/symbiotic/d4XZ32F8_4x.jpg" alt="Symbiotic Architecture 10">
+            </div>
+            <div class="grid-item" onclick="openModal(10)">
+                <img src="../img/symbiotic/BWcj2emO_4x.jpg" alt="Symbiotic Architecture 11">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <button class="modal-nav modal-prev" onclick="changeImage(-1)">&#10094;</button>
+            <img id="modalImage" class="modal-image" src="" alt="">
+            <button class="modal-nav modal-next" onclick="changeImage(1)">&#10095;</button>
+            <div class="image-counter" id="imageCounter"></div>
+        </div>
+    </div>
+
+    <div id="site-footer"></div>
+    <script src="../js/theme.js"></script>
+    <script>
+    function includeHTML(id, url) {
+      fetch(url)
+        .then(res => res.text())
+        .then(html => { 
+          document.getElementById(id).innerHTML = html; 
+          
+          // Execute scripts after HTML is loaded
+          const scripts = document.getElementById(id).getElementsByTagName('script');
+          for (let script of scripts) {
+            if (script.src) {
+              // For external scripts, create a new script element
+              const newScript = document.createElement('script');
+              newScript.src = script.src;
+              document.head.appendChild(newScript);
+            } else {
+              // For inline scripts, execute them
+              eval(script.innerHTML);
+            }
+          }
+          
+          // Re-initialize theme after header is loaded to ensure toggle button works
+          if (id === 'site-header') {
+            if (typeof initializeTheme === 'function') {
+              initializeTheme();
+            }
+            // Attach overlay click-to-close handler for hamburger menu
+            var overlay = document.getElementById('hamburgerOverlay');
+            if (overlay) {
+              overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                  window.toggleHamburgerMenu();
+                }
+              });
+            }
+          }
+        });
+    }
+    includeHTML('site-header', '../header.html');
+    includeHTML('site-footer', '../footer.html');
+    </script>
+
+    <!-- Modal JavaScript -->
+    <script>
+        // Array of image sources for the modal
+        const imageSources = [
+            '../img/symbiotic/wide 1.jpg',
+            '../img/symbiotic/wide 2.jpg',
+            '../img/symbiotic/wide 3.jpg',
+            '../img/symbiotic/m.jpg',
+            '../img/symbiotic/yfe45GCA_4x.jpg',
+            '../img/symbiotic/k.jpg',
+            '../img/symbiotic/YWngJAVS_4x.jpg',
+            '../img/symbiotic/JIOB4Tbc_4x.jpg',
+            '../img/symbiotic/GcIpi3vV_4x.jpg',
+            '../img/symbiotic/d4XZ32F8_4x.jpg',
+            '../img/symbiotic/BWcj2emO_4x.jpg'
+        ];
+
+        let currentImageIndex = 0;
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const imageCounter = document.getElementById('imageCounter');
+
+        function openModal(index) {
+            currentImageIndex = index;
+            modalImage.src = imageSources[index];
+            modalImage.alt = `Symbiotic Architecture ${index + 1}`;
+            imageCounter.textContent = `${index + 1} / ${imageSources.length}`;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex >= imageSources.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = imageSources.length - 1;
+            }
+            
+            modalImage.src = imageSources[currentImageIndex];
+            modalImage.alt = `Symbiotic Architecture ${currentImageIndex + 1}`;
+            imageCounter.textContent = `${currentImageIndex + 1} / ${imageSources.length}`;
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (modal.style.display === 'block') {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
+        });
+    </script>
+
+    <!-- Carousel JavaScript -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const totalSlides = slides.length;
+        let carouselInterval;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+
+        function changeCarouselSlide(direction) {
+            let newSlide = currentSlide + direction;
+            
+            if (newSlide >= totalSlides) {
+                newSlide = 0;
+            } else if (newSlide < 0) {
+                newSlide = totalSlides - 1;
+            }
+            
+            showSlide(newSlide);
+            resetCarouselTimer();
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetCarouselTimer();
+        }
+
+        function resetCarouselTimer() {
+            clearInterval(carouselInterval);
+            startCarousel();
+        }
+
+        function startCarousel() {
+            carouselInterval = setInterval(() => {
+                changeCarouselSlide(1);
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            startCarousel();
+        });
+
+        const carouselContainer = document.querySelector('.carousel-container');
+        if (carouselContainer) {
+            carouselContainer.addEventListener('mouseenter', () => {
+                clearInterval(carouselInterval);
+            });
+            
+            carouselContainer.addEventListener('mouseleave', () => {
+                startCarousel();
+            });
+        }
+    </script>
+</body>
+</html> 

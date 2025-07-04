@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google UnFold: New Worlds of Fashion - Art Project | Manas Bhatia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: rgba(240, 240, 240, 0.8);
+            --bg-tertiary-hover: rgba(240, 240, 240, 1);
+            --text-primary: #111;
+            --text-secondary: #444;
+            --text-tertiary: #3e3e3e;
+            --border-color: rgba(200, 200, 200, 0.18);
+            --shadow-color: rgba(0, 0, 0, 0.04);
+            --shadow-hover: rgba(0, 0, 0, 0.08);
+            --dropdown-bg: rgba(240, 240, 240, 0.95);
+            --dropdown-hover: rgba(220, 220, 220, 1);
+            --canvas-bg: rgb(255, 255, 255);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: rgba(60, 60, 60, 0.8);
+            --bg-tertiary-hover: rgba(60, 60, 60, 1);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-tertiary: #e0e0e0;
+            --border-color: rgba(80, 80, 80, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --shadow-hover: rgba(0, 0, 0, 0.3);
+            --dropdown-bg: rgba(60, 60, 60, 0.95);
+            --dropdown-hover: rgba(80, 80, 80, 1);
+            --canvas-bg: rgb(26, 26, 26);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            cursor: url('../cursor.svg') 16 16, auto;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .framer-hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .framer-hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .framer-hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            z-index: 3;
+        }
+
+        .carousel-nav:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .carousel-prev {
+            left: 20px;
+        }
+
+        .carousel-next {
+            right: 20px;
+        }
+
+        /* Content Carousel Styles */
+        .content-carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .content-carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .content-carousel-slide.active {
+            opacity: 1;
+        }
+
+        .content-carousel-slide img {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .framer-hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .framer-hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.7), 0 2px 4px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 4;
+        }
+
+        .framer-hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 4;
+        }
+
+        .framer-hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .framer-hero-meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .framer-hero-meta-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .framer-hero-meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .framer-hero-btn {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .framer-hero-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .framer-content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .framer-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .framer-text-container {
+            padding: 2rem;
+        }
+
+        .framer-text-container h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .framer-text-container p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .framer-image-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .framer-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .project-link-container {
+            margin-top: 2rem;
+        }
+
+        .project-link {
+            display: inline-block;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .project-link:hover {
+            background: var(--bg-tertiary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--shadow-hover);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .framer-hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .framer-hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .framer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .framer-hero-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Image Grid Styles */
+        .image-grid-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .image-grid-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 2rem;
+        }
+
+        .modal-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 16px 64px rgba(0,0,0,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .modal-nav:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
+        }
+
+        .image-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .modal-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .close-modal {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="site-header"></div>
+    
+    <div class="framer-hero-section">
+        <div class="framer-hero-background">
+            <div class="carousel-container">
+                <div class="carousel-slide active">
+                    <img src="../img/unfoldthumb1.jpg" alt="Google UnFold: New Worlds of Fashion Project Main Image">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../img/unfoldthumb2.jpg" alt="Fashion Design Concept 1">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../img/2023_10_19 Unfold hr-100.jpg" alt="Fashion Design Concept 2">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../img/unfoldthumb4.jpg" alt="Fashion Design Concept 3">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../img/unfoldthumb5.jpg" alt="Fashion Design Concept 4">
+                </div>
+                <div class="carousel-slide">
+                    <img src="../img/unfoldthumb6.jpg" alt="Fashion Design Concept 5">
+                </div>
+            </div>
+            <button class="carousel-nav carousel-prev" onclick="changeCarouselSlide(-1)">&#10094;</button>
+            <button class="carousel-nav carousel-next" onclick="changeCarouselSlide(1)">&#10095;</button>
+            <div class="carousel-indicators">
+                <div class="carousel-indicator active" onclick="goToSlide(0)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(1)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(2)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(3)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(4)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(5)"></div>
+            </div>
+        </div>
+        <div class="framer-hero-content">
+            <h1 class="framer-hero-title">Google UnFold: New Worlds of Fashion</h1>
+            <p class="framer-hero-subtitle">Generative AI meets fashion design in an exploration of sustainable and innovative clothing concepts</p>
+            <div class="framer-hero-meta">
+                <div class="framer-hero-meta-item">
+                    <span class="framer-hero-meta-label">Year</span>
+                    <span class="framer-hero-meta-value">2024</span>
+                </div>
+                <div class="framer-hero-meta-item">
+                    <span class="framer-hero-meta-label">Category</span>
+                    <span class="framer-hero-meta-value">Generative AI art, Design Fiction</span>
+                </div>
+                <div class="framer-hero-meta-item">
+                    <span class="framer-hero-meta-label">Tools</span>
+                    <span class="framer-hero-meta-value">Google Vertex AI, Midjourney, Photoshop</span>
+                </div>
+            </div>
+            <a class="framer-hero-btn" href="#" target="_blank" rel="noopener">View Project</a>
+        </div>
+    </div>
+
+    <div class="framer-content-section">
+        <div class="framer-container">
+            <div class="framer-text-container">
+                <h2>Project Overview</h2>
+                <p>Google UnFold: New Worlds of Fashion is a speculative design project that explores the intersection of generative AI and sustainable fashion. This project envisions a future where artificial intelligence collaborates with human designers to create innovative, environmentally conscious clothing that pushes the boundaries of traditional fashion design.</p>
+                <p>Through the use of advanced AI tools like Midjourney, we generated conceptual fashion pieces that challenge conventional notions of materiality, form, and sustainability. The project serves as both a creative exploration and a commentary on the potential role of AI in shaping the future of fashion design.</p>
+            </div>
+            <div class="framer-image-container">
+                <div class="content-carousel-container">
+                    <div class="content-carousel-slide active">
+                        <img src="../img/2023_10_19 Unfold lr-122.jpg" alt="Google UnFold Project Overview 1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="content-carousel-slide">
+                        <img src="../img/2023_10_19 Unfold lr-5.jpg" alt="Google UnFold Project Overview 2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="content-carousel-slide">
+                        <img src="../img/2023_10_19 Unfold hr-100.jpg" alt="Google UnFold Project Overview 3" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="content-carousel-slide">
+                        <img src="../img/2023_10_19 Google Unfold-32.jpg" alt="Google UnFold Project Overview 4" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="content-carousel-slide">
+                        <img src="../img/2023_10_19 Google Unfold-10.jpg" alt="Google UnFold Project Overview 5" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="content-carousel-slide">
+                        <img src="../img/2023_10_19 Google Unfold-3.jpg" alt="Google UnFold Project Overview 6" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="framer-container">
+            <div class="framer-image-container">
+                <img src="../img/aiprocessgoogle.gif" alt="Generative AI Fashion Concepts" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="framer-text-container">
+                <h2>Generative AI Process</h2>
+                <p>The project utilized Midjourney's advanced image generation capabilities to create unique fashion concepts. By carefully crafting prompts that emphasized sustainability, innovation, and artistic expression, we were able to generate a diverse range of fashion pieces that blend organic forms with futuristic aesthetics.</p>
+                <p>Each generated image was then refined and developed further using Photoshop and Figma, allowing us to create cohesive design narratives and explore different variations of the initial AI-generated concepts.</p>
+            </div>
+        </div>
+
+        <div class="framer-container">
+            <div class="framer-text-container">
+                <h2>Immersive Experience</h2>
+                <p>At the core of this project is the belief that AI can serve as a powerful tool for expanding human creativity rather than replacing it. The generated designs reflect a harmonious blend of human artistic vision and AI's ability to explore vast design spaces quickly and efficiently.</p>
+                <p>We focused on creating pieces that not only look innovative but also consider environmental impact, material sustainability, and the future of fashion consumption. The project challenges viewers to imagine a world where technology and creativity work together to create more sustainable and beautiful fashion.</p>
+            </div>
+            <div class="framer-image-container">
+                <img src="../img/wildframeunfold.gif" alt="Sustainable Fashion Concepts" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Grid Section -->
+    <div class="image-grid-section">
+        <h2 class="image-grid-title">Project Gallery</h2>
+        <div class="image-grid">
+            <div class="grid-item" onclick="openModal(0)">
+                <img src="../img/unfoldgallery/cover.jpg" alt="Fashion Design 1">
+            </div>
+            <div class="grid-item" onclick="openModal(1)">
+                <img src="../img/unfoldgallery/t78qBzOU_4x.jpg" alt="Fashion Design 2">
+            </div>
+            <div class="grid-item" onclick="openModal(2)">
+                <img src="../img/unfoldgallery/Q7OILa5N_4x.jpg" alt="Fashion Design 3">
+            </div>
+            <div class="grid-item" onclick="openModal(3)">
+                <img src="../img/unfoldgallery/DRlagKIc_4x.jpg" alt="Fashion Design 4">
+            </div>
+            <div class="grid-item" onclick="openModal(4)">
+                <img src="../img/unfoldgallery/2OV8f3xN_4x.jpg" alt="Fashion Design 5">
+            </div>
+            <div class="grid-item" onclick="openModal(5)">
+                <img src="../img/unfoldgallery/otbaU6yG_4x.jpg" alt="Fashion Design 6">
+            </div>
+            <div class="grid-item" onclick="openModal(6)">
+                <img src="../img/unfoldgallery/xZek3Xcv_4x.jpg" alt="Fashion Design 7">
+            </div>
+            <div class="grid-item" onclick="openModal(7)">
+                <img src="../img/unfoldgallery/29N0TFsf_4x.jpg" alt="Fashion Design 8">
+            </div>
+            <div class="grid-item" onclick="openModal(8)">
+                <img src="../img/unfoldgallery/EtwBh8HJ_4x.jpg" alt="Fashion Design 9">
+            </div>
+            <div class="grid-item" onclick="openModal(9)">
+                <img src="../img/unfoldgallery/cUQ1kZ2B_4x.jpg" alt="Fashion Design 10">
+            </div>
+            <div class="grid-item" onclick="openModal(10)">
+                <img src="../img/unfoldgallery/HR65AChM_4x.jpg" alt="Fashion Design 11">
+            </div>
+            <div class="grid-item" onclick="openModal(11)">
+                <img src="../img/unfoldgallery/ZBIPM0YA_4x.jpg" alt="Fashion Design 12">
+            </div>
+            <div class="grid-item" onclick="openModal(12)">
+                <img src="../img/unfoldgallery/dmnOTozf_4x.jpg" alt="Fashion Design 13">
+            </div>
+            <div class="grid-item" onclick="openModal(13)">
+                <img src="../img/unfoldgallery/npqwVcX3_4x.jpg" alt="Fashion Design 14">
+            </div>
+            <div class="grid-item" onclick="openModal(14)">
+                <img src="../img/unfoldgallery/v5tkU39i_4x.jpg" alt="Fashion Design 15">
+            </div>
+            <div class="grid-item" onclick="openModal(15)">
+                <img src="../img/unfoldgallery/XqPvwGoa_4x.jpg" alt="Fashion Design 16">
+            </div>
+            <div class="grid-item" onclick="openModal(16)">
+                <img src="../img/unfoldgallery/BY6pHd4c_4x.jpg" alt="Fashion Design 17">
+            </div>
+            <div class="grid-item" onclick="openModal(17)">
+                <img src="../img/unfoldgallery/7LnUAP0b_4x.jpg" alt="Fashion Design 18">
+            </div>
+            <div class="grid-item" onclick="openModal(18)">
+                <img src="../img/unfoldgallery/mnNrjyFZ_4x.jpg" alt="Fashion Design 19">
+            </div>
+            <div class="grid-item" onclick="openModal(19)">
+                <img src="../img/unfoldgallery/liM5P2gr_4x2 copy.jpg" alt="Fashion Design 20">
+            </div>
+            <div class="grid-item" onclick="openModal(20)">
+                <img src="../img/unfoldgallery/GsQtR5OV_4x2.jpg" alt="Fashion Design 21">
+            </div>
+            <div class="grid-item" onclick="openModal(21)">
+                <img src="../img/unfoldgallery/8NnGDEd7_4x copy.jpg" alt="Fashion Design 22">
+            </div>
+            <div class="grid-item" onclick="openModal(22)">
+                <img src="../img/unfoldgallery/1esFZnv7_4x copy.jpg" alt="Fashion Design 23">
+            </div>
+            <div class="grid-item" onclick="openModal(23)">
+                <img src="../img/unfoldgallery/mMlpZ6uT_4x.jpg" alt="Fashion Design 24">
+            </div>
+            <div class="grid-item" onclick="openModal(24)">
+                <img src="../img/unfoldgallery/bkiXFGV9_4x.jpg" alt="Fashion Design 25">
+            </div>
+            <div class="grid-item" onclick="openModal(25)">
+                <img src="../img/unfoldgallery/Nk91b5Ws_4x.jpg" alt="Fashion Design 26">
+            </div>
+            <div class="grid-item" onclick="openModal(26)">
+                <img src="../img/unfoldgallery/Jp9tIk7E_4x.jpg" alt="Fashion Design 27">
+            </div>
+            <div class="grid-item" onclick="openModal(27)">
+                <img src="../img/unfoldgallery/0OnetjB3_4x.jpg" alt="Fashion Design 28">
+            </div>
+            <div class="grid-item" onclick="openModal(28)">
+                <img src="../img/unfoldgallery/1YSNQxbG_4x.jpg" alt="Fashion Design 29">
+            </div>
+            <div class="grid-item" onclick="openModal(29)">
+                <img src="../img/unfoldgallery/0gQhVm1e_4x.jpg" alt="Fashion Design 30">
+            </div>
+            <div class="grid-item" onclick="openModal(30)">
+                <img src="../img/unfoldgallery/ODFt8orc_4x.jpg" alt="Fashion Design 31">
+            </div>
+            <div class="grid-item" onclick="openModal(31)">
+                <img src="../img/unfoldgallery/aWtTHn4v_4x.jpg" alt="Fashion Design 32">
+            </div>
+            <div class="grid-item" onclick="openModal(32)">
+                <img src="../img/unfoldgallery/GmHJMs3A_4x.jpg" alt="Fashion Design 33">
+            </div>
+            <div class="grid-item" onclick="openModal(33)">
+                <img src="../img/unfoldgallery/fVO3PlDH_4x.jpg" alt="Fashion Design 34">
+            </div>
+            <div class="grid-item" onclick="openModal(34)">
+                <img src="../img/unfoldgallery/1GDm7yhL_4x.jpg" alt="Fashion Design 35">
+            </div>
+            <div class="grid-item" onclick="openModal(35)">
+                <img src="../img/unfoldgallery/XON1hEux_4x.jpg" alt="Fashion Design 36">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <button class="modal-nav modal-prev" onclick="changeImage(-1)">&#10094;</button>
+            <img id="modalImage" class="modal-image" src="" alt="">
+            <button class="modal-nav modal-next" onclick="changeImage(1)">&#10095;</button>
+            <div class="image-counter" id="imageCounter"></div>
+        </div>
+    </div>
+
+    <div id="site-footer"></div>
+    
+    <script src="../js/theme.js"></script>
+    <script>
+    function includeHTML(id, url) {
+      fetch(url)
+        .then(res => res.text())
+        .then(html => { 
+          document.getElementById(id).innerHTML = html; 
+          
+          // Execute scripts after HTML is loaded
+          const scripts = document.getElementById(id).getElementsByTagName('script');
+          for (let script of scripts) {
+            if (script.src) {
+              // For external scripts, create a new script element
+              const newScript = document.createElement('script');
+              newScript.src = script.src;
+              document.head.appendChild(newScript);
+            } else {
+              // For inline scripts, execute them
+              eval(script.innerHTML);
+            }
+          }
+          
+          // Re-initialize theme after header is loaded to ensure toggle button works
+          if (id === 'site-header') {
+            if (typeof initializeTheme === 'function') {
+              initializeTheme();
+            }
+            // Attach overlay click-to-close handler for hamburger menu
+            var overlay = document.getElementById('hamburgerOverlay');
+            if (overlay) {
+              overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                  window.toggleHamburgerMenu();
+                }
+              });
+            }
+          }
+        });
+    }
+    includeHTML('site-header', '../header.html');
+    includeHTML('site-footer', '../footer.html');
+    </script>
+
+    <!-- Modal JavaScript -->
+    <script>
+        // Array of image sources for the modal
+        const imageSources = [
+            '../img/unfoldgallery/cover.jpg',
+            '../img/unfoldgallery/t78qBzOU_4x.jpg',
+            '../img/unfoldgallery/Q7OILa5N_4x.jpg',
+            '../img/unfoldgallery/DRlagKIc_4x.jpg',
+            '../img/unfoldgallery/2OV8f3xN_4x.jpg',
+            '../img/unfoldgallery/otbaU6yG_4x.jpg',
+            '../img/unfoldgallery/xZek3Xcv_4x.jpg',
+            '../img/unfoldgallery/29N0TFsf_4x.jpg',
+            '../img/unfoldgallery/EtwBh8HJ_4x.jpg',
+            '../img/unfoldgallery/cUQ1kZ2B_4x.jpg',
+            '../img/unfoldgallery/HR65AChM_4x.jpg',
+            '../img/unfoldgallery/ZBIPM0YA_4x.jpg',
+            '../img/unfoldgallery/dmnOTozf_4x.jpg',
+            '../img/unfoldgallery/npqwVcX3_4x.jpg',
+            '../img/unfoldgallery/v5tkU39i_4x.jpg',
+            '../img/unfoldgallery/XqPvwGoa_4x.jpg',
+            '../img/unfoldgallery/BY6pHd4c_4x.jpg',
+            '../img/unfoldgallery/7LnUAP0b_4x.jpg',
+            '../img/unfoldgallery/mnNrjyFZ_4x.jpg',
+            '../img/unfoldgallery/liM5P2gr_4x2 copy.jpg',
+            '../img/unfoldgallery/GsQtR5OV_4x2.jpg',
+            '../img/unfoldgallery/8NnGDEd7_4x copy.jpg',
+            '../img/unfoldgallery/1esFZnv7_4x copy.jpg',
+            '../img/unfoldgallery/mMlpZ6uT_4x.jpg',
+            '../img/unfoldgallery/bkiXFGV9_4x.jpg',
+            '../img/unfoldgallery/Nk91b5Ws_4x.jpg',
+            '../img/unfoldgallery/Jp9tIk7E_4x.jpg',
+            '../img/unfoldgallery/0OnetjB3_4x.jpg',
+            '../img/unfoldgallery/1YSNQxbG_4x.jpg',
+            '../img/unfoldgallery/0gQhVm1e_4x.jpg',
+            '../img/unfoldgallery/ODFt8orc_4x.jpg',
+            '../img/unfoldgallery/aWtTHn4v_4x.jpg',
+            '../img/unfoldgallery/GmHJMs3A_4x.jpg',
+            '../img/unfoldgallery/fVO3PlDH_4x.jpg',
+            '../img/unfoldgallery/1GDm7yhL_4x.jpg',
+            '../img/unfoldgallery/XON1hEux_4x.jpg'
+        ];
+
+        let currentImageIndex = 0;
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const imageCounter = document.getElementById('imageCounter');
+
+        function openModal(index) {
+            currentImageIndex = index;
+            modalImage.src = imageSources[index];
+            modalImage.alt = `Fashion Design ${index + 1}`;
+            imageCounter.textContent = `${index + 1} / ${imageSources.length}`;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            // Loop around
+            if (currentImageIndex >= imageSources.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = imageSources.length - 1;
+            }
+            
+            modalImage.src = imageSources[currentImageIndex];
+            modalImage.alt = `Fashion Design ${currentImageIndex + 1}`;
+            imageCounter.textContent = `${currentImageIndex + 1} / ${imageSources.length}`;
+        }
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (modal.style.display === 'block') {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
+        });
+    </script>
+
+    <!-- Carousel JavaScript -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const totalSlides = slides.length;
+        let carouselInterval;
+
+        function showSlide(index) {
+            // Remove active class from all slides and indicators
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            // Add active class to current slide and indicator
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+
+        function changeCarouselSlide(direction) {
+            let newSlide = currentSlide + direction;
+            
+            // Loop around
+            if (newSlide >= totalSlides) {
+                newSlide = 0;
+            } else if (newSlide < 0) {
+                newSlide = totalSlides - 1;
+            }
+            
+            showSlide(newSlide);
+            resetCarouselTimer();
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetCarouselTimer();
+        }
+
+        function resetCarouselTimer() {
+            clearInterval(carouselInterval);
+            startCarousel();
+        }
+
+        function startCarousel() {
+            carouselInterval = setInterval(() => {
+                changeCarouselSlide(1);
+            }, 2000); // Change slide every 2 seconds
+        }
+
+        // Content Carousel JavaScript
+        let currentContentSlide = 0;
+        const contentSlides = document.querySelectorAll('.content-carousel-slide');
+        const totalContentSlides = contentSlides.length;
+        let contentCarouselInterval;
+
+        function showContentSlide(index) {
+            // Remove active class from all content slides
+            contentSlides.forEach(slide => slide.classList.remove('active'));
+            
+            // Add active class to current content slide
+            contentSlides[index].classList.add('active');
+            
+            currentContentSlide = index;
+        }
+
+        function changeContentSlide() {
+            let newSlide = currentContentSlide + 1;
+            
+            // Loop around
+            if (newSlide >= totalContentSlides) {
+                newSlide = 0;
+            }
+            
+            showContentSlide(newSlide);
+        }
+
+        function startContentCarousel() {
+            contentCarouselInterval = setInterval(() => {
+                changeContentSlide();
+            }, 1500); // Change slide every 1.5 seconds
+        }
+
+        // Start both carousels when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            startCarousel();
+            startContentCarousel();
+        });
+
+        // Pause carousel on hover
+        const carouselContainer = document.querySelector('.carousel-container');
+        if (carouselContainer) {
+            carouselContainer.addEventListener('mouseenter', () => {
+                clearInterval(carouselInterval);
+            });
+            
+            carouselContainer.addEventListener('mouseleave', () => {
+                startCarousel();
+            });
+        }
+    </script>
+</body>
+</html> 
