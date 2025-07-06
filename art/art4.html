@@ -675,6 +675,35 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* Recognition Carousel Styles */
+        .recognition-carousel {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .recognition-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .recognition-slide.active {
+            opacity: 1;
+        }
+
+        .recognition-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -904,7 +933,14 @@
 
         <div class="framer-container">
             <div class="framer-image-container">
-                <img src="../img/symbioticthumb.jpg" alt="Project Recognition" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="recognition-carousel">
+                    <div class="recognition-slide active">
+                        <img src="../img/IMG_4947.jpg" alt="Project Recognition 1" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='../img/symbioticthumb.jpg'">
+                    </div>
+                    <div class="recognition-slide">
+                        <img src="../img/IMG_4951.jpg" alt="Project Recognition 2" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='../img/symbioticthumb.jpg'">
+                    </div>
+                </div>
             </div>
             <div class="framer-text-container">
                 <h2>Highlights & Recognition</h2>
@@ -1151,6 +1187,51 @@
             
             carouselContainer.addEventListener('mouseleave', () => {
                 startCarousel();
+            });
+        }
+
+        // Recognition Carousel JavaScript
+        let currentRecognitionSlide = 0;
+        const recognitionSlides = document.querySelectorAll('.recognition-slide');
+        const totalRecognitionSlides = recognitionSlides.length;
+        let recognitionInterval;
+
+        console.log('Recognition slides found:', recognitionSlides.length);
+
+        function showRecognitionSlide(index) {
+            recognitionSlides.forEach(slide => slide.classList.remove('active'));
+            recognitionSlides[index].classList.add('active');
+            currentRecognitionSlide = index;
+        }
+
+        function changeRecognitionSlide() {
+            let newSlide = currentRecognitionSlide + 1;
+            
+            if (newSlide >= totalRecognitionSlides) {
+                newSlide = 0;
+            }
+            
+            showRecognitionSlide(newSlide);
+        }
+
+        function startRecognitionCarousel() {
+            recognitionInterval = setInterval(() => {
+                changeRecognitionSlide();
+            }, 4000); // Change slide every 4 seconds
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            startRecognitionCarousel();
+        });
+
+        const recognitionCarousel = document.querySelector('.recognition-carousel');
+        if (recognitionCarousel) {
+            recognitionCarousel.addEventListener('mouseenter', () => {
+                clearInterval(recognitionInterval);
+            });
+            
+            recognitionCarousel.addEventListener('mouseleave', () => {
+                startRecognitionCarousel();
             });
         }
     </script>

@@ -154,34 +154,62 @@
             right: 20px;
         }
 
-        .content-carousel-container {
+        .project-carousel-container {
             position: relative;
             width: 100%;
-            height: 100%;
-            min-height: 400px;
+            height: 0;
+            padding-bottom: 133.33%; /* 3:4 aspect ratio (4/3 = 1.333) for portrait */
             overflow: hidden;
             border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .content-carousel-slide {
+        .project-carousel-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .project-carousel-container::after {
+            content: "Click to view gallery";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .project-carousel-container:hover::after {
+            opacity: 1;
+        }
+
+        .project-carousel-slide {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            min-height: 400px;
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
         }
 
-        .content-carousel-slide.active {
+        .project-carousel-slide.active {
             opacity: 1;
         }
 
-        .content-carousel-slide img {
+        .project-carousel-slide img {
             width: 100%;
             height: 100%;
-            min-height: 400px;
             object-fit: cover;
             border-radius: 12px;
         }
@@ -583,7 +611,7 @@
                 </div>
                 <div class="framer-hero-meta-item">
                     <span class="framer-hero-meta-label">Category</span>
-                    <span class="framer-hero-meta-value">Cultural Innovation, Urban Design</span>
+                    <span class="framer-hero-meta-value">Sepcultative, Urban Design</span>
                 </div>
                 <div class="framer-hero-meta-item">
                     <span class="framer-hero-meta-label">Tools</span>
@@ -595,70 +623,145 @@
     </div>
 
     <div class="framer-content-section">
+        <!-- Project Overview -->
+        <div class="framer-container" style="grid-template-columns: 1fr;">
+            <div class="framer-text-container" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2>Project Overview</h2>
+                <p>Reimagining India is a comprehensive design research project that explores the future of India's urban and cultural landscape through five distinct architectural interventions. This visionary project demonstrates how traditional Indian values, cultural heritage, and modern innovation can coexist to create sustainable, inclusive, and vibrant communities.</p>
+                <p>Each project category represents a different aspect of urban development, from transportation infrastructure to public spaces, all designed with sustainability and cultural sensitivity in mind. The designs incorporate local materials, traditional construction techniques, and contemporary technology to create solutions that are both functional and culturally resonant.</p>
+                <p>Click on any project carousel below to explore the complete gallery and discover how these concepts could transform India's urban future.</p>
+            </div>
+        </div>
+
+        <!-- Project 1: Bamboo Canopies -->
         <div class="framer-container">
             <div class="framer-text-container">
-                <h2>Project Overview</h2>
-                <p>Reimagining India is a comprehensive design research project that explores the future of India's urban and cultural landscape. This project envisions how traditional Indian values, cultural heritage, and modern innovation can coexist to create sustainable, inclusive, and vibrant communities.</p>
-                <p>Through extensive research into India's diverse cultural traditions, architectural heritage, and contemporary challenges, we developed visionary concepts that honor the past while embracing the future. The project addresses critical issues such as urbanization, cultural preservation, and sustainable development.</p>
+                <h2>Bamboo Canopies</h2>
+                <p>Innovative bamboo canopy structures designed for Indian vegetable markets and shopping areas. These sustainable structures provide shade and shelter while celebrating traditional bamboo craftsmanship and modern engineering principles.</p>
+                <p>The designs incorporate local materials and construction techniques, creating spaces that are both functional and culturally resonant. The canopies serve as gathering places for communities while protecting vendors and customers from the elements.</p>
             </div>
             <div class="framer-image-container">
-                <div class="content-carousel-container">
-                    <div class="content-carousel-slide active">
-                        <img src="../img/reimagineindiathumb.png" alt="Reimagining India Overview 1" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="project-carousel-container" id="bamboo-carousel" onclick="openProjectModal('bamboo')">
+                    <div class="project-carousel-slide active">
+                        <img src="../img/reimaginingIndia/bamboo canopies/fauxvision_perfectly_composed_photograph_of_indian_vegetable_ma_5c271444-5dfc-4fe9-acc9-fc10c8505846.png" alt="Bamboo Canopy Market 1">
                     </div>
-                    <div class="content-carousel-slide">
-                        <img src="../img/reimagineindiathumb.png" alt="Reimagining India Overview 2" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/bamboo canopies/fauxvision_perfectly_composed_photograph_of_indian_vegetable_ma_a329c7b5-9d65-4abe-9d43-d36ddc20d943.png" alt="Bamboo Canopy Market 2">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/bamboo canopies/fauxvision_perfectly_composed_photograph_of_indian_shopping_mar_11711aa4-2398-4856-96b6-b7a31290b122 (1).png" alt="Bamboo Canopy Shopping 1">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/bamboo canopies/fauxvision_perfectly_composed_photograph_of_indian_vegetable_ma_d72f08f6-991d-471d-87a7-a5bdbd87893b.png" alt="Bamboo Canopy Market 3">
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Project 2: Bus Stops -->
         <div class="framer-container">
             <div class="framer-image-container">
-                <img src="../img/reimagineindiathumb.png" alt="Cultural Innovation Concepts" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="project-carousel-container" id="bustops-carousel" onclick="openProjectModal('bustops')">
+                    <div class="project-carousel-slide active">
+                        <img src="../img/reimaginingIndia/bustops/fauxvision_people_sitting_in_a_beautiful_parametric_bus_stop_in_29a0503f-f4bf-4ce3-aaea-7bc4e8a22a41-enhanced.png" alt="Parametric Bus Stop 1">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/bustops/fauxvision_people_sitting_in_a_beautiful_parametric_bamboo_bus__edc79194-f288-4f51-b034-c7b6ab0ea3e5-enhanced.png" alt="Bamboo Bus Stop 1">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/bustops/fauxvision_people_sitting_in_a_beautiful_parametric_bus_stop_in_1f169c30-d26b-4aef-ac27-37ecb01d7b04-enhanced.png" alt="Parametric Bus Stop 2">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/bustops/fauxvision_people_sitting_in_a_beautiful_parametric_bus_stop_in_3ace0d98-ae65-4c30-b9d0-71ba1b9647ff-enhanced.png" alt="Parametric Bus Stop 3">
+                    </div>
+                </div>
             </div>
             <div class="framer-text-container">
-                <h2>Cultural Innovation</h2>
-                <p>The project explores how traditional Indian art forms, crafts, and cultural practices can be reinterpreted and integrated into contemporary design solutions. We studied various regional traditions, from the intricate patterns of Jaipur's architecture to the sustainable practices of rural communities.</p>
-                <p>By combining these traditional elements with modern technology and sustainable practices, we created innovative design concepts that celebrate India's cultural diversity while addressing contemporary urban challenges.</p>
+                <h2>Parametric Bus Stops</h2>
+                <p>Modern bus stop designs that combine parametric architecture with sustainable materials. These structures provide comfortable waiting areas while serving as landmarks in the urban landscape.</p>
+                <p>The designs incorporate seating, shelter, and information displays in organic, flowing forms that respond to their environment. Using bamboo and other local materials, these bus stops become community gathering points that enhance the public transportation experience.</p>
             </div>
         </div>
 
+        <!-- Project 3: Green Covers -->
         <div class="framer-container">
             <div class="framer-text-container">
-                <h2>Sustainable Development</h2>
-                <p>At the core of Reimagining India is a commitment to sustainable development that respects both the environment and cultural heritage. The project proposes innovative approaches to urban planning, architecture, and community development that prioritize environmental responsibility.</p>
-                <p>We explored concepts such as green infrastructure, renewable energy integration, and community-based development models that can be adapted to India's diverse geographical and cultural contexts.</p>
+                <h2>Green Covers & Pergolas</h2>
+                <p>Organic bamboo pergolas designed for roundabouts and public spaces. These lightweight structures create green corridors and gathering spaces that connect communities while providing shade and visual interest.</p>
+                <p>The pergolas incorporate climbing plants and create micro-climates that improve air quality and provide natural cooling. They serve as landmarks and meeting points, enhancing the social fabric of neighborhoods.</p>
             </div>
             <div class="framer-image-container">
-                <img src="../img/reimagineindiathumb.png" alt="Sustainable Development Concepts" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="project-carousel-container" id="greencovers-carousel" onclick="openProjectModal('greencovers')">
+                    <div class="project-carousel-slide active">
+                        <img src="../img/reimaginingIndia/greencovers/fauxvision_Organic_lightweight_bamboo_pergolas_at_roundabouts_i_3890d43a-7d69-452d-a840-1fe5deb4d2ba-enhanced (1).png" alt="Bamboo Pergola Roundabout 1">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/greencovers/fauxvision_Organic_lightweight_bamboo_pergolas_at_roundabouts_i_ec463a85-9695-493d-b096-91daa326e00b-enhanced.png" alt="Bamboo Pergola Roundabout 2">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/greencovers/fauxvision_Organic_lightweight_bamboo_pergolas_at_roundabouts_i_edfb9c60-7870-4e22-9669-8cca3d0993e7-enhanced.png" alt="Bamboo Pergola Roundabout 3">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/greencovers/fauxvision_Organic_lightweight_bamboo_pergolas_at_roundabouts_i_25e8a7e1-ea36-4dc8-9e7e-32ba13debf79-enhanced.png" alt="Bamboo Pergola Roundabout 4">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 4: Highway Development -->
+        <div class="framer-container">
+            <div class="framer-image-container">
+                <div class="project-carousel-container" id="highway-carousel" onclick="openProjectModal('highway')">
+                    <div class="project-carousel-slide active">
+                        <img src="../img/reimaginingIndia/highway/fauxvision_perfectly_composed_photograph_of_busy_Indian_street__751ebd27-eaca-4fd9-9963-03e29d4fe4d6-enhanced.png" alt="Indian Street Development 1">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/highway/fauxvision_httpss.mj.runQR4cA7bfrio_perfectly_composed_photogra_2b9fd8d4-ef3a-4031-8843-df9b2e989e1d-enhanced.png" alt="Indian Street Development 2">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/highway/fauxvision_perfectly_composed_photograph_of_Indian_street_foo_52428112-dfb0-486e-a58d-a1515c585107_0-enhanced.png" alt="Indian Street Development 3">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/highway/fauxvision_httpss.mj.runQR4cA7bfrio_perfectly_composed_photogra_e67ed44f-3e86-475e-8628-5560a0ccb780-enhanced.png" alt="Indian Street Development 4">
+                    </div>
+                </div>
+            </div>
+            <div class="framer-text-container">
+                <h2>Highway & Street Development</h2>
+                <p>Comprehensive street and highway development concepts that prioritize pedestrians, cyclists, and public transportation. These designs transform busy Indian streets into vibrant, safe, and sustainable urban corridors.</p>
+                <p>The projects include dedicated cycling lanes, pedestrian-friendly sidewalks, green buffers, and integrated public transportation facilities. They demonstrate how modern urban planning can create spaces that serve all users while preserving the character of Indian cities.</p>
+            </div>
+        </div>
+
+        <!-- Project 5: Stepwells -->
+        <div class="framer-container">
+            <div class="framer-text-container">
+                <h2>Modern Stepwells</h2>
+                <p>Contemporary reinterpretations of traditional Indian stepwells, adapted for modern urban contexts. These structures combine water management with public space creation, serving as both functional infrastructure and community gathering places.</p>
+                <p>The designs incorporate traditional stepwell geometry with modern materials and technology, creating spaces that honor India's architectural heritage while addressing contemporary urban challenges like water conservation and community building.</p>
+            </div>
+            <div class="framer-image-container">
+                <div class="project-carousel-container" id="stepwells-carousel" onclick="openProjectModal('stepwells')">
+                    <div class="project-carousel-slide active">
+                        <img src="../img/reimaginingIndia/stepwells/03.png" alt="Modern Stepwell 1">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/stepwells/05.png" alt="Modern Stepwell 2">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/stepwells/00.png" alt="Modern Stepwell 3">
+                    </div>
+                    <div class="project-carousel-slide">
+                        <img src="../img/reimaginingIndia/stepwells/01.png" alt="Modern Stepwell 4">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Image Grid Section -->
+    <!-- Project Gallery Section -->
     <div class="image-grid-section">
-        <h2 class="image-grid-title">Project Gallery</h2>
-        <div class="image-grid">
-            <div class="grid-item" onclick="openModal(0)">
-                <img src="../img/reimagineindiathumb.png" alt="Reimagining India 1">
-            </div>
-            <div class="grid-item" onclick="openModal(1)">
-                <img src="../img/reimagineindiathumb.png" alt="Reimagining India 2">
-            </div>
-            <div class="grid-item" onclick="openModal(2)">
-                <img src="../img/reimagineindiathumb.png" alt="Reimagining India 3">
-            </div>
-            <div class="grid-item" onclick="openModal(3)">
-                <img src="../img/reimagineindiathumb.png" alt="Reimagining India 4">
-            </div>
-            <div class="grid-item" onclick="openModal(4)">
-                <img src="../img/reimagineindiathumb.png" alt="Reimagining India 5">
-            </div>
-            <div class="grid-item" onclick="openModal(5)">
-                <img src="../img/reimagineindiathumb.png" alt="Reimagining India 6">
-            </div>
-        </div>
+        <h2 class="image-grid-title">Click on any project to view full gallery</h2>
     </div>
 
     <!-- Modal -->
@@ -718,26 +821,63 @@
 
     <!-- Modal JavaScript -->
     <script>
-        // Array of image sources for the modal
-        const imageSources = [
-            '../img/reimagineindiathumb.png',
-            '../img/reimagineindiathumb.png',
-            '../img/reimagineindiathumb.png',
-            '../img/reimagineindiathumb.png',
-            '../img/reimagineindiathumb.png',
-            '../img/reimagineindiathumb.png'
-        ];
+        // Project image collections
+        const projectImages = {
+            bamboo: [
+                '../img/reimaginingIndia/bamboo canopies/fauxvision_perfectly_composed_photograph_of_indian_vegetable_ma_5c271444-5dfc-4fe9-acc9-fc10c8505846.png',
+                '../img/reimaginingIndia/bamboo canopies/fauxvision_perfectly_composed_photograph_of_indian_vegetable_ma_a329c7b5-9d65-4abe-9d43-d36ddc20d943.png',
+                '../img/reimaginingIndia/bamboo canopies/fauxvision_perfectly_composed_photograph_of_indian_shopping_mar_11711aa4-2398-4856-96b6-b7a31290b122 (1).png',
+                '../img/reimaginingIndia/bamboo canopies/fauxvision_perfectly_composed_photograph_of_indian_vegetable_ma_d72f08f6-991d-471d-87a7-a5bdbd87893b.png'
+            ],
+            bustops: [
+                '../img/reimaginingIndia/bustops/fauxvision_people_sitting_in_a_beautiful_parametric_bus_stop_in_29a0503f-f4bf-4ce3-aaea-7bc4e8a22a41-enhanced.png',
+                '../img/reimaginingIndia/bustops/fauxvision_people_sitting_in_a_beautiful_parametric_bamboo_bus__edc79194-f288-4f51-b034-c7b6ab0ea3e5-enhanced.png',
+                '../img/reimaginingIndia/bustops/fauxvision_people_sitting_in_a_beautiful_parametric_bus_stop_in_1f169c30-d26b-4aef-ac27-37ecb01d7b04-enhanced.png',
+                '../img/reimaginingIndia/bustops/fauxvision_people_sitting_in_a_beautiful_parametric_bus_stop_in_3ace0d98-ae65-4c30-b9d0-71ba1b9647ff-enhanced.png'
+            ],
+            greencovers: [
+                '../img/reimaginingIndia/greencovers/fauxvision_Organic_lightweight_bamboo_pergolas_at_roundabouts_i_3890d43a-7d69-452d-a840-1fe5deb4d2ba-enhanced (1).png',
+                '../img/reimaginingIndia/greencovers/fauxvision_Organic_lightweight_bamboo_pergolas_at_roundabouts_i_ec463a85-9695-493d-b096-91daa326e00b-enhanced.png',
+                '../img/reimaginingIndia/greencovers/fauxvision_Organic_lightweight_bamboo_pergolas_at_roundabouts_i_edfb9c60-7870-4e22-9669-8cca3d0993e7-enhanced.png',
+                '../img/reimaginingIndia/greencovers/fauxvision_Organic_lightweight_bamboo_pergolas_at_roundabouts_i_25e8a7e1-ea36-4dc8-9e7e-32ba13debf79-enhanced.png'
+            ],
+            highway: [
+                '../img/reimaginingIndia/highway/fauxvision_perfectly_composed_photograph_of_busy_Indian_street__751ebd27-eaca-4fd9-9963-03e29d4fe4d6-enhanced.png',
+                '../img/reimaginingIndia/highway/fauxvision_httpss.mj.runQR4cA7bfrio_perfectly_composed_photogra_2b9fd8d4-ef3a-4031-8843-df9b2e989e1d-enhanced.png',
+                '../img/reimaginingIndia/highway/fauxvision_perfectly_composed_photograph_of_Indian_street_foo_52428112-dfb0-486e-a58d-a1515c585107_0-enhanced.png',
+                '../img/reimaginingIndia/highway/fauxvision_httpss.mj.runQR4cA7bfrio_perfectly_composed_photogra_e67ed44f-3e86-475e-8628-5560a0ccb780-enhanced.png'
+            ],
+            stepwells: [
+                '../img/reimaginingIndia/stepwells/03.png',
+                '../img/reimaginingIndia/stepwells/05.png',
+                '../img/reimaginingIndia/stepwells/00.png',
+                '../img/reimaginingIndia/stepwells/01.png'
+            ]
+        };
+
+        const projectTitles = {
+            bamboo: 'Bamboo Canopies',
+            bustops: 'Parametric Bus Stops',
+            greencovers: 'Green Covers & Pergolas',
+            highway: 'Highway & Street Development',
+            stepwells: 'Modern Stepwells'
+        };
 
         let currentImageIndex = 0;
+        let currentProject = '';
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const imageCounter = document.getElementById('imageCounter');
 
-        function openModal(index) {
-            currentImageIndex = index;
-            modalImage.src = imageSources[index];
-            modalImage.alt = `Reimagining India ${index + 1}`;
-            imageCounter.textContent = `${index + 1} / ${imageSources.length}`;
+        function openProjectModal(project) {
+            currentProject = project;
+            currentImageIndex = 0;
+            const images = projectImages[project];
+            const title = projectTitles[project];
+            
+            modalImage.src = images[0];
+            modalImage.alt = `${title} 1`;
+            imageCounter.textContent = `1 / ${images.length} - ${title}`;
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
@@ -748,17 +888,19 @@
         }
 
         function changeImage(direction) {
+            const images = projectImages[currentProject];
             currentImageIndex += direction;
             
-            if (currentImageIndex >= imageSources.length) {
+            if (currentImageIndex >= images.length) {
                 currentImageIndex = 0;
             } else if (currentImageIndex < 0) {
-                currentImageIndex = imageSources.length - 1;
+                currentImageIndex = images.length - 1;
             }
             
-            modalImage.src = imageSources[currentImageIndex];
-            modalImage.alt = `Reimagining India ${currentImageIndex + 1}`;
-            imageCounter.textContent = `${currentImageIndex + 1} / ${imageSources.length}`;
+            const title = projectTitles[currentProject];
+            modalImage.src = images[currentImageIndex];
+            modalImage.alt = `${title} ${currentImageIndex + 1}`;
+            imageCounter.textContent = `${currentImageIndex + 1} / ${images.length} - ${title}`;
         }
 
         modal.addEventListener('click', function(e) {
@@ -827,36 +969,39 @@
             }, 3000);
         }
 
-        let currentContentSlide = 0;
-        const contentSlides = document.querySelectorAll('.content-carousel-slide');
-        const totalContentSlides = contentSlides.length;
-        let contentCarouselInterval;
-
-        function showContentSlide(index) {
-            contentSlides.forEach(slide => slide.classList.remove('active'));
-            contentSlides[index].classList.add('active');
-            currentContentSlide = index;
-        }
-
-        function changeContentSlide() {
-            let newSlide = currentContentSlide + 1;
+        // Project carousel functions
+        function initProjectCarousels() {
+            const carouselIds = ['bamboo-carousel', 'bustops-carousel', 'greencovers-carousel', 'highway-carousel', 'stepwells-carousel'];
             
-            if (newSlide >= totalContentSlides) {
-                newSlide = 0;
-            }
-            
-            showContentSlide(newSlide);
-        }
-
-        function startContentCarousel() {
-            contentCarouselInterval = setInterval(() => {
-                changeContentSlide();
-            }, 2000);
+            carouselIds.forEach(carouselId => {
+                const carousel = document.getElementById(carouselId);
+                if (carousel) {
+                    const slides = carousel.querySelectorAll('.project-carousel-slide');
+                    let currentSlideIndex = 0;
+                    
+                    function showProjectSlide(index) {
+                        slides.forEach(slide => slide.classList.remove('active'));
+                        slides[index].classList.add('active');
+                        currentSlideIndex = index;
+                    }
+                    
+                    function nextProjectSlide() {
+                        let newSlide = currentSlideIndex + 1;
+                        if (newSlide >= slides.length) {
+                            newSlide = 0;
+                        }
+                        showProjectSlide(newSlide);
+                    }
+                    
+                    // Start auto-rotation for this carousel
+                    setInterval(nextProjectSlide, 2500);
+                }
+            });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             startCarousel();
-            startContentCarousel();
+            initProjectCarousels();
         });
 
         const carouselContainer = document.querySelector('.carousel-container');
