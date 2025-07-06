@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Media Coverage - Manas Bhatia</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #ffffff;
+            --text-primary: #111;
+            --text-secondary: #444;
+            --accent-color: #a3e635;
+            --map-bg: #f8f9fa;
+            --country-fill: #e9ecef;
+            --country-hover: #dee2e6;
+            --country-active: #a3e635;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --map-bg: #2d2d2d;
+            --country-fill: #404040;
+            --country-hover: #505050;
+            --country-active: #a3e635;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .map-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .map-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .map-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .map-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .map-wrapper {
+            position: relative;
+            background: var(--map-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+        }
+
+        #world-map {
+            width: 100%;
+            height: 600px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 1px solid var(--text-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.9rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 300px;
+        }
+
+        .tooltip h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .tooltip p {
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .country {
+            fill: var(--country-fill);
+            stroke: var(--bg-primary);
+            stroke-width: 0.5;
+            transition: fill 0.3s ease;
+            cursor: pointer;
+        }
+
+        .country:hover {
+            fill: var(--country-hover);
+        }
+
+        .country.active {
+            fill: var(--country-active);
+        }
+
+        .country.has-data {
+            fill: #4ade80;
+        }
+
+        .country.has-data:hover {
+            fill: #22c55e;
+        }
+
+        .country.has-data.active {
+            fill: var(--accent-color);
+        }
+
+
+
+        .article-list {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+
+        .article-list h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .article-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--text-secondary);
+            transition: background 0.3s ease;
+        }
+
+        .article-item:hover {
+            background: var(--map-bg);
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .article-country {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .article-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .article-link:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .map-container {
+                padding: 1rem;
+            }
+            
+            .map-title {
+                font-size: 2rem;
+            }
+            
+            .map-stats {
+                gap: 1rem;
+            }
+            
+            .stat-item {
+                padding: 0.75rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            #world-map {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <div class="map-header">
+            <h1 class="map-title">Global Media Coverage</h1>
+            <p class="map-subtitle">Interactive visualization of press coverage and media appearances worldwide</p>
+            
+            <div class="map-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="total-articles">0</div>
+                    <div class="stat-label">Total Articles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="countries-covered">0</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="continents">0</div>
+                    <div class="stat-label">Continents</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-wrapper">
+            <div id="world-map"></div>
+            <div class="tooltip" id="tooltip"></div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--country-fill);"></div>
+                <span>No Coverage</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4ade80;"></div>
+                <span>Has Coverage</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--accent-color);"></div>
+                <span>Selected</span>
+            </div>
+        </div>
+
+        <div class="article-list" id="article-list">
+            <h3>Articles by Country</h3>
+            <div id="articles-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // CSV data
+        const csvData = `Link,Country,Coordinates
+https://www.cnn.com/style/article/ai-architecture-manas-bhatia,USA,"38.89511, -77.03637"
+https://www.pbs.org/video/tomorrows-e58248/,USA,"38.89511, -77.03637"
+https://clip.cafe/a-brief-history-of-the-future-2024/im-here-spend-time-with-a-local-architect/,USA,"38.89511, -77.03637"
+"https://amazingarchitecture.com/futuristic/ai-generated-future-cities-by-manas-bhatia#:~:text=For%20the%20green%20cities%20they,modern%20structures%20and%20no%20pollution.",UAE,"25.2048, 55.2708"
+https://www.designboom.com/architecture/ai-futuristic-sustainable-city-air-purifying-biophilic-skyscrapers-manas-bhatia-08-22-2022/,Italy,"45.4642, 9.19"
+https://www.amazingarchitecture.com/futuristic/ai-generated-future-cities-by-manas-bhatia,UAE,"25.2048, 55.2708"
+https://uni.xyz/journal/revolutionizing-urban-living-the-impact-,India,"28.6139, 77.2090"
+https://themindcircle.com/future-cities/,USA,"38.89511, -77.03637"
+https://thursd.com/articles/using-ai-in-manas-bhatia-biophilic-architectural-designs,Netherlands,"52.3676, 4.9041"
+https://www.archilovers.com/stories/30302/how-artificial-intelligence-will-shape-the-future-smart-cities.html,Italy,"44.4949, 11.3426"
+https://www.techtimes.com/articles/280158/20220906/architect-uses-ai-design-future-cities-results-otherworldly.htm,USA,"38.89511, -77.03637"
+https://app.newsomatic.net/2022/11/17/future-cities-made-by-bot/?t=e5203c7e-0481-4a64-9b40-8a991c297fab&reading_level=E3,Unknown,NA
+https://christiankromme.com/radical-visions-of-future-cities/,Netherlands,"52.3676, 4.9041"
+https://thearchitectsdiary.com/the-confluence-of-ai-and-architecture-manas-bhatia-tadpod/,India,"28.6139, 77.2090"
+https://m2now.com/a-city-created-by-keywords/,New Zealand,"-36.8485, 174.7633"
+https://www.itsliquid.com/interview-manas-bhatia.html,Italy,"45.4642, 9.19"
+https://www.novatr.com/blog/futuristic-architecture-designs,India,"28.6139, 77.2090"
+https://www.researchgate.net/figure/Manas-Bhatia-image-of-the-AI-x-Future-Cities-project-reprocessing-performed-in-AI_fig11_384182945,Germany,"52.52, 13.4050"
+https://www.archi-tector.com/trend/so-artificial-intelligence-could-change-the-future-of-architecture/,Russia,"55.7558, 37.6173"
+https://www.youtube.com/watch?v=9BpxfVdUZbA&ab_channel=ELEV8,USA,"38.89511, -77.03637"
+https://westontitle.com/2022/09/ai-architecture-futuristic-cities/,USA,"25.7617, -80.1918"
+https://cor3design.com/artificial-intelligence-2/,USA,"34.0007, -81.0348"
+https://blog.beopenfuture.com/2022/08/31/ai-generated-architecture/,Unknown,NA
+https://www.researchgate.net/publication/383444477_The_Integration_of_Artificial_Intelligence_in_Architectural_Visualization_Enhances_Augmented_Realism_and_Interactivity/fulltext/66cddee5fa5e11512c3ac483/The-Integration-of-Artificial-Intelligence-in-Architectural-Visualization-Enhances-Augmented-Realism-and-Interactivity.pdf,Germany,"52.52, 13.4050"
+https://www.re-thinkingthefuture.com/narratives/a11531-shaping-tomorrow-unveiling-the-future-of-architecture/,India,"28.6139, 77.2090"
+https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn,USA,"38.89511, -77.03637"
+https://good.rp3agency.com/manas-bhatia-interview,Unknown,NA
+https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia,UAE,"25.2048, 55.2708"
+https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/,Italy,"45.4642, 9.19"
+https://parametric-architecture.com/ai-x-symbiotic-architecture-a-residential-self-growing-tower-conceptual-design-by-manas-bhatia/?srsltid=AfmBOopS6r_nAFfLlTOW70JNVIqFMFDTD9yrUm6Trjt2GCqZZdCQ_9Jl,Unknown,NA
+https://mymodernmet.com/manas-bhatia-ai-concept-architecture/,Unknown,NA
+https://thursd.com/articles/mania-bhatia-imagines-a-surreal-architectural-future-in-his-newest-project,Netherlands,"52.3676, 4.9041"
+https://www.arch2o.com/surreal-symbiotic-architecture-created-by-artificial-intelligence-in-manas-bhatia/,Unknown,NA
+https://www.re-thinkingthefuture.com/residential/7561-ai-x-symbiotic-architecture-by-manas-bhatia/,India,"28.6139, 77.2090"
+https://archello.com/project/ai-generated-symbiotic-architecture,Unknown,NA
+https://coolhunting.com/tech/computation-designer-manas-bhatias-ai-generated-living-architecture/,Unknown,NA
+https://www.wallprotex.com/architecture-newsletter/manas-bhatia-s-ai-generated-surreal-symbiotic-architecture-breathes,Unknown,NA
+https://ottmarliebert.com/2022/09/05/symbiotic-architecture/,Unknown,NA
+https://mossandfog.com/manas-bhatias-symbiotic-architecture/,Unknown,NA
+https://www.demilked.com/ai-images-symbiotic-structures-manas-bhatia/,Unknown,NA
+https://www.yahoo.com/news/symbiotic-architecture-artificial-intelligence-envisions-225808659.html?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAFHCMjQM89aeYCgJZ4osmkSlrQAUCUEI-PmaULv3Kgfju9NnlnQawqlOH-E1Ff34MDXO8iJR-jKNbYn_H_3JXrLy6JbhQcggfog-3YDIdiF1oh9OsToD7EKb1njnjsRad_aCLoxYgSO4-7fHc5n4Ok5VSXXeL6Vfd9Z9UL2tiRIb,Unknown,NA
+https://themindcircle.com/symbiotic-architecture/,USA,"38.89511, -77.03637"
+https://www.designindaba.com/articles/creative-work/living-space,Unknown,NA
+https://architectureurbanism.com/Projects/view_project/R1FHblJtRHMzVGc3d3ZtRVlJdEsrdz09,Unknown,NA`;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Parse CSV data
+            const articles = d3.csvParse(csvData);
+            // Filter out articles with unknown countries
+            const validArticles = articles.filter(d => d.Country !== 'Unknown' && d.Coordinates !== 'NA');
+            
+            // Country name mapping to handle different naming conventions
+            const countryNameMap = {
+                'USA': 'United States of America',
+                'UAE': 'United Arab Emirates',
+                'Russia': 'Russia'
+            };
+            
+            // Normalize country names
+            const normalizedArticles = validArticles.map(article => ({
+                ...article,
+                Country: countryNameMap[article.Country] || article.Country
+            }));
+            
+            // Group articles by country
+            const countryData = d3.group(normalizedArticles, d => d.Country);
+            // Calculate statistics
+            const totalArticles = normalizedArticles.length;
+            const countriesCovered = countryData.size;
+            const continents = new Set(['North America', 'Europe', 'Asia', 'Oceania']).size; // Simplified
+            // Update stats
+            document.getElementById('total-articles').textContent = totalArticles;
+            document.getElementById('countries-covered').textContent = countriesCovered;
+            document.getElementById('continents').textContent = continents;
+            // Map dimensions
+            let width = document.getElementById('world-map').clientWidth;
+            if (!width || width < 400) width = 1000;
+            const height = 600;
+            // Create SVG
+            const svg = d3.select('#world-map')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+            // Create tooltip
+            const tooltip = d3.select('#tooltip');
+            // Projection
+            const projection = d3.geoMercator()
+                .fitSize([width, height], {type: 'Sphere'});
+            const path = d3.geoPath().projection(projection);
+            // Color scale
+            const colorScale = d3.scaleOrdinal()
+                .domain(['no-data', 'has-data', 'selected'])
+                .range(['var(--country-fill)', '#4ade80', 'var(--accent-color)']);
+            // Load world map data
+            d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
+                .then(function(world) {
+                    const countries = topojson.feature(world, world.objects.countries);
+                    
+                    // Debug: Log available country names to console
+                    console.log('Available country names:', countries.features.map(d => d.properties.name).sort());
+                    console.log('Our country data:', Array.from(countryData.keys()));
+                    // Draw countries
+                    svg.selectAll('.country')
+                        .data(countries.features)
+                        .enter()
+                        .append('path')
+                        .attr('class', 'country')
+                        .attr('d', path)
+                        .attr('data-country', d => d.properties.name)
+                        .on('mouseover', function(event, d) {
+                            const countryName = d.properties.name;
+                            // Find matching articles using flexible matching
+                            let articles = countryData.get(countryName) || [];
+                            if (articles.length === 0) {
+                                const ourCountries = Array.from(countryData.keys());
+                                const matchingCountry = ourCountries.find(ourCountry => 
+                                    countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
+                                    ourCountry.toLowerCase().includes(countryName.toLowerCase())
+                                );
+                                if (matchingCountry) {
+                                    articles = countryData.get(matchingCountry) || [];
+                                }
+                            }
+                            if (articles.length > 0) {
+                                d3.select(this).classed('active', true);
+                                tooltip.transition()
+                                    .duration(200)
+                                    .style('opacity', 0.9);
+                                tooltip.html(`
+                                    <h3>${countryName}</h3>
+                                    <p><strong>${articles.length}</strong> article${articles.length > 1 ? 's' : ''}</p>
+                                    <p>${articles.map(a => a.Link.split('/')[2]).join(', ')}</p>
+                                `)
+                                    .style('left', (event.pageX + 10) + 'px')
+                                    .style('top', (event.pageY - 28) + 'px');
+                            }
+                        })
+                        .on('mouseout', function(event, d) {
+                            d3.select(this).classed('active', false);
+                            tooltip.transition()
+                                .duration(500)
+                                .style('opacity', 0);
+                        })
+                        .on('click', function(event, d) {
+                            const countryName = d.properties.name;
+                            // Find matching articles using flexible matching
+                            let articles = countryData.get(countryName) || [];
+                            let displayCountryName = countryName;
+                            if (articles.length === 0) {
+                                const ourCountries = Array.from(countryData.keys());
+                                const matchingCountry = ourCountries.find(ourCountry => 
+                                    countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
+                                    ourCountry.toLowerCase().includes(countryName.toLowerCase())
+                                );
+                                if (matchingCountry) {
+                                    articles = countryData.get(matchingCountry) || [];
+                                    displayCountryName = matchingCountry;
+                                }
+                            }
+                            if (articles.length > 0) {
+                                svg.selectAll('.country').classed('active', false);
+                                d3.select(this).classed('active', true);
+                                updateArticleList(displayCountryName, articles);
+                            }
+                        });
+                    // Add data class to countries with articles
+                    svg.selectAll('.country')
+                        .filter(d => {
+                            const countryName = d.properties.name;
+                            // Check exact match first
+                            if (countryData.has(countryName)) {
+                                return true;
+                            }
+                            // Check if any of our country names contain or are contained in the map country name
+                            const ourCountries = Array.from(countryData.keys());
+                            return ourCountries.some(ourCountry => 
+                                countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
+                                ourCountry.toLowerCase().includes(countryName.toLowerCase())
+                            );
+                        })
+                        .classed('has-data', true);
+
+                })
+                .catch(function(error) {
+                    document.getElementById('world-map').innerHTML = '<div style="color:red;text-align:center;padding:2rem;">Failed to load world map data. Please check your internet connection.</div>';
+                });
+            // Function to update article list
+            function updateArticleList(countryName, articles) {
+                const container = document.getElementById('articles-container');
+                container.innerHTML = `
+                    <h3>Articles from ${countryName} (${articles.length})</h3>
+                    ${articles.map(article => `
+                        <div class="article-item">
+                            <div class="article-title">${article.Link.split('/')[2]}</div>
+                            <div class="article-country">${article.Country}</div>
+                            <a href="${article.Link}" class="article-link" target="_blank">${article.Link}</a>
+                        </div>
+                    `).join('')}
+                `;
+            }
+            // Initialize with all articles
+            const allArticles = Array.from(countryData.entries()).flatMap(([country, articles]) => 
+                articles.map(article => ({...article, Country: country}))
+            );
+            updateArticleList('All Countries', allArticles);
+        });
+    </script>
+</body>
+</html> 

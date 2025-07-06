@@ -274,94 +274,868 @@
             opacity: 0.9;
         }
         canvas {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 0 !important;
+            pointer-events: none !important;
+        }
+        #site-header,
+        #site-footer,
+        .news-section {
+            position: relative;
+            z-index: 1;
+        }
+        .news-header-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2.5vw;
+            gap: 2vw;
+            background: none !important;
+            box-shadow: none !important;
+            padding: 0;
+        }
+        .news-section {
+            max-width: 100vw;
+            margin: 80px 0 0 0;
+            padding: 0 3vw 90px 3vw;
+        }
+        .news-title {
+            font-size: 6vw;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            text-align: left;
+            text-transform: uppercase;
+            margin-bottom: 0.5vw;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        .news-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 2vw;
+            line-height: 1.5;
+            text-align: left;
+            font-weight: 700;
+            align-self: flex-end;
+            transition: color 0.3s ease;
+        }
+        @media (max-width: 900px) {
+            .news-description {
+                align-self: stretch;
+            }
+        }
+        @media (max-width: 700px) {
+            .news-section {
+                margin-top: 60px;
+                padding-bottom: 70px;
+            }
+            .news-title {
+                font-size: 10vw;
+            }
+        }
+        .news-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2vw;
+            flex-wrap: wrap;
+        }
+        .news-filter {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .news-filter.active, .news-filter:hover {
+            background: var(--bg-tertiary-hover);
+            color: #a3e635;
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+        .news-card {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            background: var(--project-card-bg);
+            border-radius: 14px;
+            box-shadow: 0 2px 12px 0 var(--project-card-shadow);
+            overflow: hidden;
+            text-decoration: none;
+            transition: box-shadow 0.18s, transform 0.18s, background 0.3s;
+            min-width: 0;
+            min-height: 0;
+            position: relative;
+        }
+        .news-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 24px 0 var(--project-card-shadow-hover);
+            background: var(--bg-tertiary-hover);
+        }
+        .news-thumb {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            float: none;
+        }
+        .news-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        .news-meta {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 1.1rem 1.2rem 1.3rem 1.2rem;
+            gap: 0.5rem;
+            flex: 1;
+            background: none;
+            float: none;
+        }
+        .news-headline {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.35;
+            margin-bottom: 0.4rem;
+            margin-top: 0.1rem;
+            letter-spacing: -0.01em;
+            background: none;
+            display: block;
+        }
+        .news-link {
+            font-size: 1rem;
+            color: #2a6ae6;
+            text-decoration: underline;
+            font-weight: 500;
+            margin-top: 0.1rem;
+            width: fit-content;
+            background: none;
+            border: none;
+            padding: 0;
+            display: inline;
+        }
+        .news-link:hover {
+            color: #a3e635;
+        }
+        @media (max-width: 700px) {
+            .news-section {
+                margin-top: 60px;
+                padding-bottom: 70px;
+            }
+            .news-title {
+                font-size: 10vw;
+            }
+            .news-headline {
+                font-size: 1rem;
+            }
+            .news-card {
+                min-width: 0;
+                min-height: 0;
+            }
+            .news-meta {
+                padding: 0.7rem 0.7rem 1rem 0.7rem;
+            }
+        }
+        
+        /* Map Styles */
+        .map-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2vw;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #a3e635;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .map-wrapper {
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            margin-bottom: 1vw;
+        }
+        
+        .map-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 2vw;
+            font-style: italic;
+        }
+        
+        #world-map {
+            width: 100%;
+            height: 600px;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 1px solid var(--text-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.9rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .tooltip h3 {
+            color: #a3e635;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .tooltip p {
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2vw;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .country {
+            fill: var(--country-fill);
+            stroke: var(--bg-primary);
+            stroke-width: 0.5;
+            transition: fill 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .country:hover {
+            fill: var(--country-hover);
+        }
+        
+        .country.active {
+            fill: #a3e635;
+        }
+        
+        .country.has-data {
+            fill: #4ade80;
+        }
+        
+        .country.has-data:hover {
+            fill: #22c55e;
+        }
+        
+        .country.has-data.active {
+            fill: #a3e635;
+        }
+        
+
+        
+        @media (max-width: 768px) {
+            .map-stats {
+                gap: 1rem;
+            }
+            
+            .stat-item {
+                padding: 0.75rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            #world-map {
+                height: 400px;
+            }
+            
+            .map-wrapper {
+                padding: 1rem;
+            }
+        }
+        .news-card,
+        .news-thumb,
+        .news-meta {
+            position: relative;
+            z-index: auto;
+        }
+        /* If you have overlays inside .news-card, add this: */
+        .news-card *[class*="overlay"] {
+            position: relative;
+            z-index: auto;
+        }
+        /* --- HEADER Z-INDEX FIX --- */
+        #site-header {
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 0;
-            pointer-events: none;
+            width: 100vw;
+            z-index: 100;
+        }
+        /* --- MAIN SECTION MATCHING OTHER PAGES --- */
+        .news-section {
+            max-width: 100vw;
+            margin: 80px 0 0 0;
+            padding: 0 3vw 90px 3vw;
+        }
+        .news-header-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2.5vw;
+            gap: 2vw;
+            background: none !important;
+            box-shadow: none !important;
+            padding: 0;
+        }
+        .news-title {
+            font-size: 6vw;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            text-align: left;
+            text-transform: uppercase;
+            margin-bottom: 0.5vw;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        .news-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 2vw;
+            line-height: 1.5;
+            text-align: left;
+            font-weight: 700;
+            align-self: flex-end;
+            transition: color 0.3s ease;
+        }
+        @media (max-width: 900px) {
+            .news-description {
+                align-self: stretch;
+            }
+        }
+        @media (max-width: 700px) {
+            .news-section {
+                margin-top: 60px;
+                padding-bottom: 70px;
+            }
+            .news-title {
+                font-size: 10vw;
+            }
         }
     </style>
 </head>
 <body>
     <div id="site-header"></div>
-    <div class="projects-section">
-        <div class="projects-header-row">
-            <h1 class="projects-title">Press & Media</h1>
-            <p class="projects-description">
+    
+    <!-- Main Press & Media Section -->
+    <div class="news-section">
+        <div class="news-header-row">
+            <h1 class="news-title">Press & Media</h1>
+            <p class="news-description">
                 Featured press coverage, media appearances, and publications showcasing my work in architecture, computational design, and AI. These articles and interviews highlight the innovative approaches and thought leadership in the field.
             </p>
         </div>
-        <div class="projects-grid">
-            <a class="framer-project-card" href="./press-media/article1.html">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/tensilebloomcover.jpg" alt="Press Article 1 Thumbnail">
+        
+        <!-- Interactive World Map Section -->
+        <div class="map-stats">
+            <div class="stat-item">
+                <div class="stat-number" id="total-articles">0</div>
+                <div class="stat-label">Total Articles</div>
+                    </div>
+            <div class="stat-item">
+                <div class="stat-number" id="countries-covered">0</div>
+                <div class="stat-label">Countries</div>
+                </div>
+            <div class="stat-item">
+                <div class="stat-number" id="continents">0</div>
+                <div class="stat-label">Continents</div>
+                </div>
+                    </div>
+        
+        <div class="map-wrapper">
+            <div id="world-map"></div>
+            <div class="tooltip" id="tooltip"></div>
+                </div>
+        
+        <div class="map-caption">
+            <em>Interactive visualization showing the worldwide reach of press coverage and media appearances. Click on highlighted countries to explore articles from specific regions.</em>
+                </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--country-fill);"></div>
+                <span>No Coverage</span>
+                    </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4ade80;"></div>
+                <span>Has Coverage</span>
+                </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: var(--accent-color);"></div>
+                <span>Selected</span>
+                </div>
+                    </div>
+        
+                <div class="news-filters">
+            <button class="news-filter active" data-filter="all">All</button>
+            <button class="news-filter" data-filter="ai">AI & Technology</button>
+            <button class="news-filter" data-filter="future-cities">Future Cities</button>
+            <button class="news-filter" data-filter="symbiotic">Symbiotic Architecture</button>
+            <button class="news-filter" data-filter="interviews">Interviews</button>
+            <button class="news-filter" data-filter="research">Research</button>
+            <button class="news-filter" data-filter="video">Video & Media</button>
+                </div>
+        <div class="news-grid">
+                        <div class="news-card" data-category="ai" data-country="USA">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.cnn.com/style/article/ai-architecture-manas-bhatia&screenshot=true&meta=false&embed=screenshot.url" alt="CNN Style AI Architecture Manas Bhatia" onerror="this.src='img/futurecities/future0.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>AI reimagines architecture: Manas Bhatia envisions living, breathing buildings inspired by nature...</b></span>
+                    <a class="news-link" href="https://www.cnn.com/style/article/ai-architecture-manas-bhatia" target="_blank" rel="noopener">Read more...</a>
                     </div>
                 </div>
-                <div class="project-overlay">
-                    <div class="project-title">Architectural Digest</div>
-                    <div class="project-details">Feature Article<br>Innovation in Design</div>
+                        <div class="news-card" data-category="video" data-country="USA">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn&screenshot=true&meta=false&embed=screenshot.url" alt="CNN Video Manas Bhatia AI Nature Designs" onerror="this.src='img/futurecities/future1.jpg'">
                 </div>
-            </a>
-            <a class="framer-project-card" href="./press-media/article2.html">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/spatialaicover.jpg" alt="Press Article 2 Thumbnail">
+                <div class="news-meta">
+                    <span class="news-headline"><b>Watch: Manas Bhatia discusses how AI and nature inspire his futuristic architectural designs...</b></span>
+                    <a class="news-link" href="https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn" target="_blank" rel="noopener">Read more...</a>
                     </div>
                 </div>
-                <div class="project-overlay">
-                    <div class="project-title">Dezeen Magazine</div>
-                    <div class="project-details">AI in Architecture<br>Future of Design</div>
+            <div class="news-card" data-category="interviews">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://good.rp3agency.com/manas-bhatia-interview&screenshot=true&meta=false&embed=screenshot.url" alt="RP3 Agency Manas Bhatia Interview" onerror="this.src='img/futurecities/future2.jpg'">
                 </div>
-            </a>
-            <a class="framer-project-card" href="./press-media/article3.html">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/pangolinthumbnail.jpg" alt="Press Article 3 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-title">Design Week</div>
-                    <div class="project-details">Parametric Design<br>Sustainability Focus</div>
-                </div>
-            </a>
-            <a class="framer-project-card" href="./press-media/article4.html">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/curiousthumb.jpg" alt="Press Article 4 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-title">Architecture Today</div>
-                    <div class="project-details">Educational Spaces<br>Child-Centered Design</div>
-                </div>
-            </a>
-            <a class="framer-project-card" href="./press-media/article5.html">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/hopethumb.jpg" alt="Press Article 5 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-title">Healthcare Design</div>
-                    <div class="project-details">Medical Architecture<br>Patient Experience</div>
-                </div>
-            </a>
-            <a class="framer-project-card" href="./press-media/article6.html">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/compcovernew.gif" alt="Press Article 6 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-title">Computational Design</div>
-                    <div class="project-details">Research Publication<br>Algorithmic Methods</div>
-                </div>
-            </a>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Interview: Manas Bhatia shares insights on AI, design, and the future of architecture...</b></span>
+                    <a class="news-link" href="https://good.rp3agency.com/manas-bhatia-interview" target="_blank" rel="noopener">Read more...</a>
         </div>
     </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia&screenshot=true&meta=false&embed=screenshot.url" alt="Amazing Architecture Symbiotic Architecture" onerror="this.src='img/futurecities/future3.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Symbiotic Architecture: Manas Bhatia imagines self-growing towers with AI-generated design...</b></span>
+                    <a class="news-link" href="https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia" target="_blank" rel="noopener">Read more...</a>
+                </div>
+                    </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/&screenshot=true&meta=false&embed=screenshot.url" alt="Designboom Manas Bhatia AI Symbiotic Architecture" onerror="this.src='img/futurecities/future4.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Designboom: Manas Bhatia uses AI to generate surreal, symbiotic architecture for the future...</b></span>
+                    <a class="news-link" href="https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+                    </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://parametric-architecture.com/ai-x-symbiotic-architecture-a-residential-self-growing-tower-conceptual-design-by-manas-bhatia/&screenshot=true&meta=false&embed=screenshot.url" alt="Parametric Architecture AI x Symbiotic Architecture" onerror="this.src='img/futurecities/future5.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Parametric Architecture: AI x Symbiotic Architecture explores self-growing towers by Manas Bhatia...</b></span>
+                    <a class="news-link" href="https://parametric-architecture.com/ai-x-symbiotic-architecture-a-residential-self-growing-tower-conceptual-design-by-manas-bhatia/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+        </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://mymodernmet.com/manas-bhatia-ai-concept-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="My Modern Met Manas Bhatia AI Concept Architecture" onerror="this.src='img/futurecities/future0.jpg'">
+    </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>My Modern Met: Manas Bhatia creates AI-generated concept architecture that blurs the line between nature and design...</b></span>
+                    <a class="news-link" href="https://mymodernmet.com/manas-bhatia-ai-concept-architecture/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://thursd.com/articles/mania-bhatia-imagines-a-surreal-architectural-future-in-his-newest-project&screenshot=true&meta=false&embed=screenshot.url" alt="Thursd Mania Bhatia Surreal Architectural Future" onerror="this.src='img/futurecities/future1.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Thursd: Mania Bhatia imagines a surreal architectural future in his newest project with AI-generated designs...</b></span>
+                    <a class="news-link" href="https://thursd.com/articles/mania-bhatia-imagines-a-surreal-architectural-future-in-his-newest-project" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.arch2o.com/surreal-symbiotic-architecture-created-by-artificial-intelligence-in-manas-bhatia/&screenshot=true&meta=false&embed=screenshot.url" alt="Arch2O Surreal Symbiotic Architecture AI" onerror="this.src='img/futurecities/future2.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Arch2O: Surreal symbiotic architecture created by artificial intelligence in Manas Bhatia's visionary project...</b></span>
+                    <a class="news-link" href="https://www.arch2o.com/surreal-symbiotic-architecture-created-by-artificial-intelligence-in-manas-bhatia/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.re-thinkingthefuture.com/residential/7561-ai-x-symbiotic-architecture-by-manas-bhatia/&screenshot=true&meta=false&embed=screenshot.url" alt="Rethinking The Future AI x Symbiotic Architecture" onerror="this.src='img/futurecities/future3.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Rethinking The Future: AI x Symbiotic Architecture by Manas Bhatia explores the intersection of technology and nature...</b></span>
+                    <a class="news-link" href="https://www.re-thinkingthefuture.com/residential/7561-ai-x-symbiotic-architecture-by-manas-bhatia/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://archello.com/project/ai-generated-symbiotic-architecture&screenshot=true&meta=false&embed=screenshot.url" alt="Archello AI Generated Symbiotic Architecture" onerror="this.src='img/futurecities/future4.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Archello: AI-generated symbiotic architecture project showcases the future of living buildings and organic design...</b></span>
+                    <a class="news-link" href="https://archello.com/project/ai-generated-symbiotic-architecture" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://coolhunting.com/tech/computation-designer-manas-bhatias-ai-generated-living-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="Cool Hunting Computation Designer Manas Bhatia" onerror="this.src='img/futurecities/future5.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Cool Hunting: Computation designer Manas Bhatia's AI-generated living architecture redefines the built environment...</b></span>
+                    <a class="news-link" href="https://coolhunting.com/tech/computation-designer-manas-bhatias-ai-generated-living-architecture/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.wallprotex.com/architecture-newsletter/manas-bhatia-s-ai-generated-surreal-symbiotic-architecture-breathes&screenshot=true&meta=false&embed=screenshot.url" alt="Wall Protex Manas Bhatia AI Generated Architecture" onerror="this.src='img/futurecities/future0.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Wall Protex: Manas Bhatia's AI-generated surreal symbiotic architecture breathes new life into urban design concepts...</b></span>
+                    <a class="news-link" href="https://www.wallprotex.com/architecture-newsletter/manas-bhatia-s-ai-generated-surreal-symbiotic-architecture-breathes" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://ottmarliebert.com/2022/09/05/symbiotic-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="Ottmar Liebert Symbiotic Architecture" onerror="this.src='img/futurecities/future1.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Ottmar Liebert: Symbiotic architecture project explores the harmonious relationship between artificial intelligence and natural design...</b></span>
+                    <a class="news-link" href="https://ottmarliebert.com/2022/09/05/symbiotic-architecture/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://mossandfog.com/manas-bhatias-symbiotic-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="Moss and Fog Manas Bhatia Symbiotic Architecture" onerror="this.src='img/futurecities/future2.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Moss and Fog: Manas Bhatia's symbiotic architecture project showcases the future of AI-driven design innovation...</b></span>
+                    <a class="news-link" href="https://mossandfog.com/manas-bhatias-symbiotic-architecture/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.demilked.com/ai-images-symbiotic-structures-manas-bhatia/&screenshot=true&meta=false&embed=screenshot.url" alt="DeMilked AI Images Symbiotic Structures" onerror="this.src='img/futurecities/future3.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>DeMilked: AI-generated images of symbiotic structures by Manas Bhatia reveal the potential of computational design...</b></span>
+                    <a class="news-link" href="https://www.demilked.com/ai-images-symbiotic-structures-manas-bhatia/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.yahoo.com/news/symbiotic-architecture-artificial-intelligence-envisions-225808659.html&screenshot=true&meta=false&embed=screenshot.url" alt="Yahoo News Symbiotic Architecture AI" onerror="this.src='img/futurecities/future4.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Yahoo News: Symbiotic architecture and artificial intelligence envision the future of sustainable urban development...</b></span>
+                    <a class="news-link" href="https://www.yahoo.com/news/symbiotic-architecture-artificial-intelligence-envisions-225808659.html" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://themindcircle.com/symbiotic-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="The Mind Circle Symbiotic Architecture" onerror="this.src='img/futurecities/future5.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>The Mind Circle: Symbiotic architecture project demonstrates the innovative potential of AI in architectural design...</b></span>
+                    <a class="news-link" href="https://themindcircle.com/symbiotic-architecture/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.designindaba.com/articles/creative-work/living-space&screenshot=true&meta=false&embed=screenshot.url" alt="Design Indaba Living Space" onerror="this.src='img/futurecities/future0.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Design Indaba: Living space concepts by Manas Bhatia explore the intersection of artificial intelligence and organic architecture...</b></span>
+                    <a class="news-link" href="https://www.designindaba.com/articles/creative-work/living-space" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="symbiotic">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://architectureurbanism.com/Projects/view_project/R1FHblJtRHMzVGc3d3ZtRVlJdEsrdz09&screenshot=true&meta=false&embed=screenshot.url" alt="Architecture Urbanism AI Generated Project" onerror="this.src='img/futurecities/future1.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Architecture Urbanism: AI-generated symbiotic architecture project showcases innovative approaches to sustainable design...</b></span>
+                    <a class="news-link" href="https://architectureurbanism.com/Projects/view_project/R1FHblJtRHMzVGc3d3ZtRVlJdEsrdz09" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="video">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.pbs.org/video/tomorrows-e58248/&screenshot=true&meta=false&embed=screenshot.url" alt="PBS Tomorrow's World" onerror="this.src='img/futurecities/future2.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>PBS: Tomorrow's World explores AI-generated future cities and sustainable urban development...</b></span>
+                    <a class="news-link" href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="interviews">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://clip.cafe/a-brief-history-of-the-future-2024/im-here-spend-time-with-a-local-architect/&screenshot=true&meta=false&embed=screenshot.url" alt="Clip Cafe Brief History of the Future" onerror="this.src='img/futurecities/future3.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Clip Cafe: A brief history of the future featuring local architect insights on AI and urban design...</b></span>
+                    <a class="news-link" href="https://clip.cafe/a-brief-history-of-the-future-2024/im-here-spend-time-with-a-local-architect/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="future-cities">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://amazingarchitecture.com/futuristic/ai-generated-future-cities-by-manas-bhatia&screenshot=true&meta=false&embed=screenshot.url" alt="Amazing Architecture AI Generated Future Cities" onerror="this.src='img/futurecities/future4.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Amazing Architecture: AI-generated future cities by Manas Bhatia showcase green urban innovation...</b></span>
+                    <a class="news-link" href="https://amazingarchitecture.com/futuristic/ai-generated-future-cities-by-manas-bhatia" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="future-cities">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.designboom.com/architecture/ai-futuristic-sustainable-city-air-purifying-biophilic-skyscrapers-manas-bhatia-08-22-2022/&screenshot=true&meta=false&embed=screenshot.url" alt="Designboom AI Futuristic Sustainable City" onerror="this.src='img/futurecities/future5.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Designboom: AI futuristic sustainable city with air-purifying biophilic skyscrapers redefines urban living...</b></span>
+                    <a class="news-link" href="https://www.designboom.com/architecture/ai-futuristic-sustainable-city-air-purifying-biophilic-skyscrapers-manas-bhatia-08-22-2022/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://uni.xyz/journal/revolutionizing-urban-living-the-impact-&screenshot=true&meta=false&embed=screenshot.url" alt="Uni XYZ Revolutionizing Urban Living" onerror="this.src='img/futurecities/future0.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Uni XYZ: Revolutionizing urban living through AI-driven architectural innovation and sustainable design...</b></span>
+                    <a class="news-link" href="https://uni.xyz/journal/revolutionizing-urban-living-the-impact-" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="future-cities">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://themindcircle.com/future-cities/&screenshot=true&meta=false&embed=screenshot.url" alt="The Mind Circle Future Cities" onerror="this.src='img/futurecities/future1.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>The Mind Circle: Future cities reimagined through AI-generated architectural visions and sustainable planning...</b></span>
+                    <a class="news-link" href="https://themindcircle.com/future-cities/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://thursd.com/articles/using-ai-in-manas-bhatia-biophilic-architectural-designs&screenshot=true&meta=false&embed=screenshot.url" alt="Thursd Using AI in Biophilic Designs" onerror="this.src='img/futurecities/future2.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Thursd: Using AI in Manas Bhatia's biophilic architectural designs to create nature-inspired urban spaces...</b></span>
+                    <a class="news-link" href="https://thursd.com/articles/using-ai-in-manas-bhatia-biophilic-architectural-designs" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.archilovers.com/stories/30302/how-artificial-intelligence-will-shape-the-future-smart-cities.html&screenshot=true&meta=false&embed=screenshot.url" alt="Archilovers AI Future Smart Cities" onerror="this.src='img/futurecities/future3.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Archilovers: How artificial intelligence will shape the future of smart cities and urban development...</b></span>
+                    <a class="news-link" href="https://www.archilovers.com/stories/30302/how-artificial-intelligence-will-shape-the-future-smart-cities.html" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="future-cities">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.techtimes.com/articles/280158/20220906/architect-uses-ai-design-future-cities-results-otherworldly.htm&screenshot=true&meta=false&embed=screenshot.url" alt="TechTimes Architect Uses AI Design Future Cities" onerror="this.src='img/futurecities/future4.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>TechTimes: Architect uses AI to design future cities with otherworldly and innovative results...</b></span>
+                    <a class="news-link" href="https://www.techtimes.com/articles/280158/20220906/architect-uses-ai-design-future-cities-results-otherworldly.htm" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://app.newsomatic.net/2022/11/17/future-cities-made-by-bot/&screenshot=true&meta=false&embed=screenshot.url" alt="Newsomatic Future Cities Made by Bot" onerror="this.src='img/futurecities/future5.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Newsomatic: Future cities made by bot explores the intersection of AI and urban planning innovation...</b></span>
+                    <a class="news-link" href="https://app.newsomatic.net/2022/11/17/future-cities-made-by-bot/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://christiankromme.com/radical-visions-of-future-cities/&screenshot=true&meta=false&embed=screenshot.url" alt="Christian Kromme Radical Visions Future Cities" onerror="this.src='img/futurecities/future0.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Christian Kromme: Radical visions of future cities through AI-driven architectural innovation and design...</b></span>
+                    <a class="news-link" href="https://christiankromme.com/radical-visions-of-future-cities/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="interviews">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://thearchitectsdiary.com/the-confluence-of-ai-and-architecture-manas-bhatia-tadpod/&screenshot=true&meta=false&embed=screenshot.url" alt="The Architect's Diary AI and Architecture Podcast" onerror="this.src='img/futurecities/future1.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>The Architect's Diary: The confluence of AI and architecture podcast featuring Manas Bhatia's insights...</b></span>
+                    <a class="news-link" href="https://thearchitectsdiary.com/the-confluence-of-ai-and-architecture-manas-bhatia-tadpod/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://m2now.com/a-city-created-by-keywords/&screenshot=true&meta=false&embed=screenshot.url" alt="M2Now A City Created by Keywords" onerror="this.src='img/futurecities/future2.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>M2Now: A city created by keywords explores AI-generated urban design and architectural innovation...</b></span>
+                    <a class="news-link" href="https://m2now.com/a-city-created-by-keywords/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="interviews">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.itsliquid.com/interview-manas-bhatia.html&screenshot=true&meta=false&embed=screenshot.url" alt="ItsLiquid Interview Manas Bhatia" onerror="this.src='img/futurecities/future3.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>ItsLiquid: Interview with Manas Bhatia on AI architecture and the future of computational design...</b></span>
+                    <a class="news-link" href="https://www.itsliquid.com/interview-manas-bhatia.html" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.novatr.com/blog/futuristic-architecture-designs&screenshot=true&meta=false&embed=screenshot.url" alt="Novatr Futuristic Architecture Designs" onerror="this.src='img/futurecities/future4.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Novatr: Futuristic architecture designs reimagined through AI and computational design innovation...</b></span>
+                    <a class="news-link" href="https://www.novatr.com/blog/futuristic-architecture-designs" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="research">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.researchgate.net/figure/Manas-Bhatia-image-of-the-AI-x-Future-Cities-project-reprocessing-performed-in-AI_fig11_384182945&screenshot=true&meta=false&embed=screenshot.url" alt="ResearchGate AI x Future Cities Project" onerror="this.src='img/futurecities/future5.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>ResearchGate: AI x Future Cities project research and computational design methodology exploration...</b></span>
+                    <a class="news-link" href="https://www.researchgate.net/figure/Manas-Bhatia-image-of-the-AI-x-Future-Cities-project-reprocessing-performed-in-AI_fig11_384182945" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.archi-tector.com/trend/so-artificial-intelligence-could-change-the-future-of-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="Archi-tector AI Future of Architecture" onerror="this.src='img/futurecities/future0.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Archi-tector: How artificial intelligence could change the future of architecture and urban design...</b></span>
+                    <a class="news-link" href="https://www.archi-tector.com/trend/so-artificial-intelligence-could-change-the-future-of-architecture/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="video">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.youtube.com/watch?v=9BpxfVdUZbA&ab_channel=ELEV8&screenshot=true&meta=false&embed=screenshot.url" alt="ELEV8 AI Architecture Documentary" onerror="this.src='img/futurecities/future1.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>ELEV8: AI architecture documentary featuring innovative approaches to future city design and development...</b></span>
+                    <a class="news-link" href="https://www.youtube.com/watch?v=9BpxfVdUZbA&ab_channel=ELEV8" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://westontitle.com/2022/09/ai-architecture-futuristic-cities/&screenshot=true&meta=false&embed=screenshot.url" alt="Weston Title AI Architecture Futuristic Cities" onerror="this.src='img/futurecities/future2.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Weston Title: AI architecture and futuristic cities explore the next generation of urban development...</b></span>
+                    <a class="news-link" href="https://westontitle.com/2022/09/ai-architecture-futuristic-cities/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://cor3design.com/artificial-intelligence-2/&screenshot=true&meta=false&embed=screenshot.url" alt="Cor3 Design Artificial Intelligence" onerror="this.src='img/futurecities/future3.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Cor3 Design: Artificial intelligence in architecture and its transformative impact on design innovation...</b></span>
+                    <a class="news-link" href="https://cor3design.com/artificial-intelligence-2/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://blog.beopenfuture.com/2022/08/31/ai-generated-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="BeOpen Future AI Generated Architecture" onerror="this.src='img/futurecities/future4.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>BeOpen Future: AI-generated architecture explores the future of design and computational creativity...</b></span>
+                    <a class="news-link" href="https://blog.beopenfuture.com/2022/08/31/ai-generated-architecture/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="research">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.researchgate.net/publication/383444477_The_Integration_of_Artificial_Intelligence_in_Architectural_Visualization_Enhances_Augmented_Realism_and_Interactivity&screenshot=true&meta=false&embed=screenshot.url" alt="ResearchGate AI Integration Architectural Visualization" onerror="this.src='img/futurecities/future5.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>ResearchGate: The integration of artificial intelligence in architectural visualization enhances augmented realism and interactivity...</b></span>
+                    <a class="news-link" href="https://www.researchgate.net/publication/383444477_The_Integration_of_Artificial_Intelligence_in_Architectural_Visualization_Enhances_Augmented_Realism_and_Interactivity" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+            <div class="news-card" data-category="ai">
+                <div class="news-thumb">
+                    <img src="https://api.microlink.io?url=https://www.re-thinkingthefuture.com/narratives/a11531-shaping-tomorrow-unveiling-the-future-of-architecture/&screenshot=true&meta=false&embed=screenshot.url" alt="Rethinking The Future Shaping Tomorrow" onerror="this.src='img/futurecities/future0.jpg'">
+                </div>
+                <div class="news-meta">
+                    <span class="news-headline"><b>Rethinking The Future: Shaping tomorrow unveiling the future of architecture through AI and innovation...</b></span>
+                    <a class="news-link" href="https://www.re-thinkingthefuture.com/narratives/a11531-shaping-tomorrow-unveiling-the-future-of-architecture/" target="_blank" rel="noopener">Read more...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div id="site-footer"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
     <script src="sketch-projects.js"></script>
     <script src="js/theme.js"></script>
     <script>
@@ -474,6 +1248,288 @@
         window.addEventListener('themeChange', function(e) {
             // Redraw canvas with new theme
             draw();
+        });
+    </script>
+    <script>
+    // Filtering functionality for news cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.news-filter');
+        const cards = document.querySelectorAll('.news-card');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                cards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+    </script>
+    
+    <!-- Map JavaScript -->
+    <script>
+        // CSV data for the map and card filtering
+        const csvData = `Link,Country,Coordinates
+https://www.cnn.com/style/article/ai-architecture-manas-bhatia,USA,"38.89511, -77.03637"
+https://www.pbs.org/video/tomorrows-e58248/,USA,"38.89511, -77.03637"
+https://clip.cafe/a-brief-history-of-the-future-2024/im-here-spend-time-with-a-local-architect/,USA,"38.89511, -77.03637"
+"https://amazingarchitecture.com/futuristic/ai-generated-future-cities-by-manas-bhatia#:~:text=For%20the%20green%20cities%20they,modern%20structures%20and%20no%20pollution.",UAE,"25.2048, 55.2708"
+https://www.designboom.com/architecture/ai-futuristic-sustainable-city-air-purifying-biophilic-skyscrapers-manas-bhatia-08-22-2022/,Italy,"45.4642, 9.19"
+https://www.amazingarchitecture.com/futuristic/ai-generated-future-cities-by-manas-bhatia,UAE,"25.2048, 55.2708"
+https://uni.xyz/journal/revolutionizing-urban-living-the-impact-,India,"28.6139, 77.2090"
+https://themindcircle.com/future-cities/,USA,"38.89511, -77.03637"
+https://thursd.com/articles/using-ai-in-manas-bhatia-biophilic-architectural-designs,Netherlands,"52.3676, 4.9041"
+https://www.archilovers.com/stories/30302/how-artificial-intelligence-will-shape-the-future-smart-cities.html,Italy,"44.4949, 11.3426"
+https://www.techtimes.com/articles/280158/20220906/architect-uses-ai-design-future-cities-results-otherworldly.htm,USA,"38.89511, -77.03637"
+https://app.newsomatic.net/2022/11/17/future-cities-made-by-bot/?t=e5203c7e-0481-4a64-9b40-8a991c297fab&reading_level=E3,Unknown,NA
+https://christiankromme.com/radical-visions-of-future-cities/,Netherlands,"52.3676, 4.9041"
+https://thearchitectsdiary.com/the-confluence-of-ai-and-architecture-manas-bhatia-tadpod/,India,"28.6139, 77.2090"
+https://m2now.com/a-city-created-by-keywords/,New Zealand,"-36.8485, 174.7633"
+https://www.itsliquid.com/interview-manas-bhatia.html,Italy,"45.4642, 9.19"
+https://www.novatr.com/blog/futuristic-architecture-designs,India,"28.6139, 77.2090"
+https://www.researchgate.net/figure/Manas-Bhatia-image-of-the-AI-x-Future-Cities-project-reprocessing-performed-in-AI_fig11_384182945,Germany,"52.52, 13.4050"
+https://www.archi-tector.com/trend/so-artificial-intelligence-could-change-the-future-of-architecture/,Russia,"55.7558, 37.6173"
+https://www.youtube.com/watch?v=9BpxfVdUZbA&ab_channel=ELEV8,USA,"38.89511, -77.03637"
+https://westontitle.com/2022/09/ai-architecture-futuristic-cities/,USA,"25.7617, -80.1918"
+https://cor3design.com/artificial-intelligence-2/,USA,"34.0007, -81.0348"
+https://blog.beopenfuture.com/2022/08/31/ai-generated-architecture/,Unknown,NA
+https://www.researchgate.net/publication/383444477_The_Integration_of_Artificial_Intelligence_in_Architectural_Visualization_Enhances_Augmented_Realism_and_Interactivity/fulltext/66cddee5fa5e11512c3ac483/The-Integration-of-Artificial-Intelligence-in-Architectural-Visualization-Enhances-Augmented-Realism-and-Interactivity.pdf,Germany,"52.52, 13.4050"
+https://www.re-thinkingthefuture.com/narratives/a11531-shaping-tomorrow-unveiling-the-future-of-architecture/,India,"28.6139, 77.2090"
+https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn,USA,"38.89511, -77.03637"
+https://good.rp3agency.com/manas-bhatia-interview,Unknown,NA
+https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia,UAE,"25.2048, 55.2708"
+https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/,Italy,"45.4642, 9.19"
+https://parametric-architecture.com/ai-x-symbiotic-architecture-a-residential-self-growing-tower-conceptual-design-by-manas-bhatia/?srsltid=AfmBOopS6r_nAFfLlTOW70JNVIqFMFDTD9yrUm6Trjt2GCqZZdCQ_9Jl,Unknown,NA
+https://mymodernmet.com/manas-bhatia-ai-concept-architecture/,Unknown,NA
+https://thursd.com/articles/mania-bhatia-imagines-a-surreal-architectural-future-in-his-newest-project,Netherlands,"52.3676, 4.9041"
+https://www.arch2o.com/surreal-symbiotic-architecture-created-by-artificial-intelligence-in-manas-bhatia/,Unknown,NA
+https://www.re-thinkingthefuture.com/residential/7561-ai-x-symbiotic-architecture-by-manas-bhatia/,India,"28.6139, 77.2090"
+https://archello.com/project/ai-generated-symbiotic-architecture,Unknown,NA
+https://coolhunting.com/tech/computation-designer-manas-bhatias-ai-generated-living-architecture/,Unknown,NA
+https://www.wallprotex.com/architecture-newsletter/manas-bhatia-s-ai-generated-surreal-symbiotic-architecture-breathes,Unknown,NA
+https://ottmarliebert.com/2022/09/05/symbiotic-architecture/,Unknown,NA
+https://mossandfog.com/manas-bhatias-symbiotic-architecture/,Unknown,NA
+https://www.demilked.com/ai-images-symbiotic-structures-manas-bhatia/,Unknown,NA
+https://www.yahoo.com/news/symbiotic-architecture-artificial-intelligence-envisions-225808659.html?guccounter=1&guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAFHCMjQM89aeYCgJZ4osmkSlrQAUCUEI-PmaULv3Kgfju9NnlnQawqlOH-E1Ff34MDXO8iJR-jKNbYn_H_3JXrLy6JbhQcggfog-3YDIdiF1oh9OsToD7EKb1njnjsRad_aCLoxYgSO4-7fHc5n4Ok5VSXXeL6Vfd9Z9UL2tiRIb,Unknown,NA
+https://themindcircle.com/symbiotic-architecture/,USA,"38.89511, -77.03637"
+https://www.designindaba.com/articles/creative-work/living-space,Unknown,NA
+https://architectureurbanism.com/Projects/view_project/R1FHblJtRHMzVGc3d3ZtRVlJdEsrdz09,Unknown,NA`;
+
+        // Initialize map when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Parse CSV data
+            const articles = d3.csvParse(csvData);
+            // Filter out articles with unknown countries
+            const validArticles = articles.filter(d => d.Country !== 'Unknown' && d.Coordinates !== 'NA');
+            
+            // Create a mapping of URLs to countries for card filtering
+            const urlToCountry = {};
+            validArticles.forEach(article => {
+                urlToCountry[article.Link] = article.Country;
+            });
+            
+            // Add country data attributes to all news cards
+            const newsCards = document.querySelectorAll('.news-card');
+            newsCards.forEach(card => {
+                const linkElement = card.querySelector('.news-link');
+                if (linkElement) {
+                    const url = linkElement.href;
+                    const country = urlToCountry[url];
+                    if (country) {
+                        card.setAttribute('data-country', country);
+                    }
+                }
+            });
+            
+            // Country name mapping to handle different naming conventions
+            const countryNameMap = {
+                'USA': 'United States of America',
+                'UAE': 'United Arab Emirates',
+                'Russia': 'Russia'
+            };
+            
+            // Normalize country names
+            const normalizedArticles = validArticles.map(article => ({
+                ...article,
+                Country: countryNameMap[article.Country] || article.Country
+            }));
+            
+            // Group articles by country
+            const countryData = d3.group(normalizedArticles, d => d.Country);
+            
+            // Calculate statistics
+            const totalArticles = normalizedArticles.length;
+            const countriesCovered = countryData.size;
+            const continents = new Set(['North America', 'Europe', 'Asia', 'Oceania']).size;
+            
+            // Update stats
+            document.getElementById('total-articles').textContent = totalArticles;
+            document.getElementById('countries-covered').textContent = countriesCovered;
+            document.getElementById('continents').textContent = continents;
+            
+            // Map dimensions
+            let width = document.getElementById('world-map').clientWidth;
+            if (!width || width < 400) width = 1000;
+            const height = 600;
+            
+            // Create SVG
+            const svg = d3.select('#world-map')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+            
+            // Create tooltip
+            const tooltip = d3.select('#tooltip');
+            
+            // Projection
+            const projection = d3.geoMercator()
+                .fitSize([width, height], {type: 'Sphere'});
+            const path = d3.geoPath().projection(projection);
+            
+            // Load world map data
+            d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
+                .then(function(world) {
+                    const countries = topojson.feature(world, world.objects.countries);
+                    
+                    // Draw countries
+                    svg.selectAll('.country')
+                        .data(countries.features)
+                        .enter()
+                        .append('path')
+                        .attr('class', 'country')
+                        .attr('d', path)
+                        .attr('data-country', d => d.properties.name)
+                        .on('mouseover', function(event, d) {
+                            const countryName = d.properties.name;
+                            // Find matching articles using flexible matching
+                            let articles = countryData.get(countryName) || [];
+                            if (articles.length === 0) {
+                                const ourCountries = Array.from(countryData.keys());
+                                const matchingCountry = ourCountries.find(ourCountry => 
+                                    countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
+                                    ourCountry.toLowerCase().includes(countryName.toLowerCase())
+                                );
+                                if (matchingCountry) {
+                                    articles = countryData.get(matchingCountry) || [];
+                                }
+                            }
+                            if (articles.length > 0) {
+                                d3.select(this).classed('active', true);
+                                tooltip.transition()
+                                    .duration(200)
+                                    .style('opacity', 0.9);
+                                tooltip.html(`
+                                    <h3>${countryName}</h3>
+                                    <p><strong>${articles.length}</strong> article${articles.length > 1 ? 's' : ''}</p>
+                                    <p>${articles.map(a => a.Link.split('/')[2]).join(', ')}</p>
+                                `)
+                                    .style('left', (event.pageX + 10) + 'px')
+                                    .style('top', (event.pageY - 28) + 'px');
+                            }
+                        })
+                        .on('mouseout', function(event, d) {
+                            d3.select(this).classed('active', false);
+                            tooltip.transition()
+                                .duration(500)
+                                .style('opacity', 0);
+                        })
+                        .on('click', function(event, d) {
+                            const countryName = d.properties.name;
+                            // Find matching articles using flexible matching
+                            let articles = countryData.get(countryName) || [];
+                            let displayCountryName = countryName;
+                            if (articles.length === 0) {
+                                const ourCountries = Array.from(countryData.keys());
+                                const matchingCountry = ourCountries.find(ourCountry => 
+                                    countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
+                                    ourCountry.toLowerCase().includes(countryName.toLowerCase())
+                                );
+                                if (matchingCountry) {
+                                    articles = countryData.get(matchingCountry) || [];
+                                    displayCountryName = matchingCountry;
+                                }
+                            }
+                            if (articles.length > 0) {
+                                svg.selectAll('.country').classed('active', false);
+                                d3.select(this).classed('active', true);
+                                filterCardsByCountry(displayCountryName);
+                            }
+                        });
+                    
+                    // Add data class to countries with articles
+                    svg.selectAll('.country')
+                        .filter(d => {
+                            const countryName = d.properties.name;
+                            // Check exact match first
+                            if (countryData.has(countryName)) {
+                                return true;
+                            }
+                            // Check if any of our country names contain or are contained in the map country name
+                            const ourCountries = Array.from(countryData.keys());
+                            return ourCountries.some(ourCountry => 
+                                countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
+                                ourCountry.toLowerCase().includes(countryName.toLowerCase())
+                            );
+                        })
+                        .classed('has-data', true);
+                })
+                .catch(function(error) {
+                    document.getElementById('world-map').innerHTML = '<div style="color:red;text-align:center;padding:2rem;">Failed to load world map data. Please check your internet connection.</div>';
+                });
+            
+            // Function to filter cards by country
+            function filterCardsByCountry(countryName) {
+                const cards = document.querySelectorAll('.news-card');
+                let visibleCount = 0;
+                
+                cards.forEach(card => {
+                    const cardCountry = card.getAttribute('data-country');
+                    if (cardCountry === countryName) {
+                        card.style.display = '';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Update the section title to show filtered results
+                const sectionTitle = document.querySelector('.news-section:nth-child(3) .news-title');
+                if (sectionTitle) {
+                    sectionTitle.textContent = `Press & Media - ${countryName} (${visibleCount} articles)`;
+                }
+            }
+            
+            // Function to show all cards
+            function showAllCards() {
+                const cards = document.querySelectorAll('.news-card');
+                cards.forEach(card => {
+                    card.style.display = '';
+                });
+                
+                // Reset the section title
+                const sectionTitle = document.querySelector('.news-section:nth-child(3) .news-title');
+                if (sectionTitle) {
+                    sectionTitle.textContent = 'Press & Media';
+                }
+            }
+            
+            // Add click handler to reset filtering when clicking "All" filter
+            document.addEventListener('DOMContentLoaded', function() {
+                const allFilter = document.querySelector('.news-filter[data-filter="all"]');
+                if (allFilter) {
+                    allFilter.addEventListener('click', function() {
+                        showAllCards();
+                        // Reset map selection
+                        d3.selectAll('.country').classed('active', false);
+                    });
+                }
+            });
         });
     </script>
 </body>
