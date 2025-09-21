@@ -1,0 +1,269 @@
+WEBSITE STYLE GUIDE - MANAS BHATIA PORTFOLIO
+===============================================
+
+OVERVIEW
+--------
+This document captures the visual design system, styling patterns, and aesthetic elements of the Manas Bhatia portfolio website. Use this guide to understand the website's design language and recreate similar visual experiences.
+
+COLOR SYSTEM
+------------
+
+Light Theme Colors:
+- Primary Background: #ffffff (white)
+- Secondary Background: #ffffff (white)
+- Tertiary Background: rgba(240, 240, 240, 0.8)
+- Tertiary Background Hover: rgba(240, 240, 240, 1)
+- Primary Text: #111 (dark gray)
+- Secondary Text: #444 (medium gray)
+- Tertiary Text: #3e3e3e (light gray)
+- Border Color: rgba(200, 200, 200, 0.18)
+- Shadow Color: rgba(0, 0, 0, 0.04)
+- Shadow Hover: rgba(0, 0, 0, 0.08)
+- Dropdown Background: rgba(240, 240, 240, 0.95)
+- Dropdown Hover: rgba(220, 220, 220, 1)
+- Canvas Background: rgb(255, 255, 255)
+- Project Card Background: #ffffff
+- Project Card Shadow: rgba(0,0,0,0.06)
+- Project Card Shadow Hover: rgba(0,0,0,0.10)
+
+Dark Theme Colors:
+- Primary Background: #1a1a1a (dark gray)
+- Secondary Background: #2d2d2d (medium dark gray)
+- Tertiary Background: rgba(60, 60, 60, 0.8)
+- Tertiary Background Hover: rgba(60, 60, 60, 1)
+- Primary Text: #ffffff (white)
+- Secondary Text: #cccccc (light gray)
+- Tertiary Text: #e0e0e0 (off-white)
+- Border Color: rgba(80, 80, 80, 0.3)
+- Shadow Color: rgba(0, 0, 0, 0.2)
+- Shadow Hover: rgba(0, 0, 0, 0.3)
+- Dropdown Background: rgba(60, 60, 60, 0.95)
+- Dropdown Hover: rgba(80, 80, 80, 1)
+- Canvas Background: rgb(26, 26, 26)
+- Project Card Background: #2d2d2d
+- Project Card Shadow: rgba(0,0,0,0.2)
+- Project Card Shadow Hover: rgba(0,0,0,0.4)
+
+Accent Colors:
+- Navigation Hover: #a3e635 (lime green)
+- Logo Background (Light): #232323
+- Logo Background (Dark): #404040
+
+TYPOGRAPHY
+----------
+
+Primary Font Stack:
+- Font Family: 'Inter', 'General Sans', Arial, sans-serif
+- Font Weight: 300, 500, 600, 700, 900
+- Letter Spacing: -0.04em (for titles), 0.05em (for instructions)
+
+Special Fonts:
+- Landing Page Name: 'Asher Punk Demo Version', Arial, sans-serif
+- Hindi Text: 'Poppins', sans-serif
+- Code/Mono: 'Fira Mono', monospace
+
+Font Sizes:
+- Large Titles: 6vw (responsive), 8vw (landing page), 10vw (mobile)
+- Project Titles: 1.5rem
+- Project Details: 1rem
+- Body Text: 1.2rem
+- Instructions: 0.9vw
+- Hindi Text: 1.0vw
+
+LAYOUT & SPACING
+----------------
+
+Grid System:
+- Projects Grid: 3 columns on desktop, 2 on tablet, 1 on mobile
+- Grid Gap: 2vw
+- Container Max Width: 900px (navigation)
+
+Spacing:
+- Section Margin Top: 80px (60px on mobile)
+- Section Padding: 0 3vw 90px 3vw
+- Header Row Margin Bottom: 2.5vw
+- Title Margin Bottom: 0.5vw
+- Description Margin Bottom: 2vw
+
+Navigation:
+- Top Position: 24px
+- Border Radius: 32px
+- Padding: 0.5rem 2.2rem (0.5rem 1rem on mobile)
+- Logo Size: 44px x 44px
+- Logo Border Radius: 16px
+- Link Gap: 1.8rem (1rem on mobile)
+- Link Padding: 0.5rem 1.5rem
+- Link Border Radius: 12px
+
+COMPONENT STYLES
+----------------
+
+Navigation Bar:
+- Background: rgba(17, 17, 17, 0.7) with backdrop-filter: blur(12px)
+- Border: 1px solid rgba(255,255,255,0.10)
+- Box Shadow: 0 4px 32px 0 rgba(0,0,0,0.10)
+- Dark Theme Background: rgba(255, 255, 255, 0.1)
+- Dark Theme Border: rgba(255,255,255,0.20)
+
+Project Cards:
+- Aspect Ratio: 1:1 (square)
+- Border Radius: 14px
+- Box Shadow: 0 2px 16px 0 var(--project-card-shadow)
+- Hover Transform: translateY(-4px) scale(1.02)
+- Hover Shadow: 0 8px 32px 0 var(--project-card-shadow-hover)
+- Transition: box-shadow 0.18s, transform 0.18s, background 0.3s ease
+
+Project Overlays:
+- Background: rgba(0, 0, 0, 0.7)
+- Opacity: 0 (default), 1 (on hover)
+- Transition: opacity 0.3s ease
+- Padding: 20px
+- Text Color: white
+- Text Alignment: center
+
+Dark Mode Toggle:
+- Position: fixed top 24px right 24px
+- Background: rgba(240, 240, 240, 0.8)
+- Border Radius: 12px
+- Backdrop Filter: blur(12px)
+- Box Shadow: 0 4px 16px 0 rgba(0,0,0,0.1)
+- Border: 1px solid rgba(200,200,200,0.2)
+- Hover Transform: scale(1.05)
+
+ANIMATIONS & TRANSITIONS
+------------------------
+
+General Transitions:
+- Background: 0.3s ease
+- Color: 0.3s ease
+- Box Shadow: 0.18s
+- Transform: 0.18s
+- Opacity: 0.3s ease
+
+Hover Effects:
+- Navigation Links: background rgba(255,255,255,0.10), color #a3e635
+- Project Cards: translateY(-4px) scale(1.02)
+- Dark Mode Toggle: scale(1.05)
+- Landing Page Name: scale(1.05), letter-spacing 0.01em
+
+Particle Animation:
+- Duration: 0.8s cubic-bezier(0.4, 0, 0.2, 1)
+- Growth Transform: scale(1.5)
+- Fade In/Out: 2s ease-in-out infinite
+
+INTERACTIVE ELEMENTS
+--------------------
+
+Canvas Background:
+- Position: fixed, top 0, left 0
+- Z-index: 0
+- Pointer Events: none
+- Responsive: windowWidth x windowHeight
+
+Cursor:
+- Custom Cursor: cursor.svg at 16 16
+- Applied to: body, html
+
+Particle System:
+- Particle Color: #525252 (light), #a0a0a0 (dark)
+- Particle Size: 2-8px random
+- Animation: Particles move from random positions to form rings around text
+
+RESPONSIVE BREAKPOINTS
+----------------------
+
+Mobile (max-width: 700px):
+- Projects Grid: 1 column
+- Navigation Padding: 0.5rem 1rem
+- Navigation Max Width: 98vw
+- Section Margin Top: 60px
+- Title Font Size: 10vw
+- Link Gap: 1rem
+
+Tablet (max-width: 1200px):
+- Projects Grid: 2 columns
+
+Small Desktop (max-width: 900px):
+- Project Description: align-self stretch
+
+SPECIAL EFFECTS
+---------------
+
+Backdrop Filter:
+- Navigation: blur(12px)
+- Dark Mode Toggle: blur(12px)
+
+Box Shadows:
+- Navigation: 0 4px 32px 0 rgba(0,0,0,0.10)
+- Project Cards: 0 2px 16px 0 var(--project-card-shadow)
+- Project Cards Hover: 0 8px 32px 0 var(--project-card-shadow-hover)
+- Dark Mode Toggle: 0 4px 16px 0 rgba(0,0,0,0.1)
+
+Gradients & Overlays:
+- Navigation Background: rgba with backdrop-filter
+- Project Overlays: rgba(0, 0, 0, 0.7)
+
+CONTENT STRUCTURE
+-----------------
+
+Page Layout:
+1. Header (fixed navigation)
+2. Main Content Section
+3. Footer
+4. Background Canvas (fixed)
+
+Project Grid Structure:
+- Header Row (title + description)
+- Projects Grid (responsive columns)
+- Individual Project Cards with overlays
+
+Navigation Structure:
+- Logo (44x44px)
+- Navigation Links (spaced 1.8rem apart)
+- Dark Mode Toggle (standalone on landing page)
+
+LANDING PAGE SPECIFICS
+----------------------
+
+Layout:
+- Full viewport height
+- Centered content
+- Name at 35vh from top
+- Instructions at bottom
+- Overlay transition system
+
+Typography:
+- Name: 8vw (12vw mobile)
+- Hindi subtitle: 1.0vw
+- Instructions: 0.9vw
+
+Animation:
+- Fade in/out instruction text
+- Particle growth from name
+- Smooth transition overlay
+
+IMPLEMENTATION NOTES
+-------------------
+
+CSS Variables:
+- All colors use CSS custom properties for theme switching
+- Theme changes trigger 'themeChange' event
+- Canvas redraws on theme change
+
+JavaScript Integration:
+- P5.js for canvas animations
+- Theme switching with localStorage
+- Particle system for landing page
+- Responsive canvas resizing
+
+Accessibility:
+- High contrast ratios
+- Keyboard navigation support
+- Screen reader friendly structure
+- Focus indicators maintained
+
+Performance:
+- Hardware-accelerated animations
+- Efficient particle system
+- Optimized canvas rendering
+- Minimal reflows on theme changes 
