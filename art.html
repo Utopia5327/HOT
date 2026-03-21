@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Art - Manas Bhatia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -138,7 +139,8 @@
             margin-bottom: 2.5vw;
         }
         .projects-title {
-            font-size: 6vw;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(4rem, 6vw, 7rem);
             font-weight: 900;
             letter-spacing: -0.04em;
             line-height: 1;
@@ -149,13 +151,15 @@
             transition: color 0.3s ease;
         }
         .projects-description {
-            font-size: 1.2rem;
+            font-size: clamp(0.95rem, 1.2vw + 0.3rem, 1.15rem);
             color: var(--text-secondary);
             max-width: 700px;
             margin-bottom: 2vw;
-            line-height: 1.5;
+            line-height: 1.65;
             text-align: left;
-            font-weight: 700;
+            font-weight: 400;
+            font-style: normal;
+            letter-spacing: 0.01em;
             align-self: flex-end;
             transition: color 0.3s ease;
         }
@@ -169,10 +173,10 @@
             display: block;
             background: var(--project-card-bg);
             width: 100%;
-            border-radius: 14px;
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
-            transition: box-shadow 0.18s, transform 0.18s, background 0.3s ease;
+            transition: box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s ease;
             box-shadow: 0 2px 16px 0 var(--project-card-shadow);
             aspect-ratio: 1/1;
         }
@@ -250,28 +254,58 @@
         .project-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.92) 0%,
+                rgba(0,0,0,0.6) 45%,
+                rgba(0,0,0,0.0) 100%
+            );
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-end;
+            align-items: flex-start;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            padding: 20px;
-            text-align: center;
+            transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 1.5rem;
+            text-align: left;
             color: white;
         }
         .framer-project-card:hover .project-overlay {
             opacity: 1;
         }
+        .project-index {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            opacity: 0.5;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
         .project-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: clamp(1rem, 1.5vw, 1.4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
         }
         .project-details {
-            font-size: 1rem;
-            opacity: 0.9;
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            opacity: 0.75;
+            text-transform: uppercase;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+        .project-tools {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.06em;
+            opacity: 0.5;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 0.5rem;
+            width: 100%;
         }
         canvas {
             position: fixed;
@@ -288,7 +322,7 @@
         <div class="projects-header-row">
             <h1 class="projects-title">ART</h1>
             <p class="projects-description">
-                Exploring the intersection of art, architecture, and digital expression. These projects showcase creative experimentation with visual arts, digital media, and artistic installations that push the boundaries of traditional design and spatial experience.
+                Generative AI as a design instrument—speculative architectures, biophilic futures, and synthetic landscapes produced at the boundary of computation and image. Exhibited internationally, from the Château de Lourmarin in France to Google's UnFold gallery.
             </p>
         </div>
         <div class="projects-grid">
@@ -299,8 +333,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">01 / 05</div>
                     <div class="project-title">Google UnFold: New Worlds of Fashion</div>
-                    <div class="project-details">Generative AI artwork</div>
+                    <div class="project-details">Generative AI · Fashion Design · 2023</div>
+                    <div class="project-tools">Midjourney · Generative AI</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./art/art2.html">
@@ -310,8 +346,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">02 / 05</div>
                     <div class="project-title">Les Lieux Imaginaires</div>
-                    <div class="project-details">Generative AI artwork</div>
+                    <div class="project-details">Generative AI Art · Exhibition · 2024</div>
+                    <div class="project-tools">LookX · Krea · Midjourney</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./art/art3.html">
@@ -321,8 +359,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">03 / 05</div>
                     <div class="project-title">AI x Future Cities</div>
-                    <div class="project-details">Specultative<br>Design Fiction</div>
+                    <div class="project-details">Speculative Design · Urban Fiction · 2023</div>
+                    <div class="project-tools">Midjourney · Generative AI</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./art/art4.html">
@@ -332,8 +372,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">04 / 05</div>
                     <div class="project-title">Symbiotic Architecture</div>
-                    <div class="project-details">Seculative<br>Design Fiction</div>
+                    <div class="project-details">Speculative Architecture · AI · 2022</div>
+                    <div class="project-tools">Midjourney · Generative AI</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./art/art5.html">
@@ -343,8 +385,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">05 / 05</div>
                     <div class="project-title">Reimagining India</div>
-                    <div class="project-details">Urban Design<br>Speculative</div>
+                    <div class="project-details">Urban Design · Speculative · 2023</div>
+                    <div class="project-tools">Midjourney · Generative AI</div>
                 </div>
             </a>
         </div>

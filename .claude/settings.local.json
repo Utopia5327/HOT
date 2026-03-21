@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -v \"^$\")",
+      "WebFetch(domain:www.framer.com)",
+      "WebFetch(domain:brightedge.framer.website)",
+      "WebFetch(domain:kanso.framer.website)",
+      "WebFetch(domain:yuya.framer.website)",
+      "Bash(grep -n \"framer-title\" c:/Users/fauxi/OneDrive/Documents/GitHub/HOT/projects/*.html)"
+    ]
+  }
+}

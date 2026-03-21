@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #fafafa;
+            --bg-primary: rgb(252, 250, 245);
             --bg-secondary: #ffffff;
             --bg-tertiary: rgba(240, 240, 240, 0.8);
             --bg-tertiary-hover: rgba(240, 240, 240, 1);
@@ -46,219 +46,401 @@
             font-weight: normal;
             font-style: normal;
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
             font-family: 'Inter', 'General Sans', Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            min-height: 100vh;
             cursor: url('cursor.svg') 16 16, auto;
             transition: background 0.3s ease, color 0.3s ease;
         }
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
-        .about-section {
+
+        canvas { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none; }
+        #site-footer { display: none; }
+
+        /* ── Two-panel page shell ──────────────────────────────── */
+        .about-wrapper {
             position: relative;
             z-index: 1;
-            max-width: 100vw;
-            margin: 80px 0 0 0;
-            padding: 0 3vw 90px 3vw;
-        }
-        .name-header {
-            font-family: 'Asher Punk', sans-serif;
-            font-size: 9vw;
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            line-height: 0.95;
-            text-align: left;
-            text-transform: uppercase;
-            margin-bottom: 1vw;
-            color: var(--text-primary);
-            word-break: break-word;
-            transition: color 0.3s ease;
-        }
-        .about-content {
+            height: calc(100vh - 68px);
+            margin-top: 68px;
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 1.5vw;
-            align-items: start;
-            max-width: 100vw;
+            grid-template-columns: 42% 1fr;
         }
+
+        /* ── Left panel: identity ──────────────────────────────── */
         .about-left {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 30vh;
+            padding: 4vh 4.5vw 3.5vh 5vw;
+            border-right: 1px solid var(--border-color);
         }
-        .section-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
+
+        .name-header {
+            font-family: 'Asher Punk', sans-serif;
+            font-size: clamp(2.4rem, 5vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 0.92;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 1vw;
+            color: var(--text-primary);
             transition: color 0.3s ease;
+            margin-bottom: 0.9rem;
         }
+
+        .about-role {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.8rem;
+        }
+
         .about-bio {
-            font-size: 1.1vw;
-            line-height: 1.3;
+            font-size: clamp(0.75rem, 0.85vw + 0.05rem, 0.92rem);
+            line-height: 1.8;
             font-weight: 400;
             color: var(--text-primary);
-            margin-bottom: 0;
-            margin-top: 1vw;
             transition: color 0.3s ease;
+            flex-grow: 1;
         }
-        .clients-section {
+
+        .about-contact {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.2rem;
+            margin-top: 2vh;
+        }
+
+        .contact-label {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.54rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-email {
+            display: block;
+            font-size: clamp(0.82rem, 0.95vw, 1rem);
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+            transition: color 0.2s ease;
+        }
+        .contact-email:hover { color: #a3e635; }
+
+        .contact-links-row {
             display: flex;
-            flex-direction: row;
-            gap: 2vw;
-            margin-top: 3vw;
+            gap: 0.6rem;
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.56rem;
+            letter-spacing: 0.1em;
         }
-        .client-list {
+
+        .contact-social {
+            color: var(--text-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+        .contact-social:hover { color: #a3e635; }
+        .contact-sep { opacity: 0.3; }
+
+        /* ── Right panel: Now + Press ──────────────────────────── */
+        .about-right {
             display: flex;
             flex-direction: column;
-            gap: 0.3vw;
+            justify-content: space-between;
+            padding: 4vh 5vw 3.5vh 4.5vw;
         }
-        .client-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
+
+        .block-label {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.54rem;
+            letter-spacing: 0.24em;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.7vw;
-            transition: color 0.3s ease;
+            color: var(--text-muted);
+            padding-bottom: 0.65rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.1rem;
         }
-        .client-item {
-            font-size: 0.7vw;
+
+        .kv-grid { display: flex; flex-direction: column; gap: 0.7rem; }
+
+        .kv-row {
+            display: grid;
+            grid-template-columns: 105px 1fr;
+            gap: 1rem;
+            align-items: baseline;
+        }
+
+        .kv-key {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.56rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+        }
+
+        .kv-value {
+            font-size: clamp(0.75rem, 0.82vw, 0.9rem);
             font-weight: 400;
             color: var(--text-primary);
+            line-height: 1.55;
+        }
+
+        .press-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: clamp(1rem, 3vw, 3rem);
+            row-gap: 0.4rem;
+        }
+
+        .press-item {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.58rem;
             text-transform: uppercase;
-            letter-spacing: 0.02em;
-            transition: color 0.3s ease;
+            letter-spacing: 0.06em;
+            color: var(--text-primary);
+            line-height: 1.45;
         }
-        .client-item a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .client-item a:hover {
-            color: var(--text-secondary);
-        }
-        @media (max-width: 900px) {
-            .name-header {
-                font-size: 12vw;
-            }
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 3vw;
-            }
-            .about-bio {
-                font-size: 2.2vw;
-            }
-            .clients-section {
-                flex-direction: column;
-                gap: 1vw;
-                margin-top: 2vw;
-            }
-            .client-item {
-                font-size: 1.2vw;
-            }
-        }
-        @media (max-width: 600px) {
-            .about-section {
-                padding: 0 2vw 2rem 2vw;
-            }
-            .name-header {
-                font-size: 15vw;
-                margin-bottom: 2vw;
-            }
-            .about-bio {
-                font-size: 3vw;
-            }
-            .client-item {
-                font-size: 1.8vw;
-            }
-        }
-        @media (max-width: 700px) {
-            .about-section {
+
+        .press-item a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+        .press-item a:hover { color: #a3e635; }
+
+        /* ── Mobile: restore scroll ────────────────────────────── */
+        @media (max-width: 767px) {
+            html, body { height: auto; overflow-y: auto; }
+            #site-footer { display: block; }
+            .about-wrapper {
+                height: auto;
                 margin-top: 60px;
-                padding-bottom: 70px;
+                grid-template-columns: 1fr;
             }
+            .about-left {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 3vh 6vw 3vh 6vw;
+                gap: 2rem;
+                justify-content: flex-start;
+            }
+            .about-right {
+                padding: 3vh 6vw 5vh 6vw;
+                gap: 2.5rem;
+                justify-content: flex-start;
+            }
+            .press-grid { grid-template-columns: 1fr; }
+            .kv-row { grid-template-columns: 90px 1fr; }
         }
     </style>
     <link href="https://fonts.cdnfonts.com/css/asher-punk" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
     <script src="js/theme.js"></script>
+
+    <!-- SEO & GEO Meta Tags -->
+    <meta name="description" content="Manas Bhatia is a computational designer and spatial artist at Columbia University GSAPP, known for viral AI-generated biophilic architecture featured on CNN, BBC, and Dezeen. Forbes 30 Under 30 nominee, Class of 2024.">
+    <meta name="keywords" content="Manas Bhatia, computational designer, spatial designer, AI architecture, generative AI architecture, biophilic design, Columbia GSAPP, computational design practices, parametric design, AI-generated architecture, Symbiotic Architecture, future cities, spatial AI, Forbes 30 Under 30">
+    <meta name="author" content="Manas Bhatia">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://manasbhatia.com/about.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="About Manas Bhatia | Computational Designer & Spatial Artist">
+    <meta property="og:description" content="Manas Bhatia is a computational designer and spatial artist at Columbia University GSAPP, known for viral AI-generated biophilic architecture featured on CNN, BBC, and Dezeen. Forbes 30 Under 30 nominee, Class of 2024.">
+    <meta property="og:url" content="https://manasbhatia.com/about.html">
+    <meta property="og:image" content="https://manasbhatia.com/images/og-image.jpg">
+    <meta property="og:site_name" content="Manas Bhatia">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Manas Bhatia | Computational Designer & Spatial Artist">
+    <meta name="twitter:description" content="Manas Bhatia is a computational designer and spatial artist at Columbia University GSAPP, known for viral AI-generated biophilic architecture featured on CNN, BBC, and Dezeen. Forbes 30 Under 30 nominee, Class of 2024.">
+    <meta name="twitter:image" content="https://manasbhatia.com/images/og-image.jpg">
+
+    <!-- JSON-LD Person Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Manas Bhatia",
+      "url": "https://manasbhatia.com",
+      "jobTitle": "Computational Designer, Spatial Artist, Architect",
+      "description": "Manas Bhatia is a New York-based computational designer, spatial artist, and architect (Assoc. AIA) pursuing an M.S. in Computational Design Practices at Columbia University GSAPP. His AI-generated biophilic architecture series Symbiotic Architecture went globally viral in 2022 and was featured on CNN, BBC, Dezeen, and Designboom. He is a Forbes 30 Under 30 nominee (Class of 2024, The Arts) and was a featured guest in Episode 06 of the PBS docuseries A Brief History of the Future.",
+      "image": "https://manasbhatia.com/images/og-image.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "addressCountry": "US"
+      },
+      "affiliation": {
+        "@type": "EducationalOrganization",
+        "name": "Columbia University Graduate School of Architecture, Planning and Preservation (GSAPP)",
+        "url": "https://www.arch.columbia.edu"
+      },
+      "alumniOf": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Columbia University GSAPP",
+          "description": "M.S. Computational Design Practices, 2024–2025"
+        },
+        {
+          "@type": "Organization",
+          "name": "Ant Studio",
+          "description": "Associate Architect, India"
+        }
+      ],
+      "award": [
+        "Forbes 30 Under 30 Nominee, Class of 2024, The Arts",
+        "Featured Guest, PBS A Brief History of the Future, Episode 06",
+        "International Exhibition: Les Lieux Imaginaires, Château de Lourmarin, France, June 2024–May 2025"
+      ],
+      "knowsAbout": [
+        "Computational Design",
+        "Generative AI for Architecture",
+        "Parametric Design",
+        "Biophilic Architecture",
+        "AI-Generated Architecture",
+        "Spatial AI",
+        "Future Cities Design",
+        "Environmental Data Analysis",
+        "Urban Carbon Mapping",
+        "Midjourney",
+        "Grasshopper",
+        "Rhino",
+        "Python",
+        "Participatory Design",
+        "Design Technology",
+        "Columbia GSAPP Computational Design Practices"
+      ],
+      "sameAs": [
+        "https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn",
+        "https://www.dezeen.com/2023/07/24/ai-architecture-projects-dezeen-pinterest/",
+        "https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/",
+        "https://www.pbs.org/video/tomorrows-e58248/",
+        "https://www.wipo.int/meetings/en/doc_details.jsp?doc_id=620610"
+      ],
+      "workExample": [
+        {
+          "@type": "CreativeWork",
+          "name": "Symbiotic Architecture",
+          "description": "Viral AI-generated biophilic architecture series depicting buildings grown from living trees and mycelium. Featured on CNN, BBC, Dezeen, and Designboom.",
+          "url": "https://manasbhatia.com/art/art4.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "AI x Future Cities",
+          "description": "Speculative design series exploring generative AI as a tool for reimagining sustainable urban environments.",
+          "url": "https://manasbhatia.com/art/art3.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Les Lieux Imaginaires",
+          "description": "AI-generated spatial art exhibition at Château de Lourmarin, France, June 2024–May 2025.",
+          "url": "https://manasbhatia.com/art/art2.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "NYC Carbon Atlas",
+          "description": "Environmental data analysis project mapping carbon emissions across New York City using Python and geospatial tools.",
+          "url": "https://manasbhatia.com/projects/project3.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Co-Design-Canvas",
+          "description": "Spatial AI tool for participatory co-design, developed at Columbia GSAPP.",
+          "url": "https://manasbhatia.com/projects/project4.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Google UnFold",
+          "description": "Creative AI project featured in Google Unfold gallery, exploring generative AI in fashion and textile design.",
+          "url": "https://manasbhatia.com/art/art1.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Nautilus Bioarchitecture",
+          "description": "Bioinspired computational architecture drawing on natural growth spirals, featured by Stupid Dope.",
+          "url": "https://manasbhatia.com/projects/project1.html"
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <div id="site-header"></div>
-    <div class="about-section">
-        <h1 class="name-header" style="font-family: 'Asher Punk', sans-serif;">Manas Bhatia</h1>
-        <div class="about-content">
-            <div class="about-left">
-                <div>
-                    <p class="section-label">Me :</p>
-                </div>
-                <div class="clients-section">
-                    <div class="client-list">
-                        <p class="client-label">Featured in :</p>
-                        <p class="client-item"><a href="https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn" target="_blank">CNN</a></p>
-                        <p class="client-item"><a href="https://www.youtube.com/watch?v=sH-wu2qIzAE" target="_blank">BBC</a></p>
-                        <p class="client-item"><a href="https://www.dezeen.com/2023/07/24/ai-architecture-projects-dezeen-pinterest/" target="_blank">DEZEEN</a></p>
-                        <p class="client-item"><a href="https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/" target="_blank">DESIGNBOOM</a></p>
-                        <p class="client-item"><a href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank">PBS</a></p>
 
-                     
-                        <p class="client-item"><a href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank">GOOGLE UNFOLD</a></p>
-                        <p class="client-item"><a href="https://www.wipo.int/meetings/en/doc_details.jsp?doc_id=620610" target="_blank">WIPO</a></p>
-                        <p class="client-item"><a href="https://www.insiteindia.in/articles/photographs-or-images-ar-manas-bhatia-at-the-crossroad-of-nature-technology-and-design" target="_blank">INSITE INDIA</a></p>
-                        <p class="client-item"><a href="https://www.loveexploring.com/gallerylist/152164/futuristic-architect-designs-for-hotels-and-attractions-around-the-world" target="_blank">LOVE EXPLORING</a></p>
-                        <p class="client-item"><a href="https://www.youtube.com/watch?si=eyHc30Omk8GKbyly&v=yKMumx-oQFs&feature=youtu.be" target="_blank">THE ARCHITECT'S DIARY</a></p>
-                        <p class="client-item"><a href="https://www.architectureplusdesign.in/architecture/manas-bhatia-futuristic-reinterpretation-islamic-architecture-using-ai/" target="_blank">ARCHITECTURE+DESIGN</a></p>
-                        <p class="client-item"><a href="https://good.rp3agency.com/manas-bhatia-interview" target="_blank">WELL&GOOD | RP3 AGENCY</a></p>
-                        <p class="client-item"><a href="https://www.youtube.com/watch?v=V2e-EgO_Yu8" target="_blank">VLDC</a></p>
-                       
-                        <p class="client-item"><a href="https://stupiddope.com/2024/04/manas-bhatias-nautilus-bioarchitecture/" target="_blank">STUPIDDOPE</a></p>
-                        <p class="client-item"><a href="https://www.goodnewsnetwork.org/when-architect-asked-ai-to-design-futuristic-skyscrapers-it-proposed-a-vertical-forest/" target="_blank">GOOD NEWS NETWORK</a></p>
-                        <p class="client-item"><a href="https://www.archilovers.com/stories/30302/how-artificial-intelligence-will-shape-the-future-smart-cities.html" target="_blank">ARCHILOVERS</a></p>
-                        <p class="client-item"><a href="https://www.itsliquid.com/interview-manas-bhatia.html" target="_blank">ITS LIQUID</a></p>
-                        <p class="client-item"><a href="https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia" target="_blank">AMAZING ARCHITECTURE</a></p>
-                        <p class="client-item"><a href="https://parametric-architecture.com/10-designers-and-their-impressive-midjourney-works-you-should-know/" target="_blank">PARAMETRIC ARCHITECTURE</a></p>
-                        <p class="client-item"><a href="https://coolhunting.com/tech/computation-designer-manas-bhatias-ai-generated-living-architecture/" target="_blank">COOLHUNTING</a></p>
-                        <p class="client-item"><a href="https://mymodernmet.com/manas-bhatia-ai-concept-architecture/" target="_blank">MYMODERNMET</a></p>
-                        <p class="client-item"><a href="https://thursd.com/articles/mania-bhatia-imagines-a-surreal-architectural-future-in-his-newest-project" target="_blank">THURSD</a></p>
-                        <p class="client-item"><a href="https://www.techtimes.com/articles/280158/20220906/architect-uses-ai-design-future-cities-results-otherworldly.htm" target="_blank">TECHTIMES</a></p>
-                        <p class="client-item"><a href="https://www.yahoo.com/news/symbiotic-architecture-artificial-intelligence-envisions-225808659.html?guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAMPTugmAI9mXp1sJPFUG14Ugm6EZk2J1OQQm4_w2ahuvH9OEixhs57dlvCXRgW_V7wzZCmYRgWdqYAE2l6wOfbMs3NTYRk6wnxUh43q9NWanf6JuLCjAIu6eT67IzR1CFo1q6tlgpXf553Z9K9ckm7zH6athyMemkRaUasnHJe6-&guccounter=2" target="_blank">YAHOO NEWS</a></p>
-                        <p class="client-item"><a href="https://www.demilked.com/ai-images-symbiotic-structures-manas-bhatia/" target="_blank">DEMILKED</a></p>
-                        <p class="client-item"><a href="https://www.novatr.com/blog/futuristic-architecture-designs" target="_blank">NOVATR</a></p>
+    <div class="about-wrapper">
+
+        <!-- Left panel: identity -->
+        <div class="about-left">
+            <div>
+                <h1 class="name-header">Manas Bhatia</h1>
+                <p class="about-role">Computational Designer · Spatial Artist</p>
+                <p class="about-bio">Computational designer and spatial artist working at the intersection of generative AI, parametric systems, and architectural thinking. M.S. in Computational Design Practices, Columbia University GSAPP (2024–25). Research centred on AI-driven participatory spatial design — building tools that make computation accessible to non-experts. Practice spans Grasshopper, LLM-based design agents, GIS-scaled urban analysis, and kinetic fabrication. Work exhibited at Château de Lourmarin, France; Google UnFold gallery; covered by CNN, BBC, Dezeen, Designboom. Featured guest, PBS A Brief History of the Future, Ep. 06. Forbes 30 Under 30 nominee, 2024. Prior: Associate Architect, Ant Studio, India.</p>
+            </div>
+            <div class="about-contact">
+                <p class="contact-label">Get in touch</p>
+                <a href="mailto:mb5327@columbia.edu" class="contact-email">mb5327@columbia.edu</a>
+                <div class="contact-links-row">
+                    <a href="https://www.linkedin.com/in/manas-bhatia/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
+                    <span class="contact-sep">·</span>
+                    <a href="https://manasbhatia.com" class="contact-social">manasbhatia.com</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right panel: Now + Press -->
+        <div class="about-right">
+            <div>
+                <p class="block-label">Now</p>
+                <div class="kv-grid">
+                    <div class="kv-row">
+                        <span class="kv-key">Building</span>
+                        <span class="kv-value">Co-Design Canvas — AI tool for participatory spatial design with non-expert users</span>
                     </div>
-                    <div class="client-list">
-                        <p class="client-label">Experience :</p>
-                        <p class="client-item">Associate II: Computational Drawing - Columbia University GSAPP (June 2025 - Present)</p>
-                        <p class="client-item">MSCDP Program Administrative Assistant - Columbia University GSAPP (Nov 2024 - Present)</p>
-                        <p class="client-item">Associate Architect - <a href="https://ant.studio/" target="_blank">Ant Studio</a> (Oct 2022 - Dec 2023)</p>
-                        <p class="client-item">Junior Architect - <a href="https://ant.studio/" target="_blank">Ant Studio</a> (May 2020 - Oct 2022)</p>
-                        <p class="client-item">Intern Architect - <a href="https://ant.studio/" target="_blank">Ant Studio</a> (Jan 2020 - May 2020)</p>
-                        <p class="client-item">AI Artist and Speaker - Google UNFOLD: New Worlds of Fashion, Italy 2023 (Sep 2023 - Oct 2023)</p>
-                        <p class="client-item">Freelance Graphic Designer - FauxVision (Sep 2017 - May 2020)</p>
+                    <div class="kv-row">
+                        <span class="kv-key">Researching</span>
+                        <span class="kv-value">Spatial reasoning in LLMs and 3D AI for architectural decision-making</span>
+                    </div>
+                    <div class="kv-row">
+                        <span class="kv-key">Based in</span>
+                        <span class="kv-value">New York, NY — open to collaborations, residencies, exhibitions</span>
                     </div>
                 </div>
             </div>
             <div>
-                <p class="about-bio">
-                    Manas Bhatia is a multidisciplinary designer exploring the confluence of spatial design, emerging technologies, and visual storytelling. Currently pursuing M.S. in Computational Design Practices at Columbia University's GSAPP, his research focuses on harnessing generative AI for participatory spatial design. At the core of his practice lies a profound curiosity about the intersection of data, computation, and design—leveraging technology to translate urban observations into design projects, analyze complex spatial relationships, and drive meaningful societal impact. His AI-aided speculative work has been exhibited internationally, including at the Château de Lourmarin in France, and has been featured on CNN, BBC, Dezeen, and Designboom. He was a featured guest in Episode 06 of the PBS docuseries A Brief History of the Future and was nominated for Forbes 30 Under 30 – Class of 2024 in The Arts. Previously, as an Associate at Ant Studio in India, he led projects across residential, institutional, and public domains, engaging with materiality, climate, and cultural specificity.
-                </p>
+                <p class="block-label">Featured in</p>
+                <div class="press-grid">
+                    <p class="press-item"><a href="https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn" target="_blank">CNN</a></p>
+                    <p class="press-item"><a href="https://good.rp3agency.com/manas-bhatia-interview" target="_blank">Well&amp;Good / RP3</a></p>
+                    <p class="press-item"><a href="https://www.youtube.com/watch?v=sH-wu2qIzAE" target="_blank">BBC</a></p>
+                    <p class="press-item"><a href="https://www.youtube.com/watch?v=V2e-EgO_Yu8" target="_blank">VLDC</a></p>
+                    <p class="press-item"><a href="https://www.dezeen.com/2023/07/24/ai-architecture-projects-dezeen-pinterest/" target="_blank">Dezeen</a></p>
+                    <p class="press-item"><a href="https://stupiddope.com/2024/04/manas-bhatias-nautilus-bioarchitecture/" target="_blank">Stupid Dope</a></p>
+                    <p class="press-item"><a href="https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/" target="_blank">Designboom</a></p>
+                    <p class="press-item"><a href="https://www.goodnewsnetwork.org/when-architect-asked-ai-to-design-futuristic-skyscrapers-it-proposed-a-vertical-forest/" target="_blank">Good News Network</a></p>
+                    <p class="press-item"><a href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank">PBS</a></p>
+                    <p class="press-item"><a href="https://www.archilovers.com/stories/30302/how-artificial-intelligence-will-shape-the-future-smart-cities.html" target="_blank">Archilovers</a></p>
+                    <p class="press-item"><a href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank">Google Unfold</a></p>
+                    <p class="press-item"><a href="https://www.itsliquid.com/interview-manas-bhatia.html" target="_blank">Its Liquid</a></p>
+                    <p class="press-item"><a href="https://www.wipo.int/meetings/en/doc_details.jsp?doc_id=620610" target="_blank">WIPO</a></p>
+                    <p class="press-item"><a href="https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia" target="_blank">Amazing Architecture</a></p>
+                    <p class="press-item"><a href="https://parametric-architecture.com/10-designers-and-their-impressive-midjourney-works-you-should-know/" target="_blank">Parametric Architecture</a></p>
+                </div>
             </div>
         </div>
+
     </div>
     <div id="site-footer"></div>
     <script>

@@ -1,31 +1,55 @@
+/* ============================================================
+   project.css — Manas Bhatia Portfolio
+   Design system: computational precision, editorial hierarchy,
+   monochrome restraint with a single lime-green signal accent.
+   ============================================================ */
+
+/* ── Google Fonts: Fira Mono for metadata values ── */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap');
+
+/* ── CSS Custom Properties ── */
 :root {
-    --main-bg: #ffffff;
+    --main-bg: rgb(252, 250, 245);
     --card-bg: rgba(240, 240, 240, 0.8);
     --border-radius: 20px;
     --text-color: #111;
-    --light-text: #333;
+    --light-text: #444;
     --grey: #787878;
     --border-color: rgba(200,200,200,0.18);
     --shadow-color: rgba(0,0,0,0.04);
     --shadow-hover: rgba(0,0,0,0.08);
-    --image-bg: #f5f5f5;
+    --image-bg: #ede8e0;
+    --accent: #a3e635;
+    /* Typographic scale (modular, base 1rem) */
+    --type-xs: 0.7rem;
+    --type-sm: 0.875rem;
+    --type-base: 1rem;
+    --type-md: 1.25rem;
+    --type-lg: 1.8rem;
+    --type-2xl: clamp(2.5rem, 4vw, 3.5rem);
+    --type-hero: clamp(4rem, 8vw, 7rem);
+    /* Spacing tokens */
+    --letter-tight: -0.04em;
+    --letter-wide: 0.12em;
 }
 
 [data-theme="dark"] {
-    --main-bg: #1a1a1a;
-    --card-bg: rgba(60, 60, 60, 0.8);
+    --main-bg: #181818;
+    --card-bg: rgba(52, 52, 52, 0.85);
     --border-radius: 20px;
-    --text-color: #ffffff;
-    --light-text: #cccccc;
-    --grey: #a0a0a0;
-    --border-color: rgba(80, 80, 80, 0.3);
-    --shadow-color: rgba(0,0,0,0.2);
-    --shadow-hover: rgba(0,0,0,0.3);
-    --image-bg: #2d2d2d;
+    --text-color: #f0f0f0;
+    --light-text: #c0c0c0;
+    --grey: #888888;
+    --border-color: rgba(80, 80, 80, 0.35);
+    --shadow-color: rgba(0,0,0,0.25);
+    --shadow-hover: rgba(0,0,0,0.4);
+    --image-bg: #252525;
 }
 
+/* ── Base ── */
 body {
     font-family: 'Inter', Arial, sans-serif;
+    font-feature-settings: "ss01", "cv01";
     background: var(--main-bg);
     color: var(--text-color);
     min-height: 100vh;
@@ -33,8 +57,14 @@ body {
     padding: 0;
     overflow-x: hidden;
     transition: background 0.3s ease, color 0.3s ease;
+    font-size: var(--type-base);
+    line-height: 1.6;
 }
 
+/* ================================================================
+   HERO SECTION
+   Full-viewport image with top gradient for text legibility.
+   ================================================================ */
 .framer-hero {
     position: relative;
     width: 100%;
@@ -47,9 +77,25 @@ body {
 .framer-hero-image {
     position: relative;
     width: 100%;
-    height: 70vh;
+    height: 100vh;
     z-index: 1;
     overflow: hidden;
+}
+
+/* Subtle gradient overlay — top for nav clearance, bottom for text legibility */
+.framer-hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.18) 0%,
+        rgba(0,0,0,0.0) 35%,
+        rgba(0,0,0,0.0) 60%,
+        rgba(0,0,0,0.32) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
 }
 
 .framer-hero-image img {
@@ -57,8 +103,10 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    display: block;
 }
 
+/* ── Hero content panel ── */
 .framer-hero-content {
     position: relative;
     z-index: 2;
@@ -68,96 +116,127 @@ body {
     padding: 4rem 2rem;
     display: flex;
     flex-direction: row;
-    gap: 3rem;
+    gap: 4rem;
     color: var(--text-color);
+    border-top: 1px solid var(--border-color);
 }
 
 .framer-hero-col-left {
-    flex: 1 1 0;
+    flex: 3 1 0;
     display: flex;
     flex-direction: column;
     gap: 2rem;
     align-items: flex-start;
-    min-width: 260px;
+    min-width: 0;
 }
 
 .framer-hero-col-right {
-    flex: 1 1 0;
+    flex: 2 1 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    min-width: 260px;
+    justify-content: flex-start;
+    min-width: 0;
 }
 
+/* ── Hero title: massive, editorial ── */
 .framer-hero-title {
-    font-size: 4rem;
-    font-weight: 600;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-weight: 900;
     color: var(--text-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     text-align: left;
+    letter-spacing: var(--letter-tight);
+    line-height: 0.92;
+    text-transform: uppercase;
     transition: color 0.3s ease;
 }
 
+/* ── Hero description: readable body ── */
 .framer-hero-desc {
     color: var(--light-text);
-    font-size: 1.25rem;
-    line-height: 1.6;
+    font-size: var(--type-base);
+    line-height: 1.75;
     margin-bottom: 1.2rem;
     text-align: left;
+    max-width: 680px;
     transition: color 0.3s ease;
 }
 
+/* ================================================================
+   METADATA BLOCKS — data-table aesthetic
+   Monospace values signal computational precision.
+   ================================================================ */
 .framer-hero-meta {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
     margin-bottom: 2rem;
 }
 
 .framer-hero-meta-row {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
 }
 
 .framer-hero-meta-block {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.3rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border-color);
+    min-width: 180px;
 }
 
+/* Label: small caps, muted, uppercase — contextual signal */
 .framer-hero-meta-label {
+    font-family: 'Fira Mono', 'Courier New', monospace;
     color: var(--grey);
-    font-size: 1rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.3rem;
+    display: block;
     transition: color 0.3s ease;
 }
 
+/* Value: monospace, crisp, data-forward */
 .framer-hero-meta-value {
+    font-family: 'Fira Mono', 'Courier New', monospace;
     color: var(--text-color);
-    font-weight: 500;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    font-weight: 400;
     transition: color 0.3s ease;
 }
 
+/* ================================================================
+   CTA BUTTON — refined, outline-only, fill on hover
+   Lime green only appears on hover: signal, not decoration.
+   ================================================================ */
 .framer-hero-btn {
     display: inline-block;
-    background: var(--card-bg);
+    font-family: 'Fira Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.75rem 2rem;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    background: transparent;
     color: var(--text-color);
-    border: 1px solid var(--border-color);
-    border-radius: 100px;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 500;
     margin-bottom: 1.5rem;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.2s;
-    backdrop-filter: blur(7px);
-    box-shadow: 0 2px 12px 0 var(--shadow-color);
+    transition: all 0.2s ease;
     width: fit-content;
 }
 
 .framer-hero-btn:hover {
-    background: var(--card-bg);
-    box-shadow: 0 4px 16px 0 var(--shadow-hover);
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
 }
 
 .framer-hero-buttons {
@@ -166,10 +245,13 @@ body {
     align-self: flex-start;
 }
 
+/* ================================================================
+   SECTION CONTAINERS — clean structure with ruled dividers
+   ================================================================ */
 .framer-krewez {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: clamp(3rem, 6vw, 6rem) 2rem;
 }
 
 .framer-container {
@@ -178,67 +260,85 @@ body {
     gap: 2rem;
 }
 
+/* Section divider: 1px rule, deliberate spacing */
 .framer-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
+/* ── Section title: editorial scale ── */
 .framer-title {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 900;
     color: var(--text-color);
-    margin: 0;
+    margin: 0 0 1.5rem;
+    letter-spacing: var(--letter-tight);
+    text-transform: uppercase;
+    line-height: 1;
     transition: color 0.3s ease;
 }
 
+/* ── Inline navigation links in section headers ── */
 .framer-link {
-    background-color: var(--card-bg);
+    background-color: transparent;
     color: var(--text-color);
     text-decoration: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 100px;
+    padding: 0.5rem 1.25rem;
+    border-radius: 4px;
     border: 1px solid var(--border-color);
-    transition: all 0.2s;
-    backdrop-filter: blur(7px);
-    box-shadow: 0 2px 12px 0 var(--shadow-color);
+    font-size: var(--type-xs);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
 }
 
 .framer-link:hover {
-    background: var(--card-bg);
-    box-shadow: 0 4px 16px 0 var(--shadow-hover);
+    background: var(--accent);
+    color: #111;
+    border-color: var(--accent);
 }
 
+/* ================================================================
+   BODY TEXT — readable, editorial
+   ================================================================ */
 .framer-description {
-    max-width: 800px;
+    max-width: 680px;
 }
 
 .framer-text {
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 1.1vw, 1.15rem);
     line-height: 1.8;
-    color: var(--text-color);
+    color: var(--light-text);
+    max-width: 65ch;
     margin: 0;
     transition: color 0.3s ease;
 }
 
+/* ================================================================
+   IMAGE GRID & GALLERY — consistent gap, refined containers
+   ================================================================ */
 .framer-images {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 0.75rem;
     margin-top: 2rem;
 }
 
 .framer-image-row {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 0.75rem;
 }
 
 .framer-image-row-horizontal {
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 0.75rem;
 }
 
 .framer-image-row .framer-image-container {
@@ -246,12 +346,18 @@ body {
     aspect-ratio: 16/9;
 }
 
+/* Image container: consistent radius, subtle elevation */
 .framer-image-container {
     position: relative;
-    border-radius: 12px;
+    border-radius: 4px;
     overflow: hidden;
     background: var(--image-bg);
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.25s ease;
+    box-shadow: 0 2px 16px 0 var(--shadow-color);
+}
+
+.framer-image-container:hover {
+    box-shadow: 0 6px 28px 0 var(--shadow-hover);
 }
 
 .framer-image-container img {
@@ -259,16 +365,24 @@ body {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+.framer-image-container:hover img {
+    transform: scale(1.02);
+}
+
+/* ── Video container ── */
 .video-container {
     width: 100%;
     aspect-ratio: 16/9;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
     background: var(--image-bg);
     margin-top: 2rem;
     transition: background 0.3s ease;
+    box-shadow: 0 2px 16px 0 var(--shadow-color);
 }
 
 .video-container video {
@@ -278,6 +392,9 @@ body {
     object-position: center;
 }
 
+/* ================================================================
+   PROJECT BODY — long-form content, editorial rhythm
+   ================================================================ */
 .project-body {
     max-width: 900px;
     margin: 0 auto;
@@ -285,54 +402,64 @@ body {
 }
 
 .project-content {
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: var(--type-base);
+    line-height: 1.75;
     color: var(--text-color);
     transition: color 0.3s ease;
 }
 
 .project-content p {
     margin-bottom: 2rem;
+    max-width: 680px;
 }
 
+/* Sub-heading within long-form content */
 .project-content strong {
-    font-size: 1.4rem;
+    font-size: var(--type-lg);
     font-weight: 600;
     display: block;
     margin-bottom: 0.5rem;
+    margin-top: 3rem;
     color: var(--text-color);
+    letter-spacing: -0.02em;
     transition: color 0.3s ease;
 }
 
+/* Intro / pull-quote style — muted, smaller */
 .project-content em {
-    font-size: 1.2rem;
+    font-size: var(--type-sm);
     color: var(--grey);
     font-style: normal;
     display: block;
     margin-bottom: 2rem;
+    letter-spacing: 0.01em;
     transition: color 0.3s ease;
 }
 
+/* Figures: structured spacing */
 .project-content figure {
     margin: 3rem 0;
 }
 
 .project-content figure img {
     width: 100%;
-    border-radius: 12px;
-    margin-bottom: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 2px 16px 0 var(--shadow-color);
 }
 
 .project-content figcaption {
     color: var(--grey);
-    font-size: 0.95rem;
-    text-align: center;
+    font-size: var(--type-xs);
+    text-align: left;
+    font-family: 'Fira Mono', 'Courier New', monospace;
+    letter-spacing: 0.04em;
     transition: color 0.3s ease;
 }
 
 .project-content iframe {
     width: 100%;
-    border-radius: 12px;
+    border-radius: 8px;
     margin: 2rem 0;
 }
 
@@ -342,16 +469,22 @@ body {
 }
 
 .project-content li {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
 }
 
+/* Sub-section headers within body */
 .project-content h3 {
-    font-size: 1.3rem;
-    margin: 3rem 0 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 3.5rem 0 1rem;
     color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     transition: color 0.3s ease;
 }
 
+/* Section dividers within long-form content */
 .project-content hr {
     margin: 4rem 0;
     border: none;
@@ -359,6 +492,7 @@ body {
     transition: border-color 0.3s ease;
 }
 
+/* ── Footnotes ── */
 .footnotes {
     margin-top: 4rem;
     padding-top: 2rem;
@@ -372,9 +506,10 @@ body {
 }
 
 .footnote-item {
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    font-size: var(--type-xs);
     color: var(--grey);
+    font-family: 'Fira Mono', 'Courier New', monospace;
     transition: color 0.3s ease;
 }
 
@@ -384,33 +519,108 @@ body {
     transition: color 0.3s ease;
 }
 
+.footnote-backref:hover {
+    color: var(--accent);
+}
+
+/* ================================================================
+   PROJECT LINK — inline CTA within body
+   Lime green only on hover: accent as signal.
+   ================================================================ */
 .project-link-container {
-    margin: 2rem 0;
-    text-align: center;
+    margin: 3rem 0;
+    text-align: left;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
 }
 
 .project-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--text-color);
-    color: var(--main-bg);
+    padding: 0.75rem 1.75rem;
+    background: transparent;
+    color: var(--text-color);
     text-decoration: none;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
+    font-size: var(--type-xs);
     font-weight: 500;
-    transition: all 0.3s ease;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
 }
 
 .project-link:hover {
-    background-color: var(--grey);
-    transform: translateY(-2px);
+    background: var(--accent);
+    color: #111;
+    border-color: var(--accent);
+    transform: translateY(-1px);
 }
 
 .project-link i {
-    font-size: 0.9em;
+    font-size: 0.85em;
 }
 
+/* ================================================================
+   CAROUSEL — consistent across all project pages
+   ================================================================ */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--image-bg);
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    display: block;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: background 0.2s ease;
+    z-index: 10;
+}
+
+.carousel-button:hover {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.carousel-button.prev { left: 0; }
+.carousel-button.next { right: 0; }
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+   ================================================================ */
 @media (max-width: 900px) {
     .framer-hero-content {
         flex-direction: column;
@@ -423,7 +633,7 @@ body {
 
 @media (max-width: 1024px) {
     .framer-hero-image {
-        height: 50vh;
+        height: 70vh;
     }
     .framer-hero-content {
         padding: 2rem;
@@ -431,40 +641,59 @@ body {
 }
 
 @media (max-width: 768px) {
+    :root {
+        --type-hero: clamp(3rem, 10vw, 4rem);
+        --type-lg: 1.4rem;
+    }
+
     .framer-hero-title {
-        font-size: 3rem;
+        font-size: var(--type-hero);
     }
+
     .framer-hero-desc {
-        font-size: 1.1rem;
+        font-size: var(--type-sm);
     }
+
     .framer-hero-meta {
         flex-direction: column;
         gap: 1.5rem;
     }
+
     .framer-krewez {
         padding: 2rem 1rem;
     }
+
     .framer-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
     }
+
     .framer-image-row {
         flex-direction: column;
     }
+
     .framer-image-row .framer-image-container {
         width: 100%;
     }
+
+    .framer-image-row-horizontal {
+        flex-direction: column;
+    }
+
     .project-body {
         padding: 2rem 1rem;
     }
+
     .project-content {
-        font-size: 1rem;
+        font-size: var(--type-sm);
     }
+
     .project-content strong {
         font-size: 1.2rem;
     }
+
     .project-content em {
-        font-size: 1.1rem;
+        font-size: var(--type-xs);
     }
-} 
+}

@@ -1,7 +1,7 @@
 <nav class="minimal-navbar">
     <div class="minimal-nav-wrapper">
         <a class="minimal-logo" href="/index.html#hero-section">
-            <span>M B</span>
+            <span class="logo-acronym">MB</span><span class="logo-fullname">MANAS&nbsp;BHATIA</span>
         </a>
         <div class="nav-controls">
             <button class="dark-mode-toggle glass-link" onclick="toggleDarkMode()" title="Toggle Dark Mode">
@@ -24,11 +24,15 @@
                 <button class="close-hamburger" onclick="window.toggleHamburgerMenu()">
                     <i class="fas fa-times"></i>
                 </button>
+                <div class="hamburger-brand">
+                    <span class="hamburger-name">Manas Bhatia</span>
+                    <span class="hamburger-tagline">Computational Designer · Spatial Artist</span>
+                </div>
             </div>
             <div class="hamburger-nav">
                 <div class="nav-section">
                     <div class="nav-section-header" onclick="window.toggleSection('computational')">
-                        <h4>Computational Design</h4>
+                        <h4>Computational Design <span class="nav-count">09</span></h4>
                         <i class="fas fa-chevron-down section-icon" id="computational-icon"></i>
                     </div>
                     <div class="nav-links" id="computational-links">
@@ -46,7 +50,7 @@
                 </div>
                 <div class="nav-section">
                     <div class="nav-section-header" onclick="window.toggleSection('art')">
-                        <h4>Art</h4>
+                        <h4>Art <span class="nav-count">05</span></h4>
                         <i class="fas fa-chevron-down section-icon" id="art-icon"></i>
                     </div>
                     <div class="nav-links" id="art-links">
@@ -79,6 +83,7 @@
 </nav>
 <link rel="preload" href="/fonts/AsherPunkDemoVersion.ttf" as="font" type="font/ttf" crossorigin>
 <link href="https://fonts.cdnfonts.com/css/asher-punk" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="js/theme.js"></script>
 <style>
@@ -166,22 +171,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 44px;
+    width: 68px;
     min-height: 44px;
     border-radius: 8px;
     background: var(--bg-tertiary);
-    font-family: 'Asher Punk Demo Version', 'AsherPunkDemoVersion', 'Asher Punk', 'General Sans', 'Inter', Arial, sans-serif !important;
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-family: 'Fira Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
     color: var(--text-primary);
-    letter-spacing: -0.02em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     margin-right: 1.5rem;
     text-decoration: none;
     box-shadow: 0 2px 12px 0 var(--shadow-color);
     border: 1px solid var(--border-color);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s, box-shadow 0.2s, transform 0.2s, border-color 0.2s;
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
     transform: translateY(0);
 }
 .minimal-logo::before {
@@ -195,10 +202,11 @@
     transition: left 0.5s ease;
 }
 .minimal-logo:hover {
+    width: 200px;
     background: var(--bg-tertiary-hover);
     color: var(--text-primary);
     box-shadow: 0 6px 20px 0 var(--shadow-hover);
-    transform: translateY(-2px) scale(1.02);
+    transform: translateY(-2px);
     border-color: rgba(0, 0, 0, 0.15);
 }
 .minimal-logo:hover::before {
@@ -209,9 +217,24 @@
     box-shadow: 0 2px 8px 0 var(--shadow-color);
     transition: all 0.1s ease;
 }
-.minimal-logo span {
+.logo-acronym,
+.logo-fullname {
     padding: 0 12px;
     line-height: 44px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+.logo-fullname {
+    opacity: 0;
+}
+.minimal-logo:hover .logo-acronym {
+    opacity: 0;
+}
+.minimal-logo:hover .logo-fullname {
+    opacity: 1;
 }
 
 .nav-controls {
@@ -541,11 +564,15 @@
         gap: 0.7rem;
     }
     .minimal-logo {
-        min-width: 36px;
+        width: 56px;
         min-height: 36px;
-        font-size: 1rem;
+        font-size: 0.65rem;
     }
-    .minimal-logo span {
+    .minimal-logo:hover {
+        width: 160px;
+    }
+    .logo-acronym,
+    .logo-fullname {
         line-height: 36px;
         padding: 0 8px;
     }
@@ -556,6 +583,34 @@
     .hamburger-content {
         max-width: 100%;
     }
+}
+
+.hamburger-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.hamburger-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text-primary, #fff);
+}
+.hamburger-tagline {
+    font-family: 'Fira Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    color: var(--text-primary, #fff);
+}
+.nav-count {
+    font-family: 'Fira Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    opacity: 0.4;
+    margin-left: 0.5rem;
+    font-weight: 400;
 }
 </style> 
 <script>

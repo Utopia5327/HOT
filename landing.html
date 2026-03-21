@@ -3,7 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Welcome</title>
+  <title>Manas Bhatia | Computational Designer &amp; Spatial Artist | AI Architecture</title>
+  <meta name="description" content="Manas Bhatia — computational designer, spatial artist, and architect at Columbia University GSAPP. Pioneer of AI-generated biophilic architecture. Featured on CNN, BBC, Dezeen, Designboom, and PBS. Forbes 30 Under 30 nominee 2024.">
+  <meta name="keywords" content="Manas Bhatia, computational designer, AI architecture, generative AI, biophilic design, spatial artist, Columbia GSAPP, parametric design, Symbiotic Architecture, future cities, design technology, AI-generated architecture">
+  <meta name="author" content="Manas Bhatia">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://manasbhatia.com/landing.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Manas Bhatia | Computational Designer &amp; Spatial Artist | AI Architecture">
+  <meta property="og:description" content="Manas Bhatia — computational designer, spatial artist, and architect at Columbia University GSAPP. Pioneer of AI-generated biophilic architecture. Featured on CNN, BBC, Dezeen, Designboom, and PBS. Forbes 30 Under 30 nominee 2024.">
+  <meta property="og:url" content="https://manasbhatia.com/landing.html">
+  <meta property="og:image" content="https://manasbhatia.com/images/og-image.jpg">
+  <meta property="og:site_name" content="Manas Bhatia">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Manas Bhatia | Computational Designer &amp; Spatial Artist | AI Architecture">
+  <meta name="twitter:description" content="Manas Bhatia — computational designer, spatial artist, and architect at Columbia University GSAPP. Pioneer of AI-generated biophilic architecture. Featured on CNN, BBC, Dezeen, Designboom, and PBS. Forbes 30 Under 30 nominee 2024.">
+  <meta name="twitter:image" content="https://manasbhatia.com/images/og-image.jpg">
+
+  <!-- JSON-LD WebSite Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Manas Bhatia",
+    "url": "https://manasbhatia.com",
+    "description": "Portfolio of Manas Bhatia — computational designer, spatial artist, and architect. Known for viral AI-generated biophilic architecture and research at Columbia University GSAPP.",
+    "author": {
+      "@type": "Person",
+      "name": "Manas Bhatia",
+      "jobTitle": "Computational Designer, Spatial Artist, Architect",
+      "url": "https://manasbhatia.com/about.html"
+    }
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fira+Mono:400" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -37,6 +74,7 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Asher Punk Demo Version', Arial, sans-serif;
+      font-feature-settings: "ss01", "cv01";
       background: var(--bg-primary);
       color: var(--text-primary);
       cursor: url('cursor.svg') 16 16, auto;
@@ -71,40 +109,62 @@
       font-weight: 600;
       letter-spacing: -0.03em;
       text-transform: uppercase;
-      cursor: url('cursor.svg') 16 16, pointer;
+      cursor: pointer;
       transition: all 0.5s ease;
       padding: 1rem 2rem;
       color: var(--text-primary);
       text-decoration: none;
+      text-shadow: none;
       position: relative;
       font-family: 'Asher Punk Demo Version', Arial, sans-serif;
       line-height: 0.9;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+    }
+    .name-full {
+      display: inline-block;
+      transition: opacity 0.35s ease;
+      opacity: 1;
+    }
+    .name-short {
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 50%;
+      margin-top: -0.45em;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .name:hover .name-full {
+      opacity: 0;
+    }
+    .name:hover .name-short {
+      opacity: 1;
+    }
+    .name-rule {
+      width: 0;
+      height: 1px;
+      background: var(--text-primary);
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0.3;
+      margin: 0 auto;
     }
     .hindi-name {
-      font-size: 1.0vw;
-      font-weight: bold;
-      letter-spacing: 0.1em;
-      margin-top: 0.5rem;
+      font-size: clamp(0.65rem, 0.9vw, 0.85rem);
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      margin-top: 0.6rem;
       color: var(--text-secondary);
       font-family: 'Poppins', sans-serif;
-    }
-    .click-instruction {
-      font-size: 0.9vw;
-      font-weight: 300;
-      letter-spacing: 0.05em;
-      margin-bottom: 10vh;
-      color: var(--text-tertiary);
-      font-family: 'Poppins', sans-serif;
-      opacity: 0.8;
-      animation: fadeInOut 2s ease-in-out infinite;
-    }
-    @keyframes fadeInOut {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.8; }
+      text-transform: uppercase;
+      opacity: 0.7;
     }
     .name:hover {
       transform: scale(1.05);
-      letter-spacing: 0.01em;
     }
     
     .transition-overlay {
@@ -146,11 +206,6 @@
     .particle.growing {
       transform: scale(1.5);
     }
-    @media (max-width: 700px) {
-      .name {
-        font-size: 12vw;
-      }
-    }
     .dark-mode-toggle-standalone {
       position: fixed;
       top: 24px;
@@ -191,6 +246,41 @@
     [data-theme="dark"] .dark-mode-toggle-standalone i {
       transform: rotate(180deg);
     }
+
+    .stats-bar {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      font-family: 'Fira Mono', monospace;
+      font-size: clamp(0.5rem, 0.65vw, 0.65rem);
+      letter-spacing: 0.1em;
+      opacity: 0.45;
+      color: var(--text-primary);
+      padding-bottom: clamp(1rem, 3vh, 2rem);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .stats-divider {
+      opacity: 0.4;
+    }
+
+    @media (max-width: 700px) {
+      .name {
+        font-size: 12vw;
+      }
+    }
+    @media (max-width: 480px) {
+      .name {
+        font-size: 14vw;
+        padding: 0.5rem 1rem;
+      }
+      .stats-bar {
+        display: none;
+      }
+      .click-instruction {
+        font-size: 2.2vw;
+      }
+    }
   </style>
 </head>
 <body>
@@ -199,12 +289,19 @@
     <i class="fas fa-moon"></i>
   </button>
   
-  <div class="content" onclick="transitionToHome(event)">
+  <div class="content">
     <div class="name-container">
-      <a href="#" class="name" data-text="Manas Bhatia">Manas Bhatia</a>
-      <div class="hindi-name">Art | Computational Design</div>
+      <a href="#" class="name" data-text="Manas Bhatia" onclick="transitionToHome(event)"><span class="name-full">Manas Bhatia</span><span class="name-short">MB</span></a>
+      <div class="name-rule" id="name-rule"></div>
+      <div class="hindi-name">Architect | Design Technologist | Artist</div>
     </div>
-    <div class="click-instruction">Click to enter</div>
+    <div class="stats-bar">
+      <span>CNN · BBC · Dezeen · PBS</span>
+      <span class="stats-divider">—</span>
+      <span>Forbes 30 Under 30 Nominee 2024</span>
+      <span class="stats-divider">—</span>
+      <span>Columbia GSAPP M.S. CDP</span>
+    </div>
   </div>
   <div class="transition-overlay"></div>
   <div class="growth-particles"></div>
@@ -266,6 +363,12 @@
         window.location.href = 'Computational Design.html';
       }, 1000);
     }
+
+    // Animate name-rule on load
+    setTimeout(() => {
+      const rule = document.getElementById('name-rule');
+      if (rule) rule.style.width = '100%';
+    }, 500);
   </script>
 </body>
 </html>

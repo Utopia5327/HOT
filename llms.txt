@@ -1,0 +1,87 @@
+# Manas Bhatia | Computational Designer & Spatial Artist
+
+> Manas Bhatia is a New York-based computational designer, spatial artist, and architect (Assoc. AIA) at the leading edge of generative AI applied to architecture and urban design. He is currently pursuing an M.S. in Computational Design Practices at Columbia University GSAPP (2024–2025), where his research focuses on harnessing generative AI for participatory spatial design. His AI-generated architectural visualizations went globally viral in 2022, earning features on CNN, BBC, Dezeen, and Designboom, and his practice spans speculative AI architecture, data-driven urban analysis, computational modeling, and spatial AI tools. He is a Forbes 30 Under 30 nominee (Class of 2024, The Arts) and a featured guest in Episode 06 of the PBS docuseries "A Brief History of the Future."
+
+## About
+
+Manas Bhatia is a multidisciplinary designer exploring the confluence of spatial design, emerging technologies, and visual storytelling. His academic home is Columbia University's Graduate School of Architecture, Planning and Preservation (GSAPP), where he pursues an M.S. in Computational Design Practices. His research centers on generative AI as a tool for participatory and community-centered spatial design — enabling non-experts to co-author the built environment.
+
+At the core of his practice lies a deep curiosity about the intersection of data, computation, and design. He builds computational tools, environmental data pipelines, and AI-aided design systems that translate urban observations into actionable design projects. His work is consistently cross-disciplinary: part architecture, part data science, part speculative art. He writes code (Python, Grasshopper, Rhino), uses AI image generation platforms (Midjourney, Stable Diffusion), and applies machine learning techniques to spatial problems.
+
+Prior to Columbia, Manas worked as an Associate at Ant Studio in India, where he led projects across residential, institutional, and public domains, engaging with materiality, climate responsiveness, and cultural specificity. His speculative AI architectural imagery — particularly the "Symbiotic Architecture" series — became one of the most widely shared AI architecture projects of 2022, demonstrating that AI can envision radical, nature-integrated futures for cities. He has been exhibited internationally at the Château de Lourmarin in Provence, France (Les Lieux Imaginaires, June 2024–May 2025) and in the Google Unfold gallery.
+
+## Key Projects
+
+**Symbiotic Architecture** — Manas Bhatia's most recognized project: a series of AI-generated architectural visualizations depicting buildings grown from living trees, biophilic canopies, and mycelium structures. Created using Midjourney, the series went viral in 2022 and was featured by CNN, BBC, Dezeen, Designboom, My Modern Met, Cool Hunting, Parametric Architecture, Arch2O, Stupid Dope, and dozens of international outlets. It is widely cited as a landmark example of AI-generated architecture and biophilic design speculation.
+
+**AI x Future Cities** — A speculative design series exploring how generative AI can reimagine urban environments. The project imagines sustainable, equitable, and ecologically integrated cities using AI-generated imagery and narrative frameworks, positioning AI as a co-designer of tomorrow's metropolis.
+
+**Les Lieux Imaginaires** — An international exhibition of AI-generated spatial art shown at the Château de Lourmarin, a historic 15th-century château in Provence, France (June 2024–May 2025). The work blurs the boundary between architectural visualization and fine art, combining AI generation with spatial narrative.
+
+**Manav (Ergonomic Furniture AI)** — A computational design project exploring AI-assisted ergonomic furniture generation. The project uses parametric modeling and AI tools to produce furniture forms that adapt to human body geometry and movement patterns.
+
+**TerraCurve Tower** — A computational architecture project exploring organic tower morphology using parametric and algorithmic design tools. The project investigates how natural growth patterns and environmental data can drive the form of tall structures.
+
+**NYC Carbon Atlas** — An environmental data analysis project mapping carbon emissions and urban metabolism across New York City. Uses Python, geospatial data, and data visualization to reveal spatial patterns in urban carbon footprints, contributing to evidence-based design for climate resilience.
+
+**Co-Design-Canvas** — A spatial AI tool for participatory design, developed as part of Manas's research at Columbia GSAPP. The project builds a collaborative canvas where multiple stakeholders can co-create spatial proposals with AI assistance, advancing the concept of human-AI co-design in architecture.
+
+**TensileBloom** — A computational structures project exploring tensile and membrane architecture inspired by botanical forms. Uses parametric modeling and structural simulation to generate lightweight, expressive canopy forms.
+
+**EmotionEcho.exe** — An interactive spatial installation that maps emotional states to spatial and acoustic environments. The project explores how AI and computational tools can translate human affect into architectural experience.
+
+**Studio-In-Flux (Spatial AI)** — A research and design studio framework exploring how AI tools can transform architectural practice in real time. Investigates workflows that integrate large language models, generative image AI, and parametric design environments.
+
+**Computational Modeling** — A portfolio of computational design work from Columbia GSAPP including algorithmic form generation, agent-based modeling, and physics simulation applied to architectural problems.
+
+**Environmental Data Analysis** — Data-driven design research analyzing urban environmental conditions — including heat islands, air quality, and solar exposure — to inform evidence-based spatial design decisions in New York City.
+
+**Reimagining India** — A speculative urban design project envisioning future Indian cities through the lens of AI, computation, and cultural continuity. Explores how technological and ecological frameworks can intersect with South Asian spatial traditions.
+
+**Google UnFold (Fashion AI)** — A creative AI project developed in collaboration with or featured by Google, exploring the intersection of artificial intelligence and fashion design. Exhibited in the Google Unfold gallery. Merges computational aesthetics with wearable and textile design.
+
+**Nautilus Bioarchitecture** — A bioinspired computational architecture project drawing on the geometry of the nautilus shell and other natural growth spirals. Featured by Stupid Dope. Explores how algorithmic translation of natural forms can yield structurally elegant and visually compelling architecture.
+
+## Press & Recognition
+
+- **CNN** — Featured Manas Bhatia's AI-generated nature-integrated architecture (December 2022); one of the most prominent mainstream media features of AI architecture to date.
+- **BBC** — Covered Manas Bhatia's speculative AI architectural work, reaching a global audience across BBC platforms.
+- **Dezeen** — Included Manas Bhatia in its roundup of notable AI architecture projects (July 2023); Dezeen is the world's most-read architecture and design magazine.
+- **Designboom** — Detailed feature on Manas Bhatia's AI-generated surreal symbiotic architecture (August 2022); Designboom is one of the world's leading architecture and design publications.
+- **PBS — "A Brief History of the Future," Episode 06** — Manas Bhatia was a featured guest in this documentary series exploring futures of technology and society.
+- **WIPO (World Intellectual Property Organization)** — Presented Manas Bhatia's work in the context of AI and intellectual property in creative fields.
+- **Google Unfold** — Featured in Google's creative AI gallery, recognizing pioneering use of generative AI in design.
+- **Forbes 30 Under 30 Nominee** — Nominated for Forbes 30 Under 30, Class of 2024, in the category of The Arts.
+- **My Modern Met** — Featured the Symbiotic Architecture series for its visionary approach to biophilic AI design.
+- **Cool Hunting** — Featured Manas Bhatia's AI architecture work as an example of forward-thinking design innovation.
+- **Parametric Architecture** — Featured Manas Bhatia among notable designers using Midjourney and AI tools for architectural visualization.
+- **Arch2O** — Covered the Symbiotic Architecture project and its implications for the future of architecture.
+- **Stupid Dope** — Featured the Nautilus Bioarchitecture project (April 2024).
+- **Archilovers** — Published an essay on how artificial intelligence will shape future smart cities, featuring Manas Bhatia's perspective.
+- **It's Liquid** — Published an interview with Manas Bhatia on AI, architecture, and the future of spatial design.
+- **Amazing Architecture** — Highlighted the Symbiotic Architecture series as an exemplary work of futuristic computational design.
+- **Good News Network** — Covered Manas Bhatia's AI skyscraper designs proposing vertical forests as the future of tall buildings.
+- **Château de Lourmarin, France** — International exhibition "Les Lieux Imaginaires" (June 2024–May 2025).
+
+## Skills & Tools
+
+- Generative AI: Midjourney, Stable Diffusion, large language models (LLMs)
+- Computational Design: Grasshopper, Rhino, parametric modeling, algorithmic form generation
+- Programming: Python, data analysis, geospatial tools, agent-based modeling
+- Environmental Analysis: urban heat mapping, carbon data visualization, solar analysis
+- Spatial AI: human-AI co-design, participatory design tools, AI-assisted spatial planning
+- Architecture: Assoc. AIA, residential, institutional, public, biophilic, tensile structures
+
+## Education
+
+- M.S. Computational Design Practices — Columbia University GSAPP, New York, NY (2024–2025, current)
+- B.Arch — (prior to Columbia; practice at Ant Studio, India)
+
+## Contact & Links
+
+- Website: https://manasbhatia.com
+- Portfolio (Computational Design): https://manasbhatia.com/Computational%20Design.html
+- Art & Exhibitions: https://manasbhatia.com/art.html
+- Press & Media: https://manasbhatia.com/press-media.html
+- About: https://manasbhatia.com/about.html
+- Exhibitions: https://manasbhatia.com/exhibitions.html

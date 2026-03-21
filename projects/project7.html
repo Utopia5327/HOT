@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Rhino/Grasshopper as a GIS suite for spatial analysis, daylight simulation, walkability metrics, and web visualization via Scout and Mapbox.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computational Modeling - Project | Manas Bhatia</title>
+    <title>Computational Modeling: GIS + Parametric Design | Manas Bhatia × Columbia</title>
     <link rel="stylesheet" href="../css/project.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="../js/theme.js"></script>
@@ -163,19 +164,19 @@
             
             <div class="framer-images">
                 <div class="framer-image-container">
-                    <img src="../img/compmodelthumb.jpg" alt="Computational Modeling Main View" style="width: 1200px; height: 100%; object-fit: cover;">
+                    <img src="../img/compmodelthumb.jpg" alt="Computational Modeling Main View">
                 </div>
             </div>
 
             <div class="framer-images">
                 <div class="framer-image-container">
-                    <img src="../img/urbanobservation.jpg" alt="Computational Modeling Main View" style="width: 1200px; height: 100%; object-fit: cover;">
+                    <img src="../img/urbanobservation.jpg" alt="Computational Modeling Main View">
                 </div>
             </div>
 
             <div class="framer-images">
                 <div class="framer-image-container">
-                    <img src="../img/goldcity.jpg" alt="Computational Modeling Process" style="width: 1200px; height: 100%; object-fit: cover;">
+                    <img src="../img/goldcity.jpg" alt="Computational Modeling Process">
                 </div>
             </div>
             
@@ -187,7 +188,7 @@
         <div class="framer-container">
             <div class="framer-header">
                 <div class="framer-text-container">
-                    <h5 class="framer-title">Interactive View.</h5>
+                    <h5 class="framer-title">Interactive View</h5>
                 </div>
             </div>
             <div class="framer-description">
@@ -236,60 +237,7 @@
                 </div>
             </div>
 
-            <style>
-                .carousel-container {
-                    position: relative;
-                    width: 100%;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    overflow: hidden;
-                }
-
-                .carousel {
-                    display: flex;
-                    transition: transform 0.5s ease-in-out;
-                }
-
-                .carousel-slide {
-                    min-width: 100%;
-                    box-sizing: border-box;
-                }
-
-                .carousel-slide img {
-                    width: 100%;
-                    height: auto;
-                    object-fit: cover;
-                }
-
-                .carousel-button {
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    background: rgba(255, 255, 255, 0.7);
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    font-size: 18px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: background-color 0.3s;
-                }
-
-                .carousel-button:hover {
-                    background: rgba(255, 255, 255, 0.9);
-                }
-
-                .carousel-button.prev {
-                    left: 10px;
-                }
-
-                .carousel-button.next {
-                    right: 10px;
-                }
-            </style>
+            <!-- Carousel styles from css/project.css -->
 
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -298,19 +246,25 @@
                     const prevButton = document.querySelector('.carousel-button.prev');
                     const nextButton = document.querySelector('.carousel-button.next');
                     let currentSlide = 0;
+                    let autoSlide = setInterval(next, 5000);
 
                     function updateCarousel() {
                         carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
                     }
-
-                    prevButton.addEventListener('click', () => {
-                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                        updateCarousel();
-                    });
-
-                    nextButton.addEventListener('click', () => {
+                    function next() {
                         currentSlide = (currentSlide + 1) % slides.length;
                         updateCarousel();
+                    }
+                    prevButton.addEventListener('click', () => {
+                        clearInterval(autoSlide);
+                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                        updateCarousel();
+                        autoSlide = setInterval(next, 5000);
+                    });
+                    nextButton.addEventListener('click', () => {
+                        clearInterval(autoSlide);
+                        next();
+                        autoSlide = setInterval(next, 5000);
                     });
                 });
             </script>
@@ -360,7 +314,7 @@
            
     <div class="framer-images">
         <div class="framer-image-container">
-            <img src="../img/compmodelsheet2.jpg" alt="Computational Modeling Process" style="width: 1200px; height: 100%; object-fit: cover;">
+            <img src="../img/compmodelsheet2.jpg" alt="Computational Modeling Process">
         </div>
     </div>
     

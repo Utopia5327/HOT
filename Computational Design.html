@@ -4,7 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS CDP - Manas Bhatia</title>
+    <title>Computational Design Portfolio | Manas Bhatia | Columbia GSAPP</title>
+    <meta name="description" content="Manas Bhatia's computational design portfolio — M.S. Computational Design Practices, Columbia GSAPP. Projects include NYC Carbon Atlas, Co-Design-Canvas, TensileBloom, Manav, TerraCurve Tower, and Studio-In-Flux spatial AI.">
+    <meta name="keywords" content="Manas Bhatia, computational design, Columbia GSAPP, parametric design, spatial AI, NYC Carbon Atlas, Co-Design-Canvas, TensileBloom, Manav ergonomic furniture AI, TerraCurve Tower, Studio-In-Flux, EmotionEcho, environmental data analysis, generative design">
+    <meta name="author" content="Manas Bhatia">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://manasbhatia.com/Computational%20Design.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Computational Design Portfolio | Manas Bhatia | Columbia GSAPP">
+    <meta property="og:description" content="Manas Bhatia's computational design portfolio — M.S. Computational Design Practices, Columbia GSAPP. Projects spanning spatial AI, environmental data, parametric modeling, and generative design.">
+    <meta property="og:url" content="https://manasbhatia.com/Computational%20Design.html">
+    <meta property="og:image" content="https://manasbhatia.com/images/og-image.jpg">
+    <meta property="og:site_name" content="Manas Bhatia">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Computational Design Portfolio | Manas Bhatia | Columbia GSAPP">
+    <meta name="twitter:description" content="Manas Bhatia's computational design portfolio — M.S. Computational Design Practices, Columbia GSAPP. Projects spanning spatial AI, environmental data, parametric modeling, and generative design.">
+    <meta name="twitter:image" content="https://manasbhatia.com/images/og-image.jpg">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -149,13 +169,14 @@
             transition: color 0.3s ease;
         }
         .projects-description {
-            font-size: 1.2rem;
+            font-size: clamp(0.95rem, 1.2vw + 0.3rem, 1.15rem);
             color: var(--text-secondary);
             max-width: 700px;
             margin-bottom: 2vw;
-            line-height: 1.5;
+            line-height: 1.65;
             text-align: left;
-            font-weight: 700;
+            font-weight: 400;
+            letter-spacing: 0.01em;
             align-self: flex-end;
             transition: color 0.3s ease;
         }
@@ -250,28 +271,58 @@
         .project-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.92) 0%,
+                rgba(0,0,0,0.6) 45%,
+                rgba(0,0,0,0.0) 100%
+            );
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-end;
+            align-items: flex-start;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            padding: 20px;
-            text-align: center;
+            transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 1.5rem;
+            text-align: left;
             color: white;
         }
         .framer-project-card:hover .project-overlay {
             opacity: 1;
         }
+        .project-index {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            opacity: 0.5;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
         .project-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: clamp(1rem, 1.5vw, 1.4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
         }
         .project-details {
-            font-size: 1rem;
-            opacity: 0.9;
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.08em;
+            opacity: 0.75;
+            text-transform: uppercase;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+        .project-tools {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.06em;
+            opacity: 0.5;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 0.5rem;
+            width: 100%;
         }
         canvas {
             position: fixed;
@@ -280,7 +331,97 @@
             z-index: 0;
             pointer-events: none;
         }
+        .projects-count-bar {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            opacity: 0.6;
+            margin-bottom: 2vw;
+            text-transform: uppercase;
+        }
+        .count-dot { opacity: 0.4; }
     </style>
+
+    <!-- JSON-LD CollectionPage Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Computational Design Portfolio — Manas Bhatia",
+      "description": "A collection of computational design projects by Manas Bhatia, M.S. Computational Design Practices candidate at Columbia University GSAPP. Projects span spatial AI, environmental data analysis, parametric architecture, generative design, and human-AI co-design tools.",
+      "url": "https://manasbhatia.com/Computational%20Design.html",
+      "author": {
+        "@type": "Person",
+        "name": "Manas Bhatia",
+        "url": "https://manasbhatia.com",
+        "affiliation": {
+          "@type": "EducationalOrganization",
+          "name": "Columbia University GSAPP",
+          "url": "https://www.arch.columbia.edu"
+        }
+      },
+      "hasPart": [
+        {
+          "@type": "CreativeWork",
+          "name": "Manav — Ergonomic Furniture AI",
+          "description": "AI-assisted ergonomic furniture design using parametric modeling and computational form generation adapted to human body geometry.",
+          "url": "https://manasbhatia.com/projects/project1.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "TerraCurve Tower",
+          "description": "Computational architecture project exploring organic tall-building morphology driven by natural growth patterns and environmental data using parametric and algorithmic design.",
+          "url": "https://manasbhatia.com/projects/project2.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "NYC Carbon Atlas",
+          "description": "Environmental data analysis project mapping carbon emissions across New York City using Python, geospatial data, and data visualization for climate-resilient urban design.",
+          "url": "https://manasbhatia.com/projects/project3.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Co-Design-Canvas",
+          "description": "Spatial AI tool for participatory co-design developed at Columbia GSAPP. Enables multiple stakeholders to collaboratively generate spatial proposals with AI assistance.",
+          "url": "https://manasbhatia.com/projects/project4.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "TensileBloom",
+          "description": "Computational structures project exploring tensile and membrane architecture inspired by botanical forms, using parametric modeling and structural simulation.",
+          "url": "https://manasbhatia.com/projects/project5.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "EmotionEcho.exe",
+          "description": "Interactive spatial installation mapping emotional states to spatial and acoustic environments using AI and computational design tools.",
+          "url": "https://manasbhatia.com/projects/project6.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Computational Modeling",
+          "description": "Portfolio of computational design work from Columbia GSAPP including algorithmic form generation, agent-based modeling, and physics simulation applied to architecture.",
+          "url": "https://manasbhatia.com/projects/project7.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Studio-In-Flux — Spatial AI",
+          "description": "Research and design studio framework exploring how AI tools — including LLMs, generative image AI, and parametric environments — can transform architectural practice.",
+          "url": "https://manasbhatia.com/projects/project8.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Environmental Data Analysis",
+          "description": "Data-driven design research analyzing urban environmental conditions including heat islands, air quality, and solar exposure to inform spatial design decisions in New York City.",
+          "url": "https://manasbhatia.com/projects/project9.html"
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <div id="site-header"></div>
@@ -288,8 +429,15 @@
         <div class="projects-header-row">
             <h1 class="projects-title">Computational Design</h1>
             <p class="projects-description">
-                A selection of my 2024–25 MS Computational Design Practices program work at Columbia University's Graduate School of Architecture, Planning and Preservation (GSAPP). Click on any project to learn more about the process, technology, and outcomes behind each piece.
+                Graduate research from the 2024–25 M.S. Computational Design Practices program at Columbia GSAPP—spanning parametric modeling in Grasshopper, spatial reasoning with LLMs, GIS-based urban analysis, and real-time environments in Unreal Engine. Each project treats computation not as a production tool but as a medium for design inquiry.
             </p>
+            <div class="projects-count-bar">
+                <span class="count-label">9 projects</span>
+                <span class="count-dot">·</span>
+                <span class="count-label">Columbia GSAPP</span>
+                <span class="count-dot">·</span>
+                <span class="count-label">2024–2025</span>
+            </div>
         </div>
         <div class="projects-grid">
             <a class="framer-project-card" href="./projects/project1.html">
@@ -299,8 +447,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">01 / 09</div>
                     <div class="project-title">MANAV</div>
-                    <div class="project-details">Grasshopper Workflow/Script<br>Generative Design</div>
+                    <div class="project-details">Grasshopper · Generative Design<br>Columbia GSAPP · 2024</div>
+                    <div class="project-tools">Rhino · Grasshopper · Python</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./projects/project2.html">
@@ -310,8 +460,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">02 / 09</div>
                     <div class="project-title">TerraCurve Tower</div>
-                    <div class="project-details">BIM<br>Rhino-to-Revit Interoperability</div>
+                    <div class="project-details">BIM · Parametric Design<br>Columbia GSAPP · 2024</div>
+                    <div class="project-tools">Rhino · Grasshopper · Revit · LookX</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./projects/project3.html">
@@ -321,8 +473,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">03 / 09</div>
                     <div class="project-title">NYC Carbon Atlas</div>
-                    <div class="project-details">Geographic Information System (GIS)<br>Data Visualization and Mapping</div>
+                    <div class="project-details">GIS · Data Visualization<br>Columbia GSAPP · 2024</div>
+                    <div class="project-tools">Python · QGIS · Mapbox</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./projects/project4.html">
@@ -332,8 +486,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">04 / 09</div>
                     <div class="project-title">Co-Design Canvas</div>
-                    <div class="project-details">Capstone Project<br>Colloquium III: Design in Action</div>
+                    <div class="project-details">AI Tool · Capstone Project<br>Columbia GSAPP · 2025</div>
+                    <div class="project-tools">Python · Flask · LLM · ComfyUI</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./projects/project5.html">
@@ -343,8 +499,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">05 / 09</div>
                     <div class="project-title">TensileBloom</div>
-                    <div class="project-details">Fabrication<br>Kinetic Installation</div>
+                    <div class="project-details">Fabrication · Kinetic Installation<br>Columbia GSAPP · 2025</div>
+                    <div class="project-tools">Arduino · 3D Print · Electronics</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./projects/project6.html">
@@ -354,8 +512,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">06 / 09</div>
                     <div class="project-title">EmotionEcho.exe</div>
-                    <div class="project-details">Interactive Design<br>Game Development</div>
+                    <div class="project-details">Interactive Installation · Spatial AI<br>Columbia GSAPP · 2025</div>
+                    <div class="project-tools">Unreal Engine · Computer Vision · AI</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./projects/project7.html">
@@ -365,8 +525,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">07 / 09</div>
                     <div class="project-title">Computational Modeling</div>
-                    <div class="project-details">Data-driven design<br>Parametric Design</div>
+                    <div class="project-details">GIS + Parametric Analysis<br>Columbia GSAPP · 2024</div>
+                    <div class="project-tools">Grasshopper · Python · Scout · Kepler.gl</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./projects/project8.html">
@@ -376,8 +538,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">08 / 09</div>
                     <div class="project-title">Studio-In-Flux</div>
-                    <div class="project-details">Semantic Modeling<br>Agent-based Simulation</div>
+                    <div class="project-details">Spatial AI · Agent Simulation<br>Columbia GSAPP · 2025</div>
+                    <div class="project-tools">Python · LLM · Hugging Face · ABM</div>
                 </div>
             </a>
             <a class="framer-project-card" href="./projects/project9.html">
@@ -387,8 +551,10 @@
                     </div>
                 </div>
                 <div class="project-overlay">
+                    <div class="project-index">09 / 09</div>
                     <div class="project-title">Environmental Data Analysis</div>
-                    <div class="project-details">Machine Learning<br>Data Science</div>
+                    <div class="project-details">Urban Climate Modeling<br>Columbia GSAPP · 2024</div>
+                    <div class="project-tools">R · Machine Learning · XGBoost · GIS</div>
                 </div>
             </a>
         </div>

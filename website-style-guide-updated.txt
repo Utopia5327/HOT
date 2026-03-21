@@ -1,0 +1,244 @@
+MANAS BHATIA PORTFOLIO — UPDATED DESIGN SYSTEM
+Updated: March 2026
+================================================================
+
+DESIGN PHILOSOPHY
+-----------------
+The site should feel like computational design research made visible —
+not a portfolio template, not a vibe-coded Framer clone.
+Every typographic and spatial decision should communicate precision.
+
+Core principles:
+  1. Computational Precision   — tight grid, deliberate spacing, modular type scale
+  2. Material Honesty          — visual choices communicate content, not decoration
+  3. Spatial Hierarchy         — radical scale contrast (massive titles, tiny metadata)
+  4. Restraint + Surprise      — monochrome base, ONE accent color (#a3e635) used sparingly
+  5. Data Aesthetics           — monospace type for values signals computational context
+
+
+================================================================
+TYPOGRAPHY
+================================================================
+
+SCALE (modular, base 1rem)
+  --type-xs    : 0.7rem       — metadata labels, captions, footnotes
+  --type-sm    : 0.875rem     — secondary body, buttons, links
+  --type-base  : 1rem         — primary body text
+  --type-md    : 1.25rem      — callouts, large body
+  --type-lg    : 1.8rem       — section headers
+  --type-hero  : clamp(4rem, 8vw, 7rem)  — project titles, page-level heroes
+
+WHY: A clear modular scale creates visual rhythm. The hero font
+size uses fluid clamp() so it scales without breakpoint hacks.
+
+FONTS
+  Primary body    : Inter (with font-feature-settings: "ss01", "cv01")
+    — Enables character alternates that look more considered on screen.
+  Metadata values : Fira Mono — signals "data", "output", "measured"
+    — Used for all framer-hero-meta-value, figcaption, footnotes.
+  Display / names : Asher Punk — reserved for name headers only
+
+LINE-HEIGHT
+  Body text      : 1.75 — editorial reading rhythm
+  Hero titles    : 1.0  — tight, poster-like
+  Section heads  : natural (no override)
+
+LETTER-SPACING
+  Hero title     : -0.03em  — compressed, authoritative
+  Section heads  : -0.02em  — slight compression, maintains weight
+  Metadata labels: +0.1em   — small-caps treatment
+  CTA buttons    : +0.1em   — uppercase, wide-set
+
+
+================================================================
+COLOR
+================================================================
+
+  Light mode background    : #ffffff
+  Dark mode background     : #181818  (warmer than pure black)
+  Primary text (light)     : #111
+  Primary text (dark)      : #f0f0f0  (slightly warm white)
+  Secondary text (light)   : #444
+  Secondary text (dark)    : #c0c0c0
+  Muted / grey             : #787878 / #888888
+  Accent (single)          : #a3e635  (lime green)
+
+ACCENT USAGE RULES
+  The lime green (#a3e635) is a SIGNAL, not decoration.
+  It should appear ONLY on:
+    - Link hover states
+    - Button hover states (fill + border)
+    - Active nav items
+    - Any interactive state that invites a click or action
+  It should NEVER appear on:
+    - Static text
+    - Backgrounds
+    - Decorative elements
+    - Labels or metadata at rest
+
+WHY: Using the accent only on interactive states trains the
+user to associate lime green with "something happens here."
+It becomes legible as a system cue rather than decoration.
+
+DARK MODE
+  Background shifted from #1a1a1a to #181818 — a 2-point
+  warmth shift that prevents the harsh blue-black typical
+  of pure CSS dark modes. Improves legibility and reduces
+  eye strain for portfolio viewing sessions.
+
+
+================================================================
+LAYOUT — project.css
+================================================================
+
+HERO SECTION (framer-hero)
+  - Hero image: 100vh, object-fit: cover
+  - Gradient overlay on image: subtle dark at top (nav legibility)
+    and bottom (content transition). NOT decorative — functional.
+  - Hero content row: max-width 1200px, padding 4rem 2rem
+  - Border-top on content panel: 1px structural rule separates
+    image from content zone, signals a "cut" in spatial narrative.
+
+METADATA BLOCKS (framer-hero-meta)
+  - Each row has a border-top: provides table-like structure
+  - Labels: 0.7rem, uppercase, letter-spacing 0.1em, muted grey
+  - Values: Fira Mono, 0.85rem — reads as measured output data
+  WHY: Architects and designers expect specs to be readable
+  like a drawing title block. This achieves that.
+
+SECTION HEADERS (framer-header)
+  - 1px border-bottom divides the header from content
+  - Replaces arbitrary decorative dividers with clean ruled lines
+  - Title: 1.8rem, -0.02em tracking — editorial, not loud
+
+IMAGE CONTAINERS (framer-image-container)
+  - Border-radius: 8px (down from 12px) — less "app-like", more considered
+  - Consistent 1.5rem gap throughout grids
+  - Subtle box-shadow at rest, slightly lifted on hover
+  - Shadow uses CSS custom property so dark mode shadow is heavier
+
+CTA BUTTON (framer-hero-btn)
+  - Transparent background by default (outline style)
+  - Border: 1px solid --border-color — quiet, present
+  - Hover: fills with #a3e635, border becomes accent
+  - Uppercase, letter-spacing 0.1em, border-radius 4px (not pill)
+  WHY: Pill buttons (border-radius: 100px) feel generic SaaS.
+  A 4px radius is more architectural — deliberate, restrained.
+
+PROJECT BODY TEXT
+  - max-width: 680px for paragraphs — optimal line length (~75 chars)
+  - line-height: 1.75 — editorial, allows text to breathe
+  - Subheads (h3): uppercase, +0.08em tracking — data-table headers
+
+
+================================================================
+ABOUT PAGE — about.html
+================================================================
+
+CHANGES MADE
+  .about-bio font-size
+    OLD: 1.1vw (breaks at extremes)
+    NEW: clamp(0.95rem, 1.1vw + 0.5rem, 1.2rem)
+    WHY: clamp() provides a floor (0.95rem on mobile) and a ceiling
+    (1.2rem on large displays), eliminating the vw-only scaling issue.
+
+  line-height: 1.75 (up from 1.6)
+    WHY: Longer bio text needs more vertical breathing room.
+
+  HR divider between bio and clients section
+    — A single 1px rule (border-top, max-width 800px) creates
+    structure without adding visual noise. Signals section change.
+
+  .clients-section gap
+    OLD: 4vw (too loose, items float apart on wide screens)
+    NEW: max(2rem, 3vw) — tighter minimum, still scales
+    margin-top: clamp(1.5rem, 3vw, 3rem) — breathing room above section
+
+  .client-item font-size
+    OLD: 0.7vw (illegibly small on large screens)
+    NEW: clamp(0.7rem, 0.7vw + 0.2rem, 0.85rem)
+
+  .client-item a:hover
+    OLD: color: var(--text-secondary)
+    NEW: color: #a3e635
+    WHY: Links in the credits section are interactive — accent on hover.
+
+  .name-header letter-spacing: -0.04em
+    VERIFIED: Already set correctly. No change needed.
+
+
+================================================================
+LANDING PAGE — landing.html
+================================================================
+
+CHANGES MADE
+  font-feature-settings: "ss01", "cv01" added to body
+    WHY: Enables Inter's character alternates (a, g, l) for a more
+    refined typographic texture that distinguishes this from default
+    Inter rendering.
+
+  .name text-shadow: none
+    WHY: The P5.js canvas provides all the visual depth needed.
+    A CSS text-shadow would compete with the canvas texture and
+    create muddy layering. Clean type on dynamic canvas = better.
+
+  .hindi-name font-size
+    OLD: 1.0vw
+    NEW: clamp(0.7rem, 1vw, 0.95rem)
+    WHY: Prevents shrinking below legibility on small screens.
+    text-transform: uppercase — consistent with site's metadata style.
+
+  .click-instruction
+    OLD: "Click to enter" in Poppins
+    NEW: "computational designer · spatial artist · new york"
+         in Fira Mono, small-caps, letter-spacing 0.18em
+    WHY: "Click to enter" is generic. The new text gives context,
+    signals the designer's identity, and uses Fira Mono to match
+    the data-aesthetics of the rest of the system. Small-caps and
+    wide tracking makes it read as a subtitle/caption, not a call-to-action.
+
+
+================================================================
+COMPUTATIONAL DESIGN PAGE — Computational Design.html
+================================================================
+
+CHANGES MADE
+  .projects-description
+    font-weight: 400 (was 700 — heavy for a description paragraph)
+    font-size: clamp(0.95rem, 1.2vw + 0.3rem, 1.15rem)
+    letter-spacing: 0.01em
+    line-height: 1.65
+
+    WHY: A 700-weight description paragraph competes with the
+    page title and creates false hierarchy. 400 weight lets the
+    massive title dominate while the description reads as
+    contextual support text — the correct information hierarchy.
+
+  .projects-title
+    VERIFIED: font-size 6vw, font-weight 900, letter-spacing -0.04em,
+    text-transform: uppercase. This is correct and unchanged.
+    The contrast between the 900-weight title and 400-weight
+    description is now the correct editorial hierarchy.
+
+
+================================================================
+WHAT TO DO NEXT (for Manas's reference)
+================================================================
+
+  1. Consider adding `font-display: swap` to any custom @font-face
+     declarations to prevent invisible text during font load.
+
+  2. The project card hover overlays (dark bg, white text) could
+     benefit from the same metadata-label treatment: monospace
+     type and a small accent-colored category tag.
+
+  3. For future project pages, use the framer-hero-meta-block
+     pattern consistently: label in --type-xs Fira Mono,
+     value in --type-sm Inter.
+
+  4. Consider adding `prefers-reduced-motion` media queries around
+     the P5.js canvas animations for accessibility.
+
+  5. The `clamp()` values used throughout are calibrated for a
+     1440px design width. If the grid changes significantly,
+     revisit the fluid scaling values.
