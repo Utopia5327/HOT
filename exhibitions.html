@@ -51,11 +51,18 @@
             padding: 0;
             box-sizing: border-box;
         }
+        html {
+            height: 100vh;
+            overflow: hidden;
+        }
         body {
             font-family: 'Inter', 'General Sans', Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
             cursor: url('cursor.svg') 16 16, auto;
             transition: background 0.3s ease, color 0.3s ease;
         }
@@ -589,87 +596,49 @@
             z-index: 0;
             pointer-events: none;
         }
+
+        /* ── Coverflow Gallery ── */
+        .gallery-main { flex: 1; min-height: 0; display: flex; flex-direction: column; position: relative; z-index: 1; }
+        .gallery-top { flex-shrink: 0; padding: 5.5rem 5vw 3rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+        .gallery-top h1 { font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1; color: var(--text-primary); text-transform: uppercase; }
+        .gallery-description { font-size: 0.9rem; color: var(--text-secondary); max-width: 560px; line-height: 1.7; font-weight: 400; letter-spacing: 0.01em; opacity: 0.85; }
+        .gallery-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; perspective: 1400px; position: relative; }
+        .gallery-ring { position: relative; width: 0; height: 0; transform-style: preserve-3d; }
+        .gallery-card { position: absolute; width: 460px; height: 460px; margin-left: -230px; margin-top: -230px; border-radius: 14px; overflow: hidden; display: block; box-shadow: 0 24px 72px rgba(0,0,0,0.45); cursor: pointer; }
+        .gallery-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+        .gallery-card:hover img { transform: scale(1.05); }
+        .gallery-card-info { position: absolute; inset: 0; padding: 2rem 1.2rem 1.2rem; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0) 100%); color: #fff; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; opacity: 0; transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); pointer-events: none; }
+        .gallery-card:hover .gallery-card-info { opacity: 1; }
+        .gallery-card-index { font-family: 'Fira Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; opacity: 0.55; margin-bottom: 0.4rem; }
+        .gallery-card-title { font-size: 1rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.35rem; }
+        .gallery-card-type { font-family: 'Fira Mono', monospace; font-size: 0.55rem; letter-spacing: 0.08em; opacity: 0.7; }
+        .scroll-hint { position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: row; align-items: center; gap: 0.55rem; pointer-events: none; z-index: 10; opacity: 0; background: rgba(128,128,128,0.15); backdrop-filter: blur(6px); border: 1px solid rgba(128,128,128,0.2); border-radius: 20px; padding: 0.45rem 0.9rem; animation: scroll-hint-in 0.9s ease-out 1.5s forwards; }
+        .scroll-hint svg { width: 16px; height: 22px; color: var(--text-primary); opacity: 0.7; flex-shrink: 0; }
+        .scroll-hint-wheel { animation: scroll-wheel 1.5s ease-in-out infinite; transform-origin: center; }
+        .scroll-hint span { font-family: 'Fira Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-primary); opacity: 0.65; white-space: nowrap; }
+        @keyframes scroll-hint-in { from { opacity: 0; transform: translateX(-50%) translateY(6px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        @keyframes scroll-wheel { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(3px); opacity: 0.3; } }
     </style>
 </head>
 <body>
     <div id="site-header"></div>
-    <div class="projects-section">
-        <div class="projects-header-row">
-            <h1 class="projects-title">Exhibitions</h1>
-            <p class="projects-description">
-                A selection of international and academic exhibitions showcasing my work at the intersection of art, design, and emerging technologies. From AI-aided speculative series like the AIx Future Cities and Symbiotic Architecture collections—imagining conceptual urban futures with generative tools—to research-based projects such as Co-Design Canvas developed at Columbia GSAPP, these exhibitions explore how computational methods can reframe the way we envision and create spaces collaboratively.
-            </p>
+    <div class="gallery-main">
+        <div class="gallery-top">
+            <h1>Exhibitions</h1>
+            <p class="gallery-description">A selection of international and academic exhibitions showcasing work at the intersection of art, design, and emerging technologies. Click the centre card to explore each exhibition.</p>
         </div>
-        <div class="projects-grid">
-            <div class="framer-project-card" onclick="openModal('exhibition1')">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/designmonatgraz/The New Real_Main Image_Design Month Graz.jpg" alt="Exhibition 1 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-index">01 / 05</div>
-                    <div class="project-title">The New Real, Designmonat Graz 2025</div>
-                    <div class="project-details">Design Month Graz, Austria · 2025</div>
-                    <div class="project-tools">Group Exhibition</div>
-                </div>
+        <div class="gallery-stage">
+            <div class="gallery-ring" id="galleryRing"></div>
+            <div class="scroll-hint">
+                <svg viewBox="0 0 18 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                    <rect x="1" y="1" width="16" height="24" rx="8"/>
+                    <line class="scroll-hint-wheel" x1="9" y1="6" x2="9" y2="10"/>
+                </svg>
+                <span>Scroll to rotate</span>
             </div>
-            <div class="framer-project-card" onclick="openModal('exhibition2')">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/promotion_poster.001.jpeg" alt="Exhibition 2 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-index">02 / 05</div>
-                    <div class="project-title">Click, Create, Connect 2025</div>
-                    <div class="project-details">New York, USA · 2025</div>
-                    <div class="project-tools">Group Exhibition</div>
-                </div>
-            </div>
-            <div class="framer-project-card" onclick="openModal('exhibition3')">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/imaginaryworlds/thumbimaginaryworlds.jpg" alt="Exhibition 3 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-index">03 / 05</div>
-                    <div class="project-title">Les Lieux Imaginaires</div>
-                    <div class="project-details">Paris, France · 2024</div>
-                    <div class="project-tools">Group Exhibition</div>
-                </div>
-            </div>
-            <div class="framer-project-card" onclick="openModal('exhibition4')">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/dreamthecity.jpg" alt="Exhibition 4 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-index">04 / 05</div>
-                    <div class="project-title">Somia la Ciutat Exhibition 2023</div>
-                    <div class="project-details">Palau Robert, Barcelona · 2023</div>
-                    <div class="project-tools">Group Exhibition</div>
-                </div>
-            </div>
-            <div class="framer-project-card" onclick="openModal('exhibition5')">
-                <div class="framer-image-container">
-                    <div class="framer-image-shadow">
-                        <img src="img/bordersartfair/borders_2023_001.png" alt="Exhibition 5 Thumbnail">
-                    </div>
-                </div>
-                <div class="project-overlay">
-                    <div class="project-index">05 / 05</div>
-                    <div class="project-title">Hybrid Identities - Borders Art Fair 2023</div>
-                    <div class="project-details">Venice · 2023</div>
-                    <div class="project-tools">Group Exhibition</div>
-                </div>
-            </div>
-
         </div>
     </div>
-    
+
     <!-- Modal -->
     <div id="exhibitionModal" class="modal">
         <div class="modal-content">
@@ -757,7 +726,89 @@
     }
     includeHTML('site-header', 'header.html');
     includeHTML('site-footer', 'footer.html');
-    
+    </script>
+    <script>
+    /* ── Coverflow Gallery ── */
+    (function() {
+        var EXHIBITIONS = [
+            { idx:'01/05', title:'The New Real',           type:'Designmonat Graz · Austria · 2025',    img:'img/designmonatgraz/The New Real_Main Image_Design Month Graz.jpg', id:'exhibition1' },
+            { idx:'02/05', title:'Click, Create, Connect', type:'Group Exhibition · New York · 2025',   img:'img/promotion_poster.001.jpeg',                                      id:'exhibition2' },
+            { idx:'03/05', title:'Les Lieux Imaginaires',  type:'Group Exhibition · Paris · 2024',      img:'img/imaginaryworlds/thumbimaginaryworlds.jpg',                       id:'exhibition3' },
+            { idx:'04/05', title:'Somia la Ciutat',        type:'Group Exhibition · Barcelona · 2023',  img:'img/dreamthecity.jpg',                                               id:'exhibition4' },
+            { idx:'05/05', title:'Hybrid Identities',      type:'Borders Art Fair · Venice · 2023',     img:'img/bordersartfair/borders_2023_001.png',                            id:'exhibition5' }
+        ];
+
+        var ring = document.getElementById('galleryRing');
+        var n = EXHIBITIONS.length;
+        var pos = 0;
+        var isPaused = false;
+        var AUTO_SPEED = 0.002;
+        var cards = [];
+
+        EXHIBITIONS.forEach(function(ex, i) {
+            var card = document.createElement('div');
+            card.className = 'gallery-card';
+            card.innerHTML =
+                '<img src="' + ex.img + '" alt="' + ex.title + '" loading="lazy">' +
+                '<div class="gallery-card-info">' +
+                    '<p class="gallery-card-index">' + ex.idx + '</p>' +
+                    '<h2 class="gallery-card-title">' + ex.title + '</h2>' +
+                    '<p class="gallery-card-type">' + ex.type + '</p>' +
+                '</div>';
+            card.addEventListener('mouseenter', function() { isPaused = true; });
+            card.addEventListener('mouseleave', function() { isPaused = false; });
+            card.addEventListener('click', function() {
+                var off = i - pos;
+                while (off > n / 2) off -= n;
+                while (off < -n / 2) off += n;
+                if (Math.abs(off) < 0.45) { openModal(ex.id); }
+                else { pos += off; }
+            });
+            ring.appendChild(card);
+            cards.push(card);
+        });
+
+        function render() {
+            cards.forEach(function(card, i) {
+                var off = i - pos;
+                while (off > n / 2) off -= n;
+                while (off < -n / 2) off += n;
+                var abs = Math.abs(off);
+                var tx = off * 420;
+                var tz = -(abs * 60);
+                var ry = off * -25;
+                var scale = Math.max(0.5, 1 - abs * 0.2);
+                var opacity = Math.max(0, 1 - abs * 0.38);
+                card.style.transform = 'translateX(' + tx + 'px) translateZ(' + tz + 'px) rotateY(' + ry + 'deg) scale(' + scale + ')';
+                card.style.opacity = opacity;
+                card.style.zIndex = Math.round(100 - abs * 10);
+                card.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none';
+            });
+        }
+
+        function animate() {
+            if (!isPaused) pos += AUTO_SPEED;
+            render();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            pos += e.deltaY * 0.004;
+        }, { passive: false });
+
+        var ty0 = 0;
+        window.addEventListener('touchstart', function(e) { ty0 = e.touches[0].clientY; }, { passive: true });
+        window.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            pos += (ty0 - e.touches[0].clientY) * 0.006;
+            ty0 = e.touches[0].clientY;
+        }, { passive: false });
+
+        animate();
+    })();
+    </script>
+    <script>
     // Exhibition data
     const exhibitions = {
         exhibition1: {

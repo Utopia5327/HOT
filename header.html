@@ -4,7 +4,21 @@
         <span class="logo-acronym">MB</span><span class="logo-fullname">MANAS&nbsp;BHATIA</span>
     </a>
 
-    <!-- Right: Fluid circular dock -->
+    <!-- Theme toggle: permanent button to the left of the dock -->
+    <button class="theme-btn" onclick="toggleDarkMode()" aria-label="Toggle theme">
+        <span class="dock-moon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        </span>
+        <span class="dock-sun">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </span>
+    </button>
+
+    <!-- Right: Fluid circular dock (hamburger + nav items only) -->
     <div class="fluid-dock" id="fluidDock" data-expanded="false">
 
         <!-- Item 1: Toggle — always visible, controls dock expansion -->
@@ -19,55 +33,40 @@
             </div>
         </button>
 
-        <!-- Item 2: Theme toggle -->
-        <button class="dock-item dock-secondary" data-dock-index="0" onclick="toggleDarkMode()" aria-label="Toggle theme">
-            <span class="dock-label">Theme</span>
-            <span class="dock-moon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                </svg>
-            </span>
-            <span class="dock-sun">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                </svg>
-            </span>
-        </button>
-
-        <!-- Item 3: Computational Design -->
-        <a class="dock-item dock-secondary" data-dock-index="1" href="/Computational%20Design.html" aria-label="Computational Design">
+        <!-- Item 2: Computational Design -->
+        <a class="dock-item dock-secondary" data-dock-index="0" href="/Computational%20Design.html" aria-label="Computational Design">
             <span class="dock-label">Design</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
             </svg>
         </a>
 
-        <!-- Item 4: Art -->
-        <a class="dock-item dock-secondary" data-dock-index="2" href="/art.html" aria-label="Art">
+        <!-- Item 3: Art -->
+        <a class="dock-item dock-secondary" data-dock-index="1" href="/art.html" aria-label="Art">
             <span class="dock-label">Art</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
             </svg>
         </a>
 
-        <!-- Item 5: Exhibitions -->
-        <a class="dock-item dock-secondary" data-dock-index="3" href="/exhibitions.html" aria-label="Exhibitions">
+        <!-- Item 4: Exhibitions -->
+        <a class="dock-item dock-secondary" data-dock-index="2" href="/exhibitions.html" aria-label="Exhibitions">
             <span class="dock-label">Exhibitions</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><rect x="9" y="13" width="6" height="8"/>
             </svg>
         </a>
 
-        <!-- Item 6: Press & Media -->
-        <a class="dock-item dock-secondary" data-dock-index="4" href="/press-media.html" aria-label="Press & Media">
+        <!-- Item 5: Press & Media -->
+        <a class="dock-item dock-secondary" data-dock-index="3" href="/press-media.html" aria-label="Press & Media">
             <span class="dock-label">Press</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
             </svg>
         </a>
 
-        <!-- Item 7: About -->
-        <a class="dock-item dock-secondary" data-dock-index="5" href="/about.html" aria-label="About">
+        <!-- Item 6: About -->
+        <a class="dock-item dock-secondary" data-dock-index="4" href="/about.html" aria-label="About">
             <span class="dock-label">About</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -274,7 +273,32 @@
     transform: rotate(0deg) scale(1);
 }
 
-/* ── Secondary items (items 2–5, revealed on expand) ── */
+/* ── Permanent theme button (sits left of the dock) ── */
+.theme-btn {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px 0 var(--shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.theme-btn:hover {
+    background: var(--bg-tertiary-hover);
+    box-shadow: 0 6px 24px 0 var(--shadow-hover);
+}
+
+/* ── Secondary items (nav items, revealed on expand) ── */
 .dock-secondary {
     position: absolute;
     top: 0;
@@ -292,12 +316,11 @@
     outline: none;
 }
 /* Stagger delays for closing (fastest last = cascade up) */
-.dock-secondary[data-dock-index="0"] { z-index: 56; transition-delay: 150ms, 150ms, 0ms, 0ms; }
-.dock-secondary[data-dock-index="1"] { z-index: 55; transition-delay: 120ms, 120ms, 0ms, 0ms; }
-.dock-secondary[data-dock-index="2"] { z-index: 54; transition-delay:  90ms,  90ms, 0ms, 0ms; }
-.dock-secondary[data-dock-index="3"] { z-index: 53; transition-delay:  60ms,  60ms, 0ms, 0ms; }
-.dock-secondary[data-dock-index="4"] { z-index: 52; transition-delay:  30ms,  30ms, 0ms, 0ms; }
-.dock-secondary[data-dock-index="5"] { z-index: 51; transition-delay:   0ms,   0ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="0"] { z-index: 55; transition-delay: 120ms, 120ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="1"] { z-index: 54; transition-delay:  90ms,  90ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="2"] { z-index: 53; transition-delay:  60ms,  60ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="3"] { z-index: 52; transition-delay:  30ms,  30ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="4"] { z-index: 51; transition-delay:   0ms,   0ms, 0ms, 0ms; }
 
 /* Expanded state */
 .fluid-dock[data-expanded="true"] .dock-secondary {
@@ -309,7 +332,6 @@
 .fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="2"] { transform: translateY(180px); transition-delay:  60ms,  60ms, 0ms, 0ms; }
 .fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="3"] { transform: translateY(240px); transition-delay:  90ms,  90ms, 0ms, 0ms; }
 .fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="4"] { transform: translateY(300px); transition-delay: 120ms, 120ms, 0ms, 0ms; }
-.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="5"] { transform: translateY(360px); transition-delay: 150ms, 150ms, 0ms, 0ms; }
 
 /* ── Dark mode icon swap ── */
 .dock-moon,
@@ -355,12 +377,11 @@
     pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="0"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay:  60ms; }
-.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="1"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay:  90ms; }
-.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="2"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 120ms; }
-.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="3"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 150ms; }
-.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="4"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 180ms; }
-.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="5"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 210ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="0"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay:  30ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="1"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay:  60ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="2"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay:  90ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="3"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 120ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="4"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 150ms; }
 
 /* ── (sidebar removed — nav is now entirely in the dock) ── */
 
@@ -376,6 +397,7 @@
     .minimal-logo:hover { width: 160px; }
     .logo-acronym, .logo-fullname { line-height: 38px; padding: 0 8px; }
     .fluid-dock { top: 14px; right: 14px; }
+    .theme-btn { top: 14px; right: 74px; width: 44px; height: 44px; }
     .hamburger-content { max-width: 100%; }
 }
 </style>

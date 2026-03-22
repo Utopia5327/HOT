@@ -122,7 +122,6 @@ body {
     column-gap: 4rem;
     row-gap: 2rem;
     color: var(--text-color);
-    border-top: 1px solid var(--border-color);
 }
 
 .framer-hero-col-left {
@@ -148,7 +147,6 @@ body {
     color: var(--text-color);
     margin-bottom: 0;
     padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border-color);
     text-align: left;
     letter-spacing: var(--letter-tight);
     line-height: 0.92;
@@ -182,7 +180,6 @@ body {
     display: flex;
     gap: 2.5rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
 }
 
 .framer-hero-meta-block {
@@ -190,7 +187,6 @@ body {
     flex-direction: column;
     gap: 0.3rem;
     padding: 1rem 0;
-    border-top: 1px solid var(--border-color);
     min-width: 180px;
 }
 

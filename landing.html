@@ -159,9 +159,46 @@
       letter-spacing: 0.2em;
       margin-top: 0.6rem;
       color: var(--text-secondary);
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Fira Mono', monospace;
       text-transform: uppercase;
       opacity: 0.7;
+    }
+
+    /* ── Gooey text morphing ── */
+    .gooey-wrap {
+      position: relative;
+      height: clamp(1.1rem, 1.4vw, 1.3rem);
+      margin-top: 0.55rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gooey-wrap svg {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+    .gooey-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: url(#gooey-threshold);
+    }
+    .gooey-text-a,
+    .gooey-text-b {
+      position: absolute;
+      white-space: nowrap;
+      font-family: 'Fira Mono', monospace;
+      font-size: clamp(0.6rem, 0.85vw, 0.82rem);
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      opacity: 0;
+      user-select: none;
+      /* width placeholder so layout doesn't collapse */
+      min-width: 1px;
     }
     .name:hover {
       transform: scale(1.05);
@@ -293,7 +330,26 @@
     <div class="name-container">
       <a href="#" class="name" data-text="Manas Bhatia" onclick="transitionToHome(event)"><span class="name-full">Manas Bhatia</span><span class="name-short">MB</span></a>
       <div class="name-rule" id="name-rule"></div>
-      <div class="hindi-name">Architect | Design Technologist | Artist</div>
+
+      <!-- Gooey morphing subtitle -->
+      <div class="gooey-wrap">
+        <!-- Hidden SVG filter -->
+        <svg aria-hidden="true" focusable="false">
+          <defs>
+            <filter id="gooey-threshold">
+              <feColorMatrix in="SourceGraphic" type="matrix"
+                values="1 0 0 0 0
+                        0 1 0 0 0
+                        0 0 1 0 0
+                        0 0 0 255 -140"/>
+            </filter>
+          </defs>
+        </svg>
+        <div class="gooey-stage">
+          <span class="gooey-text-a" id="gooey-a"></span>
+          <span class="gooey-text-b" id="gooey-b"></span>
+        </div>
+      </div>
     </div>
     <div class="stats-bar">
       <span>CNN · BBC · Dezeen · PBS</span>
@@ -369,6 +425,87 @@
       const rule = document.getElementById('name-rule');
       if (rule) rule.style.width = '100%';
     }, 500);
+  </script>
+
+  <!-- Gooey text morphing animation -->
+  <script>
+    (function() {
+      var texts = [
+        'Architect',
+        'Computational Designer',
+        'Spatial Artist',
+        'Design Technologist',
+        'Researcher'
+      ];
+
+      var MORPH_TIME    = 1.2;   // seconds per morph
+      var COOLDOWN_TIME = 1.8;   // seconds held still between morphs
+
+      var elA = document.getElementById('gooey-a');
+      var elB = document.getElementById('gooey-b');
+
+      if (!elA || !elB) return;
+
+      var textIndex = texts.length - 1;
+      var morph     = 0;
+      var cooldown  = COOLDOWN_TIME;
+      var lastTime  = performance.now();
+
+      elA.textContent = texts[textIndex % texts.length];
+      elB.textContent = texts[(textIndex + 1) % texts.length];
+
+      function setMorph(fraction) {
+        // elB fades in (fraction 0→1)
+        var blurB = Math.min(8 / fraction - 8, 100);
+        elB.style.filter  = 'blur(' + blurB + 'px)';
+        elB.style.opacity = Math.pow(fraction, 0.4);
+
+        // elA fades out (fraction 0→1 means elA goes 1→0)
+        var inv  = 1 - fraction;
+        var blurA = Math.min(8 / inv - 8, 100);
+        elA.style.filter  = 'blur(' + blurA + 'px)';
+        elA.style.opacity = Math.pow(inv, 0.4);
+      }
+
+      function doCooldown() {
+        morph = 0;
+        elB.style.filter  = '';
+        elB.style.opacity = '1';
+        elA.style.filter  = '';
+        elA.style.opacity = '0';
+      }
+
+      function animate(now) {
+        requestAnimationFrame(animate);
+        var dt = Math.min((now - lastTime) / 1000, 0.1); // cap at 100ms
+        lastTime = now;
+
+        var wasCooling = cooldown > 0;
+        cooldown -= dt;
+
+        if (cooldown <= 0) {
+          if (wasCooling) {
+            // advance to next pair
+            textIndex = (textIndex + 1) % texts.length;
+            elA.textContent = texts[textIndex % texts.length];
+            elB.textContent = texts[(textIndex + 1) % texts.length];
+          }
+          morph -= cooldown; // cooldown is negative, so this adds the overshoot
+          cooldown = 0;
+
+          var fraction = morph / MORPH_TIME;
+          if (fraction >= 1) {
+            cooldown = COOLDOWN_TIME;
+            fraction = 1;
+          }
+          setMorph(fraction);
+        } else {
+          doCooldown();
+        }
+      }
+
+      requestAnimationFrame(animate);
+    })();
   </script>
 </body>
 </html>

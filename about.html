@@ -48,9 +48,12 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html, body {
+        html { height: 100%; }
+        body {
             height: 100%;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
             font-family: 'Inter', 'General Sans', Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
@@ -61,23 +64,29 @@
         canvas { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none; }
         #site-footer { display: none; }
 
-        /* ── Two-panel page shell ──────────────────────────────── */
-        .about-wrapper {
+        /* ── Content column ─────────────────────────────────────── */
+        .about-scroll {
             position: relative;
             z-index: 1;
-            height: 100vh;
-            margin-top: 0;
-            display: grid;
-            grid-template-columns: 42% 1fr;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* ── Left panel: identity ──────────────────────────────── */
-        .about-left {
+        .about-content {
+            flex: 1;
+            padding: max(4.5rem, 8vh) 8vw 2rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 4vh 4.5vw 3.5vh 5vw;
-            border-right: 1px solid var(--border-color);
+        }
+
+        .about-identity {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
         }
 
         .name-header {
@@ -89,156 +98,112 @@
             text-transform: uppercase;
             color: var(--text-primary);
             transition: color 0.3s ease;
-            margin-bottom: 0.9rem;
         }
 
         .about-role {
             font-family: 'Fira Mono', monospace;
-            font-size: 0.58rem;
+            font-size: 0.65rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 1.8rem;
         }
 
         .about-bio {
-            font-size: clamp(0.75rem, 0.85vw + 0.05rem, 0.92rem);
+            font-size: clamp(1rem, 1.1vw, 1.15rem);
             line-height: 1.8;
             font-weight: 400;
             color: var(--text-primary);
             transition: color 0.3s ease;
-            flex-grow: 1;
+            max-width: 80ch;
         }
 
-        .about-contact {
-            border-top: 1px solid var(--border-color);
-            padding-top: 1.2rem;
-            margin-top: 2vh;
-        }
-
-        .contact-label {
-            font-family: 'Fira Mono', monospace;
-            font-size: 0.54rem;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-email {
-            display: block;
-            font-size: clamp(0.82rem, 0.95vw, 1rem);
-            font-weight: 500;
-            color: var(--text-primary);
-            text-decoration: none;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.4rem;
-            transition: color 0.2s ease;
-        }
-        .contact-email:hover { color: #a3e635; }
-
-        .contact-links-row {
-            display: flex;
-            gap: 0.6rem;
-            font-family: 'Fira Mono', monospace;
-            font-size: 0.56rem;
-            letter-spacing: 0.1em;
-        }
-
-        .contact-social {
-            color: var(--text-muted);
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: color 0.2s ease;
-        }
-        .contact-social:hover { color: #a3e635; }
-        .contact-sep { opacity: 0.3; }
-
-        /* ── Right panel: Now + Press ──────────────────────────── */
-        .about-right {
+        /* ── Stacked circular footer ────────────────────────────── */
+        .about-footer {
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+            padding: 1.5rem 5vw;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 4vh 5vw 3.5vh 4.5vw;
+            align-items: center;
+            gap: 0.9rem;
         }
+
+        .footer-socials {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .footer-social-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .footer-social-btn:hover { color: #a3e635; border-color: #a3e635; }
+        .footer-social-btn svg { width: 18px; height: 18px; }
+
+        .footer-email-link {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-email-link:hover { color: #a3e635; }
+
+        .footer-copy {
+            font-family: 'Fira Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .about-press { display: flex; flex-direction: column; gap: 0.9rem; }
 
         .block-label {
             font-family: 'Fira Mono', monospace;
-            font-size: 0.54rem;
+            font-size: 0.65rem;
             letter-spacing: 0.24em;
             text-transform: uppercase;
             color: var(--text-muted);
-            padding-bottom: 0.65rem;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 1.1rem;
-        }
-
-        .kv-grid { display: flex; flex-direction: column; gap: 0.7rem; }
-
-        .kv-row {
-            display: grid;
-            grid-template-columns: 105px 1fr;
-            gap: 1rem;
-            align-items: baseline;
-        }
-
-        .kv-key {
-            font-family: 'Fira Mono', monospace;
-            font-size: 0.56rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--text-muted);
-        }
-
-        .kv-value {
-            font-size: clamp(0.75rem, 0.82vw, 0.9rem);
-            font-weight: 400;
-            color: var(--text-primary);
-            line-height: 1.55;
         }
 
         .press-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            column-gap: clamp(1rem, 3vw, 3rem);
-            row-gap: 0.4rem;
+            grid-template-columns: repeat(3, auto);
+            column-gap: clamp(2.5rem, 5vw, 6rem);
+            row-gap: 0.45rem;
+            justify-content: start;
         }
 
         .press-item {
             font-family: 'Fira Mono', monospace;
-            font-size: 0.58rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: var(--text-primary);
-            line-height: 1.45;
+            line-height: 1.5;
         }
 
         .press-item a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
         .press-item a:hover { color: #a3e635; }
 
-        /* ── Mobile: restore scroll ────────────────────────────── */
+        /* ── Mobile ─────────────────────────────────────────────── */
         @media (max-width: 767px) {
-            html, body { height: auto; overflow-y: auto; }
-            #site-footer { display: block; }
-            .about-wrapper {
-                height: auto;
-                margin-top: 60px;
-                grid-template-columns: 1fr;
-            }
-            .about-left {
-                border-right: none;
-                border-bottom: 1px solid var(--border-color);
-                padding: 3vh 6vw 3vh 6vw;
-                gap: 2rem;
-                justify-content: flex-start;
-            }
-            .about-right {
-                padding: 3vh 6vw 5vh 6vw;
-                gap: 2.5rem;
-                justify-content: flex-start;
-            }
-            .press-grid { grid-template-columns: 1fr; }
-            .kv-row { grid-template-columns: 90px 1fr; }
+            body { height: auto; overflow-y: auto; }
+            .about-scroll { flex: none; overflow-y: visible; }
+            .about-content { padding: 5rem 6vw 3rem; }
+            .press-grid { grid-template-columns: 1fr 1fr; }
+            .about-footer { padding: 2rem 6vw; gap: 1.2rem; }
         }
     </style>
     <link href="https://fonts.cdnfonts.com/css/asher-punk" rel="stylesheet">
@@ -380,68 +345,63 @@
 <body>
     <div id="site-header"></div>
 
-    <div class="about-wrapper">
-
-        <!-- Left panel: identity -->
-        <div class="about-left">
-            <div>
+    <!-- Single scrollable column -->
+    <div class="about-scroll">
+        <div class="about-content">
+            <div class="about-identity">
                 <h1 class="name-header">Manas Bhatia</h1>
                 <p class="about-role">Computational Designer · Spatial Artist</p>
-                <p class="about-bio">Computational designer and spatial artist working at the intersection of generative AI, parametric systems, and architectural thinking. M.S. in Computational Design Practices, Columbia University GSAPP (2024–25). Research centred on AI-driven participatory spatial design — building tools that make computation accessible to non-experts. Practice spans Grasshopper, LLM-based design agents, GIS-scaled urban analysis, and kinetic fabrication. Work exhibited at Château de Lourmarin, France; Google UnFold gallery; covered by CNN, BBC, Dezeen, Designboom. Featured guest, PBS A Brief History of the Future, Ep. 06. Forbes 30 Under 30 nominee, 2024. Prior: Associate Architect, Ant Studio, India.</p>
             </div>
-            <div class="about-contact">
-                <p class="contact-label">Get in touch</p>
-                <a href="mailto:mb5327@columbia.edu" class="contact-email">mb5327@columbia.edu</a>
-                <div class="contact-links-row">
-                    <a href="https://www.linkedin.com/in/manas-bhatia/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
-                    <span class="contact-sep">·</span>
-                    <a href="https://manasbhatia.com" class="contact-social">manasbhatia.com</a>
-                </div>
-            </div>
-        </div>
 
-        <!-- Right panel: Now + Press -->
-        <div class="about-right">
-            <div>
-                <p class="block-label">Now</p>
-                <div class="kv-grid">
-                    <div class="kv-row">
-                        <span class="kv-key">Building</span>
-                        <span class="kv-value">Co-Design Canvas — AI tool for participatory spatial design with non-expert users</span>
-                    </div>
-                    <div class="kv-row">
-                        <span class="kv-key">Researching</span>
-                        <span class="kv-value">Spatial reasoning in LLMs and 3D AI for architectural decision-making</span>
-                    </div>
-                    <div class="kv-row">
-                        <span class="kv-key">Based in</span>
-                        <span class="kv-value">New York, NY — open to collaborations, residencies, exhibitions</span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <p class="block-label">Featured in</p>
-                <div class="press-grid">
-                    <p class="press-item"><a href="https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn" target="_blank">CNN</a></p>
-                    <p class="press-item"><a href="https://good.rp3agency.com/manas-bhatia-interview" target="_blank">Well&amp;Good / RP3</a></p>
-                    <p class="press-item"><a href="https://www.youtube.com/watch?v=sH-wu2qIzAE" target="_blank">BBC</a></p>
-                    <p class="press-item"><a href="https://www.youtube.com/watch?v=V2e-EgO_Yu8" target="_blank">VLDC</a></p>
-                    <p class="press-item"><a href="https://www.dezeen.com/2023/07/24/ai-architecture-projects-dezeen-pinterest/" target="_blank">Dezeen</a></p>
-                    <p class="press-item"><a href="https://stupiddope.com/2024/04/manas-bhatias-nautilus-bioarchitecture/" target="_blank">Stupid Dope</a></p>
-                    <p class="press-item"><a href="https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/" target="_blank">Designboom</a></p>
-                    <p class="press-item"><a href="https://www.goodnewsnetwork.org/when-architect-asked-ai-to-design-futuristic-skyscrapers-it-proposed-a-vertical-forest/" target="_blank">Good News Network</a></p>
-                    <p class="press-item"><a href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank">PBS</a></p>
-                    <p class="press-item"><a href="https://www.archilovers.com/stories/30302/how-artificial-intelligence-will-shape-the-future-smart-cities.html" target="_blank">Archilovers</a></p>
-                    <p class="press-item"><a href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank">Google Unfold</a></p>
-                    <p class="press-item"><a href="https://www.itsliquid.com/interview-manas-bhatia.html" target="_blank">Its Liquid</a></p>
-                    <p class="press-item"><a href="https://www.wipo.int/meetings/en/doc_details.jsp?doc_id=620610" target="_blank">WIPO</a></p>
-                    <p class="press-item"><a href="https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia" target="_blank">Amazing Architecture</a></p>
-                    <p class="press-item"><a href="https://parametric-architecture.com/10-designers-and-their-impressive-midjourney-works-you-should-know/" target="_blank">Parametric Architecture</a></p>
-                </div>
-            </div>
-        </div>
+            <p class="about-bio">Computational designer and spatial artist working at the intersection of generative AI, parametric systems, and architectural thinking. M.S. in Computational Design Practices, Columbia University GSAPP (2024–25). Research centred on AI-driven participatory spatial design — building tools that make computation accessible to non-experts. Practice spans Grasshopper, LLM-based design agents, GIS-scaled urban analysis, and kinetic fabrication. Work exhibited at Château de Lourmarin, France; Google UnFold gallery; covered by CNN, BBC, Dezeen, Designboom. Featured guest, PBS A Brief History of the Future, Ep. 06. Forbes 30 Under 30 nominee, 2024. Prior: Associate Architect, Ant Studio, India.</p>
 
+            <div class="about-press">
+            <p class="block-label">Featured in</p>
+            <div class="press-grid">
+                <p class="press-item"><a href="https://www.cnn.com/videos/tv/2022/12/08/manas-bhatia-ai-nature-designs-tnf-spc-intl.cnn" target="_blank">CNN</a></p>
+                <p class="press-item"><a href="https://good.rp3agency.com/manas-bhatia-interview" target="_blank">Well&amp;Good / RP3</a></p>
+                <p class="press-item"><a href="https://www.youtube.com/watch?v=sH-wu2qIzAE" target="_blank">BBC</a></p>
+                <p class="press-item"><a href="https://www.youtube.com/watch?v=V2e-EgO_Yu8" target="_blank">VLDC</a></p>
+                <p class="press-item"><a href="https://www.dezeen.com/2023/07/24/ai-architecture-projects-dezeen-pinterest/" target="_blank">Dezeen</a></p>
+                <p class="press-item"><a href="https://stupiddope.com/2024/04/manas-bhatias-nautilus-bioarchitecture/" target="_blank">Stupid Dope</a></p>
+                <p class="press-item"><a href="https://www.designboom.com/architecture/manas-bhatia-ai-generated-surreal-symbiotic-architecture-08-22-2022/" target="_blank">Designboom</a></p>
+                <p class="press-item"><a href="https://www.goodnewsnetwork.org/when-architect-asked-ai-to-design-futuristic-skyscrapers-it-proposed-a-vertical-forest/" target="_blank">Good News Network</a></p>
+                <p class="press-item"><a href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank">PBS</a></p>
+                <p class="press-item"><a href="https://www.archilovers.com/stories/30302/how-artificial-intelligence-will-shape-the-future-smart-cities.html" target="_blank">Archilovers</a></p>
+                <p class="press-item"><a href="https://www.pbs.org/video/tomorrows-e58248/" target="_blank">Google Unfold</a></p>
+                <p class="press-item"><a href="https://www.itsliquid.com/interview-manas-bhatia.html" target="_blank">Its Liquid</a></p>
+                <p class="press-item"><a href="https://www.wipo.int/meetings/en/doc_details.jsp?doc_id=620610" target="_blank">WIPO</a></p>
+                <p class="press-item"><a href="https://amazingarchitecture.com/futuristic/symbiotic-architecture-by-manas-bhatia" target="_blank">Amazing Architecture</a></p>
+                <p class="press-item"><a href="https://parametric-architecture.com/10-designers-and-their-impressive-midjourney-works-you-should-know/" target="_blank">Parametric Architecture</a></p>
+            </div>
+            </div><!-- /about-press -->
+        </div>
     </div>
+
+    <!-- Stacked circular footer -->
+    <footer class="about-footer">
+        <div class="footer-socials">
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/manasbhatiadesign" target="_blank" rel="noopener" class="footer-social-btn" title="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5"/>
+                    <circle cx="12" cy="12" r="4.5"/>
+                    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+                </svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/manas-bhatia/" target="_blank" rel="noopener" class="footer-social-btn" title="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+        </div>
+
+        <a href="mailto:mb5327@columbia.edu" class="footer-email-link">mb5327@columbia.edu</a>
+
+        <p class="footer-copy">© 2025 Manas Bhatia. All rights reserved.</p>
+    </footer>
+
     <div id="site-footer"></div>
     <script>
     function includeHTML(id, url) {
