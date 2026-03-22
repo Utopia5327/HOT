@@ -123,8 +123,10 @@
         .framer-sleek-link {
             color: #fff;
             text-decoration: none;
-            font-size: 1.18rem;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: 1.1rem;
             font-weight: 500;
+            letter-spacing: 0;
             padding: 0.5rem 1.5rem;
             border-radius: 12px;
             transition: background 0.2s, color 0.2s;
@@ -147,10 +149,10 @@
         }
         .projects-title {
             font-family: 'Inter', 'General Sans', Arial, sans-serif;
-            font-size: clamp(4rem, 6vw, 7rem);
+            font-size: clamp(3.5rem, 5.5vw, 6rem);
             font-weight: 900;
             letter-spacing: -0.04em;
-            line-height: 1;
+            line-height: 0.92;
             text-align: left;
             text-transform: uppercase;
             margin-bottom: 0.5vw;
@@ -158,15 +160,15 @@
             transition: color 0.3s ease;
         }
         .projects-description {
-            font-size: clamp(0.95rem, 1.2vw + 0.3rem, 1.15rem);
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            font-weight: 400;
             color: var(--text-secondary);
             max-width: 700px;
             margin-bottom: 2vw;
-            line-height: 1.65;
+            line-height: 1.75;
             text-align: left;
-            font-weight: 400;
-            font-style: normal;
-            letter-spacing: 0.01em;
+            letter-spacing: 0;
             align-self: flex-end;
             transition: color 0.3s ease;
         }
@@ -253,46 +255,67 @@
         }
         
         .modal-title {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 0.92;
             color: white;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
         }
         
         .modal-subtitle {
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.9);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            font-weight: 400;
+            letter-spacing: 0;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
         }
-        
+
         .exhibition-meta {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 2rem;
+            margin-bottom: 1rem;
         }
-        
+
         .meta-item {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .meta-item-label {
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.5;
+        }
+
+        .meta-item-value {
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0;
             color: rgba(255,255,255,0.9);
+            line-height: 1.5;
         }
-        
-        .meta-item i {
-            color: #a3e635;
-            font-size: 1.1rem;
-        }
-        
+
         .exhibition-website {
-            color: #a3e635;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.9);
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+            transition: color 0.2s ease;
+        }
+        .exhibition-website:hover {
+            color: #a3e635;
         }
         
         .exhibition-website:hover {
@@ -401,24 +424,32 @@
         }
         
         .exhibition-details {
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.75;
             margin-bottom: 30px;
-            font-weight: 500;
-            font-size: 1.1rem;
+            font-weight: 400;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            letter-spacing: 0;
         }
         
         .exhibition-additional-info {
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
             color: var(--text-tertiary);
-            line-height: 1.7;
-            font-size: 1rem;
+            line-height: 1.75;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            font-weight: 400;
+            letter-spacing: 0;
             padding-top: 30px;
             border-top: 1px solid var(--border-color);
         }
         
         .exhibition-section-title {
-            font-size: 1.5rem;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(1.6rem, 2.5vw, 2.4rem);
             font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1;
             color: var(--text-primary);
             margin-bottom: 15px;
             margin-top: 40px;
@@ -556,33 +587,38 @@
             opacity: 1;
         }
         .project-index {
-            font-family: 'Fira Mono', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.2em;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
             opacity: 0.5;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
+            line-height: 1.5;
         }
         .project-title {
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
             font-size: clamp(1rem, 1.5vw, 1.4rem);
             font-weight: 700;
             letter-spacing: -0.02em;
-            line-height: 1.1;
+            line-height: 1;
             margin-bottom: 0.5rem;
         }
         .project-details {
-            font-family: 'Fira Mono', monospace;
+            font-family: 'Fira Mono', 'Courier New', monospace;
             font-size: 0.62rem;
-            letter-spacing: 0.08em;
+            font-weight: 400;
+            letter-spacing: 0.12em;
             opacity: 0.75;
             text-transform: uppercase;
-            line-height: 1.6;
+            line-height: 1.5;
             margin-bottom: 0.75rem;
         }
         .project-tools {
-            font-family: 'Fira Mono', monospace;
+            font-family: 'Fira Mono', 'Courier New', monospace;
             font-size: 0.58rem;
-            letter-spacing: 0.06em;
+            font-weight: 400;
+            letter-spacing: 0.18em;
             opacity: 0.5;
             text-transform: uppercase;
             border-top: 1px solid rgba(255,255,255,0.2);
@@ -600,8 +636,8 @@
         /* ── Coverflow Gallery ── */
         .gallery-main { flex: 1; min-height: 0; display: flex; flex-direction: column; position: relative; z-index: 1; }
         .gallery-top { flex-shrink: 0; padding: 5.5rem 5vw 3rem; display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-        .gallery-top h1 { font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1; color: var(--text-primary); text-transform: uppercase; }
-        .gallery-description { font-size: 0.9rem; color: var(--text-secondary); max-width: 560px; line-height: 1.7; font-weight: 400; letter-spacing: 0.01em; opacity: 0.85; }
+        .gallery-top h1 { font-family: 'Inter', 'General Sans', Arial, sans-serif; font-size: clamp(1.6rem, 2.5vw, 2.4rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: var(--text-primary); text-transform: uppercase; }
+        .gallery-description { font-family: 'Inter', 'General Sans', Arial, sans-serif; font-size: clamp(0.95rem, 1.1vw, 1.1rem); font-weight: 400; color: var(--text-secondary); max-width: 560px; line-height: 1.75; letter-spacing: 0; opacity: 0.85; }
         .gallery-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; perspective: 1400px; position: relative; }
         .gallery-ring { position: relative; width: 0; height: 0; transform-style: preserve-3d; }
         .gallery-card { position: absolute; width: 460px; height: 460px; margin-left: -230px; margin-top: -230px; border-radius: 14px; overflow: hidden; display: block; box-shadow: 0 24px 72px rgba(0,0,0,0.45); cursor: pointer; }
@@ -609,14 +645,14 @@
         .gallery-card:hover img { transform: scale(1.05); }
         .gallery-card-info { position: absolute; inset: 0; padding: 2rem 1.2rem 1.2rem; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 45%, rgba(0,0,0,0) 100%); color: #fff; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; opacity: 0; transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); pointer-events: none; }
         .gallery-card:hover .gallery-card-info { opacity: 1; }
-        .gallery-card-index { font-family: 'Fira Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; opacity: 0.55; margin-bottom: 0.4rem; }
-        .gallery-card-title { font-size: 1rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.35rem; }
-        .gallery-card-type { font-family: 'Fira Mono', monospace; font-size: 0.55rem; letter-spacing: 0.08em; opacity: 0.7; }
-        .scroll-hint { position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: row; align-items: center; gap: 0.55rem; pointer-events: none; z-index: 10; opacity: 0; background: rgba(128,128,128,0.15); backdrop-filter: blur(6px); border: 1px solid rgba(128,128,128,0.2); border-radius: 20px; padding: 0.45rem 0.9rem; animation: scroll-hint-in 0.9s ease-out 1.5s forwards; }
+        .gallery-card-index { font-family: 'Fira Mono', 'Courier New', monospace; font-size: 0.58rem; font-weight: 400; letter-spacing: 0.18em; opacity: 0.55; margin-bottom: 0.4rem; line-height: 1.5; }
+        .gallery-card-title { font-family: 'Inter', 'General Sans', Arial, sans-serif; font-size: 1rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+        .gallery-card-type { font-family: 'Fira Mono', 'Courier New', monospace; font-size: 0.58rem; font-weight: 400; letter-spacing: 0.18em; opacity: 0.7; line-height: 1.5; }
+        .scroll-hint { flex-shrink: 0; align-self: center; margin-bottom: 1.4rem; display: flex; flex-direction: row; align-items: center; gap: 0.55rem; pointer-events: none; z-index: 10; opacity: 0; background: rgba(128,128,128,0.15); backdrop-filter: blur(6px); border: 1px solid rgba(128,128,128,0.2); border-radius: 20px; padding: 0.45rem 0.9rem; animation: scroll-hint-in 0.9s ease-out 1.5s forwards; }
         .scroll-hint svg { width: 16px; height: 22px; color: var(--text-primary); opacity: 0.7; flex-shrink: 0; }
         .scroll-hint-wheel { animation: scroll-wheel 1.5s ease-in-out infinite; transform-origin: center; }
-        .scroll-hint span { font-family: 'Fira Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-primary); opacity: 0.65; white-space: nowrap; }
-        @keyframes scroll-hint-in { from { opacity: 0; transform: translateX(-50%) translateY(6px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        .scroll-hint span { font-family: 'Fira Mono', 'Courier New', monospace; font-size: 0.58rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-primary); opacity: 0.65; white-space: nowrap; line-height: 1.5; }
+        @keyframes scroll-hint-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scroll-wheel { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(3px); opacity: 0.3; } }
     </style>
 </head>
@@ -629,13 +665,13 @@
         </div>
         <div class="gallery-stage">
             <div class="gallery-ring" id="galleryRing"></div>
-            <div class="scroll-hint">
-                <svg viewBox="0 0 18 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                    <rect x="1" y="1" width="16" height="24" rx="8"/>
-                    <line class="scroll-hint-wheel" x1="9" y1="6" x2="9" y2="10"/>
-                </svg>
-                <span>Scroll to rotate</span>
-            </div>
+        </div>
+        <div class="scroll-hint">
+            <svg viewBox="0 0 18 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <rect x="1" y="1" width="16" height="24" rx="8"/>
+                <line class="scroll-hint-wheel" x1="9" y1="6" x2="9" y2="10"/>
+            </svg>
+            <span>Scroll to rotate</span>
         </div>
     </div>
 
@@ -651,15 +687,15 @@
                     <p id="modalSubtitle" class="modal-subtitle"></p>
                     <div class="exhibition-meta" id="exhibitionMeta">
                         <div class="meta-item">
-                            <i class="fas fa-calendar"></i>
-                            <span id="exhibitionYear"></span>
+                            <span class="meta-item-label">Year</span>
+                            <span class="meta-item-value" id="exhibitionYear"></span>
                         </div>
                         <div class="meta-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span id="exhibitionLocation"></span>
+                            <span class="meta-item-label">Location</span>
+                            <span class="meta-item-value" id="exhibitionLocation"></span>
                         </div>
                         <div class="meta-item">
-                            <i class="fas fa-globe"></i>
+                            <span class="meta-item-label">Website</span>
                             <a id="exhibitionWebsite" class="exhibition-website" target="_blank" rel="noopener noreferrer"></a>
                         </div>
                     </div>

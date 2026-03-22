@@ -20,17 +20,22 @@
     --shadow-hover: rgba(0,0,0,0.08);
     --image-bg: #ede8e0;
     --accent: #a3e635;
-    /* Typographic scale (modular, base 1rem) */
-    --type-xs: 0.7rem;
+    /* Typographic scale (unified) */
+    --type-xs: 0.58rem;
+    --type-tag: 0.62rem;
+    --type-label: 0.75rem;
     --type-sm: 0.875rem;
-    --type-base: 1rem;
+    --type-base: clamp(0.95rem, 1.1vw, 1.1rem);
+    --type-sub: 1.1rem;
     --type-md: 1.25rem;
-    --type-lg: 1.8rem;
-    --type-2xl: clamp(2.5rem, 4vw, 3.5rem);
-    --type-hero: clamp(4rem, 8vw, 7rem);
+    --type-lg: clamp(1.6rem, 2.5vw, 2.4rem);
+    --type-2xl: clamp(3rem, 6vw, 6rem);
+    --type-hero: clamp(3.5rem, 5.5vw, 6rem);
     /* Spacing tokens */
     --letter-tight: -0.04em;
+    --letter-heading: -0.02em;
     --letter-wide: 0.12em;
+    --letter-fine: 0.18em;
 }
 
 [data-theme="dark"] {
@@ -48,7 +53,7 @@
 
 /* ── Base ── */
 body {
-    font-family: 'Inter', Arial, sans-serif;
+    font-family: 'Inter', 'General Sans', Arial, sans-serif;
     font-feature-settings: "ss01", "cv01";
     background: var(--main-bg);
     color: var(--text-color);
@@ -58,7 +63,7 @@ body {
     overflow-x: hidden;
     transition: background 0.3s ease, color 0.3s ease;
     font-size: var(--type-base);
-    line-height: 1.6;
+    line-height: 1.75;
 }
 
 /* ================================================================
@@ -142,7 +147,8 @@ body {
 /* ── Hero title: massive, editorial — spans full width ── */
 .framer-hero-title {
     grid-area: title;
-    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-family: 'Inter', 'General Sans', Arial, sans-serif;
+    font-size: var(--type-2xl);
     font-weight: 900;
     color: var(--text-color);
     margin-bottom: 0;
@@ -157,8 +163,11 @@ body {
 /* ── Hero description: readable body ── */
 .framer-hero-desc {
     color: var(--light-text);
+    font-family: 'Inter', 'General Sans', Arial, sans-serif;
     font-size: var(--type-base);
+    font-weight: 400;
     line-height: 1.75;
+    letter-spacing: 0;
     margin-bottom: 1.2rem;
     text-align: left;
     max-width: 680px;
@@ -194,9 +203,11 @@ body {
 .framer-hero-meta-label {
     font-family: 'Fira Mono', 'Courier New', monospace;
     color: var(--grey);
-    font-size: 0.65rem;
+    font-size: var(--type-tag);
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
+    letter-spacing: var(--letter-wide);
+    line-height: 1.5;
     margin-bottom: 0.3rem;
     display: block;
     transition: color 0.3s ease;
@@ -206,9 +217,10 @@ body {
 .framer-hero-meta-value {
     font-family: 'Fira Mono', 'Courier New', monospace;
     color: var(--text-color);
-    font-size: 0.85rem;
+    font-size: var(--type-label);
     line-height: 1.5;
     font-weight: 400;
+    letter-spacing: 0;
     transition: color 0.3s ease;
 }
 
@@ -219,8 +231,9 @@ body {
 .framer-hero-btn {
     display: inline-block;
     font-family: 'Fira Mono', 'Courier New', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
+    font-size: var(--type-label);
+    font-weight: 400;
+    letter-spacing: var(--letter-wide);
     text-transform: uppercase;
     padding: 0.75rem 2rem;
     border: 1px solid currentColor;
@@ -273,11 +286,12 @@ body {
 
 /* ── Section title: editorial scale ── */
 .framer-title {
-    font-size: clamp(2rem, 3vw, 2.8rem);
-    font-weight: 900;
+    font-family: 'Inter', 'General Sans', Arial, sans-serif;
+    font-size: var(--type-lg);
+    font-weight: 600;
     color: var(--text-color);
     margin: 0 0 1.5rem;
-    letter-spacing: var(--letter-tight);
+    letter-spacing: var(--letter-heading);
     text-transform: uppercase;
     line-height: 1;
     transition: color 0.3s ease;
@@ -291,9 +305,10 @@ body {
     padding: 0.5rem 1.25rem;
     border-radius: 4px;
     border: 1px solid var(--border-color);
-    font-size: var(--type-xs);
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-family: 'Fira Mono', 'Courier New', monospace;
+    font-size: var(--type-tag);
+    font-weight: 400;
+    letter-spacing: var(--letter-wide);
     text-transform: uppercase;
     transition: all 0.2s ease;
 }
@@ -312,8 +327,11 @@ body {
 }
 
 .framer-text {
-    font-size: clamp(1rem, 1.1vw, 1.15rem);
-    line-height: 1.8;
+    font-family: 'Inter', 'General Sans', Arial, sans-serif;
+    font-size: var(--type-base);
+    font-weight: 400;
+    line-height: 1.75;
+    letter-spacing: 0;
     color: var(--light-text);
     max-width: 65ch;
     margin: 0;
@@ -403,8 +421,11 @@ body {
 }
 
 .project-content {
+    font-family: 'Inter', 'General Sans', Arial, sans-serif;
     font-size: var(--type-base);
+    font-weight: 400;
     line-height: 1.75;
+    letter-spacing: 0;
     color: var(--text-color);
     transition: color 0.3s ease;
 }
@@ -416,24 +437,28 @@ body {
 
 /* Sub-heading within long-form content */
 .project-content strong {
+    font-family: 'Inter', 'General Sans', Arial, sans-serif;
     font-size: var(--type-lg);
     font-weight: 600;
+    line-height: 1;
     display: block;
     margin-bottom: 0.5rem;
     margin-top: 3rem;
     color: var(--text-color);
-    letter-spacing: -0.02em;
+    letter-spacing: var(--letter-heading);
     transition: color 0.3s ease;
 }
 
 /* Intro / pull-quote style — muted, smaller */
 .project-content em {
     font-size: var(--type-sm);
+    font-weight: 400;
     color: var(--grey);
     font-style: normal;
     display: block;
     margin-bottom: 2rem;
-    letter-spacing: 0.01em;
+    letter-spacing: 0;
+    line-height: 1.75;
     transition: color 0.3s ease;
 }
 
@@ -452,9 +477,11 @@ body {
 .project-content figcaption {
     color: var(--grey);
     font-size: var(--type-xs);
+    font-weight: 400;
     text-align: left;
     font-family: 'Fira Mono', 'Courier New', monospace;
-    letter-spacing: 0.04em;
+    letter-spacing: var(--letter-fine);
+    line-height: 1.5;
     transition: color 0.3s ease;
 }
 
@@ -471,17 +498,19 @@ body {
 
 .project-content li {
     margin-bottom: 0.75rem;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 /* Sub-section headers within body */
 .project-content h3 {
-    font-size: 1.1rem;
+    font-family: 'Inter', 'General Sans', Arial, sans-serif;
+    font-size: var(--type-sub);
     font-weight: 600;
+    line-height: 1;
     margin: 3.5rem 0 1rem;
     color: var(--text-color);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--letter-heading);
     transition: color 0.3s ease;
 }
 
@@ -509,8 +538,11 @@ body {
 .footnote-item {
     margin-bottom: 0.75rem;
     font-size: var(--type-xs);
+    font-weight: 400;
     color: var(--grey);
     font-family: 'Fira Mono', 'Courier New', monospace;
+    letter-spacing: var(--letter-fine);
+    line-height: 1.5;
     transition: color 0.3s ease;
 }
 
@@ -545,9 +577,10 @@ body {
     text-decoration: none;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    font-size: var(--type-xs);
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-family: 'Fira Mono', 'Courier New', monospace;
+    font-size: var(--type-tag);
+    font-weight: 400;
+    letter-spacing: var(--letter-wide);
     text-transform: uppercase;
     transition: all 0.2s ease;
 }
@@ -648,12 +681,12 @@ body {
 
 @media (max-width: 768px) {
     :root {
-        --type-hero: clamp(3rem, 10vw, 4rem);
+        --type-2xl: clamp(2rem, 10vw, 3rem);
         --type-lg: 1.4rem;
     }
 
     .framer-hero-title {
-        font-size: var(--type-hero);
+        font-size: var(--type-2xl);
     }
 
     .framer-hero-desc {

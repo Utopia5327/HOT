@@ -210,10 +210,11 @@
         }
 
         .framer-hero-title {
-            font-size: 4rem;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(3rem, 6vw, 6rem);
             font-weight: 900;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
+            letter-spacing: -0.04em;
+            line-height: 0.92;
             margin-bottom: 1rem;
             text-shadow: 0 4px 8px rgba(0,0,0,0.7), 0 2px 4px rgba(0,0,0,0.5);
             position: relative;
@@ -221,8 +222,11 @@
         }
 
         .framer-hero-subtitle {
-            font-size: 1.5rem;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
             font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: 0;
             margin-bottom: 2rem;
             opacity: 0.95;
             text-shadow: 0 3px 6px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5);
@@ -245,35 +249,46 @@
         }
 
         .framer-hero-meta-label {
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            line-height: 1.5;
+            text-transform: uppercase;
             opacity: 0.8;
             margin-bottom: 0.5rem;
             text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
 
         .framer-hero-meta-value {
-            font-size: 1rem;
-            font-weight: 600;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0;
+            line-height: 1.5;
             text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
 
         .framer-hero-btn {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
+            background: transparent;
             color: white;
             text-decoration: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.75rem 2rem;
+            border-radius: 2px;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
         .framer-hero-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+            background: #a3e635;
+            border-color: #a3e635;
+            color: #000;
         }
 
         .framer-content-section {
@@ -295,15 +310,21 @@
         }
 
         .framer-text-container h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1;
             margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
 
         .framer-text-container p {
-            font-size: 1.1rem;
-            line-height: 1.7;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            font-weight: 400;
+            line-height: 1.75;
+            letter-spacing: 0;
             color: var(--text-secondary);
             margin-bottom: 1.5rem;
         }
@@ -332,7 +353,11 @@
             text-decoration: none;
             padding: 0.8rem 1.5rem;
             border-radius: 8px;
-            font-weight: 600;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
             transition: all 0.3s ease;
             border: 1px solid var(--border-color);
         }
@@ -364,11 +389,11 @@
 
         @media (max-width: 768px) {
             .framer-hero-title {
-                font-size: 2.5rem;
+                font-size: clamp(2rem, 8vw, 3rem);
             }
-            
+
             .framer-hero-subtitle {
-                font-size: 1.2rem;
+                font-size: clamp(0.95rem, 1.1vw, 1.1rem);
             }
             
             .framer-container {
@@ -398,8 +423,11 @@
         }
 
         .image-grid-title {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1;
             margin-bottom: 2rem;
             color: var(--text-primary);
             text-align: center;
@@ -529,7 +557,10 @@
             left: 50%;
             transform: translateX(-50%);
             color: white;
-            font-size: 1rem;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
             background: rgba(0, 0, 0, 0.5);
             padding: 0.5rem 1rem;
             border-radius: 20px;

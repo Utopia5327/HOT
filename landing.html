@@ -73,7 +73,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      font-family: 'Asher Punk Demo Version', Arial, sans-serif;
+      font-family: 'Asher Punk Demo Version', 'Asher Punk', Arial, sans-serif;
       font-feature-settings: "ss01", "cv01";
       background: var(--bg-primary);
       color: var(--text-primary);
@@ -105,9 +105,9 @@
       margin-top: 35vh;
     }
     .name {
-      font-size: 8vw;
-      font-weight: 600;
-      letter-spacing: -0.03em;
+      font-size: clamp(3rem, 8vw, 9rem);
+      font-weight: 400;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.5s ease;
@@ -116,8 +116,8 @@
       text-decoration: none;
       text-shadow: none;
       position: relative;
-      font-family: 'Asher Punk Demo Version', Arial, sans-serif;
-      line-height: 0.9;
+      font-family: 'Asher Punk Demo Version', 'Asher Punk', Arial, sans-serif;
+      line-height: 0.92;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
       display: inline-block;
@@ -154,13 +154,14 @@
       margin: 0 auto;
     }
     .hindi-name {
-      font-size: clamp(0.65rem, 0.9vw, 0.85rem);
-      font-weight: 500;
-      letter-spacing: 0.2em;
+      font-size: 0.62rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
       margin-top: 0.6rem;
       color: var(--text-secondary);
-      font-family: 'Fira Mono', monospace;
+      font-family: 'Fira Mono', 'Courier New', monospace;
       text-transform: uppercase;
+      line-height: 1.5;
       opacity: 0.7;
     }
 
@@ -189,10 +190,10 @@
     .gooey-text-b {
       position: absolute;
       white-space: nowrap;
-      font-family: 'Fira Mono', monospace;
-      font-size: clamp(0.6rem, 0.85vw, 0.82rem);
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 0.62rem;
       font-weight: 400;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-primary);
       opacity: 0;
@@ -288,9 +289,11 @@
       display: flex;
       gap: 0.75rem;
       align-items: center;
-      font-family: 'Fira Mono', monospace;
-      font-size: clamp(0.5rem, 0.65vw, 0.65rem);
-      letter-spacing: 0.1em;
+      font-family: 'Fira Mono', 'Courier New', monospace;
+      font-size: 0.58rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      line-height: 1.5;
       opacity: 0.45;
       color: var(--text-primary);
       padding-bottom: clamp(1rem, 3vh, 2rem);
@@ -303,12 +306,12 @@
 
     @media (max-width: 700px) {
       .name {
-        font-size: 12vw;
+        font-size: clamp(3rem, 12vw, 9rem);
       }
     }
     @media (max-width: 480px) {
       .name {
-        font-size: 14vw;
+        font-size: clamp(3rem, 14vw, 9rem);
         padding: 0.5rem 1rem;
       }
       .stats-bar {

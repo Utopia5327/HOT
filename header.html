@@ -164,11 +164,11 @@
     border-radius: 10px;
     background: var(--bg-tertiary);
     backdrop-filter: blur(12px);
-    font-family: 'Fira Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 500;
+    font-family: 'Fira Mono', 'Courier New', monospace;
+    font-size: var(--type-label, 0.75rem);
+    font-weight: 400;
     color: var(--text-primary);
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     text-decoration: none;
     box-shadow: 0 2px 16px 0 var(--shadow-color);
@@ -362,8 +362,8 @@
     top: 50%;
     transform: translateY(-50%) translateX(6px);
     white-space: nowrap;
-    font-family: 'Fira Mono', monospace;
-    font-size: 0.6rem;
+    font-family: 'Fira Mono', 'Courier New', monospace;
+    font-size: var(--type-tag, 0.62rem);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--text-primary);
@@ -392,7 +392,7 @@
         left: 14px;
         width: 56px;
         height: 38px;
-        font-size: 0.65rem;
+        font-size: var(--type-tag, 0.62rem);
     }
     .minimal-logo:hover { width: 160px; }
     .logo-acronym, .logo-fullname { line-height: 38px; padding: 0 8px; }

@@ -116,8 +116,10 @@
         .framer-sleek-link {
             color: #fff;
             text-decoration: none;
-            font-size: 1.18rem;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: 1.1rem;
             font-weight: 500;
+            letter-spacing: 0;
             padding: 0.5rem 1.5rem;
             border-radius: 12px;
             transition: background 0.2s, color 0.2s;
@@ -139,10 +141,11 @@
             margin-bottom: 2.5vw;
         }
         .projects-title {
-            font-size: 6vw;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(3.5rem, 5.5vw, 6rem);
             font-weight: 900;
             letter-spacing: -0.04em;
-            line-height: 1;
+            line-height: 0.92;
             text-align: left;
             text-transform: uppercase;
             margin-bottom: 0.5vw;
@@ -150,13 +153,15 @@
             transition: color 0.3s ease;
         }
         .projects-description {
-            font-size: 1.2rem;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+            font-weight: 400;
             color: var(--text-secondary);
             max-width: 700px;
             margin-bottom: 2vw;
-            line-height: 1.5;
+            line-height: 1.75;
+            letter-spacing: 0;
             text-align: left;
-            font-weight: 700;
             align-self: flex-end;
             transition: color 0.3s ease;
         }
@@ -266,12 +271,19 @@
             opacity: 1;
         }
         .project-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1;
             margin-bottom: 8px;
         }
         .project-details {
-            font-size: 1rem;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0;
+            line-height: 1.5;
             opacity: 0.9;
         }
         canvas {
@@ -289,59 +301,6 @@
             position: relative;
             z-index: 1;
         }
-        .news-header-row {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 2.5vw;
-            gap: 2vw;
-            background: none !important;
-            box-shadow: none !important;
-            padding: 0;
-        }
-        .news-section {
-            max-width: 100vw;
-            margin: 80px 0 0 0;
-            padding: 0 3vw 90px 3vw;
-        }
-        .news-title {
-            font-family: 'Inter', 'General Sans', Arial, sans-serif;
-            font-size: clamp(4rem, 6vw, 7rem);
-            font-weight: 900;
-            letter-spacing: -0.04em;
-            line-height: 1;
-            text-align: left;
-            text-transform: uppercase;
-            margin-bottom: 0.5vw;
-            color: var(--text-primary);
-            transition: color 0.3s ease;
-        }
-        .news-description {
-            font-size: clamp(0.95rem, 1.2vw + 0.3rem, 1.15rem);
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin-bottom: 2vw;
-            line-height: 1.65;
-            text-align: left;
-            font-weight: 400;
-            font-style: normal;
-            letter-spacing: 0.01em;
-            align-self: flex-end;
-            transition: color 0.3s ease;
-        }
-        @media (max-width: 900px) {
-            .news-description {
-                align-self: stretch;
-            }
-        }
-        @media (max-width: 700px) {
-            .news-section {
-                margin-top: 60px;
-                padding-bottom: 70px;
-            }
-            .news-title {
-                font-size: 10vw;
-            }
-        }
         .news-filters {
             display: flex;
             gap: 1rem;
@@ -354,8 +313,11 @@
             border: none;
             border-radius: 8px;
             padding: 0.5rem 1.2rem;
-            font-size: 1rem;
-            font-weight: 600;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
         }
@@ -417,20 +379,23 @@
             float: none;
         }
         .news-headline {
-            font-size: clamp(0.95rem, 1.2vw, 1.2rem);
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
             font-weight: 500;
             color: var(--text-primary);
-            line-height: 1.45;
+            line-height: 1.5;
             margin-bottom: 0.4rem;
             margin-top: 0.1rem;
-            letter-spacing: -0.01em;
+            letter-spacing: 0;
             background: none;
             display: block;
         }
         .news-category-tag {
-            font-family: 'Fira Mono', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.14em;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            line-height: 1.5;
             text-transform: uppercase;
             color: var(--text-secondary);
             opacity: 0.5;
@@ -472,6 +437,30 @@
             }
         }
         
+        /* Dotted Map */
+        .map-wrapper {
+            width: 100%;
+            overflow: hidden;
+        }
+        #world-map {
+            width: 100%;
+        }
+        .country {
+            fill: url(#dot-base);
+            stroke: var(--bg-primary);
+            stroke-width: 0.4;
+            cursor: pointer;
+            transition: fill 0.2s ease;
+        }
+        .country.has-data {
+            fill: url(#dot-highlight);
+        }
+        .country.active {
+            fill: #a3e635;
+        }
+        [data-theme="dark"] .dot-base-circle { fill: rgba(255,255,255,0.45); }
+        :root:not([data-theme="dark"]) .dot-base-circle { fill: rgba(0,0,0,0.42); }
+
         /* Map Styles */
         .map-stats {
             display: flex;
@@ -485,8 +474,8 @@
 
         .stat-item {
             text-align: left;
-            padding: 1.5rem 2.5rem 1.5rem 0;
-            margin-right: 2.5rem;
+            padding: 0.75rem 1.5rem 0.75rem 0;
+            margin-right: 1.5rem;
             border-right: 1px solid var(--border-color);
             flex: 0 0 auto;
         }
@@ -495,31 +484,25 @@
         }
 
         .stat-number {
-            font-family: 'Fira Mono', monospace;
-            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
             font-weight: 400;
             color: var(--text-primary);
             line-height: 1;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
         }
 
         .stat-label {
-            font-family: 'Fira Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.14em;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            line-height: 1.5;
             color: var(--text-secondary);
             text-transform: uppercase;
             opacity: 0.6;
         }
         
-        .map-wrapper {
-            position: relative;
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-            margin-bottom: 1vw;
-        }
         
         .map-caption {
             text-align: center;
@@ -582,34 +565,6 @@
             border-radius: 4px;
         }
         
-        .country {
-            fill: var(--country-fill);
-            stroke: var(--bg-primary);
-            stroke-width: 0.5;
-            transition: fill 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .country:hover {
-            fill: var(--country-hover);
-        }
-        
-        .country.active {
-            fill: #a3e635;
-        }
-        
-        .country.has-data {
-            fill: #4ade80;
-        }
-        
-        .country.has-data:hover {
-            fill: #22c55e;
-        }
-        
-        .country.has-data.active {
-            fill: #a3e635;
-        }
-        
 
         
         @media (max-width: 768px) {
@@ -655,55 +610,64 @@
         /* --- MAIN SECTION MATCHING OTHER PAGES --- */
         .news-section {
             max-width: 100vw;
-            margin: 80px 0 0 0;
-            padding: 0 3vw 90px 3vw;
+            padding: 5.5rem 5vw 90px 5vw;
         }
-        .news-header-row {
+        .hero-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 4vw;
+            margin-bottom: 3.5rem;
+        }
+        .hero-left {
+            flex: 0 0 340px;
             display: flex;
             flex-direction: column;
-            margin-bottom: 2.5vw;
-            gap: 2vw;
-            background: none !important;
-            box-shadow: none !important;
-            padding: 0;
+            gap: 1.25rem;
+        }
+        .hero-right {
+            flex: 1 1 0;
+            min-width: 0;
         }
         .news-title {
             font-family: 'Inter', 'General Sans', Arial, sans-serif;
-            font-size: clamp(4rem, 6vw, 7rem);
-            font-weight: 900;
-            letter-spacing: -0.04em;
+            font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
             line-height: 1;
             text-align: left;
             text-transform: uppercase;
-            margin-bottom: 0.5vw;
             color: var(--text-primary);
             transition: color 0.3s ease;
         }
         .news-description {
-            font-size: clamp(0.95rem, 1.2vw + 0.3rem, 1.15rem);
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin-bottom: 2vw;
-            line-height: 1.65;
-            text-align: left;
+            font-family: 'Inter', 'General Sans', Arial, sans-serif;
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem);
             font-weight: 400;
-            font-style: normal;
-            letter-spacing: 0.01em;
-            align-self: flex-end;
+            color: var(--text-secondary);
+            max-width: 560px;
+            line-height: 1.75;
+            text-align: left;
+            letter-spacing: 0;
+            opacity: 0.85;
             transition: color 0.3s ease;
         }
         @media (max-width: 900px) {
-            .news-description {
-                align-self: stretch;
+            .hero-row {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .hero-left {
+                flex: none;
+                width: 100%;
             }
         }
         @media (max-width: 700px) {
             .news-section {
-                margin-top: 60px;
+                padding-top: 5rem;
                 padding-bottom: 70px;
             }
             .news-title {
-                font-size: 10vw;
+                font-size: 6vw;
             }
         }
     </style>
@@ -713,52 +677,33 @@
     
     <!-- Main Press & Media Section -->
     <div class="news-section">
-        <div class="news-header-row">
-            <h1 class="news-title">Press & Media</h1>
-            <p class="news-description">
-                International coverage spanning AI-generated architecture, speculative urbanism, symbiotic systems, and biophilic futures. Featured across three continents—CNN, BBC, Dezeen, PBS, and more. The work documented here started a conversation the field is still having.
-            </p>
+        <div class="hero-row">
+            <div class="hero-left">
+                <h1 class="news-title">Press & Media</h1>
+                <p class="news-description">
+                    International coverage spanning AI-generated architecture, speculative urbanism, symbiotic systems, and biophilic futures. Featured across three continents—CNN, BBC, Dezeen, PBS, and more. The work documented here started a conversation the field is still having.
+                </p>
+                <div class="map-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-articles">0</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="countries-covered">0</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="continents">0</div>
+                        <div class="stat-label">Continents</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="map-wrapper">
+                    <div id="world-map"></div>
+                </div>
+            </div>
         </div>
-        
-        <!-- Interactive World Map Section -->
-        <div class="map-stats">
-            <div class="stat-item">
-                <div class="stat-number" id="total-articles">0</div>
-                <div class="stat-label">Total Articles</div>
-                    </div>
-            <div class="stat-item">
-                <div class="stat-number" id="countries-covered">0</div>
-                <div class="stat-label">Countries</div>
-                </div>
-            <div class="stat-item">
-                <div class="stat-number" id="continents">0</div>
-                <div class="stat-label">Continents</div>
-                </div>
-                    </div>
-        
-        <div class="map-wrapper">
-            <div id="world-map"></div>
-            <div class="tooltip" id="tooltip"></div>
-                </div>
-        
-        <div class="map-caption">
-            <em>Interactive visualization showing the worldwide reach of press coverage and media appearances. Click on highlighted countries to explore articles from specific regions.</em>
-                </div>
-        
-        <div class="legend">
-            <div class="legend-item">
-                <div class="legend-color" style="background: var(--country-fill);"></div>
-                <span>No Coverage</span>
-                    </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #4ade80;"></div>
-                <span>Has Coverage</span>
-                </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: var(--accent-color);"></div>
-                <span>Selected</span>
-                </div>
-                    </div>
         
                 <div class="news-filters">
             <button class="news-filter active" data-filter="all">All</button>
@@ -1300,9 +1245,9 @@
     });
     </script>
     
-    <!-- Map JavaScript -->
+    <!-- Dotted Map -->
     <script>
-        // CSV data for the map and card filtering
+        // CSV data for stats calculation
         const csvData = `Link,Country,Coordinates
 https://www.cnn.com/style/article/ai-architecture-manas-bhatia,USA,"38.89511, -77.03637"
 https://www.pbs.org/video/tomorrows-e58248/,USA,"38.89511, -77.03637"
@@ -1349,214 +1294,103 @@ https://themindcircle.com/symbiotic-architecture/,USA,"38.89511, -77.03637"
 https://www.designindaba.com/articles/creative-work/living-space,Unknown,NA
 https://architectureurbanism.com/Projects/view_project/R1FHblJtRHMzVGc3d3ZtRVlJdEsrdz09,Unknown,NA`;
 
-        // Initialize map when DOM is loaded
+        // Parse CSV for stats
         document.addEventListener('DOMContentLoaded', function() {
-            // Parse CSV data
             const articles = d3.csvParse(csvData);
-            // Filter out articles with unknown countries
             const validArticles = articles.filter(d => d.Country !== 'Unknown' && d.Coordinates !== 'NA');
-            
-            // Create a mapping of URLs to countries for card filtering
-            const urlToCountry = {};
-            validArticles.forEach(article => {
-                urlToCountry[article.Link] = article.Country;
-            });
-            
-            // Add country data attributes to all news cards
-            const newsCards = document.querySelectorAll('.news-card');
-            newsCards.forEach(card => {
-                const linkElement = card.querySelector('.news-link');
-                if (linkElement) {
-                    const url = linkElement.href;
-                    const country = urlToCountry[url];
-                    if (country) {
-                        card.setAttribute('data-country', country);
-                    }
-                }
-            });
-            
-            // Country name mapping to handle different naming conventions
-            const countryNameMap = {
-                'USA': 'United States of America',
-                'UAE': 'United Arab Emirates',
-                'Russia': 'Russia'
-            };
-            
-            // Normalize country names
-            const normalizedArticles = validArticles.map(article => ({
-                ...article,
-                Country: countryNameMap[article.Country] || article.Country
-            }));
-            
-            // Group articles by country
-            const countryData = d3.group(normalizedArticles, d => d.Country);
-            
-            // Calculate statistics
-            const totalArticles = normalizedArticles.length;
-            const countriesCovered = countryData.size;
-            const continents = new Set(['North America', 'Europe', 'Asia', 'Oceania']).size;
-            
-            // Update stats
-            document.getElementById('total-articles').textContent = totalArticles;
-            document.getElementById('countries-covered').textContent = countriesCovered;
-            document.getElementById('continents').textContent = continents;
-            
-            // Map dimensions
+            const countryData = d3.group(validArticles, d => d.Country);
+            document.getElementById('total-articles').textContent = validArticles.length;
+            document.getElementById('countries-covered').textContent = countryData.size;
+            document.getElementById('continents').textContent = 4;
+
+            // Build SVG world map with dotted fill pattern
             let width = document.getElementById('world-map').clientWidth;
-            if (!width || width < 400) width = 1000;
-            const height = 600;
-            
-            // Create SVG
+            if (!width || width < 400) width = 900;
+            const height = Math.round(width * 0.5);
+
             const svg = d3.select('#world-map')
                 .append('svg')
-                .attr('width', width)
-                .attr('height', height);
-            
-            // Create tooltip
-            const tooltip = d3.select('#tooltip');
-            
-            // Projection
-            const projection = d3.geoMercator()
-                .fitSize([width, height], {type: 'Sphere'});
+                .attr('width', '100%')
+                .attr('height', height)
+                .attr('viewBox', `0 0 ${width} ${height}`);
+
+            // SVG dot patterns
+            const defs = svg.append('defs');
+
+            // Base dot pattern (non-highlighted countries)
+            const patBase = defs.append('pattern')
+                .attr('id', 'dot-base').attr('x', 0).attr('y', 0)
+                .attr('width', 4).attr('height', 4)
+                .attr('patternUnits', 'userSpaceOnUse');
+            patBase.append('circle').attr('cx', 1.5).attr('cy', 1.5).attr('r', 1)
+                .attr('class', 'dot-base-circle');
+
+            // Highlight dot pattern (countries with data)
+            const patHL = defs.append('pattern')
+                .attr('id', 'dot-highlight').attr('x', 0).attr('y', 0)
+                .attr('width', 4).attr('height', 4)
+                .attr('patternUnits', 'userSpaceOnUse');
+            patHL.append('circle').attr('cx', 1.5).attr('cy', 1.5).attr('r', 1)
+                .attr('fill', '#a3e635').attr('opacity', 0.85);
+
+            const projection = d3.geoNaturalEarth1().fitSize([width, height], { type: 'Sphere' });
             const path = d3.geoPath().projection(projection);
-            
-            // Load world map data
-            d3.json('https://unpkg.com/world-atlas@2/countries-110m.json')
-                .then(function(world) {
-                    const countries = topojson.feature(world, world.objects.countries);
-                    
-                    // Draw countries
-                    svg.selectAll('.country')
-                        .data(countries.features)
-                        .enter()
-                        .append('path')
-                        .attr('class', 'country')
-                        .attr('d', path)
-                        .attr('data-country', d => d.properties.name)
-                        .on('mouseover', function(event, d) {
-                            const countryName = d.properties.name;
-                            // Find matching articles using flexible matching
-                            let articles = countryData.get(countryName) || [];
-                            if (articles.length === 0) {
-                                const ourCountries = Array.from(countryData.keys());
-                                const matchingCountry = ourCountries.find(ourCountry => 
-                                    countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
-                                    ourCountry.toLowerCase().includes(countryName.toLowerCase())
-                                );
-                                if (matchingCountry) {
-                                    articles = countryData.get(matchingCountry) || [];
-                                }
-                            }
-                            if (articles.length > 0) {
-                                d3.select(this).classed('active', true);
-                                tooltip.transition()
-                                    .duration(200)
-                                    .style('opacity', 0.9);
-                                tooltip.html(`
-                                    <h3>${countryName}</h3>
-                                    <p><strong>${articles.length}</strong> article${articles.length > 1 ? 's' : ''}</p>
-                                    <p>${articles.map(a => a.Link.split('/')[2]).join(', ')}</p>
-                                `)
-                                    .style('left', (event.pageX + 10) + 'px')
-                                    .style('top', (event.pageY - 28) + 'px');
-                            }
-                        })
-                        .on('mouseout', function(event, d) {
-                            d3.select(this).classed('active', false);
-                            tooltip.transition()
-                                .duration(500)
-                                .style('opacity', 0);
-                        })
-                        .on('click', function(event, d) {
-                            const countryName = d.properties.name;
-                            // Find matching articles using flexible matching
-                            let articles = countryData.get(countryName) || [];
-                            let displayCountryName = countryName;
-                            if (articles.length === 0) {
-                                const ourCountries = Array.from(countryData.keys());
-                                const matchingCountry = ourCountries.find(ourCountry => 
-                                    countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
-                                    ourCountry.toLowerCase().includes(countryName.toLowerCase())
-                                );
-                                if (matchingCountry) {
-                                    articles = countryData.get(matchingCountry) || [];
-                                    displayCountryName = matchingCountry;
-                                }
-                            }
-                            if (articles.length > 0) {
-                                svg.selectAll('.country').classed('active', false);
-                                d3.select(this).classed('active', true);
-                                filterCardsByCountry(displayCountryName);
-                            }
-                        });
-                    
-                    // Add data class to countries with articles
-                    svg.selectAll('.country')
-                        .filter(d => {
-                            const countryName = d.properties.name;
-                            // Check exact match first
-                            if (countryData.has(countryName)) {
-                                return true;
-                            }
-                            // Check if any of our country names contain or are contained in the map country name
+
+            d3.json('https://unpkg.com/world-atlas@2/countries-110m.json').then(function(world) {
+                const countries = topojson.feature(world, world.objects.countries);
+
+                svg.selectAll('.country')
+                    .data(countries.features)
+                    .enter()
+                    .append('path')
+                    .attr('class', 'country')
+                    .attr('d', path)
+                    .on('mouseover', function(event, d) {
+                        const countryName = d.properties.name;
+                        let articles = countryData.get(countryName) || [];
+                        if (articles.length === 0) {
                             const ourCountries = Array.from(countryData.keys());
-                            return ourCountries.some(ourCountry => 
-                                countryName.toLowerCase().includes(ourCountry.toLowerCase()) ||
-                                ourCountry.toLowerCase().includes(countryName.toLowerCase())
-                            );
-                        })
-                        .classed('has-data', true);
-                })
-                .catch(function(error) {
-                    document.getElementById('world-map').innerHTML = '<div style="color:red;text-align:center;padding:2rem;">Failed to load world map data. Please check your internet connection.</div>';
-                });
-            
-            // Function to filter cards by country
-            function filterCardsByCountry(countryName) {
-                const cards = document.querySelectorAll('.news-card');
-                let visibleCount = 0;
-                
-                cards.forEach(card => {
-                    const cardCountry = card.getAttribute('data-country');
-                    if (cardCountry === countryName) {
-                        card.style.display = '';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-                
-                // Update the section title to show filtered results
-                const sectionTitle = document.querySelector('.news-section:nth-child(3) .news-title');
-                if (sectionTitle) {
-                    sectionTitle.textContent = `Press & Media - ${countryName} (${visibleCount} articles)`;
-                }
-            }
-            
-            // Function to show all cards
-            function showAllCards() {
-                const cards = document.querySelectorAll('.news-card');
-                cards.forEach(card => {
-                    card.style.display = '';
-                });
-                
-                // Reset the section title
-                const sectionTitle = document.querySelector('.news-section:nth-child(3) .news-title');
-                if (sectionTitle) {
-                    sectionTitle.textContent = 'Press & Media';
-                }
-            }
-            
-            // Add click handler to reset filtering when clicking "All" filter
-            document.addEventListener('DOMContentLoaded', function() {
-                const allFilter = document.querySelector('.news-filter[data-filter="all"]');
-                if (allFilter) {
-                    allFilter.addEventListener('click', function() {
-                        showAllCards();
-                        // Reset map selection
-                        d3.selectAll('.country').classed('active', false);
+                            const match = ourCountries.find(c =>
+                                countryName.toLowerCase().includes(c.toLowerCase()) ||
+                                c.toLowerCase().includes(countryName.toLowerCase()));
+                            if (match) articles = countryData.get(match) || [];
+                        }
+                        if (articles.length > 0) {
+                            d3.select(this).classed('active', true);
+                        }
+                    })
+                    .on('mouseout', function() {
+                        d3.select(this).classed('active', false);
+                    })
+                    .on('click', function(event, d) {
+                        const countryName = d.properties.name;
+                        let articles = countryData.get(countryName) || [];
+                        let displayName = countryName;
+                        if (articles.length === 0) {
+                            const ourCountries = Array.from(countryData.keys());
+                            const match = ourCountries.find(c =>
+                                countryName.toLowerCase().includes(c.toLowerCase()) ||
+                                c.toLowerCase().includes(countryName.toLowerCase()));
+                            if (match) { articles = countryData.get(match) || []; displayName = match; }
+                        }
+                        if (articles.length > 0) {
+                            svg.selectAll('.country').classed('active', false);
+                            d3.select(this).classed('active', true);
+                            filterCardsByCountry(displayName);
+                        }
                     });
-                }
+
+                // Mark countries with data
+                svg.selectAll('.country').filter(d => {
+                    const n = d.properties.name;
+                    if (countryData.has(n)) return true;
+                    return Array.from(countryData.keys()).some(c =>
+                        n.toLowerCase().includes(c.toLowerCase()) ||
+                        c.toLowerCase().includes(n.toLowerCase()));
+                }).classed('has-data', true);
+            }).catch(function() {
+                document.getElementById('world-map').innerHTML =
+                    '<div style="color:red;text-align:center;padding:2rem;">Failed to load world map data.</div>';
             });
         });
     </script>
