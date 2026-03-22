@@ -1,90 +1,85 @@
 <nav class="minimal-navbar">
-    <div class="minimal-nav-wrapper">
-        <a class="minimal-logo" href="/index.html#hero-section">
-            <span class="logo-acronym">MB</span><span class="logo-fullname">MANAS&nbsp;BHATIA</span>
+    <!-- Left: MB Logo -->
+    <a class="minimal-logo" href="/index.html">
+        <span class="logo-acronym">MB</span><span class="logo-fullname">MANAS&nbsp;BHATIA</span>
+    </a>
+
+    <!-- Right: Fluid circular dock -->
+    <div class="fluid-dock" id="fluidDock" data-expanded="false">
+
+        <!-- Item 1: Toggle — always visible, controls dock expansion -->
+        <button class="dock-item dock-toggle" onclick="toggleDock()" aria-label="Open navigation">
+            <div class="dock-toggle-icon">
+                <svg class="icon-burger" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+                <svg class="icon-x" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </div>
+        </button>
+
+        <!-- Item 2: Theme toggle -->
+        <button class="dock-item dock-secondary" data-dock-index="0" onclick="toggleDarkMode()" aria-label="Toggle theme">
+            <span class="dock-label">Theme</span>
+            <span class="dock-moon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </span>
+            <span class="dock-sun">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+            </span>
+        </button>
+
+        <!-- Item 3: Computational Design -->
+        <a class="dock-item dock-secondary" data-dock-index="1" href="/Computational%20Design.html" aria-label="Computational Design">
+            <span class="dock-label">Design</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+            </svg>
         </a>
-        <div class="nav-controls">
-            <button class="dark-mode-toggle glass-link" onclick="toggleDarkMode()" title="Toggle Dark Mode">
-                <i class="fas fa-moon"></i>
-            </button>
-            <button class="hamburger-menu glass-link" onclick="window.toggleHamburgerMenu()" title="Menu">
-                <div class="hamburger-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </button>
-        </div>
-    </div>
-    
-    <!-- Hamburger Menu Overlay -->
-    <div class="hamburger-overlay" id="hamburgerOverlay">
-        <div class="hamburger-content">
-            <div class="hamburger-header">
-                <button class="close-hamburger" onclick="window.toggleHamburgerMenu()">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div class="hamburger-brand">
-                    <span class="hamburger-name">Manas Bhatia</span>
-                    <span class="hamburger-tagline">Computational Designer · Spatial Artist</span>
-                </div>
-            </div>
-            <div class="hamburger-nav">
-                <div class="nav-section">
-                    <div class="nav-section-header" onclick="window.toggleSection('computational')">
-                        <h4>Computational Design <span class="nav-count">09</span></h4>
-                        <i class="fas fa-chevron-down section-icon" id="computational-icon"></i>
-                    </div>
-                    <div class="nav-links" id="computational-links">
-                        <a href="/Computational%20Design.html">Overview</a>
-                        <a href="/projects/project1.html">MANAV</a>
-                        <a href="/projects/project2.html">TerraCurve Tower</a>
-                        <a href="/projects/project3.html">NYC Carbon Atlas</a>
-                        <a href="/projects/project4.html">Co-Design-Canvas</a>
-                        <a href="/projects/project5.html">TensileBloom</a>
-                        <a href="/projects/project6.html">EmotionEcho.exe</a>
-                        <a href="/projects/project7.html">Computational Modeling</a>
-                        <a href="/projects/project8.html">Studio-In-Flux</a>
-                        <a href="/projects/project9.html">Environmental Data Analysis</a>
-                    </div>
-                </div>
-                <div class="nav-section">
-                    <div class="nav-section-header" onclick="window.toggleSection('art')">
-                        <h4>Art <span class="nav-count">05</span></h4>
-                        <i class="fas fa-chevron-down section-icon" id="art-icon"></i>
-                    </div>
-                    <div class="nav-links" id="art-links">
-                        <a href="/art.html">Overview</a>
-                        <a href="/art/art1.html">Google UnFold: New Worlds of Fashion</a>
-                        <a href="/art/art2.html">Les Lieux Imaginaires</a>
-                        <a href="/art/art3.html">AI x Future Cities</a>
-                        <a href="/art/art4.html">Symbiotic Architecture</a>
-                        <a href="/art/art5.html">Reimagining India</a>
-                    </div>
-                </div>
-                <div class="nav-section">
-                    <a href="/exhibitions.html" class="nav-section-header">
-                        <h4>Exhibitions</h4>
-                    </a>
-                </div>
-                <div class="nav-section">
-                    <a href="/press-media.html" class="nav-section-header">
-                        <h4>Press & Media</h4>
-                    </a>
-                </div>
-                <div class="nav-section">
-                    <a href="/about.html" class="nav-section-header">
-                        <h4>About</h4>
-                    </a>
-                </div>
-            </div>
-        </div>
+
+        <!-- Item 4: Art -->
+        <a class="dock-item dock-secondary" data-dock-index="2" href="/art.html" aria-label="Art">
+            <span class="dock-label">Art</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
+            </svg>
+        </a>
+
+        <!-- Item 5: Exhibitions -->
+        <a class="dock-item dock-secondary" data-dock-index="3" href="/exhibitions.html" aria-label="Exhibitions">
+            <span class="dock-label">Exhibitions</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><rect x="9" y="13" width="6" height="8"/>
+            </svg>
+        </a>
+
+        <!-- Item 6: Press & Media -->
+        <a class="dock-item dock-secondary" data-dock-index="4" href="/press-media.html" aria-label="Press & Media">
+            <span class="dock-label">Press</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+            </svg>
+        </a>
+
+        <!-- Item 7: About -->
+        <a class="dock-item dock-secondary" data-dock-index="5" href="/about.html" aria-label="About">
+            <span class="dock-label">About</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+        </a>
+
     </div>
 </nav>
+
 <link rel="preload" href="/fonts/AsherPunkDemoVersion.ttf" as="font" type="font/ttf" crossorigin>
 <link href="https://fonts.cdnfonts.com/css/asher-punk" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="js/theme.js"></script>
 <style>
 @font-face {
@@ -94,7 +89,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Asher Punk';
     src: url('/fonts/AsherPunkDemoVersion.ttf') format('truetype');
@@ -102,7 +96,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Asher Punk Demo Version';
     src: url('/fonts/AsherPunkDemoVersion.ttf') format('truetype');
@@ -110,17 +103,18 @@
     font-style: normal;
     font-display: swap;
 }
+
 :root {
     --bg-primary: #fafafa;
     --bg-secondary: #ffffff;
-    --bg-tertiary: rgba(240, 240, 240, 0.8);
-    --bg-tertiary-hover: rgba(240, 240, 240, 1);
+    --bg-tertiary: rgba(240, 240, 240, 0.85);
+    --bg-tertiary-hover: rgba(230, 230, 230, 1);
     --text-primary: #111;
     --text-secondary: #444;
     --text-tertiary: #3e3e3e;
-    --border-color: rgba(200, 200, 200, 0.18);
-    --shadow-color: rgba(0, 0, 0, 0.04);
-    --shadow-hover: rgba(0, 0, 0, 0.08);
+    --border-color: rgba(200, 200, 200, 0.25);
+    --shadow-color: rgba(0, 0, 0, 0.06);
+    --shadow-hover: rgba(0, 0, 0, 0.12);
     --dropdown-bg: rgba(240, 240, 240, 0.95);
     --dropdown-hover: rgba(220, 220, 220, 1);
     --canvas-bg: rgb(252, 250, 245);
@@ -131,91 +125,65 @@
 [data-theme="dark"] {
     --bg-primary: #1a1a1a;
     --bg-secondary: #2d2d2d;
-    --bg-tertiary: rgba(60, 60, 60, 0.8);
-    --bg-tertiary-hover: rgba(60, 60, 60, 1);
+    --bg-tertiary: rgba(50, 50, 50, 0.85);
+    --bg-tertiary-hover: rgba(70, 70, 70, 1);
     --text-primary: #ffffff;
     --text-secondary: #cccccc;
     --text-tertiary: #e0e0e0;
-    --border-color: rgba(80, 80, 80, 0.3);
-    --shadow-color: rgba(0, 0, 0, 0.2);
-    --shadow-hover: rgba(0, 0, 0, 0.3);
+    --border-color: rgba(80, 80, 80, 0.35);
+    --shadow-color: rgba(0, 0, 0, 0.25);
+    --shadow-hover: rgba(0, 0, 0, 0.4);
     --dropdown-bg: rgba(60, 60, 60, 0.95);
     --dropdown-hover: rgba(80, 80, 80, 1);
     --canvas-bg: rgb(26, 26, 26);
-    --hamburger-bg: rgba(30, 30, 30, 0.98);
+    --hamburger-bg: rgba(24, 24, 24, 0.98);
     --hamburger-overlay: rgba(0, 0, 0, 0.7);
 }
 
+/* ── Navbar wrapper (invisible full-width fixed container) ── */
 .minimal-navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100;
+    height: 0;
+    z-index: 1000;
     pointer-events: none;
 }
-.minimal-nav-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    padding: 0.7rem 1.5rem 0.7rem 1.5rem;
-    pointer-events: auto;
-}
+
+/* ── MB Logo ── */
 .minimal-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    pointer-events: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 68px;
-    min-height: 44px;
-    border-radius: 8px;
+    height: 44px;
+    border-radius: 10px;
     background: var(--bg-tertiary);
+    backdrop-filter: blur(12px);
     font-family: 'Fira Mono', monospace;
     font-size: 0.7rem;
     font-weight: 500;
     color: var(--text-primary);
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    margin-right: 1.5rem;
     text-decoration: none;
-    box-shadow: 0 2px 12px 0 var(--shadow-color);
+    box-shadow: 0 2px 16px 0 var(--shadow-color);
     border: 1px solid var(--border-color);
-    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s, box-shadow 0.2s, transform 0.2s, border-color 0.2s;
-    position: relative;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.2s, box-shadow 0.2s, transform 0.2s;
     overflow: hidden;
     white-space: nowrap;
-    transform: translateY(0);
-}
-.minimal-logo::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s ease;
 }
 .minimal-logo:hover {
     width: 200px;
     background: var(--bg-tertiary-hover);
-    color: var(--text-primary);
-    box-shadow: 0 6px 20px 0 var(--shadow-hover);
-    transform: translateY(-2px);
-    border-color: rgba(0, 0, 0, 0.15);
-}
-.minimal-logo:hover::before {
-    left: 100%;
-}
-.minimal-logo:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 2px 8px 0 var(--shadow-color);
-    transition: all 0.1s ease;
+    box-shadow: 0 6px 24px 0 var(--shadow-hover);
+    transform: translateY(-1px);
 }
 .logo-acronym,
 .logo-fullname {
@@ -227,470 +195,221 @@
     text-align: center;
     transition: opacity 0.3s ease;
 }
-.logo-fullname {
-    opacity: 0;
-}
-.minimal-logo:hover .logo-acronym {
-    opacity: 0;
-}
-.minimal-logo:hover .logo-fullname {
-    opacity: 1;
-}
+.logo-fullname { opacity: 0; }
+.minimal-logo:hover .logo-acronym { opacity: 0; }
+.minimal-logo:hover .logo-fullname { opacity: 1; }
 
-.nav-controls {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.glass-link {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-size: 1.08rem;
-    font-weight: 500;
-    padding: 0.4rem 1.3rem;
-    border-radius: 8px;
-    background: var(--bg-tertiary);
-    backdrop-filter: blur(7px);
-    box-shadow: 0 2px 12px 0 var(--shadow-color);
-    border: 1px solid var(--border-color);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    opacity: 1;
-    position: relative;
-    overflow: hidden;
-    transform: translateY(0);
-}
-.glass-link::before {
-    content: '';
+/* ================================================================
+   FLUID CIRCULAR DOCK
+   ================================================================ */
+.fluid-dock {
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s ease;
-}
-.glass-link:hover {
-    background: var(--bg-tertiary-hover);
-    color: var(--text-primary);
-    box-shadow: 0 6px 20px 0 var(--shadow-hover);
-    transform: translateY(-2px) scale(1.02);
-    border-color: rgba(0, 0, 0, 0.15);
-}
-.glass-link:hover::before {
-    left: 100%;
-}
-.glass-link:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 2px 8px 0 var(--shadow-color);
-    transition: all 0.1s ease;
-}
-.glass-link.active {
-    background: var(--bg-tertiary-hover);
-    color: var(--text-primary);
-    box-shadow: 0 4px 16px 0 var(--shadow-hover);
-    border-color: rgba(0, 0, 0, 0.2);
+    top: 20px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+    pointer-events: auto;
+    /* z-index ensures dock items sit above the backdrop within this stacking context */
+    z-index: 1001;
 }
 
-.dark-mode-toggle {
-    cursor: pointer;
-    border: none;
-    font-size: 1rem;
-    padding: 0.4rem 1rem;
+/* All dock items share this base style */
+.dock-item {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
     background: var(--bg-tertiary);
-    color: var(--text-primary);
-    transition: all 0.3s ease;
-}
-.dark-mode-toggle:hover {
-    background: var(--bg-tertiary-hover);
-    transform: scale(1.05);
-}
-.dark-mode-toggle i {
-    transition: transform 0.3s ease;
-}
-[data-theme="dark"] .dark-mode-toggle i {
-    transform: rotate(180deg);
-}
-
-/* Hamburger Menu Styles */
-.hamburger-menu {
-    cursor: pointer;
-    border: none;
-    padding: 0.4rem 1rem;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px 0 var(--shadow-color);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--text-primary);
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
-.hamburger-menu:hover {
+.dock-item:hover {
     background: var(--bg-tertiary-hover);
-    transform: scale(1.05);
+    box-shadow: 0 6px 24px 0 var(--shadow-hover);
 }
+.dock-item svg { display: block; }
 
-.hamburger-icon {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+/* ── Toggle button (item 1, always visible) ── */
+.dock-toggle {
+    position: relative;
+    z-index: 52;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    border: none;
+    outline: none;
+}
+.dock-toggle:active { transform: scale(0.94); }
+
+.dock-toggle-icon {
+    position: relative;
     width: 20px;
-    height: 16px;
-    justify-content: center;
+    height: 20px;
 }
-
-.hamburger-icon span {
-    width: 100%;
-    height: 2px;
-    background: var(--text-primary);
-    border-radius: 1px;
-    transition: all 0.3s ease;
-    transform-origin: center;
-}
-
-.hamburger-menu.active .hamburger-icon span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger-menu.active .hamburger-icon span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger-menu.active .hamburger-icon span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-}
-
-/* Hamburger Overlay */
-.hamburger-overlay {
-    position: fixed;
+.icon-burger,
+.icon-x {
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100vh;
-    background: var(--hamburger-overlay);
-    backdrop-filter: blur(8px);
-    z-index: 99;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    transform-origin: center;
+}
+.icon-x {
     opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    pointer-events: none;
+    transform: rotate(-90deg) scale(0.5);
 }
-
-.hamburger-overlay.active {
+/* When expanded: swap icons */
+.fluid-dock[data-expanded="true"] .icon-burger {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+}
+.fluid-dock[data-expanded="true"] .icon-x {
     opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    transform: rotate(0deg) scale(1);
 }
 
-.hamburger-content {
+/* ── Secondary items (items 2–5, revealed on expand) ── */
+.dock-secondary {
     position: absolute;
     top: 0;
-    right: 0;
-    width: 100%;
-    max-width: 400px;
-    height: 100vh;
-    background: var(--hamburger-bg);
-    backdrop-filter: blur(20px);
-    border-left: 1px solid var(--border-color);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.hamburger-overlay.active .hamburger-content {
-    transform: translateX(0);
-}
-
-.hamburger-header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--bg-tertiary);
-}
-
-.hamburger-header h3 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    font-family: 'Inter', 'General Sans', Arial, sans-serif;
-}
-
-.close-hamburger {
-    background: none;
+    left: 0;
+    opacity: 0;
+    transform: translateY(0px);
+    pointer-events: none;
+    will-change: transform, opacity;
+    transition:
+        transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity   300ms cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.2s,
+        box-shadow 0.2s;
     border: none;
-    font-size: 1.2rem;
-    color: var(--text-primary);
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 6px;
-    transition: all 0.2s ease;
+    outline: none;
 }
+/* Stagger delays for closing (fastest last = cascade up) */
+.dock-secondary[data-dock-index="0"] { z-index: 56; transition-delay: 150ms, 150ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="1"] { z-index: 55; transition-delay: 120ms, 120ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="2"] { z-index: 54; transition-delay:  90ms,  90ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="3"] { z-index: 53; transition-delay:  60ms,  60ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="4"] { z-index: 52; transition-delay:  30ms,  30ms, 0ms, 0ms; }
+.dock-secondary[data-dock-index="5"] { z-index: 51; transition-delay:   0ms,   0ms, 0ms, 0ms; }
 
-.close-hamburger:hover {
-    background: var(--bg-tertiary-hover);
-    transform: scale(1.1);
+/* Expanded state */
+.fluid-dock[data-expanded="true"] .dock-secondary {
+    opacity: 1;
+    pointer-events: auto;
 }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="0"] { transform: translateY(60px);  transition-delay:   0ms,   0ms, 0ms, 0ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="1"] { transform: translateY(120px); transition-delay:  30ms,  30ms, 0ms, 0ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="2"] { transform: translateY(180px); transition-delay:  60ms,  60ms, 0ms, 0ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="3"] { transform: translateY(240px); transition-delay:  90ms,  90ms, 0ms, 0ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="4"] { transform: translateY(300px); transition-delay: 120ms, 120ms, 0ms, 0ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="5"] { transform: translateY(360px); transition-delay: 150ms, 150ms, 0ms, 0ms; }
 
-.hamburger-nav {
-    flex: 1;
-    padding: 1.5rem;
+/* ── Dark mode icon swap ── */
+.dock-moon,
+.dock-sun {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.nav-section {
-    /* No button styling */
-}
-
-.nav-section-header {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 0.5rem;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    text-decoration: none;
-    width: 100%;
+    justify-content: center;
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.dock-sun {
+    opacity: 0;
+    transform: scale(0.6) rotate(90deg);
+}
+[data-theme="dark"] .dock-moon {
+    opacity: 0;
+    transform: scale(0.6) rotate(-90deg);
+}
+[data-theme="dark"] .dock-sun {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
 }
 
-.nav-section-header:hover {
-    background: transparent;
-}
-
-.nav-section-header h4 {
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    font-family: 'Inter', 'General Sans', Arial, sans-serif;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 5px;
-}
-
-.nav-section-header h4::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 1.5px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--text-primary);
-  transform-origin: bottom right;
-  transition: transform 0.3s ease-out;
-}
-
-.nav-section-header:hover h4::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-
-.section-icon {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    transition: transform 0.3s ease;
-}
-
-.section-icon.active {
-    transform: rotate(180deg);
-}
-
-.nav-links {
-    display: flex;
-    flex-direction: column;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-in-out;
-    background: transparent;
-    padding-left: 1.5rem;
-    margin-top: 0;
-}
-
-.nav-links.expanded {
-    max-height: 500px;
-    margin-top: 0.75rem;
-}
-
-.nav-links a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 1.05rem;
-    font-weight: 400;
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    transition: background 0.18s, color 0.18s;
-    display: block;
-    font-family: 'Inter', 'General Sans', Arial, sans-serif;
-    margin-bottom: 0.25rem;
-}
-
-.nav-links a:hover {
-    background: var(--bg-tertiary-hover);
-    color: var(--text-primary);
-}
-
-.nav-links a:first-child {
-    font-weight: 600;
-    color: var(--text-primary);
-    background: transparent;
-}
-
-[data-theme="dark"] .glass-link:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-}
-[data-theme="dark"] .glass-link.active {
-    border-color: rgba(255, 255, 255, 0.3);
-}
-[data-theme="dark"] .minimal-logo:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-@media (max-width: 700px) {
-    .minimal-nav-wrapper {
-        flex-direction: row;
-        padding: 0.7rem 0.7rem;
-        max-width: 98vw;
-    }
-    .nav-controls {
-        gap: 0.7rem;
-    }
-    .minimal-logo {
-        width: 56px;
-        min-height: 36px;
-        font-size: 0.65rem;
-    }
-    .minimal-logo:hover {
-        width: 160px;
-    }
-    .logo-acronym,
-    .logo-fullname {
-        line-height: 36px;
-        padding: 0 8px;
-    }
-    .glass-link {
-        font-size: 0.98rem;
-        padding: 0.3rem 1rem;
-    }
-    .hamburger-content {
-        max-width: 100%;
-    }
-}
-
-.hamburger-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-.hamburger-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text-primary, #fff);
-}
-.hamburger-tagline {
+/* ── Labels: slide in to the left of each secondary item ── */
+.dock-label {
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    white-space: nowrap;
     font-family: 'Fira Mono', monospace;
     font-size: 0.6rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    opacity: 0.5;
-    color: var(--text-primary, #fff);
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 12px 0 var(--shadow-color);
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
 }
-.nav-count {
-    font-family: 'Fira Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    opacity: 0.4;
-    margin-left: 0.5rem;
-    font-weight: 400;
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="0"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay:  60ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="1"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay:  90ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="2"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 120ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="3"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 150ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="4"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 180ms; }
+.fluid-dock[data-expanded="true"] .dock-secondary[data-dock-index="5"] .dock-label { opacity: 1; transform: translateY(-50%) translateX(0); transition-delay: 210ms; }
+
+/* ── (sidebar removed — nav is now entirely in the dock) ── */
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+    .minimal-logo {
+        top: 14px;
+        left: 14px;
+        width: 56px;
+        height: 38px;
+        font-size: 0.65rem;
+    }
+    .minimal-logo:hover { width: 160px; }
+    .logo-acronym, .logo-fullname { line-height: 38px; padding: 0 8px; }
+    .fluid-dock { top: 14px; right: 14px; }
+    .hamburger-content { max-width: 100%; }
 }
-</style> 
+</style>
 <script>
-// Make functions globally available
-window.toggleHamburgerMenu = function() {
-    const overlay = document.getElementById('hamburgerOverlay');
-    const hamburger = document.querySelector('.hamburger-menu');
-    
-    if (overlay.classList.contains('active')) {
-        overlay.classList.remove('active');
-        hamburger.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    } else {
-        overlay.classList.add('active');
-        hamburger.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
+/* ── Dock toggle ── */
+window.toggleDock = function() {
+    const dock = document.getElementById('fluidDock');
+    const backdrop = document.getElementById('dockBackdrop');
+    const isExpanded = dock.getAttribute('data-expanded') === 'true';
+    dock.setAttribute('data-expanded', String(!isExpanded));
+    if (backdrop) backdrop.classList.toggle('active', !isExpanded);
 };
 
-window.toggleSection = function(sectionName) {
-    const links = document.getElementById(sectionName + '-links');
-    const icon = document.getElementById(sectionName + '-icon');
-    
-    if (links.classList.contains('expanded')) {
-        links.classList.remove('expanded');
-        icon.classList.remove('active');
-    } else {
-        links.classList.add('expanded');
-        icon.classList.add('active');
-    }
+window.closeDock = function() {
+    const dock = document.getElementById('fluidDock');
+    const backdrop = document.getElementById('dockBackdrop');
+    if (dock) dock.setAttribute('data-expanded', 'false');
+    if (backdrop) backdrop.classList.remove('active');
 };
 
-// Initialize theme when header loads
 document.addEventListener('DOMContentLoaded', function() {
-    if (typeof initializeTheme === 'function') {
-        initializeTheme();
-    }
-    
-    // Check if custom font is loaded
-    if (document.fonts) {
-        document.fonts.ready.then(function() {
-            console.log('Fonts loaded');
-            // Force a repaint to ensure the logo font is applied
-            const logo = document.querySelector('.minimal-logo');
-            if (logo) {
-                logo.style.fontFamily = '"Asher Punk Demo Version", AsherPunkDemoVersion, "Asher Punk", "General Sans", "Inter", Arial, sans-serif';
-            }
-        });
-    }
-    
-    // Add overlay click-to-close for hamburger menu
-    var overlay = document.getElementById('hamburgerOverlay');
-    if (overlay) {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) {
-                window.toggleHamburgerMenu();
-            }
-        });
-    }
+    if (typeof initializeTheme === 'function') initializeTheme();
 });
 
-// Close hamburger menu when clicking outside
+/* ── Close dock when clicking outside ── */
 document.addEventListener('click', function(e) {
-    const overlay = document.getElementById('hamburgerOverlay');
-    const hamburger = document.querySelector('.hamburger-menu');
-    
-    if (overlay && overlay.classList.contains('active') && 
-        !overlay.contains(e.target) && 
-        !hamburger.contains(e.target)) {
-        window.toggleHamburgerMenu();
+    var dock = document.getElementById('fluidDock');
+    if (dock && dock.getAttribute('data-expanded') === 'true' && !dock.contains(e.target)) {
+        window.closeDock();
     }
 });
 
-// Close hamburger menu on escape key
+/* ── Escape key closes dock ── */
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        const overlay = document.getElementById('hamburgerOverlay');
-        if (overlay && overlay.classList.contains('active')) {
-            window.toggleHamburgerMenu();
-        }
-    }
+    if (e.key === 'Escape') window.closeDock();
 });
-</script> 
+</script>
