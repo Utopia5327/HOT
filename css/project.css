@@ -371,7 +371,7 @@ body {
     border-radius: 4px;
     overflow: hidden;
     background: var(--image-bg);
-    transition: background 0.3s ease, box-shadow 0.25s ease;
+    transition: background 0.3s ease, box-shadow 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     box-shadow: 0 2px 16px 0 var(--shadow-color);
 }
 
@@ -385,7 +385,8 @@ body {
     object-fit: cover;
     object-position: center;
     display: block;
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: transform;
 }
 
 .framer-image-container:hover img {
@@ -651,6 +652,20 @@ body {
 
 .carousel-button.prev { left: 0; }
 .carousel-button.next { right: 0; }
+
+/* ================================================================
+   SCROLL REVEALS — dynamic fading and translation
+   ================================================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: opacity, transform;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 /* ================================================================
    RESPONSIVE BREAKPOINTS

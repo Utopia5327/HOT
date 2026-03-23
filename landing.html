@@ -45,7 +45,7 @@
   <link href="https://fonts.googleapis.com/css?family=Fira+Mono:400" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-  <script src="sketch-projects.js"></script>
+  <script src="sketch.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/https-redirect.js"></script>
   <style>
@@ -59,12 +59,12 @@
     }
 
     [data-theme="dark"] {
-      --bg-primary: rgb(26, 26, 26);
-      --text-primary: #e0e0e0;
-      --text-secondary: #e0e0e0;
-      --text-tertiary: #e0e0e0;
-      --transition-overlay: rgb(26, 26, 26);
-      --particle-color: #a0a0a0;
+      --bg-primary: #0e0e0e; /* Algorithmic Noir Deep Charcoal */
+      --text-primary: #f0f0f0;
+      --text-secondary: #c0c0c0;
+      --text-tertiary: #a0a0a0;
+      --transition-overlay: #0e0e0e;
+      --particle-color: rgba(163, 230, 53, 0.4); /* #a3e635 with opacity for technological feel */
     }
 
     html, body {
@@ -168,8 +168,8 @@
     /* ── Gooey text morphing ── */
     .gooey-wrap {
       position: relative;
-      height: clamp(1.1rem, 1.4vw, 1.3rem);
-      margin-top: 0.55rem;
+      height: clamp(1.8rem, 2.5vw, 2rem);
+      margin-top: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -191,8 +191,8 @@
       position: absolute;
       white-space: nowrap;
       font-family: 'Fira Mono', 'Courier New', monospace;
-      font-size: 0.62rem;
-      font-weight: 400;
+      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+      font-weight: 500;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-primary);
@@ -235,15 +235,15 @@
       background: var(--particle-color);
       border-radius: 50%;
       opacity: 0;
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1), opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1);
       transform-origin: center;
+      box-shadow: 0 0 12px var(--particle-color);
+      will-change: transform, opacity;
     }
     .particle.active {
       opacity: 1;
     }
-    .particle.growing {
-      transform: scale(1.5);
-    }
+
     .dark-mode-toggle-standalone {
       position: fixed;
       top: 24px;
@@ -272,13 +272,15 @@
     }
     
     [data-theme="dark"] .dark-mode-toggle-standalone {
-      background: rgba(60, 60, 60, 0.8);
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(38, 38, 38, 0.6); /* surface-variant at 60% */
+      color: #a3e635; /* Accent color for the icon */
+      border: 1px solid rgba(163, 230, 53, 0.15); /* Subtle accent border */
+      backdrop-filter: blur(24px);
     }
     
     [data-theme="dark"] .dark-mode-toggle-standalone:hover {
-      background: rgba(60, 60, 60, 1);
+      background: rgba(38, 38, 38, 0.9);
+      box-shadow: 0 10px 30px rgba(163, 230, 53, 0.1);
     }
     
     [data-theme="dark"] .dark-mode-toggle-standalone i {
@@ -405,11 +407,13 @@
           const radius = (Math.min(rect.width, rect.height) / 2) * (Math.floor(index / 40) + 1);
           const targetX = centerX + Math.cos(angle) * radius;
           const targetY = centerY + Math.sin(angle) * radius;
-          const rotation = Math.random() * 360;
-          particle.style.transform = `translate(${targetX - parseFloat(particle.style.left)}px, ${targetY - parseFloat(particle.style.top)}px) rotate(${rotation}deg)`;
-          setTimeout(() => {
-            particle.classList.add('growing');
-          }, 100);
+          const rotation = Math.random() * 720 - 360; // drag rotation effect
+          if (Math.random() < 0.15) { // 15% chance to be electric lime
+            particle.style.background = '#a3e635';
+            particle.style.boxShadow = '0 0 16px #a3e635';
+          }
+          // Combine translation with a scale effect for growing
+          particle.style.transform = `translate(${targetX - parseFloat(particle.style.left)}px, ${targetY - parseFloat(particle.style.top)}px) rotate(${rotation}deg) scale(1.5)`;
         }, index * 0.5);
       });
     }

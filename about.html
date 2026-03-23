@@ -24,20 +24,20 @@
         }
 
         [data-theme="dark"] {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --bg-tertiary: rgba(60, 60, 60, 0.8);
-            --bg-tertiary-hover: rgba(60, 60, 60, 1);
-            --text-primary: #ffffff;
-            --text-secondary: #cccccc;
-            --text-tertiary: #e0e0e0;
+            --bg-primary: #0e0e0e;
+            --bg-secondary: #131313;
+            --bg-tertiary: rgba(38, 38, 38, 0.8);
+            --bg-tertiary-hover: rgba(38, 38, 38, 1);
+            --text-primary: #f0f0f0;
+            --text-secondary: #c0c0c0;
+            --text-tertiary: #a0a0a0;
             --text-muted: #888888;
-            --border-color: rgba(80, 80, 80, 0.3);
+            --border-color: rgba(163, 230, 53, 0.15);
             --shadow-color: rgba(0, 0, 0, 0.2);
-            --shadow-hover: rgba(0, 0, 0, 0.3);
-            --dropdown-bg: rgba(60, 60, 60, 0.95);
-            --dropdown-hover: rgba(80, 80, 80, 1);
-            --canvas-bg: rgb(26, 26, 26);
+            --shadow-hover: rgba(163, 230, 53, 0.1);
+            --dropdown-bg: rgba(38, 38, 38, 0.95);
+            --dropdown-hover: rgba(50, 50, 50, 1);
+            --canvas-bg: #0e0e0e;
         }
 
         @font-face {
@@ -460,7 +460,7 @@
         function draw() {
             // Use CSS variable for background color
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const bgColor = isDark ? color(26, 26, 26) : color(255, 255, 255);
+            const bgColor = isDark ? color(14, 14, 14) : color(255, 255, 255);
             background(bgColor);
             
             time += 0.003;

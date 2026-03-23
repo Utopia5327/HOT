@@ -60,3 +60,47 @@ window.toggleDarkMode = toggleDarkMode;
 
 // Debug: Check if function is available
 console.log('Theme.js loaded, toggleDarkMode available:', typeof window.toggleDarkMode); 
+
+// Global Scroll Reveal Observer Setup
+function initScrollReveals() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15 // Trigger when 15% of element is visible
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Optional: add stagger delay logic here if needed
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Target major structural and content elements for premium fade-up reveals
+    const selectorsToReveal = [
+        '.framer-project-card',
+        '.framer-image-container',
+        '.project-content p',
+        '.project-content figure',
+        '.project-content h3',
+        '.framer-hero-desc',
+        '.framer-container',
+        '.gallery-card'
+    ];
+
+    const revealElements = document.querySelectorAll(selectorsToReveal.join(', '));
+    
+    revealElements.forEach(el => {
+        // Only add 'reveal' if it doesn't already have it
+        if (!el.classList.contains('reveal')) {
+            el.classList.add('reveal');
+        }
+        observer.observe(el);
+    });
+}
+
+// Ensure scroll reveals run after DOM is fully ready
+document.addEventListener('DOMContentLoaded', initScrollReveals);
