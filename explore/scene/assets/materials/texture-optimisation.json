@@ -1,0 +1,155 @@
+{
+  "method": "WebP encoding; colour/roughness quality 89, normal maps quality 95; original dimensions retained. Original asset origins are recorded in sources.json.",
+  "files": [
+    {
+      "source": "fine_grained_wood_nor_gl_1k.jpg",
+      "web": "fine_grained_wood_nor_gl_1k.webp",
+      "source_bytes": 193626,
+      "web_bytes": 78706,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "rough_concrete_rough_1k.jpg",
+      "web": "rough_concrete_rough_1k.webp",
+      "source_bytes": 566436,
+      "web_bytes": 146670,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "fine_grained_wood_col_1k.jpg",
+      "web": "fine_grained_wood_col_1k.webp",
+      "source_bytes": 336305,
+      "web_bytes": 122156,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "concrete_wall_009_rough_1k.jpg",
+      "web": "concrete_wall_009_rough_1k.webp",
+      "source_bytes": 766943,
+      "web_bytes": 310116,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "clay_roof_tiles_02_nor_gl_1k.jpg",
+      "web": "clay_roof_tiles_02_nor_gl_1k.webp",
+      "source_bytes": 990101,
+      "web_bytes": 417238,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "clay_roof_tiles_02_rough_1k.jpg",
+      "web": "clay_roof_tiles_02_rough_1k.webp",
+      "source_bytes": 341520,
+      "web_bytes": 33084,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "concrete_wall_009_diff_1k.jpg",
+      "web": "concrete_wall_009_diff_1k.webp",
+      "source_bytes": 626688,
+      "web_bytes": 137112,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "clay_roof_tiles_02_diff_1k.jpg",
+      "web": "clay_roof_tiles_02_diff_1k.webp",
+      "source_bytes": 903929,
+      "web_bytes": 273906,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "rough_concrete_diff_1k.jpg",
+      "web": "rough_concrete_diff_1k.webp",
+      "source_bytes": 1042065,
+      "web_bytes": 419114,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "forrest_ground_01_nor_gl_1k.jpg",
+      "web": "forrest_ground_01_nor_gl_1k.webp",
+      "source_bytes": 1428763,
+      "web_bytes": 717524,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "fine_grained_wood_rough_1k.jpg",
+      "web": "fine_grained_wood_rough_1k.webp",
+      "source_bytes": 215155,
+      "web_bytes": 73376,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "concrete_wall_009_nor_gl_1k.jpg",
+      "web": "concrete_wall_009_nor_gl_1k.webp",
+      "source_bytes": 518536,
+      "web_bytes": 116124,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "forrest_ground_01_diff_1k.jpg",
+      "web": "forrest_ground_01_diff_1k.webp",
+      "source_bytes": 833711,
+      "web_bytes": 438000,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "forrest_ground_01_rough_1k.jpg",
+      "web": "forrest_ground_01_rough_1k.webp",
+      "source_bytes": 257165,
+      "web_bytes": 99030,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "source": "rough_concrete_nor_gl_1k.jpg",
+      "web": "rough_concrete_nor_gl_1k.webp",
+      "source_bytes": 1447537,
+      "web_bytes": 720734,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    }
+  ]
+}
