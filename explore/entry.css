@@ -11,6 +11,14 @@ body{overflow:hidden}
 .entry-eyebrow{font:400 11px/1.6 'Fira Mono',monospace;letter-spacing:.12em;color:var(--muted)}
 h1{font-size:clamp(2.8rem,6vw,6rem);line-height:1;letter-spacing:-.055em;max-width:750px;margin:25px 0}
 #entry-message{max-width:440px;color:var(--muted);font:400 14px/1.8 'Fira Mono',monospace}
+.entry-loader{display:flex;align-items:center;gap:18px;width:min(440px,100%);margin:12px 0 20px;color:var(--ink)}
+.loading-ring{width:28px;height:28px;flex:none;border:2px solid currentColor;border-right-color:transparent;border-bottom-color:transparent;border-radius:50%;animation:gallery-spin .9s linear infinite}
+.loading-track{position:relative;flex:1;height:2px;overflow:hidden;background:color-mix(in srgb,currentColor 18%,transparent)}
+.loading-track::after{content:'';position:absolute;inset:0;width:40%;background:currentColor;animation:gallery-buffer 1.8s ease-in-out infinite}
+.loading-caption{font:400 11px/1.6 'Fira Mono',monospace;letter-spacing:.04em;white-space:nowrap}
+@keyframes gallery-spin{to{transform:rotate(360deg)}}
+@keyframes gallery-buffer{from{transform:translateX(-110%)}to{transform:translateX(350%)}}
+@media(prefers-reduced-motion:reduce){.loading-ring,.loading-track::after{animation:none}.loading-track::after{width:100%;opacity:.4}}
 .entry-actions{display:flex;align-items:center;flex-wrap:wrap;gap:18px 30px;margin-top:28px}
 .entry-actions a,.entry-actions button{font:400 12px/1.6 'Fira Mono',monospace;letter-spacing:.02em;text-decoration:none;color:var(--ink);background:transparent;border:0;border-bottom:1px solid currentColor;padding:8px 0;cursor:pointer}
 .entry-actions :is(a,button):hover{color:#a3e635}

@@ -1,12 +1,19 @@
-/* The main website supplies its own navbar. Keep the gallery UI below it. */
-:root[data-theme="dark"]{--main-bg:#0e0e0e;--text-color:#f0f0f0;--light-text:#bbb;--border-color:#ffffff24}
-[data-theme="dark"] dialog,[data-theme="dark"] #loading{color:#f0f0f0}
-[data-theme="dark"] :is(.loading-logo,.menu-dialog,.menu-rows>button[aria-pressed=true]){color:#f0f0f0}
-[data-theme="dark"] :is(.menu-rule,.gallery-row){border-color:#ffffff24}
-[data-theme="dark"] .menu-rule{background:#ffffff24}
-[data-theme="dark"] :is(.menu-note,.help-grid p,.gallery-row .number,.gallery-row .gallery-text>span,.small-dialog .eyebrow){color:#aaa}
-[data-theme="dark"] .menu-rows>button:hover{color:#a3e635}
-.small-dialog{max-height:calc(100dvh - 160px)}
+/* Keep scene controls below the website header and pair every panel with readable ink. */
+:root{--panel-bg:#fcfaf5;--panel-ink:#17221c;--panel-muted:#59615d;--panel-border:#d3d8d1;--panel-hover:#e7eadf;--panel-active:#294c25}
+:root[data-theme="dark"]{--main-bg:#0e0e0e;--text-color:#f0f0f0;--light-text:#bbb;--border-color:#ffffff24;--panel-bg:#17221d;--panel-ink:#f2f4ec;--panel-muted:#b8c0b8;--panel-border:#3a483d;--panel-hover:#26362b;--panel-active:#a3e635}
+dialog,.menu-dialog{background:var(--panel-bg);color:var(--panel-ink);border-color:var(--panel-border);scrollbar-color:var(--panel-muted) transparent}
+.menu-rows>button,.dialog-heading .icon-btn,.gallery-row{color:var(--panel-ink)}
+.menu-rows>button{border-radius:6px}
+.menu-rows>button[aria-pressed=true]{color:var(--panel-active);text-decoration:underline;text-underline-offset:5px}
+.menu-rows>button:hover,.dialog-heading .icon-btn:hover,.gallery-row:hover{background:var(--panel-hover);color:var(--panel-ink)}
+dialog button:focus-visible{outline:2px solid var(--panel-active);outline-offset:3px}
+.small-dialog .eyebrow,.menu-dialog .eyebrow,.menu-note,.help-grid p,.gallery-row .number,.gallery-row .gallery-text>span{color:var(--panel-muted)}
+.menu-rule,.gallery-row{border-color:var(--panel-border)}
+.menu-rule{background:var(--panel-border)}
+[data-theme="dark"] #loading,[data-theme="dark"] .loading-logo{color:#f0f0f0}
+.small-dialog{position:fixed;top:88px;bottom:auto;max-height:calc(100dvh - 112px);margin-block:0}
+.menu-dialog{margin:0 22px 0 auto}
 .view-cube{right:26px;top:100px}
+.site-navigation-open .view-cube{visibility:hidden;pointer-events:none}
 .quiet-dock #menu-btn{padding-inline:12px}
-@media(max-width:820px){.view-cube{right:15px;top:86px}.quiet-dock{gap:8px}.quiet-dock button{font-size:11px}.quiet-dock #menu-btn{padding-inline:6px}}
+@media(max-width:820px){.view-cube{right:15px;top:86px}.small-dialog{top:82px;max-height:calc(100dvh - 98px)}.menu-dialog{margin:0 12px 0 auto}.quiet-dock{gap:8px}.quiet-dock button{font-size:11px}.quiet-dock #menu-btn{padding-inline:6px}}

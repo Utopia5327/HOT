@@ -29,7 +29,10 @@ function openProject(id){
 }
 window.addEventListener('message',event=>{
  if(event.origin!==location.origin||event.source!==parent)return;
- if(event.data?.type==='spatial:pause'){externallyPaused=!!event.data.paused;keys.clear();dragging=false;if(externallyPaused)museum?.suspend();}
+ if(event.data?.type==='spatial:pause'){
+  externallyPaused=!!event.data.paused;keys.clear();dragging=false;if(externallyPaused)museum?.suspend();
+  if(typeof event.data.navigationOpen==='boolean')document.documentElement.classList.toggle('site-navigation-open',event.data.navigationOpen);
+ }
  if(event.data?.type==='spatial:theme')document.documentElement.dataset.theme=event.data.theme==='dark'?'dark':'light';
 });
 window.addEventListener('pagehide',()=>{keys.clear();museum?.suspend();});

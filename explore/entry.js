@@ -4,8 +4,16 @@ const shell = document.getElementById('gallery-shell');
 const entry = document.getElementById('gallery-entry');
 const message = document.getElementById('entry-message');
 const launch = document.getElementById('launch-gallery');
+const title = document.getElementById('entry-title');
+const loader = document.getElementById('entry-loader');
 let frame = null;
 let slowLoadTimer;
+
+function setLoading(loading) {
+  loader.hidden = !loading;
+  loader.setAttribute('aria-busy', String(loading));
+  title.textContent = loading ? 'Loading the gallery.' : 'Explore in 3D.';
+}
 
 // Use the same shared header as the existing pages. The host already loads theme.js.
 async function loadHeader() {
@@ -38,7 +46,7 @@ function send(type, detail = {}) {
 
 function syncPause() {
   const dockOpen = document.getElementById('fluidDock')?.dataset.expanded === 'true';
-  send('spatial:pause', {paused: document.hidden || dockOpen});
+  send('spatial:pause', {paused: document.hidden || !!dockOpen, navigationOpen: !!dockOpen});
   if (frame) frame.inert = !!dockOpen;
 }
 
@@ -48,6 +56,7 @@ function syncTheme() {
 
 function showFallback(text, retry = true) {
   clearTimeout(slowLoadTimer);
+  setLoading(false);
   frame?.remove();
   frame = null;
   document.body.classList.remove('gallery-ready');
@@ -77,7 +86,8 @@ function openGallery() {
     return;
   }
   launch.hidden = true;
-  message.textContent = 'Opening the gallery. The first visit takes a little longer.';
+  setLoading(true);
+  message.textContent = 'Please wait while the 3D gallery opens. Your first visit may take a little longer.';
   const sceneURL = new URL('./scene/index.html', import.meta.url);
   const requested = new URLSearchParams(location.search).get('project');
   if (Object.hasOwn(PROJECT_LINKS, requested)) sceneURL.hash = new URLSearchParams({project:requested}).toString();
@@ -98,6 +108,7 @@ window.addEventListener('message', event => {
   if (!frame || event.origin !== location.origin || event.source !== frame.contentWindow) return;
   if (event.data?.type === 'spatial:ready') {
     clearTimeout(slowLoadTimer);
+    setLoading(false);
     entry.hidden = true;
     document.body.classList.add('gallery-ready');
     syncTheme();
@@ -121,6 +132,7 @@ loadHeader();
 const mobile = matchMedia('(max-width:820px)').matches;
 const saveData = navigator.connection?.saveData || matchMedia('(prefers-reduced-data:reduce)').matches;
 if (mobile || saveData) {
+  setLoading(false);
   message.textContent = mobile
     ? 'Explore the projects in the portfolio, or step inside the 3D gallery. The 3D experience works best on a larger screen.'
     : 'Browse the portfolio to use less data, or choose to load the 3D gallery.';

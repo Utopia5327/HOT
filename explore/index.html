@@ -16,8 +16,13 @@
   <main id="gallery-shell" aria-label="Spatial portfolio">
     <section id="gallery-entry" aria-labelledby="entry-title">
       <p class="entry-eyebrow">MANAS BHATIA / SPATIAL PORTFOLIO</p>
-      <h1 id="entry-title">A landscape of work.</h1>
-      <p id="entry-message" role="status">Opening the gallery…</p>
+      <h1 id="entry-title">Explore in 3D.</h1>
+      <div id="entry-loader" class="entry-loader" role="progressbar" aria-label="Loading the 3D gallery" hidden>
+        <span class="loading-ring" aria-hidden="true"></span>
+        <span class="loading-track" aria-hidden="true"></span>
+        <span class="loading-caption" aria-hidden="true">Please wait</span>
+      </div>
+      <p id="entry-message" role="status" aria-live="polite">Walk through the gallery or browse the project pages.</p>
       <div class="entry-actions">
         <a id="browse-projects" href="../Computational%20Design.html">Browse projects <span aria-hidden="true">↗</span></a>
         <button id="launch-gallery" type="button" hidden>Open 3D anyway <span aria-hidden="true">↗</span></button>
