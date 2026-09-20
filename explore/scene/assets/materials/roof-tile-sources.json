@@ -1,0 +1,58 @@
+{
+  "asset": "Clay Roof Tiles 02",
+  "author": "Amal Kumar",
+  "source": "https://polyhaven.com/a/clay_roof_tiles_02",
+  "license": "CC0 1.0",
+  "license_source": "https://polyhaven.com/license",
+  "physical_texture_dimensions_m": [
+    2.5,
+    2.5
+  ],
+  "source_dimension_metadata": [
+    2500,
+    2500
+  ],
+  "maps": [
+    {
+      "role": "diff",
+      "file": "clay_roof_tiles_02_diff_1k.jpg",
+      "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clay_roof_tiles_02/clay_roof_tiles_02_diff_1k.jpg",
+      "bytes": 903929,
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "sha256": "227a062b38b170e02c27eaa513dae45dc8bc893a62cbd8d0c08e2c32b381fc25",
+      "official_md5": "43c45fa3ac4c68ffb28aa813cec32608",
+      "official_md5_match": true
+    },
+    {
+      "role": "nor_gl",
+      "file": "clay_roof_tiles_02_nor_gl_1k.jpg",
+      "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clay_roof_tiles_02/clay_roof_tiles_02_nor_gl_1k.jpg",
+      "bytes": 990101,
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "sha256": "1548d3ebce335a4590d9e421556c4189a7b63852c793a568c71b9e533f8b62d5",
+      "official_md5": "9e24ddc6fbf048291f8e24bfb1f16e6d",
+      "official_md5_match": true
+    },
+    {
+      "role": "rough",
+      "file": "clay_roof_tiles_02_rough_1k.jpg",
+      "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clay_roof_tiles_02/clay_roof_tiles_02_rough_1k.jpg",
+      "bytes": 341520,
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "sha256": "6d7596c4f3644ac50237381aeadf58f9b68a6dddeb66b6eef4f64462dcbbf82f",
+      "official_md5": "f26a67aa20fbdcb7b70b85ccf4153245",
+      "official_md5_match": true
+    }
+  ],
+  "inspection": "Basecolor visually inspected: warm orange to reddish-brown weathered overlapping clay tiles with dark mottling; visible tile joints. Use per-tile UV subregions on individually modeled tiles to avoid repeating a whole roof pattern on each tile. Individual tile dimensions are not specified by the source.",
+  "total_map_bytes": 2235550
+}

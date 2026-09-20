@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex">
+<title>Spatial gallery — Manas Bhatia</title>
+<link rel="stylesheet" href="./fonts.css"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./brand.css"><link rel="stylesheet" href="./integration.css">
+<script>
+// Surface a failed module evaluation to the host's project-index fallback.
+window.addEventListener('error',function(event){
+  if(event.error&&parent!==window)parent.postMessage({type:'spatial:error'},location.origin);
+});
+window.addEventListener('unhandledrejection',function(){
+  if(parent!==window)parent.postMessage({type:'spatial:error'},location.origin);
+});
+</script>
+<script type="importmap">{"imports":{"three":"./assets/three.module.js","three/addons/":"./assets/addons/"}}</script>
+</head><body><div id="viewport" aria-label="Manas Bhatia’s interactive 3D gallery"></div><div class="vignette" aria-hidden="true"></div>
+<main id="explore-view">
+<div id="hotspots" aria-label="Projects in the landscape"></div>
+<div class="location-chip" id="location-chip" hidden><span class="eyebrow" id="location-number"></span><span id="location-name"></span></div>
+<aside class="nearby" id="nearby" hidden><button id="nearby-open" aria-label="Open nearby project"><img id="nearby-img" alt="" hidden><span class="nearby-copy"><span class="eyebrow" id="nearby-category"></span><span id="nearby-title"></span><span id="media-status"></span></span><span data-icon="arrow-up-right"></span></button></aside>
+<div class="tour-strip glass" id="tour-strip" hidden><span id="tour-status">Following the promenade</span><button id="tour-stop" aria-label="Stop the guided tour"><span data-icon="pause"></span></button></div>
+<footer class="explorer-footer"><div id="nav-hint">Drag to orbit · Scroll to zoom</div><div class="quiet-dock glass"><button id="enter-btn"><span data-icon="footprints"></span><span id="entry-label">Explore on foot</span></button><span class="dock-divider"></span><button id="audio-btn" aria-pressed="false" title="Enable sound near video exhibits"><span data-icon="volume-x"></span><span id="audio-label">Sound off</span></button><span class="dock-divider"></span><button id="menu-btn" aria-haspopup="dialog" aria-controls="menu-dialog">Controls</button></div></footer>
+<div id="walk-hud" hidden><span class="crosshair"></span><div class="touch-pad"><button data-move="forward" aria-label="Walk forward">↑</button><button data-move="left" aria-label="Walk left">←</button><button data-move="back" aria-label="Walk backward">↓</button><button data-move="right" aria-label="Walk right">→</button></div></div>
+</main>
+<dialog id="menu-dialog" class="menu-dialog small-dialog" aria-label="Gallery controls"><div class="dialog-heading"><span class="eyebrow">MANAS BHATIA</span><button class="icon-btn" data-close="menu-dialog" aria-label="Close menu"><span data-icon="x"></span></button></div>
+
+<div class="menu-rule"></div><span class="eyebrow">EXPLORE</span><div class="menu-rows"><button id="orbit-btn" aria-pressed="true"><span data-icon="orbit"></span>Overview</button><button id="walk-btn" aria-pressed="false"><span data-icon="footprints"></span>Explore on foot</button><button id="tour-start"><span data-icon="play"></span>Guided walk</button><button id="gallery-list-btn"><span data-icon="list"></span>Choose a place</button></div>
+<div class="menu-rule"></div><span class="eyebrow">ATMOSPHERE & VIEW</span><div class="menu-rows"><button id="roof-btn" aria-pressed="false"><span data-icon="layers-2"></span>Reveal interiors</button><button id="time-btn" aria-pressed="false"><span data-icon="sun"></span><span id="time-label">Afternoon</span></button><button id="fullscreen-btn"><span data-icon="maximize"></span>Fullscreen</button><button id="help-btn"><span data-icon="circle-help"></span>How to explore</button></div>
+<div class="minimap" id="minimap" hidden><div id="map-surface"><svg id="map-svg" viewBox="0 0 160 140" aria-hidden="true"><path id="map-route"/><path id="map-crossing"/></svg><div id="map-stations"></div><span id="map-person"></span></div></div>
+<p class="menu-note">Stand in a glowing area and face the screen to play its video. Enable sound once to hear the nearest exhibit.</p></dialog>
+<dialog id="gallery-dialog" class="small-dialog"><div class="dialog-heading"><div><span class="eyebrow">GALLERIES & GARDENS</span><h2>Choose a place.</h2></div><button class="icon-btn" data-close="gallery-dialog" aria-label="Close gallery list"><span data-icon="x"></span></button></div><div id="gallery-list"></div></dialog>
+<dialog id="help-dialog" class="small-dialog"><div class="dialog-heading"><div><span class="eyebrow">FIND YOUR WAY</span><h2>Explore at your pace.</h2></div><button class="icon-btn" data-close="help-dialog" aria-label="Close navigation help"><span data-icon="x"></span></button></div><div class="help-grid"><section><h3>From above</h3><p>Drag to orbit. Scroll or pinch to zoom. Right-drag or use two fingers to pan. Choose Explore on foot to enter. Hover over a gallery to reveal its marker, or choose a project from the menu.</p></section><section><h3>On foot</h3><p>Drag to look. Use W A S D or the arrow keys to walk. Hold Shift to move faster. On touch screens, use the direction buttons.</p></section><section><h3>Discover the work</h3><p>Click an artwork or the nearby project title. Press E to open the nearest work. The website navigation includes every project without walking.</p></section><section><h3>Let the place guide you</h3><p>Find Guided walk and Reveal interiors in the menu. Escape returns to the full landscape.</p></section><section><h3>Films & sound</h3><p>Stand in a glowing area and face the screen to play its video. Videos pause when you leave. Enable Sound once to hear the nearest film. Audio fades with distance. Some process animations are silent.</p></section></div></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="loading" role="status" hidden><div class="loading-logo">MB</div><span class="eyebrow">MANAS BHATIA / SPATIAL PORTFOLIO</span><p>Opening the landscape<span>…</span></p><a href="../../Computational%20Design.html" target="_top" id="loading-index">Browse the project index</a></div>
+<script type="module" src="./gallery.js" onerror="parent.postMessage({type:'spatial:error'},location.origin)"></script></body></html>

@@ -1,0 +1,16 @@
+{
+  "name": "Forested foothill panorama",
+  "origin": "Original image generated for this portfolio using the built-in image tool",
+  "role": "Full spherical mountain and forest background, with a shared reflection environment",
+  "dimensions_px": [
+    1774,
+    887
+  ],
+  "file": "mountain-panorama.webp",
+  "bytes": 270534,
+  "sha256": "d01a451987afd6a891b43e4539d5967854e8288da3d2e16d03b8591d9e9b513e",
+  "processing": "PNG to WebP at native resolution, quality 88. No colour or content retouching.",
+  "wrapping": "Spherical equirectangular mapping; a narrow edge blend is applied once when converting to the background cube.",
+  "runtime": "One 271KB photograph, a 512px-per-face background cube, shared filtered environment; no distant mountain geometry or extra per-frame pass.",
+  "prompt": "Use case: photorealistic-natural\nAsset type: 3D portfolio Site environment texture.\nPrimary request: Generate exactly one seamless full spherical 360° horizontal by 180° vertical latitude/longitude equirectangular environment panorama. Precisely 2:1 aspect ratio, target 3072 × 1536 pixels or 2048 × 1024 pixels.\nScene/backdrop: A quiet forested foothill mountain valley viewed from an open elevated hillside. Continuous distant Himalayan-type lower foothills and rolling forested ridges at several depths with subtle natural atmospheric perspective. No snow or dramatic alpine crags.\nStyle/medium: Photorealistic landscape photography with crisp realistic forest and meadow textures, even photographic exposure, restrained contrast.\nComposition/framing: Proper full spherical equirectangular projection for the inside of a 3D environment sphere, not a flat cinematic landscape. Mountains form a continuous belt around the middle horizontal equator. Modest peaks rise only about 10–18 degrees above the equator; broad open sky fills the upper half. Wooded valleys and green meadow slopes recede below the elevated viewer throughout the lower hemisphere. The nadir is natural forest and grass. Include only distant context because the Site has its own 3D foreground. Match the left and right wrap edges perfectly, with consistent horizon height, terrain continuity, lighting, and exposure. Correct equirectangular stretching and pole distortion at the top zenith and bottom nadir.\nLighting/mood: Warm-neutral late-afternoon daylight under a pale softly clouded sky, calm and natural.\nColor palette: Natural medium and deep pine and olive greens, increasingly soft atmospheric distant ridges, pale airy sky.\nConstraints: Full 360 by 180 coverage. Seamless horizontal wrap. Precisely 2:1 ratio. No large or nearby foreground objects.\nAvoid: Nearby trees, trunks, branches, buildings, roads, fences, people, text, logos, borders, interface elements, snow, dramatic alpine crags, blown-out sun disk, blur, fisheye vignette, flat cropped panoramic photography."
+}

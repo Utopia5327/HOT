@@ -1,0 +1,16 @@
+{
+  "name": "Fine meadow grass",
+  "origin": "Original image generated for this portfolio using the built-in image tool",
+  "role": "Shared 2m ground colour and subtle bump map; hillside, courtyard and tree mounds",
+  "dimensions_px": [
+    1024,
+    1024
+  ],
+  "file": "meadow-grass-1k.webp",
+  "bytes": 605686,
+  "sha256": "8be4f475966924c86283f9a29ec97eb0bb809d3f42993047b0454b26297a12c1",
+  "processing": "Web delivery conversion from 1254px PNG to 1024px WebP, quality 87. No colour or content retouching.",
+  "wrapping": "Mirrored repeat to maintain edge continuity",
+  "runtime": "One shared colour/bump texture, no added grass geometry, no displacement",
+  "prompt": "Overhead orthographic 2m square dense short fine-bladed meadow grass. Natural medium-deep fern and olive greens, restrained highlights, subtle organic mottling, fine overlapping blades, dry flecks below 5 percent. Uniform diffuse albedo lighting, seamless square, no rocks, paths, flowers, objects, perspective, text, directional shadows, borders or vignette."
+}

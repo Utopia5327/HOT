@@ -1,0 +1,259 @@
+{
+  "title": "Architectural realism assets",
+  "retrieved_at_utc": "2026-09-06T20:53:21.485033+00:00",
+  "provider": "Poly Haven",
+  "license": "CC0-1.0",
+  "license_url": "https://polyhaven.com/license",
+  "license_deed_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "processing": "All production asset bytes are unchanged official 1K downloads. No generated artwork or recompression. Temporary visual review previews are outside this directory.",
+  "assets": [
+    {
+      "id": "evening_meadow",
+      "name": "Evening Meadow",
+      "source_page_url": "https://polyhaven.com/a/evening_meadow",
+      "source_api_url": "https://api.polyhaven.com/files/evening_meadow",
+      "authors": {
+        "Alexander Scholten": "All"
+      },
+      "license": "CC0-1.0",
+      "maps": {
+        "environment": {
+          "file": "evening_meadow_1k.hdr",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/evening_meadow_1k.hdr",
+          "bytes": 1677046,
+          "md5": "82988892d46eb1fb207d4241a6b8dd04",
+          "sha256": "d33d046de1c2ae24a78522a53bf1005484732f1f2f3b2396429e43e2fe4355ea",
+          "official_md5_verified": true
+        }
+      },
+      "role": "Warm natural late afternoon meadow environment for lighting and reflections.",
+      "dimensions_px": [
+        1024,
+        512
+      ],
+      "encoding": "Radiance RGBE 32-bit_rle_rgbe",
+      "projection": "Equirectangular",
+      "decoded_max_linear_rgb": 8320.0,
+      "visual_review": "Open grassy meadow and scattered trees; no dominant buildings or people. Low sun partly screened by trees, blue sky and light clouds.",
+      "source_white_balance_kelvin": 5400,
+      "source_capture_dynamic_range_evs": 27
+    },
+    {
+      "id": "rough_concrete",
+      "name": "Rough Concrete",
+      "source_page_url": "https://polyhaven.com/a/rough_concrete",
+      "source_api_url": "https://api.polyhaven.com/files/rough_concrete",
+      "authors": {
+        "Dimitrios Savva": "All"
+      },
+      "license": "CC0-1.0",
+      "maps": {
+        "basecolor": {
+          "file": "rough_concrete_diff_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_concrete/rough_concrete_diff_1k.jpg",
+          "bytes": 1042065,
+          "md5": "82909f2db1e0453500703ae54e806f5c",
+          "sha256": "dd7fc03e152eb8c2fd511248aa2e9bf7428a645bd0e0b74ac1d887ad136cb0bc",
+          "official_md5_verified": true
+        },
+        "normal": {
+          "file": "rough_concrete_nor_gl_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_concrete/rough_concrete_nor_gl_1k.jpg",
+          "bytes": 1447537,
+          "md5": "61f785d44cdbf0b9f3bc68e471177358",
+          "sha256": "54c85854ad5cafb16840df91a605c857bdf3d07fa79f11921c8327fccf6423ae",
+          "official_md5_verified": true
+        },
+        "roughness": {
+          "file": "rough_concrete_rough_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_concrete/rough_concrete_rough_1k.jpg",
+          "bytes": 566436,
+          "md5": "4b530c64e200c3190f527ccc04a4c919",
+          "sha256": "2d392a3e0d44087ddecc0cd3fd27367a6cc0c16f94bbba2e8fbfbdf77eb105be",
+          "official_md5_verified": true
+        }
+      },
+      "role": "Primary pale ivory concrete; use fine tiling and modest normal strength for architectural finish.",
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "real_world_tile_size_m": [
+        1.23,
+        1.23
+      ],
+      "real_world_scale_source": "Poly Haven texture metadata dimensions, converted from millimeters to meters.",
+      "normal_convention": "OpenGL (+Y)",
+      "map_semantics": {
+        "basecolor": "sRGB color",
+        "normal": "linear non-color data",
+        "roughness": "linear non-color data; higher values are rougher"
+      }
+    },
+    {
+      "id": "concrete_wall_009",
+      "name": "Concrete Wall 009",
+      "source_page_url": "https://polyhaven.com/a/concrete_wall_009",
+      "source_api_url": "https://api.polyhaven.com/files/concrete_wall_009",
+      "authors": {
+        "Charlotte Baglioni": "All"
+      },
+      "license": "CC0-1.0",
+      "maps": {
+        "basecolor": {
+          "file": "concrete_wall_009_diff_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_009/concrete_wall_009_diff_1k.jpg",
+          "bytes": 626688,
+          "md5": "183930f83ca9b70797b1226833d64bf3",
+          "sha256": "59811fad71658323462287b072eef22ebb857c13bba63eeff34842a4d4dba8fe",
+          "official_md5_verified": true
+        },
+        "normal": {
+          "file": "concrete_wall_009_nor_gl_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_009/concrete_wall_009_nor_gl_1k.jpg",
+          "bytes": 518536,
+          "md5": "68c543079c71fd14e9f0b38b126eb116",
+          "sha256": "0caa2f8681b5c81de775d32deb6ad0644e9f943015faf42e1e7cccfbd6c5c04f",
+          "official_md5_verified": true
+        },
+        "roughness": {
+          "file": "concrete_wall_009_rough_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_009/concrete_wall_009_rough_1k.jpg",
+          "bytes": 766943,
+          "md5": "4b5da97ce2a223738a67457ff9b75081",
+          "sha256": "109424f91c6c385b7c2b5791e2d9f8c9d082d9d5665dae42c35df96410ea05d1",
+          "official_md5_verified": true
+        }
+      },
+      "role": "Optional smoother warm gray concrete with fine pores and subtle formwork seams.",
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "real_world_tile_size_m": [
+        1.805,
+        1.805
+      ],
+      "real_world_scale_source": "Poly Haven texture metadata dimensions, converted from millimeters to meters.",
+      "normal_convention": "OpenGL (+Y)",
+      "map_semantics": {
+        "basecolor": "sRGB color",
+        "normal": "linear non-color data",
+        "roughness": "linear non-color data; higher values are rougher"
+      }
+    },
+    {
+      "id": "forrest_ground_01",
+      "name": "Forest Ground 01",
+      "source_page_url": "https://polyhaven.com/a/forrest_ground_01",
+      "source_api_url": "https://api.polyhaven.com/files/forrest_ground_01",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "license": "CC0-1.0",
+      "maps": {
+        "basecolor": {
+          "file": "forrest_ground_01_diff_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forrest_ground_01/forrest_ground_01_diff_1k.jpg",
+          "bytes": 833711,
+          "md5": "236e7d928f5e357a194fd92de189cbe4",
+          "sha256": "3dd6875cb3908e022a3c45ebbffa5e84c670ff2691fbbb6dc9ea4bff88523800",
+          "official_md5_verified": true
+        },
+        "normal": {
+          "file": "forrest_ground_01_nor_gl_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forrest_ground_01/forrest_ground_01_nor_gl_1k.jpg",
+          "bytes": 1428763,
+          "md5": "ba4265df25aea293913d004b69ef9ab0",
+          "sha256": "32528a7cdee962cc0b248ee4023a74d0df175737ea90e1eb425122351e0bdab4",
+          "official_md5_verified": true
+        },
+        "roughness": {
+          "file": "forrest_ground_01_rough_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/forrest_ground_01/forrest_ground_01_rough_1k.jpg",
+          "bytes": 257165,
+          "md5": "72dacf5b829cafc025f08ca64e92e5eb",
+          "sha256": "30d8b56a03d7b12da16f58011b675662a40e58e1cdc768119a5f03968140058c",
+          "official_md5_verified": true
+        }
+      },
+      "role": "Mossy green forest floor with twig and leaf detail.",
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "real_world_tile_size_m": [
+        2.0,
+        2.0
+      ],
+      "real_world_scale_source": "Poly Haven texture metadata dimensions, converted from millimeters to meters.",
+      "normal_convention": "OpenGL (+Y)",
+      "map_semantics": {
+        "basecolor": "sRGB color",
+        "normal": "linear non-color data",
+        "roughness": "linear non-color data; higher values are rougher"
+      }
+    },
+    {
+      "id": "fine_grained_wood",
+      "name": "Fine Grained Wood",
+      "source_page_url": "https://polyhaven.com/a/fine_grained_wood",
+      "source_api_url": "https://api.polyhaven.com/files/fine_grained_wood",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "license": "CC0-1.0",
+      "maps": {
+        "basecolor": {
+          "file": "fine_grained_wood_col_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/fine_grained_wood/fine_grained_wood_col_1k.jpg",
+          "bytes": 336305,
+          "md5": "3db9decdde678e087e67ff99d30c0a73",
+          "sha256": "d171f45ef01bc6e239b00dfaa4961bcd27f7d8e93e3962da3bd3d0ce703d802c",
+          "official_md5_verified": true
+        },
+        "normal": {
+          "file": "fine_grained_wood_nor_gl_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/fine_grained_wood/fine_grained_wood_nor_gl_1k.jpg",
+          "bytes": 193626,
+          "md5": "a9e33e87ea5c32945fc30553767b7046",
+          "sha256": "ba95eadc009818e161d0f753191f1bacc3fc861e593be0bc6d82b437f9ec8044",
+          "official_md5_verified": true
+        },
+        "roughness": {
+          "file": "fine_grained_wood_rough_1k.jpg",
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/fine_grained_wood/fine_grained_wood_rough_1k.jpg",
+          "bytes": 215155,
+          "md5": "5e29204cca6747b5df219e9a7255540f",
+          "sha256": "f281f682e62fe322303dfeaa13dac18b5cb9e113617fe0aca43605b49161d82b",
+          "official_md5_verified": true
+        }
+      },
+      "role": "Optional dark brown tight grain for timber ribs; grain runs mostly vertically in the image.",
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "real_world_tile_size_m": [
+        0.6,
+        0.6
+      ],
+      "real_world_scale_source": "Poly Haven texture metadata dimensions, converted from millimeters to meters.",
+      "normal_convention": "OpenGL (+Y)",
+      "map_semantics": {
+        "basecolor": "sRGB color",
+        "normal": "linear non-color data",
+        "roughness": "linear non-color data; higher values are rougher"
+      }
+    }
+  ],
+  "total_asset_bytes": 9909976,
+  "total_asset_megabytes_decimal": 9.91,
+  "verification": {
+    "all_downloads_match_official_api_md5": true,
+    "all_jpgs_decode_at_1024_square": true,
+    "hdr_radiance_rle_decoded_successfully": true,
+    "hdr_float_values_finite": true,
+    "original_hdr_preserved": true
+  }
+}

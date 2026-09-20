@@ -1,0 +1,12 @@
+/* The main website supplies its own navbar. Keep the gallery UI below it. */
+:root[data-theme="dark"]{--main-bg:#0e0e0e;--text-color:#f0f0f0;--light-text:#bbb;--border-color:#ffffff24}
+[data-theme="dark"] dialog,[data-theme="dark"] #loading{color:#f0f0f0}
+[data-theme="dark"] :is(.loading-logo,.menu-dialog,.menu-rows>button[aria-pressed=true]){color:#f0f0f0}
+[data-theme="dark"] :is(.menu-rule,.gallery-row){border-color:#ffffff24}
+[data-theme="dark"] .menu-rule{background:#ffffff24}
+[data-theme="dark"] :is(.menu-note,.help-grid p,.gallery-row .number,.gallery-row .gallery-text>span,.small-dialog .eyebrow){color:#aaa}
+[data-theme="dark"] .menu-rows>button:hover{color:#a3e635}
+.small-dialog{max-height:calc(100dvh - 160px)}
+.view-cube{right:26px;top:100px}
+.quiet-dock #menu-btn{padding-inline:12px}
+@media(max-width:820px){.view-cube{right:15px;top:86px}.quiet-dock{gap:8px}.quiet-dock button{font-size:11px}.quiet-dock #menu-btn{padding-inline:6px}}
