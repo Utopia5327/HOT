@@ -4,9 +4,10 @@ import { EYE_HEIGHT } from './navigation-config.js';
 import { PROJECTS } from './projects.js';
 import { installIcons, setIcon } from './icons.js';
 import { TERRACE_SPECS } from './navigation-config.js';
-let THREE,OrbitControls,buildCampus,frameAt,nearestRoute,groundHeight,isOpening,galleryFloorHeight,createMuseumMedia,enhanceRendering,inGarden,createViewingZones,createImageCarousels,createViewCube,modelCamera,resizeModelCamera;
+let THREE,OrbitControls,buildCampus,frameAt,nearestRoute,groundHeight,isOpening,galleryFloorHeight,createMuseumMedia,enhanceRendering,inGarden,createViewingZones,createImageCarousels,createViewCube,modelCamera,resizeModelCamera,orbitModelCamera,createElevationSite;
 let scenePromise=null;
 let planDrawing=null,planKey=null,planActive=false,requestedModelView='3d';
+let elevationSite=null,cubeDragging=false;
 
 const $=id=>document.getElementById(id),V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -60,6 +61,7 @@ function bindCamera(next,target=controls?.target.clone()||V()){
 }
 function perspectiveCamera(){
  requestedModelView='3d';planActive=false;planKey?.setVisible(false);document.body.classList.remove('architectural-plan');
+ if(elevationSite?.root.visible){elevationSite.setVisible(false);renderer.shadowMap.needsUpdate=true;}
  if(camera.isOrthographicCamera){const next=new THREE.PerspectiveCamera(54,innerWidth/innerHeight,.07,750);next.position.copy(camera.position);next.quaternion.copy(camera.quaternion);bindCamera(next);}viewCube?.setActive('3d');
  campus.root.traverse(o=>{if(o.userData.tree?.banyan){const crown=o.getObjectByName('Broad forest-tree canopy');if(crown)crown.visible=true;}});
 }
@@ -72,9 +74,27 @@ async function selectModelView(view){
  planActive=view==='plan';document.body.classList.toggle('architectural-plan',planActive);planKey?.setVisible(planActive);
  const next=modelCamera(view,innerWidth/innerHeight);bindCamera(next,V(...next.userData.viewTarget));camera.updateMatrixWorld();
  controls.enableRotate=!planActive;if(planActive){controls.mouseButtons.LEFT=THREE.MOUSE.PAN;controls.touches.ONE=THREE.TOUCH.PAN;controls.screenSpacePanning=true;}
+ setElevationSite(!planActive);
  $('nav-hint').textContent=planActive?'Drag to pan · Scroll to zoom':'Drag to orbit · Scroll to zoom';
  setCutaway(false,false);renderer.shadowMap.needsUpdate=true;viewCube.setActive(view);setAngles();
 }
+function setElevationSite(visible){
+ if(visible&&!elevationSite)elevationSite=createElevationSite(campus);
+ elevationSite?.setVisible(visible);renderer.shadowMap.needsUpdate=true;
+}
+function startCubeOrbit(){
+ if(externallyPaused||!camera||!campus||document.querySelector('dialog[open]'))return false;
+ const fromWalk=mode==='walk',target=fromWalk?campus.overview.target.clone():controls.target.clone();
+ stopTour();keys.clear();museum?.suspend();transition=null;
+ requestedModelView='orbit';planActive=false;planKey?.setVisible(false);document.body.classList.remove('architectural-plan');
+ if(fromWalk){
+  const offset=camera.position.clone().sub(target);offset.y=Math.max(offset.y,26);offset.setLength(Math.max(offset.length(),75));camera.position.copy(target).add(offset);
+ }
+ camera.up.set(0,1,0);bindCamera(camera,target);modeUI('orbit');controls.enabled=false;cubeDragging=true;
+ setElevationSite(camera.isOrthographicCamera);viewCube.setActive('orbit');document.body.classList.add('interacted');return true;
+}
+function dragCubeOrbit(dx,dy){if(!cubeDragging)return;orbitModelCamera(camera,controls.target,dx,dy);viewCube.update(camera);}
+function endCubeOrbit(){if(!cubeDragging)return;cubeDragging=false;controls.enabled=mode==='orbit';controls.update();setAngles();}
 function setAngles(){const d=V();camera.getWorldDirection(d);yaw=Math.atan2(-d.x,-d.z);pitch=Math.asin(THREE.MathUtils.clamp(d.y,-1,1));}
 function look(){camera.quaternion.setFromEuler(new THREE.Euler(pitch,yaw,0,'YXZ'));}
 function cameraTo(eye,target,duration=1.3){
@@ -214,7 +234,7 @@ function ensureScene(){
  scenePromise=initScene().then(()=>true).catch(error=>{dismissLoading();scenePromise=null;renderer?.dispose();$('viewport').replaceChildren();notifyHost('spatial:error');toast('The gallery could not open. Return to the project index to browse the work.');console.error('Landscape unavailable',error);return false;});return scenePromise;
 }
 async function initScene(){
- [THREE,{OrbitControls},{buildCampus,frameAt,nearestRoute,groundHeight,isOpening,galleryFloorHeight},{createMuseumMedia},{enhanceRendering},{inGarden},{createViewingZones},{createImageCarousels},{createViewCube,modelCamera,resizeModelCamera}]=await Promise.all([import('three'),import('three/addons/controls/OrbitControls.js'),import('./campus.js'),import('./museum-media.js'),import('./rendering.js'),import('./garden.js'),import('./viewing-zones.js'),import('./image-carousels.js'),import('./view-cube.js')]);
+ [THREE,{OrbitControls},{buildCampus,frameAt,nearestRoute,groundHeight,isOpening,galleryFloorHeight},{createMuseumMedia},{enhanceRendering},{inGarden},{createViewingZones},{createImageCarousels},{createViewCube,modelCamera,resizeModelCamera,orbitModelCamera},{createElevationSite}]=await Promise.all([import('three'),import('three/addons/controls/OrbitControls.js'),import('./campus.js'),import('./museum-media.js'),import('./rendering.js'),import('./garden.js'),import('./viewing-zones.js'),import('./image-carousels.js'),import('./view-cube.js'),import('./elevation-site.js')]);
  downRay=new THREE.Raycaster();pickRay=new THREE.Raycaster();pointer=new THREE.Vector2();clock=new THREE.Clock();
  await new Promise(requestAnimationFrame);
   renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});renderer.setPixelRatio(pixelRatio);renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.0;
@@ -229,7 +249,7 @@ async function initScene(){
   realism=enhanceRendering({scene,renderer,campus,mobile});
   viewingAreas=createViewingZones({campus,groundHeight});
   museum=createMuseumMedia({screens:campus.videoScreens,viewingZones:viewingAreas.zones,viewport:$('viewport'),onStatus:(id,text)=>{if(id===nearbyId||!id)$('media-status').textContent=text;}});museum.setSound(soundEnabled);
-  viewCube?.dispose();viewCube=createViewCube({parent:$('explore-view'),onSelect:selectModelView});
+  viewCube?.dispose();viewCube=createViewCube({parent:$('explore-view'),onSelect:selectModelView,onOrbitStart:startCubeOrbit,onOrbit:dragCubeOrbit,onOrbitEnd:endCubeOrbit});
   setupMap();resize();
   const loader=new THREE.TextureLoader(),artQueue=campus.artMaterials.map(item=>{
     let object=null;campus.root.traverse(o=>{if(!object&&o.isMesh&&o.material===item.material)object=o;});
@@ -250,11 +270,12 @@ function animate(){
   requestAnimationFrame(animate);const raw=clock.getDelta(),delta=Math.min(raw,.045);if(document.hidden||externallyPaused){if(museum?.active)museum.suspend();return;}
   if(transition){const t=Math.min(1,(performance.now()-transition.start)/transition.duration),e=t*t*(3-2*t);camera.position.lerpVectors(transition.from,transition.to,e);controls.target.lerpVectors(transition.targetFrom,transition.targetTo,e);camera.lookAt(controls.target);if(t>=1){transition=null;controls.enabled=mode==='orbit';setAngles();}}
   else if(mode==='walk'){if(tour)moveTour(delta);else{walk(delta);look();}if(frameCount%5===0)updateLocation();}
-  else controls.update();
+  else if(!cubeDragging)controls.update();
   if(frameCount%3===0)viewCube?.update(camera);
   if(!planActive)realism?.update(delta,camera);viewingAreas?.update(camera,reduced?0:delta,{visible:mode==='walk'&&!cutaway});museum?.update(camera,delta,{walking:mode==='walk',allowed:!transition&&!document.querySelector('dialog[open]')&&!cutaway});if(!planActive)museum?.render(camera);
   imageCarousels?.update(camera,Math.min(raw,1),{allowed:!planActive&&!document.querySelector('dialog[open]')});
-  renderer.render(planActive?planDrawing.scene:scene,camera);planKey?.update(camera,innerWidth);if(frameCount%30===0&&!planActive)requestNearbyArt();if(frameCount%2===0)hotspots();frameCount++;if(frameCount===3)dismissLoading();
+  const background=scene.background;if(elevationSite?.root.visible)scene.background=elevationSite.background;
+  renderer.render(planActive?planDrawing.scene:scene,camera);scene.background=background;planKey?.update(camera,innerWidth);if(frameCount%30===0&&!planActive)requestNearbyArt();if(frameCount%2===0)hotspots();frameCount++;if(frameCount===3)dismissLoading();
   if(frameCount>35&&frameCount<175&&raw>.045)slowFrames++;if(frameCount===175&&slowFrames>75&&pixelRatio>1){pixelRatio=1;renderer.setPixelRatio(1);resize();}
 }
 window.addEventListener('keydown',e=>{

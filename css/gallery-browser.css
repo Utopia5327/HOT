@@ -1,0 +1,59 @@
+/* Keep the introduction, rotating cards and instructions in separate rows. */
+html, body { height: auto; min-height: 100%; overflow-x: hidden; overflow-y: auto; }
+.gallery-main {
+    flex: 1 0 auto;
+    min-height: 100svh;
+    display: grid;
+    grid-template-rows: auto minmax(260px, 1fr) auto;
+}
+.gallery-top { padding: 5.5rem 5vw 1rem; }
+.gallery-top h1 { line-height: 1.12; }
+.gallery-stage {
+    min-width: 0;
+    min-height: 260px;
+    overflow: hidden;
+    touch-action: pan-y pinch-zoom;
+    outline-offset: -4px;
+}
+.gallery-card {
+    width: var(--gallery-card-size, 200px);
+    height: var(--gallery-card-size, 200px);
+    margin-left: calc(var(--gallery-card-size, 200px) / -2);
+    margin-top: calc(var(--gallery-card-size, 200px) / -2);
+}
+.gallery-card:focus-visible { outline: 3px solid var(--text-primary); outline-offset: 4px; }
+.gallery-card:focus-visible .gallery-card-info { opacity: 1; }
+.scroll-hint {
+    justify-self: center;
+    flex-direction: column;
+    gap: .4rem;
+    max-width: calc(100vw - 2rem);
+    margin: .35rem 0 max(1rem, env(safe-area-inset-bottom));
+    padding: .5rem 1rem;
+    border: 0;
+    background: none;
+    backdrop-filter: none;
+    opacity: 1;
+    animation: none;
+}
+.gallery-gesture { display: flex; align-items: center; justify-content: center; gap: .55rem; }
+.scroll-hint span { font-size: .64rem; letter-spacing: .09em; opacity: .9; white-space: normal; text-align: center; }
+.scroll-hint .gallery-open-hint { font-size: .61rem; letter-spacing: .04em; opacity: .65; text-transform: none; }
+.scroll-hint .input-touch { display: none; }
+.scroll-hint .swipe-icon { width: 24px; height: 22px; }
+@media (hover: none), (pointer: coarse) {
+    .scroll-hint .input-mouse { display: none; }
+    .scroll-hint .input-touch { display: inline; }
+    .gallery-card[data-active="true"] .gallery-card-info { opacity: 1; }
+}
+@media (max-width: 600px) {
+    .gallery-top { padding-inline: 6vw; gap: .65rem; }
+    .gallery-description { line-height: 1.6; }
+    .gallery-card-info { padding: 1rem; }
+    .gallery-card-title { font-size: .9rem; line-height: 1.15; }
+    .gallery-card-type { font-size: .54rem; letter-spacing: .08em; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .scroll-hint-wheel { animation: none; }
+    .gallery-card img, .gallery-card-info { transition: none; }
+}

@@ -15,6 +15,8 @@ import {SCENE_ASSETS} from './scene-assets.js';
 import {readCampusPayload} from './scene-binary.js';
 import {enhanceRendering} from './rendering.js';
 import {createArchitecturalPlan} from './architectural-plan.js';
+import {createElevationSite} from './elevation-site.js';
+import {modelCamera} from './view-cube.js';
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.90;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;document.body.appendChild(renderer.domElement);
 const scene=new THREE.Scene();scene.fog=new THREE.FogExp2('#b0c1c8',.0022);
 const campus=unpackCampus(await readCampusPayload(await (await fetch('./'+SCENE_ASSETS.medium)).arrayBuffer()),frameAt);scene.add(campus.root);
@@ -23,20 +25,23 @@ const realism=enhanceRendering({scene,renderer,campus});await realism.ready;
 await Promise.all(campus.artMaterials.filter(a=>a.src).map(async a=>{try{const t=await new THREE.TextureLoader().loadAsync(a.src);t.colorSpace=THREE.SRGBColorSpace;a.material.map=t;a.material.emissiveMap=t;a.material.needsUpdate=true;}catch{}}));
 const camera=new THREE.PerspectiveCamera(54,innerWidth/innerHeight,.1,600);
 const plan=createArchitecturalPlan(campus);
+const elevationSite=createElevationSite(campus);
 let garden;campus.root.traverse(o=>{if(o.name==='Private courtyard garden and planted contours')garden=o;});
 // Context trees outside the court are irrelevant to these close-up reviews.
 for(const child of campus.landscape.children)if(child!==garden&&child.isInstancedMesh)child.visible=false;
 window.review=(view)=>{
+ const elevation=['north','south','east','west'].includes(view);elevationSite.setVisible(elevation);
  campus.roofs.visible=!['plan','courtyard'].includes(view);
  campus.root.traverse(o=>{if(o.userData.tree?.banyan){o.getObjectByName('Broad forest-tree canopy').visible=view!=='plan';}});
  const dusk=view==='ceiling-dusk';realism.setAtmosphere(dusk);sky.intensity=dusk?.38:.65;ambient.intensity=dusk?.065:.08;sun.intensity=dusk?.68:1.85;sun.position.set(-55,dusk?16:38,56);sun.color.set(dusk?'#f4bb83':'#ffead1');renderer.toneMappingExposure=dusk?1.03:.90;for(const lamp of campus.lamps)lamp.intensity=dusk?(lamp.userData.duskIntensity??75):(lamp.userData.dayIntensity??24);
  let active=camera;
  if(view==='plan'){
   active=new THREE.OrthographicCamera(-51,51,38.25,-38.25,.1,300);active.position.set(0,100,0);active.up.set(0,0,-1);active.lookAt(0,0,0);
- }else if(view==='courtyard'){camera.position.set(25,28,32);camera.lookAt(0,8,-5);}
+ }else if(elevation){active=modelCamera(view,innerWidth/innerHeight);}
+ else if(view==='courtyard'){camera.position.set(25,28,32);camera.lookAt(0,8,-5);}
  else if(view==='stairs'){const f=frameAt(.18);camera.position.copy(f.p).addScaledVector(f.n,-15).addScaledVector(f.d,-11).add(new THREE.Vector3(0,8,0));camera.lookAt(f.p.clone().addScaledVector(f.n,-f.w*.5-1.8).add(new THREE.Vector3(0,2.6,0)));}
  else {const f=frameAt(.066);camera.position.copy(f.p).addScaledVector(f.n,-2).addScaledVector(f.d,-2).add(new THREE.Vector3(0,1.95,0));camera.lookAt(f.p.clone().addScaledVector(f.n,2).addScaledVector(f.d,4).add(new THREE.Vector3(0,5.6,0)));}
- active.updateMatrixWorld();realism.update(0,active);renderer.shadowMap.needsUpdate=true;renderer.render(view==='plan'?plan.scene:scene,active);
+ active.updateMatrixWorld();realism.update(0,active);renderer.shadowMap.needsUpdate=true;const background=scene.background;if(elevation)scene.background=elevationSite.background;renderer.render(view==='plan'?plan.scene:scene,active);scene.background=background;
  return {soffit:campus.materials.soffit.emissiveIntensity,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};
 };window.ready=true;
 </script>`;
