@@ -14,10 +14,38 @@ export function resizeModelCamera(camera,aspect){
 export function modelCamera(view,aspect){
  const v=MODEL_VIEWS[view],camera=new THREE.OrthographicCamera(-1,1,1,-1,.1,650);camera.userData.viewSpan=v.span;camera.userData.viewTarget=v.target.slice();camera.position.fromArray(v.eye);camera.up.fromArray(v.up);camera.lookAt(new THREE.Vector3(...v.target));resizeModelCamera(camera,aspect);camera.updateMatrixWorld();return camera;
 }
-export function createViewCube({parent,onSelect}){
+export function orbitModelCamera(camera,target,dx,dy){
+ const offset=camera.position.clone().sub(target),spherical=new THREE.Spherical().setFromVector3(offset);
+ // A horizontal pull can leave the overhead plan as well as yaw an elevation.
+ const tilt=spherical.phi<.025&&Math.abs(dy)<Math.abs(dx)*.25?Math.abs(dx):dy;
+ spherical.theta-=dx*.009;spherical.phi-=tilt*.009;
+ if(spherical.phi<.001)spherical.phi=Math.abs(spherical.phi)+.001;
+ spherical.phi=THREE.MathUtils.clamp(spherical.phi,.001,Math.PI-.001);
+ camera.up.set(0,1,0);camera.position.copy(target).add(new THREE.Vector3().setFromSpherical(spherical));camera.lookAt(target);camera.updateMatrixWorld();
+}
+export function createViewCube({parent,onSelect,onOrbitStart=()=>false,onOrbit=()=>{},onOrbitEnd=()=>{}}){
  const root=document.createElement('nav');root.className='view-cube';root.setAttribute('aria-label','Model orientation');
  root.innerHTML=`<div class="cube-compass"><button data-view="north" class="cube-n" title="North elevation" aria-label="North elevation">N</button><button data-view="east" class="cube-e" title="East elevation" aria-label="East elevation">E</button><button data-view="south" class="cube-s" title="South elevation" aria-label="South elevation">S</button><button data-view="west" class="cube-w" title="West elevation" aria-label="West elevation">W</button></div><div class="cube-stage"><div class="cube-object"><button class="cube-face cube-top" data-view="plan" aria-label="Plan view">PLAN</button><button class="cube-face cube-front" data-view="south" aria-label="South elevation">S</button><button class="cube-face cube-back" data-view="north" aria-label="North elevation">N</button><button class="cube-face cube-right" data-view="east" aria-label="East elevation">E</button><button class="cube-face cube-left" data-view="west" aria-label="West elevation">W</button><button class="cube-face cube-bottom" data-view="3d" aria-label="Return to 3D">3D</button></div></div><button class="cube-home" data-view="3d" title="Return to overall 3D view">3D ↗</button><span class="cube-caption" aria-live="polite">Perspective</span>`;
- parent.append(root);const object=root.querySelector('.cube-object'),caption=root.querySelector('.cube-caption'),matrix=new THREE.Matrix4();let last='';
- root.addEventListener('click',event=>{const button=event.target.closest('[data-view]');if(button){event.stopPropagation();onSelect(button.dataset.view);}});
- return {setActive(view){caption.textContent=view==='plan'?'Architectural plan':MODEL_VIEWS[view]?.label||'Perspective';root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===view)));},update(camera){matrix.makeRotationFromQuaternion(camera.quaternion).invert();const e=matrix.elements,css=[e[0],-e[1],e[2],0,-e[4],e[5],-e[6],0,e[8],-e[9],e[10],0,0,0,0,1].map(n=>+n.toFixed(5)).join(',');if(css!==last){object.style.transform=`matrix3d(${css})`;last=css;}},dispose(){root.remove();}};
+ parent.append(root);const stage=root.querySelector('.cube-stage'),object=root.querySelector('.cube-object'),caption=root.querySelector('.cube-caption'),matrix=new THREE.Matrix4(),events=new AbortController(),options={signal:events.signal};let last='',gesture=null,suppressClickUntil=0;
+ stage.title='Drag to rotate · Click a face to align';stage.setAttribute('aria-label','View cube. Drag to rotate, or select a face to align the model.');
+ stage.addEventListener('pointerdown',event=>{
+  if(!event.isPrimary||event.button!==0||gesture)return;
+  suppressClickUntil=0;
+  gesture={id:event.pointerId,x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,dragged:false};event.stopPropagation();
+ },options);
+ window.addEventListener('pointermove',event=>{
+  if(!gesture||gesture.id!==event.pointerId)return;
+  const totalX=event.clientX-gesture.startX,totalY=event.clientY-gesture.startY;
+  if(!gesture.dragged){if(Math.hypot(totalX,totalY)<5)return;if(onOrbitStart()===false){gesture=null;return;}gesture.dragged=true;stage.setPointerCapture(event.pointerId);root.classList.add('is-dragging');}
+  event.preventDefault();onOrbit(event.clientX-gesture.x,event.clientY-gesture.y);gesture.x=event.clientX;gesture.y=event.clientY;
+ },{...options,passive:false});
+ function finish(event){
+  if(!gesture||event.pointerId!==undefined&&gesture.id!==event.pointerId)return;
+  const current=gesture;gesture=null;root.classList.remove('is-dragging');
+  if(current.dragged){suppressClickUntil=performance.now()+500;onOrbitEnd();if(stage.hasPointerCapture(current.id))stage.releasePointerCapture(current.id);}
+ }
+ for(const type of ['pointerup','pointercancel'])window.addEventListener(type,finish,options);
+ stage.addEventListener('lostpointercapture',finish,options);window.addEventListener('blur',finish,options);
+ root.addEventListener('click',event=>{if(stage.contains(event.target)&&event.detail>0&&performance.now()<suppressClickUntil){event.preventDefault();event.stopPropagation();return;}const button=event.target.closest('[data-view]');if(button){event.stopPropagation();onSelect(button.dataset.view);}},options);
+ return {setActive(view){caption.textContent=view==='plan'?'Architectural plan':view==='orbit'?'3D view':MODEL_VIEWS[view]?.label||'Perspective';root.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===view)));},update(camera){matrix.makeRotationFromQuaternion(camera.quaternion).invert();const e=matrix.elements,css=[e[0],-e[1],e[2],0,-e[4],e[5],-e[6],0,e[8],-e[9],e[10],0,0,0,0,1].map(n=>+n.toFixed(5)).join(',');if(css!==last){object.style.transform=`matrix3d(${css})`;last=css;}},dispose(){finish({});events.abort();root.remove();}};
 }

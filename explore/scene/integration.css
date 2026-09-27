@@ -30,6 +30,10 @@ dialog button:focus-visible{outline:2px solid var(--panel-active);outline-offset
 .dusk-option{justify-content:flex-end}
 .atmosphere-switch[aria-checked=false] .afternoon-option,.atmosphere-switch[aria-checked=true] .dusk-option{color:var(--panel-active)}
 .view-cube{right:26px;top:100px}
+.cube-stage{pointer-events:auto;cursor:grab;touch-action:none}
+.view-cube .cube-face{cursor:grab;touch-action:none}
+.view-cube.is-dragging .cube-stage,.view-cube.is-dragging .cube-face{cursor:grabbing}
+.view-cube.is-dragging .cube-face{background:#efd395}
 .site-navigation-open .view-cube{visibility:hidden;pointer-events:none}
 .quiet-dock #menu-btn{padding-inline:12px}
 @media(max-width:820px){.view-cube{right:15px;top:86px}.small-dialog{top:82px;max-height:calc(100dvh - 98px)}.menu-dialog{margin:0 12px 0 auto}.quiet-dock{gap:8px}.quiet-dock button{font-size:11px}.quiet-dock #menu-btn{padding-inline:6px}}

@@ -592,23 +592,32 @@
       ]
     }
     </script>
+    <link rel="stylesheet" href="css/gallery-browser.css">
 </head>
 <body>
     <div id="site-header"></div>
     <div class="gallery-main">
         <div class="gallery-top">
             <h1>Computational Design</h1>
-            <p class="gallery-description">A selection of my 2024–25 MS Computational Design Practices program work at Columbia University GSAPP. Click any project to learn more.</p>
+            <p class="gallery-description">A selection of my 2024–25 MS Computational Design Practices program work at Columbia University GSAPP. Open a project to learn more.</p>
         </div>
-        <div class="gallery-stage">
+        <div class="gallery-stage" tabindex="0" role="region" aria-label="Browse projects" aria-describedby="galleryBrowseHint">
             <div class="gallery-ring" id="galleryRing"></div>
         </div>
-        <div class="scroll-hint">
-            <svg viewBox="0 0 18 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-                <rect x="1" y="1" width="16" height="24" rx="8"/>
-                <line class="scroll-hint-wheel" x1="9" y1="6" x2="9" y2="10"/>
-            </svg>
-            <span>Scroll to rotate</span>
+        <div class="scroll-hint" id="galleryBrowseHint">
+            <div class="gallery-gesture">
+                <svg class="input-mouse" viewBox="0 0 18 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                    <rect x="1" y="1" width="16" height="24" rx="8"/>
+                    <line class="scroll-hint-wheel" x1="9" y1="6" x2="9" y2="10"/>
+                </svg>
+                <svg class="input-touch swipe-icon" viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 12h22M7 8l-4 4 4 4M21 8l4 4-4 4"/>
+                </svg>
+                <span class="input-mouse">Scroll to browse projects</span>
+                <span class="input-touch">Swipe to browse projects</span>
+            </div>
+            <span class="gallery-open-hint input-mouse">Click the center card to open · Arrow keys also work</span>
+            <span class="gallery-open-hint input-touch">Tap the center card to open</span>
         </div>
     </div>
     <div style="display:none"><div class="projects-grid">
@@ -847,6 +856,7 @@
             draw();
         });
     </script>
+    <script src="js/gallery-browser.js"></script>
     <script>
     /* ── Coverflow Gallery ── */
     (function() {
@@ -892,18 +902,25 @@
             cards.push(card);
         });
 
+        var layout = setupGalleryBrowser(ring, function(delta) { pos += delta; });
+        cards.forEach(function(card, i) {
+            card.addEventListener('focus', function() { if (card.matches(':focus-visible')) { pos = i; render(); } });
+            card.addEventListener('keydown', function(e) { if (e.key === 'Enter') pos = i; });
+        });
+
         function render() {
             cards.forEach(function(card, i) {
                 var off = i - pos;
                 while (off > n / 2) off -= n;
                 while (off < -n / 2) off += n;
                 var abs = Math.abs(off);
-                var tx = off * 420;
-                var tz = -(abs * 60);
+                var tx = off * layout.spacing;
+                var tz = -(abs * layout.depth);
                 var ry = off * -25;
                 var scale = Math.max(0.5, 1 - abs * 0.2);
                 var opacity = Math.max(0, 1 - abs * 0.38);
                 card.style.transform = 'translateX(' + tx + 'px) translateZ(' + tz + 'px) rotateY(' + ry + 'deg) scale(' + scale + ')';
+                card.dataset.active = abs < 0.5 ? 'true' : 'false';
                 card.style.opacity = opacity;
                 card.style.zIndex = Math.round(100 - abs * 10);
                 card.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none';
@@ -911,23 +928,10 @@
         }
 
         function animate() {
-            if (!isPaused) pos += AUTO_SPEED;
+            if (!isPaused && !layout.isPaused()) pos += AUTO_SPEED;
             render();
             requestAnimationFrame(animate);
         }
-
-        window.addEventListener('wheel', function(e) {
-            e.preventDefault();
-            pos += e.deltaY * 0.004;
-        }, { passive: false });
-
-        var ty0 = 0;
-        window.addEventListener('touchstart', function(e) { ty0 = e.touches[0].clientY; }, { passive: true });
-        window.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-            pos += (ty0 - e.touches[0].clientY) * 0.006;
-            ty0 = e.touches[0].clientY;
-        }, { passive: false });
 
         animate();
     })();

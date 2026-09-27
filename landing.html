@@ -49,6 +49,7 @@
   <script src="js/theme.js"></script>
   <script src="js/https-redirect.js"></script>
   <style>
+    @font-face { font-family: 'Asher Punk Demo Version'; src: url('fonts/AsherPunkDemoVersion.ttf') format('truetype'); font-display: swap; font-weight: 400; }
     :root {
       --bg-primary: rgb(252, 250, 245);
       --text-primary: #3e3e3e;
@@ -323,20 +324,21 @@
         font-size: 2.2vw;
       }
     }
-    .spatial-entry {
-      display: inline-block;
-      margin-top: 2.2rem;
-      padding: 10px 0;
-      color: var(--text-primary);
-      font: 400 0.68rem/1.6 'Fira Mono', monospace;
-      letter-spacing: 0.08em;
-      text-decoration: none;
-      border-bottom: 1px solid currentColor;
-      transition: color 0.2s;
-    }
-    .spatial-entry:hover { color: #a3e635; }
-    .spatial-entry:focus-visible { outline: 2px solid #a3e635; outline-offset: 6px; }
-    @media (max-width: 820px) { .spatial-entry { display: none; } }
+    html, body { height: auto; min-height: 100%; overflow-x: hidden; overflow-y: auto; }
+    .content { height: auto; min-height: 100svh; gap: 42px; }
+    .name-container { margin-top: clamp(100px, 28vh, 280px); width: min(94%, 920px); }
+    .entry-prompt { margin: 2.2rem 0 1rem; font: 400 0.75rem/1.5 'Fira Mono', monospace; color: var(--text-secondary); }
+    .entry-choices { display: flex; justify-content: center; gap: 14px; width: min(100%, 530px); margin: 0 auto 2rem; }
+    .entry-choice { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; color: var(--text-primary); background: var(--bg-primary); border: 1px solid currentColor; border-radius: 5px; text-decoration: none; text-align: left; font: 400 0.9rem/1.5 'Fira Mono', monospace; transition: transform .2s, background .2s; }
+    .entry-choice strong { display: block; font-weight: 400; }
+    .entry-choice small { display: block; margin-top: 5px; font-size: .65rem; color: var(--text-secondary); }
+    .entry-choice svg { width: 20px; height: 20px; flex: none; }
+    .spatial-entry { color: var(--bg-primary); background: var(--text-primary); border-color: var(--text-primary); }
+    .spatial-entry small { color: inherit; opacity: .83; }
+    .entry-choice:hover { transform: translateY(-3px); }
+    .entry-choice:focus-visible, .name:focus-visible { outline: 3px solid var(--text-primary); outline-offset: 5px; }
+    @media (max-width: 600px) { .entry-choices { flex-direction: column; max-width: 310px; gap: 12px; } .entry-choice { padding: 15px 18px; } .entry-prompt { margin-top: 1.8rem; } .name-container { margin-top: clamp(90px, 23vh, 170px); } }
+    @media (prefers-reduced-motion: reduce) { .entry-choice { transition: none; } .entry-choice:hover { transform: none; } }
   </style>
 </head>
 <body>
@@ -347,7 +349,7 @@
   
   <div class="content">
     <div class="name-container">
-      <a href="#" class="name" data-text="Manas Bhatia" onclick="transitionToHome(event)"><span class="name-full">Manas Bhatia</span><span class="name-short">MB</span></a>
+      <a href="Computational%20Design.html" class="name" data-text="Manas Bhatia" aria-label="Manas Bhatia — browse portfolio" onclick="transitionToHome(event)"><span class="name-full">Manas Bhatia</span><span class="name-short">MB</span></a>
       <div class="name-rule" id="name-rule"></div>
 
       <!-- Gooey morphing subtitle -->
@@ -369,7 +371,11 @@
           <span class="gooey-text-b" id="gooey-b"></span>
         </div>
       </div>
-      <a class="spatial-entry" href="explore/">Explore in 3D <span aria-hidden="true">↗</span></a>
+      <p class="entry-prompt">Choose how to explore my work.</p>
+      <nav class="entry-choices" aria-label="Enter the portfolio">
+        <a class="entry-choice spatial-entry" href="explore/"><span><strong>Explore in 3D</strong><small>Walk through the gallery</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9Z M4 7.5l8 4.5 8-4.5 M12 12v9"/></svg></a>
+        <a class="entry-choice portfolio-entry" href="Computational%20Design.html" onclick="transitionToHome(event)"><span><strong>Browse portfolio</strong><small>Open project pages</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>
+      </nav>
     </div>
     <div class="stats-bar">
       <span>CNN · BBC · Dezeen · PBS</span>
@@ -433,6 +439,8 @@
       });
     }
     function transitionToHome(event) {
+      if (event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       event.preventDefault();
       createParticles();
       animateParticles();

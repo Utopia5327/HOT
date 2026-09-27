@@ -17,7 +17,7 @@ try{
  const base='http://127.0.0.1:'+server.address().port;
  await page.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.fulfill({body:'',contentType:'text/css'}));
  const source=await readFile(path.join(root,'explore/scene/gallery.js'),'utf8');
- await page.route('**/gallery.js',route=>route.fulfill({contentType:'text/javascript',body:source+`\nwindow.__planQA=()=>({planActive,mode,cutaway,background:planDrawing?.scene.background.getHexString(),quaternion:camera?.quaternion.toArray(),position:camera?.position.toArray(),zoom:camera?.zoom,target:controls?.target.toArray(),rotate:controls?.enableRotate,roof:campus?.roofs.visible,sceneInfo:planDrawing?.scene.userData,planChildren:planDrawing?.scene.children.length,drawCalls:renderer?.info.render.calls,triangles:renderer?.info.render.triangles,dusk,material:campus?.materials.tile.color.getHexString()});`}));
+ await page.route('**/gallery.js',route=>route.fulfill({contentType:'text/javascript',body:source+`\nwindow.__planQA=()=>({planActive,mode,cutaway,background:planDrawing?.scene.background.getHexString(),quaternion:camera?.quaternion.toArray(),position:camera?.position.toArray(),zoom:camera?.zoom,target:controls?.target.toArray(),rotate:controls?.enableRotate,roof:campus?.roofs.visible,sceneInfo:planDrawing?.scene.userData,planChildren:planDrawing?.scene.children.length,drawCalls:renderer?.info.render.calls,triangles:renderer?.info.render.triangles,dusk,material:campus?.materials.tile.color.getHexString(),elevationSite:!!elevationSite?.root.visible,fullTerrain:campus?.landscape.children.filter(o=>o.material===campus.materials.terrain).every(o=>o.visible),cubeDragging,requestedModelView});`}));
  page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/explore/scene/index.html',{waitUntil:'domcontentloaded'});
  await page.waitForSelector('#loading[hidden]',{state:'attached',timeout:120000});
@@ -52,11 +52,26 @@ try{
  const themed=await page.evaluate(()=>__planQA());assert.equal(themed.planActive,true);assert.equal(themed.background,plan.background);assert.notEqual(themed.dusk,plan.dusk);
  console.log('PASS plan stays on white paper when the atmosphere changes');
  await clickView('north');await page.waitForFunction(()=>!__planQA().planActive);assert.equal(await page.locator('.plan-key').isVisible(),false);assert.equal((await page.evaluate(()=>__planQA())).rotate,true);
+ const north=await page.evaluate(()=>__planQA());assert.equal(north.elevationSite,true);assert.equal(north.fullTerrain,false);
+ const dragCube=async(dx,dy)=>{const r=await page.locator('.cube-stage').boundingBox();await page.mouse.move(r.x+r.width/2,r.y+r.height/2);await page.mouse.down();await page.mouse.move(r.x+r.width/2+dx,r.y+r.height/2+dy,{steps:6});await page.mouse.up();};
+ await dragCube(-100,32);const orbited=await page.evaluate(()=>__planQA());
+ assert.equal(orbited.cubeDragging,false);assert.equal(orbited.requestedModelView,'orbit');assert.notDeepEqual(orbited.position,north.position);assert.deepEqual(orbited.target,north.target);assert.equal(orbited.zoom,north.zoom);assert.equal(orbited.elevationSite,true);
+ await page.locator('.cube-compass [data-view="east"]').click();assert.equal((await page.evaluate(()=>__planQA())).requestedModelView,'east');
+ await clickView('plan');await page.waitForSelector('body.architectural-plan');await dragCube(-42,0);
+ const fromPlan=await page.evaluate(()=>__planQA());assert.equal(fromPlan.planActive,false);assert.equal(fromPlan.requestedModelView,'orbit');assert.equal(fromPlan.elevationSite,true);
+ assert.equal(await page.locator('.plan-key').isVisible(),false);assert.equal(await page.locator('.cube-caption').textContent(),'3D view');
+ console.log('PASS cube drag rotates from elevation and plan, captures movement outside the cube and never snaps on release');
  await clickView('plan');await page.waitForSelector('body.architectural-plan');
  await page.locator('.hotspot:not([hidden])').first().click();await page.waitForFunction(()=>__planQA().mode==='walk');
- const walked=await page.evaluate(()=>__planQA());assert.equal(walked.planActive,false);assert.equal(walked.roof,true);assert.equal(walked.material,before.material);
+ const walked=await page.evaluate(()=>__planQA());assert.equal(walked.planActive,false);assert.equal(walked.roof,true);assert.equal(walked.material,before.material);assert.equal(walked.elevationSite,false);assert.equal(walked.fullTerrain,true);
  console.log('PASS plan → elevation → plan → project restores 3D materials, roof and walking controls');
  await clickView('plan');await page.setViewportSize({width:433,height:760});await page.waitForTimeout(200);
  const bounds=await page.locator('.plan-key').boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=433);assert.ok(bounds.y+bounds.height<760-70);
- assert.deepEqual(errors,[]);console.log('PASS plan legend fits a narrow viewport; no browser errors');
+ await clickView('north');const touchBefore=await page.evaluate(()=>__planQA()),cube=await page.locator('.cube-stage').boundingBox(),client=await page.context().newCDPSession(page);
+ const point={x:cube.x+cube.width/2,y:cube.y+cube.height/2};
+ await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]});
+ await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:point.x-45,y:point.y+24}]});
+ await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+ const touchAfter=await page.evaluate(()=>__planQA());assert.notDeepEqual(touchAfter.position,touchBefore.position);assert.equal(touchAfter.cubeDragging,false);
+ assert.deepEqual(errors,[]);console.log('PASS narrow layout and touch-drag rotation; no browser errors');
 }finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));}
