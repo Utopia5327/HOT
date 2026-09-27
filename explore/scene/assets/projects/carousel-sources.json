@@ -1,0 +1,126 @@
+[
+  {
+    "asset": "terracurve-tower-3-preview.webp",
+    "repositorySource": "img/bim3.jpg",
+    "crop": null,
+    "alt": "TerraCurve Tower massing and environmental analysis"
+  },
+  {
+    "asset": "terracurve-tower-4-preview.webp",
+    "repositorySource": "img/bim4.jpg",
+    "crop": null,
+    "alt": "TerraCurve Tower site and urban context study"
+  },
+  {
+    "asset": "terracurve-tower-5-preview.webp",
+    "repositorySource": "img/bim6.jpg",
+    "crop": null,
+    "alt": "TerraCurve Tower exploded BIM model"
+  },
+  {
+    "asset": "nyc-carbon-atlas-3-preview.webp",
+    "repositorySource": "img/nycsheet2.jpg",
+    "crop": null,
+    "alt": "New York City carbon analysis \u2014 second presentation board"
+  },
+  {
+    "asset": "nyc-carbon-atlas-4-preview.webp",
+    "repositorySource": "img/nycsheet1.jpg",
+    "crop": [
+      1000,
+      0,
+      2770,
+      1230
+    ],
+    "alt": "Energy use comparisons \u2014 detail from the first presentation board"
+  },
+  {
+    "asset": "nyc-carbon-atlas-5-preview.webp",
+    "repositorySource": "img/nycsheet1.jpg",
+    "crop": [
+      1000,
+      1230,
+      2770,
+      2160
+    ],
+    "alt": "Building carbon emissions \u2014 detail from the first presentation board"
+  },
+  {
+    "asset": "computational-modeling-3-preview.webp",
+    "repositorySource": "img/urbanobservation.jpg",
+    "crop": null,
+    "alt": "Urban observation and site photographs"
+  },
+  {
+    "asset": "computational-modeling-4-preview.webp",
+    "repositorySource": "img/goldcity.jpg",
+    "crop": null,
+    "alt": "City viewshed comparison study"
+  },
+  {
+    "asset": "computational-modeling-5-preview.webp",
+    "repositorySource": "img/viewanalysis.jpg",
+    "crop": null,
+    "alt": "Computational visibility and view-cone analysis"
+  },
+  {
+    "asset": "environmental-data-analysis-3-preview.webp",
+    "repositorySource": "img/regional.jpg",
+    "crop": null,
+    "alt": "Regional environmental analysis maps"
+  },
+  {
+    "asset": "environmental-data-analysis-4-preview.webp",
+    "repositorySource": "img/localanalysis.jpg",
+    "crop": null,
+    "alt": "Local environmental context analysis"
+  },
+  {
+    "asset": "environmental-data-analysis-5-preview.webp",
+    "repositorySource": "img/local2.jpg",
+    "crop": null,
+    "alt": "Local environmental indicators and comparative analysis"
+  },
+  {
+    "asset": "symbiotic-architecture-4-preview.webp",
+    "repositorySource": "img/symbiotic/wide 2.jpg",
+    "crop": null,
+    "alt": "Symbiotic Architecture \u2014 forest and inhabited tree forms"
+  },
+  {
+    "asset": "symbiotic-architecture-5-preview.webp",
+    "repositorySource": "img/symbiotic/k.jpg",
+    "crop": null,
+    "alt": "Symbiotic Architecture \u2014 interior spaces within the tree structure"
+  },
+  {
+    "asset": "ai-future-cities-3-preview.webp",
+    "repositorySource": "img/futurecities/future3.jpg",
+    "crop": null,
+    "alt": "AI future cities \u2014 planted towers and urban landscapes"
+  },
+  {
+    "asset": "ai-future-cities-4-preview.webp",
+    "repositorySource": "img/futurecities/future4.jpg",
+    "crop": null,
+    "alt": "AI future cities \u2014 branching tower forms"
+  },
+  {
+    "asset": "ai-future-cities-5-preview.webp",
+    "repositorySource": "img/futurecities/future5.jpg",
+    "crop": null,
+    "alt": "AI future cities \u2014 curving buildings around open landscapes"
+  },
+  {
+    "asset": "les-lieux-imaginaires-4-preview.webp",
+    "repositorySource": "img/Chateauart/gen 2.png",
+    "crop": null,
+    "alt": "Les Lieux Imaginaires \u2014 imagined chateau in a painted mountain landscape"
+  },
+  {
+    "asset": "les-lieux-imaginaires-5-preview.webp",
+    "repositorySource": "img/Chateauart/gen 3.png",
+    "crop": null,
+    "alt": "Les Lieux Imaginaires \u2014 imagined chateau beneath a star-filled sky"
+  }
+]

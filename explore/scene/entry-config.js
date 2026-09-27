@@ -4,9 +4,9 @@ import {BALCONY_SPECS} from './balcony-layout.js';
 export const LOUNGE_STATIONS=BALCONY_SPECS.map(s=>s.t);
 export const DEFINED_ENTRIES=[
   {id:'arrival',name:'Main entrance',t:0,side:-1,half:.020,kind:'arrival'},
-  {id:'bridge-south',name:'Courtyard bridge entrance',t:0,side:1,half:.016,kind:'bridge'},
+  {id:'bridge-south',name:'Lower landscape entrance',t:0,side:1,half:.016,kind:'landscape'},
   {id:'garden-west',name:'West garden entrance',t:.29,side:1,half:.012,kind:'garden'},
-  {id:'bridge-north',name:'Upper timber bridge entrance',t:.548,side:1,half:.016,kind:'bridge'},
+  {id:'bridge-north',name:'Upper landscape entrance',t:.548,side:1,half:.016,kind:'landscape'},
   {id:'garden-east',name:'East garden entrance',t:.79,side:1,half:.012,kind:'garden'},
   ...TERRACE_SPECS.map(s=>({id:s.id+'-entry',name:s.name+' entrance',t:s.t-.017,side:-1,half:.006,kind:'stair'}))
 ];

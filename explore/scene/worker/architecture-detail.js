@@ -1,8 +1,7 @@
 import * as THREE from '../assets/three.module.js';
 import {createCourtyardTree} from './courtyard-tree.js';
-import {EYE_HEIGHT,bridgeHalfWidth} from './navigation-config.js';
+import {EYE_HEIGHT} from './navigation-config.js';
 import {arrivalHalfWidth} from './arrival-route.js';
-import {bridgeGardenOpening} from './bridge-route.js';
 
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),PI=Math.PI;
 const mix=(a,b,t)=>a+(b-a)*t;
@@ -66,18 +65,6 @@ export function buildArrivalSequence({architecture,roofs,landscape,furniture,M,f
   for(let x=-5.8;x<=5.8;x+=1.2){const pts=[];for(let j=0;j<=28;j++){const t=.066+x/230,p=frameAt(t).p.clone().addScaledVector(frameAt(t).n,mix(-.43,.43,j/28)*frameAt(t).w);p.y+=.014;pts.push(p);}tube(pts,.006,M.gravel,detail,false,30);}
   // Additional wall wash is restricted to the first gallery, avoiding many scene lights.
   const light=new THREE.PointLight('#ffdfb8',32,11,2);light.position.copy(first.p).addScaledVector(first.n,1).add(V(0,3.8,0));light.userData.dayIntensity=24;light.userData.duskIntensity=44;detail.add(light);lamps.push(light);
-
-  // The first crossing has visible end-grain caps, pin connections and edge lighting.
-  const pegs=[];
-  for(let i=0;i<=36;i++){
-    const t=i/36,p=bridgeCurve.getPointAt(t),d=bridgeCurve.getTangentAt(t),n=V(-d.z,0,d.x).normalize(),half=bridgeHalfWidth(t)*.94;
-    for(const side of [-1,1]){
-      if(bridgeGardenOpening(bridgeCurve,t,side))continue;
-      const q=p.clone().addScaledVector(n,side*half).add(V(0,.55,0));
-      const peg=mesh(new THREE.CylinderGeometry(.024,.024,.115,10),M.bronze,detail);peg.position.copy(q);peg.quaternion.setFromUnitVectors(V(0,1,0),n);pegs.push(peg);
-    }
-  }
-  for(const side of [-1,1]){const line=Array.from({length:121},(_,i)=>{const t=i/120,p=bridgeCurve.getPointAt(t),d=bridgeCurve.getTangentAt(t);return p.addScaledVector(V(-d.z,0,d.x).normalize(),side*bridgeHalfWidth(t)*.89).add(V(0,-.055,0));});tube(line,.011,M.light,detail,false,150);}
 
   // Fine-leaf trees frame the entrance; the distant forest remains inexpensive.
   const trees=[];

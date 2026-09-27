@@ -4,7 +4,7 @@ import {dragonScaleGeometry} from './dragon-scales.js';
 import {balconyPoint} from './balcony-layout.js';
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),PI=Math.PI;
 
-export function buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,naturalGroundHeight,roofTerraces,loungePads,box,beam,tube,mesh,edgeGeometry,facadeRoofPoint,isOpening}){
+export function buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,naturalGroundHeight,roofTerraces,loungePads,box,beam,tube,mesh,edgeGeometry,facadeRoofPoint,roofUndersideAt,isOpening}){
  const foundations=[],bents=[],retainingWalls=[],shadeSamples=[],southwest=V(-1,0,1).normalize();
  function pier(top,{width=.22,spread=0,dir=V(1,0,0),parent=architecture,kind='floor'}={}){
   const earth=groundHeight(top.x,top.z),underside=top.y;
@@ -45,13 +45,25 @@ export function buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,na
   retainingWalls.push({position:p,bottom,top});
  }
  // Convex clay scales overlap vertically and stagger by half a module each row.
- const records=[],matrix=new THREE.Matrix4(),q=new THREE.Quaternion(),color=new THREE.Color(),pitch=.74,columns=280;
+ const records=[],matrix=new THREE.Matrix4(),q=new THREE.Quaternion(),color=new THREE.Color(),pitch=.74,columns=280,roofGap=.12;
+ // Sample the whole shield footprint, not the glazing line behind it. The
+ // corners and bowed face must also clear the lower, curved underside of the roof.
+ function scaleTop(t,p,rotation){
+  let limit=Infinity;
+  for(const x of [-.465,0,.465])for(const z of [-.055,.10,.23]){
+   const point=V(x,0,z).applyQuaternion(rotation).add(p),ceiling=roofUndersideAt(point.x,point.z,t);
+   if(ceiling===null)return -Infinity;
+   limit=Math.min(limit,ceiling-roofGap);
+  }
+  return limit;
+ }
  for(let row=0;row<10;row++)for(let i=0;i<columns;i++){
   const t=(i+(row%2)*.5)/columns,f=frameAt(t),out=f.n.clone().negate();
   if(f.p.x>4||f.p.z<-10||out.dot(southwest)<.40||[-.0028,0,.0028].some(dt=>isOpening(t+dt,-1)))continue;
-  const top=facadeRoofPoint(t,-1).y-.18,bottom=f.p.y+.20+row*pitch,height=Math.min(1.10,top-bottom);if(height<.36)continue;
-  const p=f.p.clone().addScaledVector(out,f.w*.50+.30+row*.014).setY(bottom+height/2);
+  const p=f.p.clone().addScaledVector(out,f.w*.50+.30+row*.014);
   q.setFromAxisAngle(V(0,1,0),Math.atan2(out.x,out.z)+.08*Math.sin(t*PI*2));
+  const top=scaleTop(t,p,q),bottom=f.p.y+.20+row*pitch,height=Math.min(1.10,top-bottom);if(height<.36)continue;
+  p.y=bottom+height/2;
   matrix.compose(p,q,V(.93,height,1));records.push({matrix:matrix.clone(),row,t,hue:.039+((i+row)%7)*.002,light:.55+((i+row*3)%5)*.018});
   if(row===0){
    shadeSamples.push({t,position:p.clone(),bottom:f.p.y+.20,top,orientation:out.dot(southwest)});
@@ -59,7 +71,7 @@ export function buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,na
   }
  }
  const screens=new THREE.InstancedMesh(dragonScaleGeometry(),M.terracotta,records.length);screens.name='Southwest terracotta solar screens';screens.castShadow=true;screens.receiveShadow=true;
- screens.userData.facade={pattern:'Overlapping dragon scales',stagger:'Half-module alternate rows',moduleWidth:.93,verticalPitch:pitch,shape:'Convex shield with tapered tip',modules:records.length};
+ screens.userData.facade={pattern:'Overlapping dragon scales',stagger:'Half-module alternate rows',moduleWidth:.93,verticalPitch:pitch,shape:'Convex shield with tapered tip',modules:records.length,roofGap,roofFit:'Full shield footprint below local roof underside'};
  records.forEach((r,i)=>{screens.setMatrixAt(i,r.matrix);color.setHSL(r.hue,.36,r.light);screens.setColorAt(i,color);});screens.instanceMatrix.needsUpdate=true;screens.instanceColor.needsUpdate=true;architecture.add(screens);
  return {foundations,bents,retainingWalls,shadeSamples,screens,stairStructure};
 }

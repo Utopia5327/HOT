@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export const SLIDE_SECONDS=5.5;
+export const SLIDE_SECONDS=2.5;
 export function imageFit(imageAspect,screenAspect){return imageAspect>screenAspect?[1,screenAspect/imageAspect]:[imageAspect/screenAspect,1];}
 
 // Existing project images rotate on the same screen. Load only the next image
@@ -22,7 +22,7 @@ vec4 fittedImage(sampler2D source,vec2 fit){vec2 uv=(vUv-.5)/fit+.5;if(uv.x<0.0|
 void main(){gl_FragColor=mix(fittedImage(currentImage,currentFit),fittedImage(nextImage,nextFit),blend);gl_FragColor.a=1.0;
 #include <colorspace_fragment>
 }`});
-    e.board.material=e.material;return true;
+    e.board.material=e.material;prepare(e);return true;
   }
   function prepare(e){
     if(e.loading||e.next)return;
@@ -42,9 +42,9 @@ void main(){gl_FragColor=mix(fittedImage(currentImage,currentFit),fittedImage(ne
       if(camera.position.distanceToSquared(e.position)>28*28||e.normal.dot(toward.copy(camera.position).sub(e.position))<=0)continue;
       projected.copy(e.position).project(camera);if(projected.z< -1||projected.z>1||Math.abs(projected.x)>1.3||Math.abs(projected.y)>1.3)continue;
       if(!e.current&&!start(e))continue;
-      e.elapsed+=delta;if(e.elapsed>SLIDE_SECONDS-2)prepare(e);
+      e.elapsed+=delta;prepare(e);
       if(e.elapsed<SLIDE_SECONDS||!e.next)continue;
-      e.fade=reducedMotion?1:Math.min(1,e.fade+delta/.8);e.uniforms.blend.value=e.fade*e.fade*(3-2*e.fade);
+      e.fade=reducedMotion?1:Math.min(1,e.fade+delta/.3);e.uniforms.blend.value=e.fade*e.fade*(3-2*e.fade);
       if(e.fade<1)continue;
       const previous=e.current;e.current=e.next.texture;e.index=e.next.index;e.next=null;e.elapsed=0;e.fade=0;
       e.uniforms.currentImage.value=e.current;e.uniforms.nextImage.value=e.current;e.uniforms.currentFit.value.copy(e.uniforms.nextFit.value);e.uniforms.blend.value=0;

@@ -12,10 +12,11 @@ import {createGardenAccesses} from './entrance-paths.js';
 import {isFacadeOpening,facadeCuts} from './entry-config.js';
 import {BALCONY_SPECS,balconyPoint,balconyGuardPoints} from './balcony-layout.js';
 import {buildEntranceDetails} from './entrance-details.js';
-import {COURTYARD_EXHIBITS,courtyardGrade} from './courtyard-layout.js';
+import {COURTYARD_EXHIBITS,courtyardGrade,registerGardenSpine} from './courtyard-layout.js';
 import {createArrivalRoute,arrivalGround,arrivalHalfWidth} from './arrival-route.js';
 import {weatherStairGeometry} from './stair-material.js';
-import {createBridgeRoute,BRIDGE_GARDEN_LANDING,BRIDGE_GARDEN_CONNECTIONS,bridgeGardenOpening,bridgeGardenGround} from './bridge-route.js';
+import {buildStairFlight,bowedStation,unbowedStation} from './stair-flight.js';
+import {createGardenSpine} from './bridge-route.js';
 
 const PI=Math.PI,TAU=PI*2,V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
 const mix=(a,b,t)=>a+(b-a)*t,clamp=THREE.MathUtils.clamp,smooth=t=>t*t*(3-2*t);
@@ -27,6 +28,7 @@ const {lower,middle,upper}=GALLERY_LEVELS;
 const levels=[lower,lower,middle,upper,upper,upper,middle,lower];
 const galleryWidths=[17.8,13.6,15.2,19.2,13.2,16.4,14.3,10.2];
 const gallerySpreads=[.047,.043,.060,.061,.044,.057,.049,.039];
+const galleryStairRanges=stations.flatMap((t,i)=>levels[i]===levels[(i+1)%8]?[]:[{a:t+.025,b:(i===7?stations[0]+1:stations[i+1])-.025,from:levels[i],to:levels[(i+1)%8],bend:Math.sign(levels[(i+1)%8]-levels[i])*.0075}]);
 const wrap=t=>(t%1+1)%1;
 function level(t){
   t=wrap(t);for(let i=0;i<stations.length;i++){
@@ -36,12 +38,32 @@ function level(t){
 }
 function width(t){let w=4.6;for(let i=0;i<stations.length;i++){const d=Math.min(Math.abs(t-stations[i]),1-Math.abs(t-stations[i]));w+=(galleryWidths[i]-4.6)*Math.exp(-Math.pow(d/gallerySpreads[i],2.8));}return w;}
 export function frameAt(t){t=wrap(t);const p=spine.getPointAt(t),d=spine.getTangentAt(t).setY(0).normalize(),n=V(-d.z,0,d.x);p.y=level(t);return {p,d,n,w:width(t),t};}
+export function galleryFloorHeight(route){
+ const f=galleryStairRanges.find(f=>route.t>f.a&&route.t<f.b);
+ if(!f||Math.abs(route.offset)>route.w*.435)return route.p.y;
+ const t=unbowedStation(route.t,route.offset/(route.w*.435),f.a,f.b,f.bend),y=level(t),low=Math.min(f.from,f.to),rise=Math.abs(f.to-f.from)/Math.ceil(Math.abs(f.to-f.from)/.145);
+ return low+Math.ceil((y-low)/rise-1e-7)*rise+.026;
+}
 export function pitchedRoofPoint(t,u,underside=false){const f=frameAt(t);return f.p.clone().addScaledVector(f.n,u*roofHalfSpan(t,f.w)).setY(f.p.y+roofElevation(t,u,f.w)-(underside?.20:0));}
 function roofPoint(t,u,underside=false){const terrace=terraceAt(t);if(!terrace)return pitchedRoofPoint(t,u,underside);const f=frameAt(t);return f.p.clone().addScaledVector(f.n,u*(f.w+2.8)*.5).setY(terrace.level-(underside?.24:0));}
 // Deeper eaves must not drag the glazing into doors, stairs or balcony landings.
 export function facadeRoofPoint(t,side){const f=frameAt(t),half=terraceAt(t)?(f.w+2.8)*.5:roofHalfSpan(t,f.w);return roofPoint(t,side*(f.w*.455+.35)/half,true);}
+// Find the roof directly over a world-space point, including the offset facade.
+export function roofUndersideAt(x,z,nearT){
+ let t=nearT;
+ const along=s=>{const f=frameAt(s);return (x-f.p.x)*f.d.x+(z-f.p.z)*f.d.z;};
+ for(let i=0;i<8;i++){
+  const error=along(t);if(Math.abs(error)<1e-7)break;
+  const derivative=(along(t+.00001)-along(t-.00001))/.00002;
+  if(Math.abs(derivative)<1e-8)break;
+  t=wrap(t-clamp(error/derivative,-.01,.01));
+ }
+ const f=frameAt(t),half=terraceAt(t)?(f.w+2.8)*.5:roofHalfSpan(t,f.w),u=((x-f.p.x)*f.n.x+(z-f.p.z)*f.n.z)/half;
+ return Math.abs(u)<=1?roofPoint(t,u,true).y:null;
+}
 const fieldSamples=Array.from({length:240},(_,i)=>frameAt(i/240));
-const crossing=createBridgeRoute(frameAt);
+const crossing=createGardenSpine(frameAt);
+registerGardenSpine(crossing,bridgeHalfWidth);
 const approach=createArrivalRoute(frameAt);
 const crossingSamples=crossing.getSpacedPoints(110);
 export const gardenAccesses=createGardenAccesses(frameAt);
@@ -67,8 +89,7 @@ export function groundHeight(x,z){
   h=courtyardGrade(x,z,h);
   // Garden display pads must not refill the cleared approach to a doorway.
   if(pathDistance<path.half+1.10)h=Math.min(h,path.p.y-.16+Math.max(0,pathDistance-path.half-.15)*1.6);
-  for(const p of crossingSamples){if(Math.abs(x-p.x)<2.65&&Math.abs(z-p.z)<2.65&&Math.hypot(x-p.x,z-p.z)<2.65)h=Math.min(h,p.y-.42);}
-  h=bridgeGardenGround(x,z,h);
+
   for(const p of roofAccessSamples){if(Math.abs(x-p.x)>2.1||Math.abs(z-p.z)>2.1)continue;const d=Math.hypot(x-p.x,z-p.z);if(d<2.1)h=Math.min(h,p.y-.25+Math.max(0,d-1.05)*1.65);}
   return Math.max(-16.3,h);
 }
@@ -127,17 +148,17 @@ export function buildCampus(projects,{quality='high'}={}){
   function buildSweep(pointFn,parent,material,depth=.25,steps=480,cross=20){
     const isRoof=parent===roofs||parent.parent===roofs;
     const top=addSurface(mesh(surfaceGeometry(pointFn,steps,cross),material,parent),isRoof?'roof':'floor');
-    const bottomFn=(t,u)=>pointFn(t,u).add(V(0,-depth,0));mesh(surfaceGeometry(bottomFn,steps,cross,true),material===M.deck?M.darkwood:isRoof?M.soffit:M.concrete,parent);
+    const bottomFn=(t,u)=>pointFn(t,u).add(V(0,-depth,0));mesh(surfaceGeometry(bottomFn,steps,cross,true),isRoof?M.soffit:material===M.deck?M.darkwood:M.concrete,parent);
     for(const edge of [-1,1])mesh(edgeGeometry(t=>pointFn(t,edge),t=>bottomFn(t,edge),steps),material===M.floor?M.stone:material,parent).material.side=THREE.DoubleSide;
     return top;
   }
-  const floorPoint=(t,u)=>{const f=frameAt(t);return f.p.clone().addScaledVector(f.n,u*f.w*.5);};
+  const floorPoint=(t,u)=>{const f=frameAt(t),p=f.p.clone().addScaledVector(f.n,u*f.w*.5),flight=galleryStairRanges.find(s=>t>s.a&&t<s.b);if(flight&&Math.abs(u)<.87)p.y=level(unbowedStation(t,u/.87,flight.a,flight.b,flight.bend));return p;};
   M.floor=M.stone.clone();M.floor.vertexColors=true;
   const floor=buildSweep(floorPoint,architecture,M.floor,.32,520,20);
   // Static contact shading along the perimeter and below the first gallery joinery.
   const floorColors=[];for(let i=0;i<=520;i++)for(let j=0;j<=20;j++){const t=i/520,u=j/20*2-1,edge=Math.pow(Math.abs(u),5),first=Math.exp(-(((t-.066)/.037)**2)),wall=Math.exp(-(((u-.57)/.11)**2));const shade=1-.16*edge-.22*first*wall;floorColors.push(shade,shade,shade);}
   floor.geometry.setAttribute('color',new THREE.Float32BufferAttribute(floorColors,3));
-  const roofscape=buildRoofscape({roofs,architecture,frameAt,pitchedRoofPoint,roofPoint,surfaceGeometry,edgeGeometry,mesh,box,soft,tube,beam,buildSweep,addSurface,F,M,rnd,quality,artMaterials,terraceProjects:projects.filter(p=>p.region==='terrace')});
+  const roofscape=buildRoofscape({roofs,architecture,frameAt,pitchedRoofPoint,roofPoint,surfaceGeometry,edgeGeometry,mesh,box,soft,tube,beam,buildSweep,addSurface,F,M,rnd,quality,artMaterials,navigationBlocks,terraceProjects:projects.filter(p=>p.region==='terrace')});
   // Three gallery levels form continuous wings, connected by four stair flights.
   const galleryFlights=[];
   for(let k=0;k<stations.length;k++){
@@ -145,9 +166,8 @@ export function buildCampus(projects,{quality='high'}={}){
     if(!n)continue;
     galleryFlights.push({from:ya,to:yb,start:a,end:b,steps:n});
     function parameter(f){if(f<=0)return a;if(f>=1)return b;let lo=a,hi=b;for(let j=0;j<16;j++){const mid=(lo+hi)/2,v=(level(mid)-ya)/(yb-ya);if(v<f)lo=mid;else hi=mid;}return (lo+hi)/2;}
-    for(let i=0;i<n;i++){const ta=parameter(i/n),tb=parameter((i+1)/n),pa=frameAt(ta).p,pb=frameAt(tb).p,f=frameAt((ta+tb)/2),length=Math.hypot(pb.x-pa.x,pb.z-pa.z),top=Math.max(pa.y,pb.y)+.023,height=Math.abs(pb.y-pa.y)+.10;
-      const step=box(f.w*.87,height,length+.055,M.stairs,architecture,(pa.x+pb.x)/2,top-height/2,(pa.z+pb.z)/2,Math.atan2(pb.x-pa.x,pb.z-pa.z));addSurface(step,'promenade-stair');
-    }
+    const bend=Math.sign(yb-ya)*.0075;
+    buildStairFlight({id:'Gallery flight '+galleryFlights.length,parent:architecture,point:(t,u)=>floorPoint(bowedStation(t,u,a,b,bend),u*.87).setY(level(t)),parameters:Array.from({length:n+1},(_,i)=>parameter(i/n)),material:M.stairs,riserMaterial:M.stairEdge,nosingMaterial:M.stairEdge,mesh,surfaceGeometry,edgeGeometry,addSurface,type:'promenade-stair',range:[a,b]});
   }
   architecture.userData.galleryLevels={levels:[lower,middle,upper],flights:galleryFlights,pottedPlants:0};
   // Slender glazing stays on the gallery envelope beneath the enlarged canopy.
@@ -177,53 +197,8 @@ export function buildCampus(projects,{quality='high'}={}){
   }
   // Fine timber lamellae run under the flowing roof; each follows its actual section.
   for(let i=0;i<260;i++){const t=i/260;if(terraceAt(t,.002))continue;const pts=[];for(let j=0;j<=24;j++)pts.push(roofPoint(t,mix(-.81,.83,j/24),true).add(V(0,-.048,0)));tube(pts,.023,M.wood,roofs,false,28);}
-  // Timber decking and exposed glulam stringers follow the courtyard crossing.
-  const bridgeCurve=crossing;
-  function bridgePoint(t,u){const p=bridgeCurve.getPointAt(t),d=bridgeCurve.getTangentAt(t),n=V(-d.z,0,d.x).normalize();return p.addScaledVector(n,u*bridgeHalfWidth(t));}
-  const bridgeDeck=buildSweep((t,u)=>bridgePoint(t,u).add(V(0,.025,0)),architecture,M.deck,.18,190,10);
-  bridgeDeck.name='Single timber bridge from arrival to upper gallery';bridgeDeck.userData.bridgeRoute={entranceT:0,gardenLanding:BRIDGE_GARDEN_LANDING};
-  const bridgePlanks=260;
-  for(let i=0;i<bridgePlanks;i++){
-    const t=(i+.5)/bridgePlanks,p=bridgePoint(t,0),d=bridgeCurve.getTangentAt(t),run=bridgeCurve.getPointAt((i+1)/bridgePlanks).distanceTo(bridgeCurve.getPointAt(i/bridgePlanks));
-    const plank=box(bridgeHalfWidth(t)*1.98,.055,run-.009,M.deck,architecture,p.x,p.y+.028,p.z);
-    const across=V(d.z,0,-d.x).normalize(),up=V().crossVectors(d,across).normalize();plank.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(across,up,d));
-  }
-  for(const side of [-1,1]){
-    for(let i=0;i<100;i++){
-      const a=bridgePoint(i/100,side*.94),b=bridgePoint((i+1)/100,side*.94);
-      beam(a.clone().add(V(0,-.32,0)),b.clone().add(V(0,-.32,0)),.25,M.darkwood,architecture);
-      if(![i/100,(i+.5)/100,(i+1)/100].some(t=>bridgeGardenOpening(bridgeCurve,t,side))){
-        beam(a.clone().add(V(0,1.10,0)),b.clone().add(V(0,1.10,0)),.105,M.wood,architecture);
-        beam(a.clone().add(V(0,.55,0)),b.clone().add(V(0,.55,0)),.065,M.wood,architecture);
-        navigationBlocks.push({a:[a.x,a.z],b:[b.x,b.z],radius:.06,bottom:Math.min(a.y,b.y),top:Math.max(a.y,b.y)+1.1,kind:'bridge-rail'});
-        if(i%2===0)beam(a.clone().add(V(0,.02,0)),a.clone().add(V(0,1.10,0)),.095,M.wood,architecture);
-      }
-    }
-    for(let i=0;i<=190;i++){if(bridgeGardenOpening(bridgeCurve,i/190,side))continue;const p=bridgePoint(i/190,side*.94);beam(p.clone().add(V(0,.12,0)),p.clone().add(V(0,1.04,0)),.043,M.wood,architecture);}
-  }
-  // Open, flush timber junctions connect the bridge to both exhibition loops.
-  for(const landing of BRIDGE_GARDEN_CONNECTIONS){
-   const exitGroup=new THREE.Group();exitGroup.name='Bridge landing — level courtyard exit';architecture.add(exitGroup);
-   const exitPoint=(t,u)=>V(mix(landing.x,landing.exitX,t),landing.y+.025,landing.z+u*landing.width*.5*landing.side);
-   buildSweep(exitPoint,exitGroup,M.deck,.18,24,6);
-   for(let i=0;i<=30;i++){const x=mix(landing.x,landing.exitX,i/30);box(.018,.008,landing.width,M.darkwood,exitGroup,x,landing.y+.032,landing.z);}
-   for(const side of [-1,1]){
-    const a=V(landing.x+landing.side*2.0,landing.y,landing.z+side*landing.width*.5),b=V(landing.exitX,landing.y,landing.z+side*landing.width*.5);
-    for(const rise of [.55,1.10])beam(a.clone().add(V(0,rise,0)),b.clone().add(V(0,rise,0)),rise===1.10?.105:.065,M.wood,exitGroup);
-    for(let i=0;i<=10;i++){const p=a.clone().lerp(b,i/10);beam(p.clone().add(V(0,.05,0)),p.clone().add(V(0,1.07,0)),i%5===0?.095:.043,M.wood,exitGroup);}
-    navigationBlocks.push({a:[a.x,a.z],b:[b.x,b.z],radius:.065,bottom:landing.y,top:landing.y+1.1,kind:'bridge-exit-rail'});
-    const base=Math.min(groundHeight((a.x+b.x)/2,a.z)-.35,landing.y-.48),top=landing.y-.18;
-    box(Math.abs(b.x-a.x),top-base,.32,M.stairBrick,exitGroup,(a.x+b.x)/2,(top+base)/2,a.z);
-   }
-   exitGroup.userData.bridgeGardenExit={level:landing.y,start:[landing.x,landing.y,landing.z],end:[landing.exitX,landing.y,landing.z],width:landing.width};
-  }
-  const bridgeFoundations=[];
-  for(const t of [.16,.38,.65,.84]){
-    const p=bridgePoint(t,0),earth=groundHeight(p.x,p.z),toe=Math.min(earth,...[-.675,.675].flatMap(dx=>[-.675,.675].map(dz=>groundHeight(p.x+dx,p.z+dz)))),top=Math.min(earth+.10,p.y-.55),bottom=Math.min(toe-.55,top-.5),base=V(p.x,top,p.z),fork=base.clone().lerp(p,.58);
-    box(1.35,top-bottom,1.35,M.foundation,architecture,p.x,(top+bottom)/2,p.z);beam(base,fork,.28,M.darkwood,architecture);
-    for(const side of [-1,1])beam(fork,bridgePoint(t,side*.85).add(V(0,-.33,0)),.22,M.darkwood,architecture);
-    bridgeFoundations.push({position:p,ground:earth,bottom,top});
-  }
+  // The former bridge is now a continuous, earth-supported landscape stair.
+  const bridgeCurve=crossing,bridgeDeck=null,bridgeFoundations=[];
   const arrivalCurve=approach.curve,arrivalFn=(t,u)=>arrivalCurve.getPointAt(t).addScaledVector(approach.across,u*arrivalHalfWidth(t));
   const arrivalDeck=buildSweep(arrivalFn,architecture,M.stone,.2,80,10);arrivalDeck.name='Axial approach to entrance foyer';
   architecture.userData.arrivalAxis={start:approach.start.toArray(),threshold:approach.end.toArray(),axis:approach.axis.toArray()};
@@ -236,13 +211,13 @@ export function buildCampus(projects,{quality='high'}={}){
   const exhibits=projects.filter(p=>p.region==='gallery').slice(0,stations.length);
   const createDisplay=(project,position,rotation,options={})=>buildExhibitDisplay({project,position,rotation,...options,media,M,soft,box,mesh,artworks,artMaterials,videoScreens,groundHeight});
   for(let i=0;i<exhibits.length;i++){
-    const project=exhibits[i],t=i===4?.590:i===6?.817:stations[i],f=frameAt(t),room=groupAt(t),half=f.w/2;
+    const project=exhibits[i],t=i===4?.560:i===6?.817:stations[i],f=frameAt(t),room=groupAt(t),half=f.w/2;
     // Keep the exhibition floor clear; planting belongs to the garden and roof beds.
     room.name=project.shortTitle+' — open gallery';room.userData.galleryFurniture=0;room.userData.pottedPlants=0;
     // Side-door galleries display their work on the outer side; the entire
     // approach from the promenade to each garden portal remains unobstructed.
-    const displaySide=(i===2||i===6)?-1:1;
-    const displayPosition=f.p.clone().addScaledVector(f.n,displaySide*half*.51).addScaledVector(f.d,-.2),rotation=Math.atan2(-displaySide*f.n.x,-displaySide*f.n.z);
+    const displaySide=(i===2||i===4||i===6)?-1:1;
+    const displayPosition=f.p.clone().addScaledVector(f.n,displaySide*half*(i===4?.66:.51)).addScaledVector(f.d,-.2),rotation=Math.atan2(-displaySide*f.n.x,-displaySide*f.n.z);
     createDisplay(project,displayPosition,rotation);
     const eye=f.p.clone().addScaledVector(f.n,-displaySide*.24).addScaledVector(f.d,displaySide*1.0).add(V(0,EYE_HEIGHT,0));
     const target=displayPosition.clone().add(V(0,2.08,0));
@@ -262,7 +237,7 @@ export function buildCampus(projects,{quality='high'}={}){
   const courtyardExhibits=[];
   for(const [i,project] of projects.filter(p=>p.region==='courtyard').entries()){
     const g=gardenPlaces[i];if(!g)continue;
-    const position=V(g.x,groundHeight(g.x,g.z)+.035,g.z),eye=V(g.ex,groundHeight(g.ex,g.ez)+EYE_HEIGHT,g.ez),towardEye=eye.clone().sub(position).setY(0).normalize(),rotation=g.rotation??Math.atan2(towardEye.x,towardEye.z),facing=V(Math.sin(rotation),0,Math.cos(rotation));
+    const position=V(g.x,groundHeight(g.x,g.z)+.035,g.z),eye=V(g.ex,g.level+.025+EYE_HEIGHT,g.ez),towardEye=eye.clone().sub(position).setY(0).normalize(),rotation=g.rotation??Math.atan2(towardEye.x,towardEye.z),facing=V(Math.sin(rotation),0,Math.cos(rotation));
     const exhibit=createDisplay(project,position,rotation,{outdoor:true});
     const f={p:position.clone(),n:facing,d:V(facing.z,0,-facing.x),w:5};
     const spot={id:project.id,region:'courtyard',position:exhibit.target.clone().add(V(0,1.0,0)),eye,target:exhibit.target,frame:f,display:exhibit.target};
@@ -280,7 +255,7 @@ export function buildCampus(projects,{quality='high'}={}){
     g.name='Open gallery balcony';g.userData.terraceFurniture=0;g.userData.pottedPlants=0;
     g.userData.balcony={...spec,level:f.p.y,attachment:Array.from({length:33},(_,i)=>balconyPoint(frameAt,spec,-1+i/16,0).toArray()),perimeter:balconyGuardPoints(frameAt,spec).map(p=>p.toArray()),entryStart:f.p.toArray(),entryEnd:balconyPoint(frameAt,spec,0,.58).toArray()};
   }
-  const siteStructure=buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,naturalGroundHeight,roofTerraces:roofscape.terraces,loungePads,box,beam,tube,mesh,edgeGeometry,facadeRoofPoint,isOpening});
+  const siteStructure=buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,naturalGroundHeight,roofTerraces:roofscape.terraces,loungePads,box,beam,tube,mesh,edgeGeometry,facadeRoofPoint,roofUndersideAt,isOpening});
 
   const entrances=buildEntranceDetails({architecture,M,frameAt,floorPoint,facadeRoofPoint,loungePads,mesh,box,tube,beam,surfaceGeometry,addSurface,navigationBlocks});
 

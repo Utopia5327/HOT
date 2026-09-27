@@ -31,6 +31,7 @@ async function loadHeader() {
     const dock = document.getElementById('fluidDock');
     if (dock) new MutationObserver(syncPause).observe(dock, {attributes:true, attributeFilter:['data-expanded']});
     syncPause();
+    syncTheme();
   } catch {
     const link = document.createElement('a');
     link.href = '../Computational%20Design.html';
@@ -51,7 +52,22 @@ function syncPause() {
 }
 
 function syncTheme() {
-  send('spatial:theme', {theme: document.documentElement.dataset.theme || 'light'});
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+  const toggle = document.querySelector('#site-header .theme-btn');
+  if (toggle) {
+    const label = theme === 'dark' ? 'Switch to afternoon' : 'Switch to dusk';
+    toggle.setAttribute('aria-label', label);
+    toggle.title = label;
+  }
+  send('spatial:theme', {theme});
+}
+
+function setGalleryTheme(theme) {
+  if (theme !== 'light' && theme !== 'dark') return;
+  if (document.documentElement.dataset.theme === theme) { syncTheme(); return; }
+  document.documentElement.dataset.theme = theme;
+  try { localStorage.setItem('theme', theme); } catch { /* Keep the current visit usable when storage is unavailable. */ }
+  window.dispatchEvent(new CustomEvent('themeChange', {detail: {theme}}));
 }
 
 function showFallback(text, retry = true) {
@@ -115,6 +131,8 @@ window.addEventListener('message', event => {
     syncPause();
   } else if (event.data?.type === 'spatial:error') {
     showFallback('The gallery could not load. Browse the projects, or try opening the 3D view again.');
+  } else if (event.data?.type === 'spatial:theme-request') {
+    setGalleryTheme(event.data.theme);
   } else if (event.data?.type === 'spatial:open-project') {
     const url = projectURL(event.data.projectId, location.origin);
     if (url) { send('spatial:pause', {paused:true}); location.assign(url.href); }
