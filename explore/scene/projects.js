@@ -53,6 +53,33 @@ export const PROJECTS = [
         "height": 1013,
         "alt": "TerraCurve Tower skyline rendering beside two architectural elevation drawings",
         "kind": "Design board"
+      },
+      {
+        "src": "./assets/projects/terracurve-tower-3-preview.webp",
+        "texture": "./assets/projects/terracurve-tower-3-preview.webp",
+        "preview": "./assets/projects/terracurve-tower-3-preview.webp",
+        "width": 1473,
+        "height": 678,
+        "alt": "TerraCurve Tower massing and environmental analysis",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/terracurve-tower-4-preview.webp",
+        "texture": "./assets/projects/terracurve-tower-4-preview.webp",
+        "preview": "./assets/projects/terracurve-tower-4-preview.webp",
+        "width": 1013,
+        "height": 987,
+        "alt": "TerraCurve Tower site and urban context study",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/terracurve-tower-5-preview.webp",
+        "texture": "./assets/projects/terracurve-tower-5-preview.webp",
+        "preview": "./assets/projects/terracurve-tower-5-preview.webp",
+        "width": 1600,
+        "height": 900,
+        "alt": "TerraCurve Tower exploded BIM model",
+        "kind": "Project image"
       }
     ],
     "region": "gallery",
@@ -315,6 +342,33 @@ export const PROJECTS = [
         "height": 1013,
         "alt": "NYC Carbon Atlas — project study",
         "kind": "Project study"
+      },
+      {
+        "src": "./assets/projects/nyc-carbon-atlas-3-preview.webp",
+        "texture": "./assets/projects/nyc-carbon-atlas-3-preview.webp",
+        "preview": "./assets/projects/nyc-carbon-atlas-3-preview.webp",
+        "width": 1600,
+        "height": 900,
+        "alt": "New York City carbon analysis — second presentation board",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/nyc-carbon-atlas-4-preview.webp",
+        "texture": "./assets/projects/nyc-carbon-atlas-4-preview.webp",
+        "preview": "./assets/projects/nyc-carbon-atlas-4-preview.webp",
+        "width": 1600,
+        "height": 1112,
+        "alt": "Energy use comparisons — detail from the first presentation board",
+        "kind": "Board detail"
+      },
+      {
+        "src": "./assets/projects/nyc-carbon-atlas-5-preview.webp",
+        "texture": "./assets/projects/nyc-carbon-atlas-5-preview.webp",
+        "preview": "./assets/projects/nyc-carbon-atlas-5-preview.webp",
+        "width": 1600,
+        "height": 841,
+        "alt": "Building carbon emissions — detail from the first presentation board",
+        "kind": "Board detail"
       }
     ],
     "zone": "Urban systems gallery",
@@ -366,6 +420,33 @@ export const PROJECTS = [
         "height": 1080,
         "alt": "Computational Modeling — project study",
         "kind": "Project study"
+      },
+      {
+        "src": "./assets/projects/computational-modeling-3-preview.webp",
+        "texture": "./assets/projects/computational-modeling-3-preview.webp",
+        "preview": "./assets/projects/computational-modeling-3-preview.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "Urban observation and site photographs",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/computational-modeling-4-preview.webp",
+        "texture": "./assets/projects/computational-modeling-4-preview.webp",
+        "preview": "./assets/projects/computational-modeling-4-preview.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "City viewshed comparison study",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/computational-modeling-5-preview.webp",
+        "texture": "./assets/projects/computational-modeling-5-preview.webp",
+        "preview": "./assets/projects/computational-modeling-5-preview.webp",
+        "width": 960,
+        "height": 540,
+        "alt": "Computational visibility and view-cone analysis",
+        "kind": "Project image"
       }
     ],
     "zone": "Computational atelier",
@@ -418,6 +499,33 @@ export const PROJECTS = [
         "height": 865,
         "alt": "Environmental Data Analysis — project study",
         "kind": "Project study"
+      },
+      {
+        "src": "./assets/projects/environmental-data-analysis-3-preview.webp",
+        "texture": "./assets/projects/environmental-data-analysis-3-preview.webp",
+        "preview": "./assets/projects/environmental-data-analysis-3-preview.webp",
+        "width": 1600,
+        "height": 769,
+        "alt": "Regional environmental analysis maps",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/environmental-data-analysis-4-preview.webp",
+        "texture": "./assets/projects/environmental-data-analysis-4-preview.webp",
+        "preview": "./assets/projects/environmental-data-analysis-4-preview.webp",
+        "width": 1600,
+        "height": 769,
+        "alt": "Local environmental context analysis",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/environmental-data-analysis-5-preview.webp",
+        "texture": "./assets/projects/environmental-data-analysis-5-preview.webp",
+        "preview": "./assets/projects/environmental-data-analysis-5-preview.webp",
+        "width": 1600,
+        "height": 769,
+        "alt": "Local environmental indicators and comparative analysis",
+        "kind": "Project image"
       }
     ],
     "zone": "Environmental observatory",
@@ -518,6 +626,24 @@ export const PROJECTS = [
         "height": 1080,
         "alt": "A tall illuminated atrium within tree-like organic architecture",
         "kind": "AI artwork"
+      },
+      {
+        "src": "./assets/projects/symbiotic-architecture-4-preview.webp",
+        "texture": "./assets/projects/symbiotic-architecture-4-preview.webp",
+        "preview": "./assets/projects/symbiotic-architecture-4-preview.webp",
+        "width": 1600,
+        "height": 800,
+        "alt": "Symbiotic Architecture — forest and inhabited tree forms",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/symbiotic-architecture-5-preview.webp",
+        "texture": "./assets/projects/symbiotic-architecture-5-preview.webp",
+        "preview": "./assets/projects/symbiotic-architecture-5-preview.webp",
+        "width": 864,
+        "height": 1080,
+        "alt": "Symbiotic Architecture — interior spaces within the tree structure",
+        "kind": "Project image"
       }
     ],
     "region": "courtyard",
@@ -563,6 +689,33 @@ export const PROJECTS = [
         "height": 900,
         "alt": "An aerial view of broad planted roofs merging into a futuristic city",
         "kind": "AI artwork"
+      },
+      {
+        "src": "./assets/projects/ai-future-cities-3-preview.webp",
+        "texture": "./assets/projects/ai-future-cities-3-preview.webp",
+        "preview": "./assets/projects/ai-future-cities-3-preview.webp",
+        "width": 1600,
+        "height": 1131,
+        "alt": "AI future cities — planted towers and urban landscapes",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/ai-future-cities-4-preview.webp",
+        "texture": "./assets/projects/ai-future-cities-4-preview.webp",
+        "preview": "./assets/projects/ai-future-cities-4-preview.webp",
+        "width": 1600,
+        "height": 897,
+        "alt": "AI future cities — branching tower forms",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/ai-future-cities-5-preview.webp",
+        "texture": "./assets/projects/ai-future-cities-5-preview.webp",
+        "preview": "./assets/projects/ai-future-cities-5-preview.webp",
+        "width": 1600,
+        "height": 803,
+        "alt": "AI future cities — curving buildings around open landscapes",
+        "kind": "Project image"
       }
     ],
     "region": "courtyard",
@@ -620,6 +773,24 @@ export const PROJECTS = [
         "height": 1200,
         "alt": "Framed digital architecture artworks displayed in the stone rooms of Château de Lourmarin",
         "kind": "Exhibition photograph"
+      },
+      {
+        "src": "./assets/projects/les-lieux-imaginaires-4-preview.webp",
+        "texture": "./assets/projects/les-lieux-imaginaires-4-preview.webp",
+        "preview": "./assets/projects/les-lieux-imaginaires-4-preview.webp",
+        "width": 1600,
+        "height": 822,
+        "alt": "Les Lieux Imaginaires — imagined chateau in a painted mountain landscape",
+        "kind": "Project image"
+      },
+      {
+        "src": "./assets/projects/les-lieux-imaginaires-5-preview.webp",
+        "texture": "./assets/projects/les-lieux-imaginaires-5-preview.webp",
+        "preview": "./assets/projects/les-lieux-imaginaires-5-preview.webp",
+        "width": 1600,
+        "height": 1070,
+        "alt": "Les Lieux Imaginaires — imagined chateau beneath a star-filled sky",
+        "kind": "Project image"
       }
     ],
     "region": "courtyard",

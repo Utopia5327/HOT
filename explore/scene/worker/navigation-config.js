@@ -9,5 +9,5 @@ export const TERRACE_SPECS=[
  {id:'sunset-roof',name:'Sunset roof terrace',t:.800,half:.023,base:GALLERY_LEVELS.middle,level:GALLERY_LEVELS.middle+3.83}
 ];
 
-// The timber bridge widens into generous, continuous landings at both entrances.
-export const bridgeHalfWidth=t=>1.62+.34*Math.sin(t*Math.PI)+.62*Math.exp(-Math.pow(t/.065,2))+.62*Math.exp(-Math.pow((1-t)/.065,2));
+// The earth-supported courtyard stair widens into generous entrance landings.
+export const bridgeHalfWidth=t=>1.85+.20*Math.sin(t*Math.PI)+.62*Math.exp(-Math.pow(t/.065,2))+.62*Math.exp(-Math.pow((1-t)/.065,2));

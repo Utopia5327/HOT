@@ -80,6 +80,19 @@ assert.ok(!h.w.document.querySelector('#gallery-entry').hidden);
 h.emit('spatial:ready');assert.ok(h.w.document.querySelector('#gallery-entry').hidden);
 assert.ok(h.w.document.querySelector('#entry-loader').hidden);
 h.w.document.querySelector('.theme-btn').click();assert.ok(messages.some(m=>m.type==='spatial:theme'&&m.theme==='dark'));
+assert.equal(h.w.document.querySelector('.theme-btn').getAttribute('aria-label'),'Switch to afternoon');
+for(const theme of ['invalid',null,{},undefined])h.emit('spatial:theme-request',{theme});
+h.emit('spatial:theme-request',{theme:'light'},h.w);
+h.w.dispatchEvent(new h.w.MessageEvent('message',{source:frame.contentWindow,origin:'https://evil.invalid',data:{type:'spatial:theme-request',theme:'light'}}));
+assert.equal(h.w.document.documentElement.dataset.theme,'dark');
+h.emit('spatial:theme-request',{theme:'light'});
+assert.equal(h.w.document.documentElement.dataset.theme,'light');
+assert.equal(h.w.localStorage.getItem('theme'),'light');
+assert.equal(h.w.document.querySelector('.theme-btn').getAttribute('aria-label'),'Switch to dusk');
+assert.equal(messages.at(-1).type,'spatial:theme');assert.equal(messages.at(-1).theme,'light');
+h.emit('spatial:theme-request',{theme:'light'});
+assert.equal(messages.at(-1).type,'spatial:theme');assert.equal(messages.at(-1).theme,'light');
+check('Gallery lighting requests update the shared theme; invalid origins, sources and values are ignored');
 h.w.document.querySelector('.dock-toggle').click();await tick();assert.equal(messages.at(-1).paused,true);assert.equal(frame.inert,true);
 assert.equal(messages.at(-1).navigationOpen,true);
 h.w.document.dispatchEvent(new h.w.KeyboardEvent('keydown',{key:'Escape'}));await tick();assert.equal(messages.at(-1).paused,false);
@@ -112,6 +125,6 @@ for(const [quality,path] of Object.entries(SCENE_ASSETS)){
   for(const art of data.artMaterials)if(art.src)await access(new URL('../explore/scene/'+art.src,import.meta.url));
   assert.ok(data.bridgeSamples.length>10);
   assert.ok(data.navigationBlocks.length>0);
-  check(quality+' compressed model decodes, project art paths resolve, bridge and collision data retained');
+  check(quality+' compressed model decodes, project art paths resolve, courtyard routing and collision data retained');
 }
 check('Gallery UI contract');

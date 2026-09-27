@@ -56,9 +56,9 @@ export function buildEntranceDetails({architecture,M,frameAt,floorPoint,facadeRo
         g.setAttribute('position',new THREE.Float32BufferAttribute([...aligned,...curved,...at,...curved,...ct,...at],3));g.computeVertexNormals();mesh(g,M.glass,portal).castShadow=false;
         beam(aligned,curved,.055,M.bronze,portal);beam(at,ct,.065,M.darkwood,portal);
       }
-      const apron=(t,u)=>{const straight=center.clone().addScaledVector(f.d,u*ARRIVAL_HALF_WIDTH),curved=floorPoint(entry.t+entry.half*u,entry.side*.91);return straight.lerp(curved,t).add(V(0,.016,0));};
+      const apron=(t,u)=>center.clone().addScaledVector(f.d,u*ARRIVAL_HALF_WIDTH).addScaledVector(out,-2.2+t*3.0).add(V(0,.016,0));
       const pad=mesh(surfaceGeometry(apron,12,32),M.threshold,portal);addSurface(pad,'foyer');
-      portal.userData.foyerAxis={center:center.toArray(),direction:f.n.toArray(),jambs:[a.toArray(),b.toArray()]};
+      portal.userData.foyerAxis={center:center.toArray(),direction:f.n.toArray(),jambs:[a.toArray(),b.toArray()],outline:[apron(0,-1),apron(0,1),apron(1,1),apron(1,-1)].map(p=>p.toArray()),returns:[[a.toArray(),curvedA.toArray()],[b.toArray(),curvedB.toArray()]]};
     }
     const count=Math.max(6,Math.floor(a.distanceTo(b)/.245));
     for(let i=0;i<count;i++){
@@ -67,7 +67,7 @@ export function buildEntranceDetails({architecture,M,frameAt,floorPoint,facadeRo
     }
     for(const p of [a,b]){const light=p.clone().addScaledVector(out,-.60).add(V(0,.031,0));box(.07,.023,.38,M.light,portal,light.x,light.y,light.z,Math.atan2(-f.d.z,f.d.x));}
     brickwork(records,portal,'Coursed brick entrance cheeks and threshold inlay');
-    portal.userData.entrance={id:entry.id,t:entry.t,side:entry.side,kind:entry.kind,clearWidth:a.distanceTo(b)-.50,headroom:head-.12,center:f.p.clone().addScaledVector(f.n,entry.side*f.w*.455).toArray()};
+    portal.userData.entrance={id:entry.id,t:entry.t,side:entry.side,kind:entry.kind,clearWidth:a.distanceTo(b)-.50,headroom:head-.12,center:center.toArray(),jambs:[a.toArray(),b.toArray()],along:f.d.toArray(),out:out.toArray()};
     portals.push(portal);
   }
 

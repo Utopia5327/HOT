@@ -35,7 +35,7 @@ try{
   const context=await browser.newContext({viewport:{width:1520,height:900},deviceScaleFactor:1});
   // All relevant UI styles and fonts are local. Keep the check independent of font CDNs.
   await context.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.fulfill({body:'',contentType:'text/css'}));
-  await context.addInitScript(()=>localStorage.setItem('theme','dark'));
+  await context.addInitScript(()=>{if(!localStorage.getItem('theme'))localStorage.setItem('theme','dark');});
   const page=await context.newPage();
   const errors=[];
   page.on('pageerror',error=>errors.push(error.message));
@@ -46,7 +46,22 @@ try{
   const sceneSource=await readFile(path.join(root,'explore/scene/gallery.js'),'utf8');
   const startup="ensureScene().then(ready=>{if(ready&&PROJECTS.some(p=>p.id===requestedProject))goGallery(requestedProject);});";
   assert.ok(sceneSource.includes(startup));
-  const uiSource=sceneSource.replace(startup,"import('./view-cube.js').then(({createViewCube})=>{createViewCube({parent:$('explore-view'),onSelect(){}});notifyHost('spatial:ready');});");
+  const uiSource=sceneSource.replace(startup,`
+    // Start with an incomplete model to exercise theme messages during loading.
+    scene={};scenePromise=Promise.resolve(true);
+    window.__galleryUiTest={
+      finishLoading(){
+        const color=()=>({set(value){this.value=value;}});
+        renderer={shadowMap:{needsUpdate:false}};
+        sky={color:color()};ambient={};sun={color:color(),position:{set(){}}};
+        campus={roofs:{visible:true},materials:{light:{},glass:{}},lamps:[]};
+        realism={setAtmosphere(value){this.dusk=value;}};
+        setDusk(dusk);
+      },
+      state(){return {loaded:!!campus,dusk,roofVisible:campus?.roofs.visible,sun:sun?.intensity,exposure:renderer?.toneMappingExposure,atmosphere:realism?.dusk};}
+    };
+    import('./view-cube.js').then(({createViewCube})=>{createViewCube({parent:$('explore-view'),onSelect(){}});notifyHost('spatial:ready');});
+  `);
   await page.route('**/scene/gallery.js',async route=>{await sceneGate;await route.fulfill({body:uiSource,contentType:'text/javascript'});});
   await page.goto(base+'/explore/',{waitUntil:'domcontentloaded'});
   await page.waitForSelector('#entry-loader',{state:'visible'});
@@ -63,6 +78,13 @@ try{
   const scene=page.frames().find(frame=>frame.url().includes('/scene/'));
   assert.ok(scene);
   await scene.waitForSelector('.view-cube');
+  await scene.waitForSelector('#time-btn[aria-checked="true"]',{state:'attached'});
+  assert.equal(await scene.evaluate(()=>window.__galleryUiTest.state().loaded),false);
+  assert.equal(await scene.locator('body').evaluate(el=>el.classList.contains('dusk')),true);
+  await scene.evaluate(()=>window.__galleryUiTest.finishLoading());
+  const duskLighting=await scene.evaluate(()=>window.__galleryUiTest.state());
+  assert.equal(duskLighting.atmosphere,true);
+  check('Saved dark theme selects dusk safely before and after model initialization');
   await page.locator('.dock-toggle').click();
   await scene.waitForSelector('html.site-navigation-open');
   assert.equal(await scene.locator('.view-cube').isVisible(),false);
@@ -74,11 +96,43 @@ try{
 
   await scene.locator('#menu-btn').click();
   await scene.waitForSelector('#menu-dialog[open]');
+  assert.doesNotMatch(await scene.locator('#menu-dialog').textContent(),/MANAS BHATIA|Reveal interiors/);
+  assert.equal(await scene.locator('#roof-btn').getAttribute('role'),'switch');
+  assert.equal(await scene.locator('#time-btn').getAttribute('role'),'switch');
+  await scene.locator('#roof-btn').click();
+  assert.equal(await scene.locator('#roof-btn').getAttribute('aria-checked'),'true');
+  assert.equal(await scene.locator('#roof-state').textContent(),'On');
+  assert.equal(await scene.evaluate(()=>window.__galleryUiTest.state().roofVisible),false);
+  await scene.locator('#roof-btn').focus();
+  await page.keyboard.press('Space');
+  assert.equal(await scene.locator('#roof-btn').getAttribute('aria-checked'),'false');
+  assert.equal(await scene.evaluate(()=>window.__galleryUiTest.state().roofVisible),true);
+  assert.equal(await scene.locator('#menu-dialog').evaluate(el=>el.open),true);
+  check('Exploded view has an accessible keyboard toggle; roof visibility and state stay in sync');
+
+  await page.evaluate(()=>{window.__themeEvents=0;window.addEventListener('themeChange',()=>window.__themeEvents++);});
+  await scene.locator('#time-btn').click();
+  await page.waitForFunction(()=>document.documentElement.dataset.theme==='light');
+  assert.equal(await page.evaluate(()=>localStorage.getItem('theme')),'light');
+  assert.equal(await page.locator('.theme-btn').getAttribute('aria-label'),'Switch to dusk');
+  assert.equal(await scene.locator('#time-btn').getAttribute('aria-checked'),'false');
+  const afternoonLighting=await scene.evaluate(()=>window.__galleryUiTest.state());
+  assert.ok(afternoonLighting.sun>duskLighting.sun);
+  assert.notEqual(afternoonLighting.exposure,duskLighting.exposure);
+  assert.equal(afternoonLighting.atmosphere,false);
+  assert.equal(await page.evaluate(()=>window.__themeEvents),1);
+  assert.equal(await scene.locator('#menu-dialog').evaluate(el=>el.open),true);
+  await page.locator('.theme-btn').click();
+  await scene.waitForSelector('#time-btn[aria-checked="true"]');
+  assert.equal(await scene.evaluate(()=>window.__galleryUiTest.state().atmosphere),true);
+  assert.equal(await page.locator('.theme-btn').getAttribute('aria-label'),'Switch to afternoon');
+  assert.equal(await page.evaluate(()=>window.__themeEvents),2);
+  check('Controls and navbar synchronize lighting, site theme and saved preference without a feedback loop');
   for(const theme of ['dark','light']){
     if(await page.locator('html').getAttribute('data-theme')!==theme)await page.locator('.theme-btn').click();
     await scene.waitForFunction(theme=>document.documentElement.dataset.theme===theme,theme);
     const colors=await scene.locator('#menu-dialog').evaluate(panel=>{
-      const selectors=['#orbit-btn','#walk-btn','#roof-btn','#time-btn','.menu-note','.eyebrow','[data-close="menu-dialog"]'];
+      const selectors=['#orbit-btn','#walk-btn','#roof-btn','.afternoon-option','.dusk-option','.switch-state','.menu-note','.eyebrow','[data-close="menu-dialog"]'];
       return {background:getComputedStyle(panel).backgroundColor,items:selectors.map(selector=>({selector,color:getComputedStyle(panel.querySelector(selector)).color})),top:panel.getBoundingClientRect().top};
     });
     assert.ok(colors.top>=82,'Controls must clear the website header');
@@ -91,7 +145,17 @@ try{
   assert.ok(bounds.x>=0&&bounds.x+bounds.width<=433);
   assert.ok(bounds.y>=82&&bounds.y+bounds.height<=760);
   if(output)await page.screenshot({path:path.join(output,'controls-mobile.png')});
+  await page.setViewportSize({width:320,height:640});
+  const overflow=await scene.locator('#menu-dialog').evaluate(panel=>({panel:panel.scrollWidth>panel.clientWidth,controls:[...panel.querySelectorAll('.setting-switch')].some(el=>el.scrollWidth>el.clientWidth)}));
+  assert.deepEqual(overflow,{panel:false,controls:false});
   check('Controls fit a narrow screen and remain below the navigation');
+  await page.setViewportSize({width:1520,height:900});
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.waitForSelector('body.gallery-ready');
+  const reloaded=page.frames().find(frame=>frame.url().includes('/scene/'));
+  await reloaded.waitForFunction(()=>document.documentElement.dataset.theme==='light');
+  assert.equal(await reloaded.locator('#time-btn').getAttribute('aria-checked'),'false');
+  check('Reload retains afternoon selected from the shared controls');
   assert.deepEqual(errors,[]);
   await context.close();
 

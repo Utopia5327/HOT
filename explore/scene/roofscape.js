@@ -2,6 +2,7 @@ import { EYE_HEIGHT } from './navigation-config.js';
 import * as THREE from 'three';
 import {createCourtyardTree} from './courtyard-tree.js';
 import {plantUnderstory} from './planting.js';
+import {buildStairJaali} from './stair-jaali.js';
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),PI=Math.PI,TAU=PI*2;
 import { TERRACE_SPECS } from './navigation-config.js';
 export { TERRACE_SPECS } from './navigation-config.js';
@@ -15,7 +16,7 @@ export function roofElevation(t,u,width){
  const section=(1-u*u)*(.76+.24*Math.cos(u*PI*.5));
  return eave+rise*section;
 }
-export function buildRoofscape({roofs,architecture,frameAt,pitchedRoofPoint,roofPoint,surfaceGeometry,edgeGeometry,mesh,box,soft,tube,beam,buildSweep,addSurface,F,M,rnd,quality,artMaterials,terraceProjects=[]}){
+export function buildRoofscape({roofs,architecture,frameAt,pitchedRoofPoint,roofPoint,surfaceGeometry,edgeGeometry,mesh,box,soft,tube,beam,buildSweep,addSurface,F,M,rnd,quality,artMaterials,navigationBlocks,terraceProjects=[]}){
  const terraces=[],tileRecords=[],tiledIntervals=[];let last=0;
  for(const terrace of TERRACE_SPECS){tiledIntervals.push([last,terrace.t-terrace.half]);last=terrace.t+terrace.half;}tiledIntervals.push([last,1]);
  for(const [a,b] of tiledIntervals){
@@ -75,14 +76,13 @@ export function buildRoofscape({roofs,architecture,frameAt,pitchedRoofPoint,roof
   function landing(t,y,from,to,along=0){const f=frameAt(t),length=Math.abs(to-from),p=f.p.clone().addScaledVector(f.n,(from+to)/2).addScaledVector(f.d,along).setY(y-.09),o=box(length,.18,1.70,M.stairs,roofs,p.x,p.y,p.z,Math.atan2(-f.n.z,f.n.x));addSurface(o,'terrace-landing');return p.clone().setY(y);}
   const first=frameAt(startStair),last=frameAt(endStair);
   const lowerLanding=landing(startStair,spec.base,-first.w*.42,-first.w*.5-3.15),upperLanding=landing(endStair,spec.level,-last.w*.5-.55,-last.w*.5-3.15,.75);
-  // Rails are continuous along both stair sides and stop at the roof entry.
+  // Perforated brick parapets follow both sides while keeping the entries open.
   for(const side of [-1,1]){
-   const points=[];for(let i=0;i<=count;i++){const f=i/count,p=stairPoint(f),fr=frameAt(startStair+(endStair-startStair)*f);p.addScaledVector(fr.n,side*stairWidth*.48);points.push(p.clone().add(V(0,1.05,0)));if(i%3===0)beam(p,p.clone().add(V(0,1.05,0)),.042,M.bronze,roofs);}
-   tube(points,.035,M.wood,roofs,false,65);
+   const points=[];for(let i=0;i<=count;i++){const f=i/count,p=stairPoint(f),fr=frameAt(startStair+(endStair-startStair)*f);p.addScaledVector(fr.n,side*(stairWidth*.5-.02));points.push(p);}
+   buildStairJaali({parent:roofs,points,M,box,navigationBlocks,name:spec.name+' — stair jaali '+side});
   }
   const landingGuard=[[-last.w*.5-3.15,-.10],[-last.w*.5-3.15,1.60],[-last.w*.5-.55,1.60]].map(([n,d])=>last.p.clone().addScaledVector(last.n,n).addScaledVector(last.d,d).setY(spec.level));
-  for(const p of landingGuard)beam(p,p.clone().add(V(0,1.06,0)),.042,M.bronze,roofs);
-  tube(landingGuard.map(p=>p.clone().add(V(0,1.06,0))),.038,M.wood,roofs,false,10);
+  buildStairJaali({parent:roofs,points:landingGuard,M,box,navigationBlocks,name:spec.name+' — landing jaali'});
   function rail(points){tube(points.map(p=>p.clone().add(V(0,1.06,0))),.046,M.wood,roofs,false,points.length*2);tube(points.map(p=>p.clone().add(V(0,.55,0))),.020,M.bronze,roofs,false,points.length*2);for(let j=0;j<points.length;j+=2)beam(points[j],points[j].clone().add(V(0,1.06,0)),.040,M.bronze,roofs);}
   for(const side of [-1,1]){let pts=[];for(let j=0;j<=44;j++){const tt=a+(b-a)*j/44;if(side===-1&&Math.abs(tt-endStair)<.0057){if(pts.length>1)rail(pts);pts=[];continue;}pts.push(deckFn(j/44,side*.985));}if(pts.length>1)rail(pts);}
   for(const end of [0,1]){

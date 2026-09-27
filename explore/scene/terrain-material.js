@@ -28,8 +28,10 @@ float terrainHash(vec2 p){vec3 p3=fract(vec3(p.xyx)*.1031);p3+=dot(p3,p3.yzx+33.
 float terrainNoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(terrainHash(i),terrainHash(i+vec2(1,0)),f.x),mix(terrainHash(i+vec2(0,1)),terrainHash(i+vec2(1,1)),f.x),f.y);}`);
       shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
 float meadowPatch=.65*terrainNoise(vTerrainPosition.xz*.13)+.35*terrainNoise(vTerrainPosition.xz*.037+vec2(13.4,7.2));
-diffuseColor.rgb*=mix(vec3(.70,.83,.62),vec3(1.06,1.04,.94),meadowPatch);`);
+diffuseColor.rgb*=mix(vec3(.79,.88,.70),vec3(1.06,1.04,.94),meadowPatch);
+float meadowLuminance=dot(diffuseColor.rgb,vec3(.2126,.7152,.0722));
+diffuseColor.rgb=mix(vec3(meadowLuminance),diffuseColor.rgb,.62);`);
     };
-    material.customProgramCacheKey=()=> 'continuous-meadow-1';material.needsUpdate=true;
+    material.customProgramCacheKey=()=> 'continuous-meadow-sage-2';material.needsUpdate=true;
   }
 }
