@@ -328,17 +328,18 @@
     .content { height: auto; min-height: 100svh; gap: 42px; }
     .name-container { margin-top: clamp(100px, 28vh, 280px); width: min(94%, 920px); }
     .entry-prompt { margin: 2.2rem 0 1rem; font: 400 0.75rem/1.5 'Fira Mono', monospace; color: var(--text-secondary); }
-    .entry-choices { display: flex; justify-content: center; gap: 14px; width: min(100%, 530px); margin: 0 auto 2rem; }
-    .entry-choice { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; color: var(--text-primary); background: var(--bg-primary); border: 1px solid currentColor; border-radius: 5px; text-decoration: none; text-align: left; font: 400 0.9rem/1.5 'Fira Mono', monospace; transition: transform .2s, background .2s; }
+    .entry-choices { display: flex; justify-content: center; gap: 10px; width: min(100%, 420px); margin: 0 auto 2rem; }
+    .entry-choice { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 14px; color: var(--text-primary); background: transparent; border: 1px solid color-mix(in srgb, currentColor 38%, transparent); border-radius: 3px; text-decoration: none; text-align: left; font: 400 0.75rem/1.35 'Fira Mono', monospace; letter-spacing: 0.02em; transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease; }
     .entry-choice strong { display: block; font-weight: 400; }
-    .entry-choice small { display: block; margin-top: 5px; font-size: .65rem; color: var(--text-secondary); }
-    .entry-choice svg { width: 20px; height: 20px; flex: none; }
-    .spatial-entry { color: var(--bg-primary); background: var(--text-primary); border-color: var(--text-primary); }
-    .spatial-entry small { color: inherit; opacity: .83; }
-    .entry-choice:hover { transform: translateY(-3px); }
-    .entry-choice:focus-visible, .name:focus-visible { outline: 3px solid var(--text-primary); outline-offset: 5px; }
-    @media (max-width: 600px) { .entry-choices { flex-direction: column; max-width: 310px; gap: 12px; } .entry-choice { padding: 15px 18px; } .entry-prompt { margin-top: 1.8rem; } .name-container { margin-top: clamp(90px, 23vh, 170px); } }
-    @media (prefers-reduced-motion: reduce) { .entry-choice { transition: none; } .entry-choice:hover { transform: none; } }
+    .entry-choice small { display: block; margin-top: 3px; font-size: .58rem; letter-spacing: 0.06em; color: inherit; opacity: .55; }
+    .entry-choice svg { width: 15px; height: 15px; flex: none; opacity: .6; transition: opacity .25s ease, transform .25s ease; }
+    .entry-choice:hover, .entry-choice:focus-visible { background: var(--text-primary); color: var(--bg-primary); border-color: var(--text-primary); transform: translateY(-2px); }
+    .entry-choice:hover small, .entry-choice:focus-visible small { opacity: .7; }
+    .entry-choice:hover svg, .entry-choice:focus-visible svg { opacity: 1; }
+    .portfolio-entry:hover svg, .portfolio-entry:focus-visible svg { transform: translateX(3px); }
+    .entry-choice:focus-visible, .name:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 4px; }
+    @media (max-width: 600px) { .entry-choices { flex-direction: column; max-width: 280px; gap: 10px; } .entry-choice { padding: 11px 14px; } .entry-prompt { margin-top: 1.8rem; } .name-container { margin-top: clamp(90px, 23vh, 170px); } }
+    @media (prefers-reduced-motion: reduce) { .entry-choice, .entry-choice svg { transition: none; } .entry-choice:hover { transform: none; } .portfolio-entry:hover svg { transform: none; } }
   </style>
 </head>
 <body>
