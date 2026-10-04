@@ -4,9 +4,9 @@ export const EYE_HEIGHT = 1.95;
 export const GALLERY_LEVELS={lower:5.6,middle:8.4,upper:11.2};
 
 export const TERRACE_SPECS=[
- {id:'valley-roof',name:'Valley roof terrace',t:.180,half:.023,base:GALLERY_LEVELS.lower,level:GALLERY_LEVELS.lower+3.83},
- {id:'forest-roof',name:'Forest roof terrace',t:.550,half:.022,base:GALLERY_LEVELS.upper,level:GALLERY_LEVELS.upper+3.83},
- {id:'sunset-roof',name:'Sunset roof terrace',t:.800,half:.023,base:GALLERY_LEVELS.middle,level:GALLERY_LEVELS.middle+3.83}
+ {id:'valley-roof',name:'Valley roof terrace',t:.180,half:.031,base:GALLERY_LEVELS.lower,level:GALLERY_LEVELS.lower+3.83},
+ {id:'forest-roof',name:'Forest roof terrace',t:.550,half:.031,base:GALLERY_LEVELS.upper,level:GALLERY_LEVELS.upper+3.83},
+ {id:'sunset-roof',name:'Sunset roof terrace',t:.800,half:.031,base:GALLERY_LEVELS.middle,level:GALLERY_LEVELS.middle+3.83}
 ];
 
 // The earth-supported courtyard stair widens into generous entrance landings.

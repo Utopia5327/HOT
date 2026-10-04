@@ -11,7 +11,7 @@ export function buildLandscapeSpine({root,curve,M,mesh,surfaceGeometry,edgeGeome
  const ranges=LANDSCAPE_FLIGHTS.map(f=>{const a=atZ(f.fromZ),b=atZ(f.toZ);return {a,b,bend:(b-a)*.085};});
  const basePoint=(t,u)=>{const p=curve.getPointAt(t),d=curve.getTangentAt(t);return p.addScaledVector(V(-d.z,0,d.x).normalize(),u*bridgeHalfWidth(t));};
  const point=(t,u)=>{const p=basePoint(t,u),f=ranges.find(r=>t>r.a&&t<r.b);if(f&&Math.abs(u)<1)p.y=curve.getPointAt(unbowedStation(t,u,f.a,f.b,f.bend)).y;return p;};
- const path=mesh(surfaceGeometry((t,u)=>point(t,u).add(V(0,.026,0)),240,10),M.gardenPaving,group);addSurface(path,'landscape-path');
+ const path=mesh(surfaceGeometry((t,u)=>point(t,u).add(V(0,.026,0)),240,10,false,'path'),M.gardenPaving,group);addSurface(path,'landscape-path');
  for(const side of [-1,1])mesh(edgeGeometry(t=>point(t,side).add(V(0,.026,0)),t=>point(t,side).add(V(0,-.30,0)),240),M.foundation,group).material.side=THREE.DoubleSide;
  const steps=[];
  for(const [i,flight] of LANDSCAPE_FLIGHTS.entries()){
@@ -19,11 +19,13 @@ export function buildLandscapeSpine({root,curve,M,mesh,surfaceGeometry,edgeGeome
   const stair=buildStairFlight({id:'Landscape flight '+(i+1),parent:group,point:stairPoint,parameters:Array.from({length:flight.steps+1},(_,j)=>atZ(THREE.MathUtils.lerp(flight.fromZ,flight.toZ,j/flight.steps))),material:M.gardenPaving,riserMaterial:M.stairEdge,nosingMaterial:M.stairEdge,mesh,surfaceGeometry,edgeGeometry,addSurface,type:'landscape-step'});
   steps.push(...stair.steps);
  }
- // Ground-level stone margins stop at every branch, so they never fence a junction.
+ // Stone margins stop at every branch, so they never fence a junction. They sit
+ // inboard of the kerb and nearly flush: cantilevered outside the path edge they
+ // hung in the air wherever the ground fell away, reading as floating planks.
  const others=COURTYARD_ROUTES.flatMap(r=>r.curve.getSpacedPoints(100).map(p=>({p,half:r.width/2})));
  for(const side of [-1,1])for(let i=0;i<240;i++){
   const t=(i+.5)/240,p=point(t,side);if(others.some(s=>Math.hypot(p.x-s.p.x,p.z-s.p.z)<s.half+.15))continue;
-  mesh(surfaceGeometry((f,u)=>{const tt=(i+f)/240;return point(tt,side*(1+u*.075/bridgeHalfWidth(tt))).add(V(0,.047,0));},1,1),M.stairBrick,group);
+  mesh(surfaceGeometry((f,u)=>{const tt=(i+f)/240;return point(tt,side*(1-.075*(u*.5+.5)/bridgeHalfWidth(tt))).add(V(0,.030,0));},1,1),M.stairBrick,group);
  }
  group.userData.landscapeSpine={bridgeRemoved:true,steps,samples:curve.getSpacedPoints(180).map(p=>p.toArray()),minimumWidth:3.7};
  return {root:group,path,steps};

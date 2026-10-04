@@ -16,19 +16,22 @@ try{
  const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'}),errors=[];
  const base='http://127.0.0.1:'+server.address().port;
  await page.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.fulfill({body:'',contentType:'text/css'}));
- const source=await readFile(path.join(root,'explore/scene/gallery.js'),'utf8');
- await page.route('**/gallery.js',route=>route.fulfill({contentType:'text/javascript',body:source+`\nwindow.__planQA=()=>({planActive,mode,cutaway,background:planDrawing?.scene.background.getHexString(),quaternion:camera?.quaternion.toArray(),position:camera?.position.toArray(),zoom:camera?.zoom,target:controls?.target.toArray(),rotate:controls?.enableRotate,roof:campus?.roofs.visible,sceneInfo:planDrawing?.scene.userData,planChildren:planDrawing?.scene.children.length,drawCalls:renderer?.info.render.calls,triangles:renderer?.info.render.triangles,dusk,material:campus?.materials.tile.color.getHexString(),elevationSite:!!elevationSite?.root.visible,fullTerrain:campus?.landscape.children.filter(o=>o.material===campus.materials.terrain).every(o=>o.visible),cubeDragging,requestedModelView});`}));
+ // Keep software-rendered UI checks practical; DOM dimensions and all model geometry stay unchanged.
+ const source=(await readFile(path.join(root,'explore/scene/gallery.js'),'utf8')).replace('renderer.setPixelRatio(pixelRatio);','renderer.setPixelRatio(.6);').replace('sun.shadow.mapSize.set(mobile?2048:Math.min(4096,renderer.capabilities.maxTextureSize),mobile?2048:Math.min(4096,renderer.capabilities.maxTextureSize));','sun.shadow.mapSize.set(512,512);').replace('renderer.render(planActive?planDrawing.scene:scene,camera);','if(window.__qaPaint){renderer.render(planActive?planDrawing.scene:scene,camera);window.__qaPaint=false;}');
+ await page.route('**/gallery.js',route=>route.fulfill({contentType:'text/javascript',body:source+`\nwindow.__planQA=()=>({planActive,mode,cutaway,background:planDrawing?.scene.background.getHexString(),quaternion:camera?.quaternion.toArray(),position:camera?.position.toArray(),yaw,zoom:camera?.zoom,target:controls?.target.toArray(),rotate:controls?.enableRotate,roof:campus?.roofs.visible,sceneInfo:planDrawing?.scene.userData,planChildren:planDrawing?.scene.children.length,drawCalls:renderer?.info.render.calls,triangles:renderer?.info.render.triangles,dusk,material:campus?.materials.tile.color.getHexString(),elevationSite:!!elevationSite?.root.visible,fullTerrain:campus?.landscape.children.filter(o=>o.material===campus.materials.terrain).every(o=>o.visible),cubeDragging,requestedModelView});`}));
  page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base+'/explore/scene/index.html',{waitUntil:'domcontentloaded'});
  await page.waitForSelector('#loading[hidden]',{state:'attached',timeout:120000});
  await page.waitForSelector('.view-cube');
  const clickView=async view=>{await page.locator('.view-cube [data-view="'+view+'"]').first().focus();await page.keyboard.press('Enter');};
+ // Render screenshots on demand; navigation, media, map and collision loops remain live.
+ const screenshot=async name=>{await page.evaluate(()=>window.__qaPaint=true);await page.waitForFunction(()=>window.__qaPaint===false);await page.screenshot({path:path.join(shots,name),timeout:60000});};
  const before=await page.evaluate(()=>__planQA()),start=Date.now();await clickView('plan');
  await page.waitForSelector('body.architectural-plan',{timeout:30000});
  const plan=await page.evaluate(()=>__planQA());
  assert.equal(plan.planActive,true);assert.equal(plan.rotate,false);assert.equal(plan.sceneInfo.architecturalPlan,true);assert.equal(plan.sceneInfo.exhibits,12);assert.ok(plan.sceneInfo.plants>200);assert.equal(plan.roof,true);
  console.log('PASS architectural plan uses model-derived geometry; 12 gallery/courtyard exhibits; '+(Date.now()-start)+' ms to first plan');
- assert.equal(plan.sceneInfo.stairFlights,9);assert.equal(plan.sceneInfo.stairTreads,132);assert.equal(plan.sceneInfo.arrival,'RAMP UP');
+ assert.equal(plan.sceneInfo.terraceFlights,3);assert.equal(plan.sceneInfo.terraceLandings,6);assert.equal(plan.sceneInfo.stairFlights,9);assert.equal(plan.sceneInfo.stairTreads,132);assert.equal(plan.sceneInfo.arrival,'RAMP UP');
  await page.locator('.plan-key .map-legend summary').click();
  assert.equal(await page.locator('.plan-key [data-project]').count(),12);
  assert.equal(await page.locator('.plan-key .plan-north').count(),1);
@@ -39,15 +42,15 @@ try{
  const bar=await page.locator('.plan-scale').evaluate(el=>el.getBoundingClientRect().width),state=await page.evaluate(()=>__planQA());assert.ok(bar>50&&bar<=140);
  console.log('PASS plan drag pans without tilting; wheel zoom updates the scale bar');
  await clickView('plan');await page.waitForTimeout(150);
- const shots=process.env.PLAN_SCREENSHOT_DIR;if(shots){await mkdir(shots,{recursive:true});await page.screenshot({path:path.join(shots,'architectural-plan.png')});}
+ const shots=process.env.PLAN_SCREENSHOT_DIR;if(shots){await mkdir(shots,{recursive:true});await screenshot('architectural-plan.png');}
  await page.locator('#menu-btn').click();
- assert.equal(await page.locator('#minimap').isVisible(),true);
+ assert.equal(await page.locator('#menu-dialog #minimap').count(),0);
  assert.equal(await page.locator('#minimap .plan-north').count(),1);
- assert.equal(await page.locator('#map-svg').getAttribute('viewBox'),'0 0 220 190');
- assert.equal(await page.locator('.mini-map-scale').evaluate(el=>el.getBoundingClientRect().width),110);
+ assert.equal(await page.locator('#map-svg').getAttribute('viewBox'),'0 0 220 250');
+ assert.equal(await page.locator('.mini-map-scale').evaluate(el=>el.getBoundingClientRect().width),100);
  assert.equal(await page.locator('#minimap [data-project]').count(),13);
  assert.ok((await page.locator('#map-garden').getAttribute('d')).length>100);
- console.log('PASS both maps include project legends, north arrows and correctly scaled bars');
+ console.log('PASS both maps retain legends, north arrows and scale bars; keyplan is outside Controls');
  await page.locator('#time-btn').click();await page.locator('[data-close="menu-dialog"]').click();
  const themed=await page.evaluate(()=>__planQA());assert.equal(themed.planActive,true);assert.equal(themed.background,plan.background);assert.notEqual(themed.dusk,plan.dusk);
  console.log('PASS plan stays on white paper when the atmosphere changes');
@@ -65,6 +68,25 @@ try{
  await page.locator('.hotspot:not([hidden])').first().click();await page.waitForFunction(()=>__planQA().mode==='walk');
  const walked=await page.evaluate(()=>__planQA());assert.equal(walked.planActive,false);assert.equal(walked.roof,true);assert.equal(walked.material,before.material);assert.equal(walked.elevationSite,false);assert.equal(walked.fullTerrain,true);
  console.log('PASS plan → elevation → plan → project restores 3D materials, roof and walking controls');
+ assert.equal(await page.locator('#minimap').isVisible(),true);
+ await page.waitForSelector('#map-person',{state:'visible',timeout:30000});
+ assert.equal(await page.locator('#map-status').textContent(),'You are here');
+ const readMarker=()=>page.locator('#map-person').evaluate(el=>({x:parseFloat(el.style.left),y:parseFloat(el.style.top),heading:parseFloat(el.style.getPropertyValue('--heading'))}));
+ const marker=await readMarker();assert.ok(Math.abs(marker.x-(110+walked.position[0]*2))<.1);assert.ok(Math.abs(marker.y-(90+walked.position[2]*2))<.1);
+ await page.mouse.move(600,400);await page.mouse.down();await page.mouse.move(760,400,{steps:6});await page.mouse.up();
+ await page.waitForFunction(()=>Math.abs(Math.atan2(Math.sin(parseFloat(document.getElementById('map-person').style.getPropertyValue('--heading'))+__planQA().yaw),Math.cos(parseFloat(document.getElementById('map-person').style.getPropertyValue('--heading'))+__planQA().yaw)))<.01);
+ assert.notEqual((await readMarker()).heading,marker.heading);
+ await page.keyboard.down('KeyS');await page.waitForTimeout(650);await page.keyboard.up('KeyS');await page.waitForTimeout(200);
+ const moved=await page.evaluate(()=>__planQA()),movedMarker=await readMarker();assert.notDeepEqual(moved.position,walked.position);assert.ok(Math.abs(movedMarker.x-(110+moved.position[0]*2))<.2);assert.ok(Math.abs(movedMarker.y-(90+moved.position[2]*2))<.2);
+ await page.locator('#map-toggle').click();assert.equal(await page.locator('#map-content').isVisible(),false);await page.locator('#map-toggle').click();assert.equal(await page.locator('#map-content').isVisible(),true);
+ await page.locator('#minimap .map-legend summary').click();await page.locator('#minimap [data-project="tensilebloom"]').click();await page.waitForTimeout(250);assert.equal(await page.locator('#map-stations [aria-current="location"]').count(),1);await page.locator('#minimap .map-legend summary').click();
+ if(shots)await screenshot('walking-map-desktop.png');
+ await page.setViewportSize({width:433,height:760});await page.waitForTimeout(250);
+ const mapBounds=await page.locator('#minimap').boundingBox(),titleBounds=await page.locator('#nearby').boundingBox(),dockBounds=await page.locator('.quiet-dock').boundingBox();
+ assert.ok(mapBounds.x>=0&&mapBounds.x+mapBounds.width<433);assert.ok(mapBounds.y>175);assert.ok(mapBounds.y+mapBounds.height<titleBounds.y);assert.ok(mapBounds.y+mapBounds.height<dockBounds.y);
+ assert.equal(await page.locator('#map-person').isVisible(),true);if(shots)await screenshot('walking-map-mobile.png');
+ console.log('PASS walking map follows movement and facing; collapse, project jumps and narrow layout work without obscuring captions');
+
  await clickView('plan');await page.setViewportSize({width:433,height:760});await page.waitForTimeout(200);
  const bounds=await page.locator('.plan-key').boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=433);assert.ok(bounds.y+bounds.height<760-70);
  await clickView('north');const touchBefore=await page.evaluate(()=>__planQA()),cube=await page.locator('.cube-stage').boundingBox(),client=await page.context().newCDPSession(page);

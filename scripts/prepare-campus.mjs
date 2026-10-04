@@ -8,7 +8,7 @@ import {createHash} from 'node:crypto';
 const scene=new URL('../explore/scene/',import.meta.url);
 if(!process.argv[2]){
   // Keep browser and worker builders identical apart from their module paths.
-  for(const name of ['campus.js','siteworks.js','roofscape.js','garden-paths.js','stair-jaali.js','stair-flight.js','entrance-details.js','entrance-paths.js','garden.js','landscape-courtyard.js','landscape-beds.js','courtyard-layout.js','bridge-route.js','architecture-detail.js','entry-config.js','navigation-config.js','campus-transfer.js']){
+  for(const name of ['campus.js','siteworks.js','roofscape.js','garden-paths.js','stair-jaali.js','stair-structure.js','terrace-stair-layout.js','stair-flight.js','entrance-details.js','entrance-paths.js','garden.js','landscape-courtyard.js','landscape-beds.js','courtyard-layout.js','bridge-route.js','architecture-detail.js','entry-config.js','navigation-config.js','campus-transfer.js']){
     const source=await readFile(new URL(name,scene),'utf8');
     await writeFile(new URL('worker/'+name,scene),source.replaceAll("from 'three';","from '../assets/three.module.js';").replaceAll("from 'three/addons/","from './assets/addons/"));
   }

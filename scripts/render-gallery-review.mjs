@@ -10,13 +10,15 @@ const root=path.resolve(fileURLToPath(new URL('../',import.meta.url))),out=proce
 const fixture=`<!doctype html><style>html,body{margin:0;overflow:hidden;background:#d0d5cd}canvas{display:block}</style><script type="importmap">{"imports":{"three":"./assets/three.module.js","three/addons/":"./assets/addons/"}}</script><script type="module">
 import * as THREE from 'three';
 import {unpackCampus} from './campus-transfer.js';
-import {frameAt} from './campus.js';
+import {frameAt,groundHeight} from './campus.js';
 import {SCENE_ASSETS} from './scene-assets.js';
 import {readCampusPayload} from './scene-binary.js';
 import {enhanceRendering} from './rendering.js';
 import {createArchitecturalPlan} from './architectural-plan.js';
 import {createElevationSite} from './elevation-site.js';
 import {modelCamera} from './view-cube.js';
+import {terraceStairLayout} from './terrace-stair-layout.js';
+import {TERRACE_SPECS} from './navigation-config.js';
 const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.90;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;document.body.appendChild(renderer.domElement);
 const scene=new THREE.Scene();scene.fog=new THREE.FogExp2('#b0c1c8',.0022);
 const campus=unpackCampus(await readCampusPayload(await (await fetch('./'+SCENE_ASSETS.medium)).arrayBuffer()),frameAt);scene.add(campus.root);
@@ -39,6 +41,7 @@ window.review=(view)=>{
   active=new THREE.OrthographicCamera(-51,51,38.25,-38.25,.1,300);active.position.set(0,100,0);active.up.set(0,0,-1);active.lookAt(0,0,0);
  }else if(elevation){active=modelCamera(view,innerWidth/innerHeight);}
  else if(view==='courtyard'){camera.position.set(25,28,32);camera.lookAt(0,8,-5);}
+ else if(view.startsWith('stairs-')){const spec=TERRACE_SPECS.find(s=>view.includes(s.id.split('-')[0]));const f=frameAt(spec.t),target=terraceStairLayout(spec,frameAt).stairPoint(.5);camera.position.copy(target).addScaledVector(f.n,-12).addScaledVector(f.d,view.includes('under')?6:-12).add(new THREE.Vector3(0,view.includes('under')?-3:8));camera.position.y=Math.max(camera.position.y,groundHeight(camera.position.x,camera.position.z)+4);camera.lookAt(target);}
  else if(view==='stairs'){const f=frameAt(.18);camera.position.copy(f.p).addScaledVector(f.n,-15).addScaledVector(f.d,-11).add(new THREE.Vector3(0,8,0));camera.lookAt(f.p.clone().addScaledVector(f.n,-f.w*.5-1.8).add(new THREE.Vector3(0,2.6,0)));}
  else {const f=frameAt(.066);camera.position.copy(f.p).addScaledVector(f.n,-2).addScaledVector(f.d,-2).add(new THREE.Vector3(0,1.95,0));camera.lookAt(f.p.clone().addScaledVector(f.n,2).addScaledVector(f.d,4).add(new THREE.Vector3(0,5.6,0)));}
  active.updateMatrixWorld();realism.update(0,active);renderer.shadowMap.needsUpdate=true;const background=scene.background;if(elevation)scene.background=elevationSite.background;renderer.render(view==='plan'?plan.scene:scene,active);scene.background=background;
