@@ -28,8 +28,8 @@ export function createArchitecturalPlan(campus){
   for(let i=0;i<4;i++){const a=cells[i],b=cells[(i+1)%4],ha=groundHeight(...a)-level,hb=groundHeight(...b)-level;if((ha<0)===(hb<0))continue;const t=ha/(ha-hb);cross.push([a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])]);}
   if(cross.length===2)line(cross,'#deddd6',-.2);
  }
- let contourGarden,fireGarden,foyer,arrival;const flights=[],entries=[];
- campus.root.traverse(o=>{if(o.userData.contourGarden)contourGarden=o.userData.contourGarden;if(o.userData.fireGarden)fireGarden=o.userData.fireGarden;if(o.userData.stairFlight)flights.push(o.userData.stairFlight);if(o.userData.entrance)entries.push(o.userData.entrance);if(o.userData.foyerAxis)foyer=o.userData.foyerAxis;if(o.userData.arrivalAxis)arrival=o.userData.arrivalAxis;});
+ let contourGarden,fireGarden,foyer,arrival;const flights=[],terraceFlights=[],entries=[];
+ campus.root.traverse(o=>{if(o.userData.contourGarden)contourGarden=o.userData.contourGarden;if(o.userData.fireGarden)fireGarden=o.userData.fireGarden;if(o.userData.stairFlight)flights.push(o.userData.stairFlight);if(o.userData.terraceStair)terraceFlights.push(o.userData.terraceStair);if(o.userData.entrance)entries.push(o.userData.entrance);if(o.userData.foyerAxis)foyer=o.userData.foyerAxis;if(o.userData.arrivalAxis)arrival=o.userData.arrivalAxis;});
  for(const bed of contourGarden?.beds||[]){const pts=bed.outline.map(p=>[p[0],p[2]]);polygon(pts,'#cdd6b7',0);line(pts,'#98a583',.1,true);}
  // Orthogonal projection of upward-facing walking surfaces preserves every
  // actual landing, balcony and tread, including irregular curved boundaries.
@@ -87,6 +87,10 @@ export function createArchitecturalPlan(campus){
   flight.boundaries.forEach((points,i)=>line(points.map(toPlan),i===0||i===flight.boundaries.length-1?'#73766e':'#8c8e85',.86));
   riseArrow(flight.centerline.slice(5,29).map(toPlan));
  }
+ // External terrace stairs retain their true treads, enlarged landings and parapets.
+ for(const {mesh,type} of campus.walkSurfaces)if(type==='terrace-stair'||type==='terrace-landing')surface(mesh,'#e9e3d4',.75,'#8c8e85');
+ for(const flight of terraceFlights)riseArrow(flight.centerline.slice(10,90).map(toPlan));
+ campus.roofs.traverse(o=>{if(o.userData.stairJaali)ribbon(o.userData.stairJaali.points.map(toPlan),.24,'#626357',1.2);});
  const cuts=facadeCuts(360);
  for(const side of [-1,1])for(let i=0;i<cuts.length-1;i++){
   const a=cuts[i],b=cuts[i+1],mid=(a+b)/2;if(isFacadeOpening(mid,side))continue;
@@ -134,7 +138,7 @@ export function createArchitecturalPlan(campus){
  }
  for(const [key,positions] of fills){const [color]=key.split('|'),g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));scene.add(new THREE.Mesh(g,new THREE.MeshBasicMaterial({color,side:THREE.DoubleSide,toneMapped:false})));}
  for(const [key,positions] of lines){const [color]=key.split('|'),g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));scene.add(new THREE.LineSegments(g,new THREE.LineBasicMaterial({color,toneMapped:false})));}
- scene.userData={architecturalPlan:true,source:'model geometry',exhibits:campus.spots.filter(s=>s.region!=='terrace').length,plants:contourGarden?.plants.length||0,stairFlights:flights.length,stairTreads:flights.reduce((n,f)=>n+f.steps.length,0),arrival:arrival?'RAMP UP':null};
+ scene.userData={architecturalPlan:true,terraceFlights:terraceFlights.length,terraceLandings:campus.walkSurfaces.filter(s=>s.type==='terrace-landing').length,source:'model geometry',exhibits:campus.spots.filter(s=>s.region!=='terrace').length,plants:contourGarden?.plants.length||0,stairFlights:flights.length,stairTreads:flights.reduce((n,f)=>n+f.steps.length,0),arrival:arrival?'RAMP UP':null};
  return {scene,dispose(){scene.traverse(o=>{o.geometry?.dispose();o.material?.map?.dispose();o.material?.dispose();});}};
 }
 

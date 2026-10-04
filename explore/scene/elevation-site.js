@@ -15,7 +15,7 @@ export function createElevationSite(campus){
  const extension=Math.max(0,start.clone().sub(end.p).dot(end.n.clone().negate())-end.w*.455+3);
  for(let i=0;i<segments;i++){
   const t=i/segments,f=frameAt(t),distance=s=>Math.min(Math.abs(t-s),1-Math.abs(t-s));
-  const stairMargin=Math.max(0,...TERRACE_SPECS.map(s=>4.6*Math.exp(-Math.pow(distance(s.t)/.023,4))));
+  const stairMargin=Math.max(0,...TERRACE_SPECS.map(s=>5.7*Math.exp(-Math.pow(distance(s.t)/.037,4))));
   const balconyMargin=Math.max(0,...BALCONY_SPECS.map(s=>3.2*Math.exp(-Math.pow(distance(s.t)/(s.half*1.1),4))));
   const p=f.p.addScaledVector(f.n,-(f.w*.455+.65+Math.max(stairMargin,balconyMargin)));
   const nearEntry=Math.min(t,1-t);p.addScaledVector(end.n,-extension*Math.exp(-Math.pow(nearEntry/.038,4)));

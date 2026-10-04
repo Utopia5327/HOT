@@ -5,6 +5,7 @@ import { mergeGeometries } from './assets/addons/utils/BufferGeometryUtils.js';
 import { createFurnishings } from './furnishings.js';
 import { terraceAt, roofElevation, roofHalfSpan, buildRoofscape, TERRACE_SPECS } from './roofscape.js';
 import { buildGarden, gardenTerrain } from './garden.js';
+import {terraceStairLayout} from './terrace-stair-layout.js';
 import { buildSiteStructure } from './siteworks.js';
 import { buildExhibitDisplay } from './exhibits.js';
 import { buildArrivalSequence } from './architecture-detail.js';
@@ -70,11 +71,12 @@ export const gardenAccesses=createGardenAccesses(frameAt);
 const gardenAccessSamples=gardenAccesses.flatMap(a=>a.samples);
 const earthworkBenches=[];
 for(const spec of BALCONY_SPECS){const f=frameAt(spec.t);earthworkBenches.push({p:balconyPoint(frameAt,spec,0,.5),radius:3.6,target:f.p.y-.38});}
-for(const spec of TERRACE_SPECS){const f=frameAt(spec.t-.017);earthworkBenches.push({p:f.p.clone().addScaledVector(f.n,-f.w*.5-1.4),radius:1.4,target:spec.base-.30});}
 const roofAccessSamples=[];
 for(const spec of TERRACE_SPECS){
- for(let i=0;i<=40;i++){const f=i/40,fr=frameAt(spec.t-.017+.033*f);roofAccessSamples.push(fr.p.clone().addScaledVector(fr.n,-fr.w*.5-2.40).setY(spec.base+(spec.level-spec.base)*f));}
- const fr=frameAt(spec.t-.017);for(let i=0;i<=12;i++)roofAccessSamples.push(fr.p.clone().addScaledVector(fr.n,mix(-fr.w*.42,-fr.w*.5-3.15,i/12)).setY(spec.base));
+ const layout=terraceStairLayout(spec,frameAt);
+ for(let i=0;i<=40;i++)for(const u of [-1,0,1])roofAccessSamples.push(layout.stairPoint(i/40,u));
+ // Grade the actual landing footprint instead of a disconnected circular bench.
+ for(const l of [layout.lower,layout.upper])for(let n=0;n<=6;n++)for(let d=0;d<=5;d++)roofAccessSamples.push(l.point(mix(l.outer,l.inner,n/6),mix(l.from,l.to,d/5)));
 }
 export function nearestRoute(x,z){let bestIndex=0,dist=Infinity;const count=fieldSamples.length;for(let i=0;i<count;i++){const s=fieldSamples[i],r=(s.p.x-x)**2+(s.p.z-z)**2;if(r<dist){dist=r;bestIndex=i;}}let bestT=bestIndex/count;for(const i of [(bestIndex+count-1)%count,bestIndex]){const a=fieldSamples[i].p,b=fieldSamples[(i+1)%count].p,dx=b.x-a.x,dz=b.z-a.z,u=clamp(((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz),0,1),dd=(x-a.x-dx*u)**2+(z-a.z-dz*u)**2;if(dd<dist){dist=dd;bestT=wrap((i+u)/count);}}const best=frameAt(bestT),dx=x-best.p.x,dz=z-best.p.z;return {...best,distance:Math.sqrt(dist),offset:dx*best.n.x+dz*best.n.z};}
 export const isOpening=isFacadeOpening;
@@ -90,7 +92,8 @@ export function groundHeight(x,z){
   // Garden display pads must not refill the cleared approach to a doorway.
   if(pathDistance<path.half+1.10)h=Math.min(h,path.p.y-.16+Math.max(0,pathDistance-path.half-.15)*1.6);
 
-  for(const p of roofAccessSamples){if(Math.abs(x-p.x)>2.1||Math.abs(z-p.z)>2.1)continue;const d=Math.hypot(x-p.x,z-p.z);if(d<2.1)h=Math.min(h,p.y-.25+Math.max(0,d-1.05)*1.65);}
+  // A continuous cut batter rejoins the natural hill; no abrupt lip around a landing.
+  for(const p of roofAccessSamples){const datum=p.y-.32,reach=1.10+Math.max(0,h-datum)*1.4;if(h<=datum||Math.abs(x-p.x)>reach||Math.abs(z-p.z)>reach)continue;const d=Math.hypot(x-p.x,z-p.z);if(d<reach)h=Math.min(h,datum+Math.max(0,d-1.10)/1.4);}
   return Math.max(-16.3,h);
 }
 function texture(kind){
@@ -255,7 +258,7 @@ export function buildCampus(projects,{quality='high'}={}){
     g.name='Open gallery balcony';g.userData.terraceFurniture=0;g.userData.pottedPlants=0;
     g.userData.balcony={...spec,level:f.p.y,attachment:Array.from({length:33},(_,i)=>balconyPoint(frameAt,spec,-1+i/16,0).toArray()),perimeter:balconyGuardPoints(frameAt,spec).map(p=>p.toArray()),entryStart:f.p.toArray(),entryEnd:balconyPoint(frameAt,spec,0,.58).toArray()};
   }
-  const siteStructure=buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,naturalGroundHeight,roofTerraces:roofscape.terraces,loungePads,box,beam,tube,mesh,edgeGeometry,facadeRoofPoint,roofUndersideAt,isOpening});
+  const siteStructure=buildSiteStructure({architecture,roofs,navigationBlocks,M,frameAt,groundHeight,naturalGroundHeight,roofTerraces:roofscape.terraces,loungePads,box,beam,tube,mesh,edgeGeometry,facadeRoofPoint,roofUndersideAt,isOpening});
 
   const entrances=buildEntranceDetails({architecture,M,frameAt,floorPoint,facadeRoofPoint,loungePads,mesh,box,tube,beam,surfaceGeometry,addSurface,navigationBlocks});
 

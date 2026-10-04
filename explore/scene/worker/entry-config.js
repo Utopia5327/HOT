@@ -1,3 +1,4 @@
+import {TERRACE_STAIR} from './terrace-stair-layout.js';
 import {TERRACE_SPECS} from './navigation-config.js';
 import {BALCONY_SPECS} from './balcony-layout.js';
 
@@ -8,7 +9,7 @@ export const DEFINED_ENTRIES=[
   {id:'garden-west',name:'West garden entrance',t:.29,side:1,half:.012,kind:'garden'},
   {id:'bridge-north',name:'Upper landscape entrance',t:.548,side:1,half:.016,kind:'landscape'},
   {id:'garden-east',name:'East garden entrance',t:.79,side:1,half:.012,kind:'garden'},
-  ...TERRACE_SPECS.map(s=>({id:s.id+'-entry',name:s.name+' entrance',t:s.t-.017,side:-1,half:.006,kind:'stair'}))
+  ...TERRACE_SPECS.map(s=>({id:s.id+'-entry',name:s.name+' entrance',t:s.t+TERRACE_STAIR.entry,side:-1,half:.0085,kind:'stair'}))
 ];
 export const FACADE_OPENINGS=[...DEFINED_ENTRIES,...BALCONY_SPECS.map(s=>({id:s.id,t:s.t,side:-1,half:s.half,kind:'lounge'}))];
 const wrap=t=>(t%1+1)%1;

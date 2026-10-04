@@ -1,0 +1,10 @@
+{
+  "name": "film-recorder",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Offline cinematic recorder for the 3D gallery. Dev-only; not part of the site.",
+  "type": "module",
+  "devDependencies": {
+    "ffmpeg-static": "^5.2.0"
+  }
+}

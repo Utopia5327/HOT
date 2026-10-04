@@ -2,11 +2,11 @@ import * as THREE from '../assets/three.module.js';
 
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
 
-// Two masonry abutments carry each stair through continuous curved glulam ribs.
+// Masonry landing bearings carry each stair through continuous curved glulam ribs.
 // Brick coursing and segmental openings belong to the wall, rather than a field of posts.
-export function buildStairStructure({roofs,M,frameAt,groundHeight,roofTerraces,mesh,box}){
+export function buildStairStructure({roofs,M,frameAt,groundHeight,roofTerraces,mesh,box,navigationBlocks}){
   const group=new THREE.Group();group.name='Terrace stairs — brick abutments and curved glulam';roofs.add(group);
-  const abutments=[],stringers=[];
+  const abutments=[],stringers=[];let intermediate=0;
   M.stairBrick??=new THREE.MeshStandardMaterial({color:'#9e624b',roughness:.94});
   M.stairMortar??=new THREE.MeshStandardMaterial({color:'#986e58',roughness:1});
   const brickGeometry=new THREE.BoxGeometry(.294,.076,.065);
@@ -26,12 +26,16 @@ export function buildStairStructure({roofs,M,frameAt,groundHeight,roofTerraces,m
     const o=mesh(g,M.darkwood,group);o.name='Continuous curved glulam stair stringer';o.userData.keepSeparate=true;stringers.push(o);
   }
 
-  function abutment(terrace,landing,t,upper){
-    const fr=frameAt(t),wall=new THREE.Group();wall.name=`${terrace.name} — ${upper?'upper':'lower'} brick abutment`;
+  function abutment(terrace,landing,fr,width,kind){
+    const wall=new THREE.Group();wall.name=`${terrace.name} — ${kind} brick bearing`;
     wall.position.copy(landing);wall.rotation.y=Math.atan2(-fr.n.z,fr.n.x);group.add(wall);
-    const width=upper?2.92:fr.w*.08+3.43,half=width/2,depth=.60,top=-.52;
-    const terrain=Array.from({length:13},(_,i)=>{const p=landing.clone().addScaledVector(fr.n,(i/12-.5)*width);return groundHeight(p.x,p.z)-landing.y;});
-    const bottom=Math.min(...terrain)-.48,exposed=top-Math.max(...terrain),height=top-bottom;
+    const half=width/2,depth=.72,top=-.88;
+    const terrain=[];
+    for(let i=0;i<=16;i++)for(const d of [-.70,0,.70]){
+      const p=landing.clone().addScaledVector(fr.n,(i/16-.5)*(width+.60)).addScaledVector(fr.d,d);
+      terrain.push(groundHeight(p.x,p.z)-landing.y);
+    }
+    const bottom=Math.min(...terrain,top-.32)-.58,exposed=top-Math.max(...terrain),height=top-bottom;
     const shape=new THREE.Shape();
     shape.moveTo(-half-.18,bottom);shape.lineTo(half+.18,bottom);
     shape.quadraticCurveTo(half+.16,bottom+height*.56,half-.10,top-.20);
@@ -49,7 +53,8 @@ export function buildStairStructure({roofs,M,frameAt,groundHeight,roofTerraces,m
     const geometry=new THREE.ExtrudeGeometry(shape,{depth,steps:1,bevelEnabled:true,bevelThickness:.022,bevelSize:.025,bevelSegments:2,curveSegments:14});geometry.translate(0,0,-depth/2);
     const body=mesh(geometry,M.stairMortar,wall);body.name='Tapered masonry abutment';body.userData.keepSeparate=true;
     // A continuous buried spread footing follows the wall instead of separate pads.
-    box(width+.56,.38,.98,M.foundation,wall,0,bottom+.08,0);
+    const footing=box(width+.60,.38,1.40,M.foundation,wall,0,bottom+.08,0);
+    footing.name=terrace.name+' '+kind+' continuous buried footing';
     box(width-.20,.14,.72,M.stone,wall,0,top+.07,0);
     box(width-.32,.04,.42,M.bronze,wall,0,top+.16,0);
     box(width-.40,.29,.32,M.darkwood,wall,0,top+.325,0);
@@ -69,18 +74,38 @@ export function buildStairStructure({roofs,M,frameAt,groundHeight,roofTerraces,m
     const veneer=new THREE.InstancedMesh(brickGeometry,M.stairBrick,bricks.length);veneer.name='Running bond brickwork with arched opening';veneer.castShadow=false;veneer.receiveShadow=true;
     bricks.forEach((b,i)=>{q.setFromAxisAngle(V(0,0,1),b.angle);matrix.compose(V(b.x,b.y,b.z),q,V(b.scaleX,b.scaleY,1));veneer.setMatrixAt(i,matrix);color.setHSL(.035+(i%7)*.002,.23+(i%3)*.028,.69+(i%11)*.017);veneer.setColorAt(i,color);});
     veneer.instanceMatrix.needsUpdate=true;veneer.instanceColor.needsUpdate=true;veneer.userData.detailDistance=54;veneer.userData.lodCenter=landing.toArray();wall.add(veneer);
-    wall.userData.stairAbutment={terrace:terrace.id,upper,width,depth,bottom:bottom+landing.y,top:top+landing.y,ground:terrain.map(y=>y+landing.y),arch:!!arch};
+    wall.userData.stairAbutment={terrace:terrace.id,kind,upper:kind==='upper landing',width,depth,bottom:bottom+landing.y,footingTop:bottom+.27+landing.y,top:top+landing.y,bearingTop:top+.47+landing.y,center:landing.toArray(),ground:terrain.map(y=>y+landing.y),arch:!!arch};
+    function block(a,b,lo,hi){
+      const pa=landing.clone().addScaledVector(fr.n,a),pb=landing.clone().addScaledVector(fr.n,b);
+      navigationBlocks?.push({a:[pa.x,pa.z],b:[pb.x,pb.z],radius:.40,bottom:landing.y+lo,top:landing.y+hi,kind:'stair-bearing'});
+    }
+    if(arch){
+      block(-half-.08,-arch.r-.12,bottom,top);block(arch.r+.12,half+.08,bottom,top);block(-arch.r,arch.r,arch.crown,top);
+    }else block(-half-.08,half+.08,bottom,top);
     abutments.push(wall.userData.stairAbutment);
   }
   for(const terrace of roofTerraces){
+    const {layout,stairWidth}=terrace;
     for(const side of [-1,1]){
-      const points=[];
-      for(let i=0;i<=42;i++){const f=i/42,fr=frameAt(terrace.startStair+(terrace.endStair-terrace.startStair)*f);points.push(terrace.stairPoint(f).addScaledVector(fr.n,side*.56).add(V(0,-.29,0)));}
-      points.push(points.at(-1).clone().addScaledVector(frameAt(terrace.endStair).d,.85));rib(points);
+      const points=[],offset=side*stairWidth*.32,first=layout.lower,last=layout.upper;
+      points.push(terrace.stairPoint(0).addScaledVector(first.frame.n,offset).addScaledVector(first.frame.d,(first.from+first.to)/2).add(V(0,-.29,0)));
+      for(let i=0;i<=52;i++){
+        const f=i/52,fr=frameAt(terrace.startStair+(terrace.endStair-terrace.startStair)*f);
+        points.push(terrace.stairPoint(f).addScaledVector(fr.n,offset).add(V(0,-.29,0)));
+      }
+      points.push(terrace.stairPoint(1).addScaledVector(last.frame.n,offset).addScaledVector(last.frame.d,(last.from+last.to)/2).add(V(0,-.29,0)));rib(points);
     }
-    abutment(terrace,terrace.lowerLanding,terrace.startStair,false);
-    abutment(terrace,terrace.upperLanding,terrace.endStair,true);
+    for(const l of [layout.lower,layout.upper]){
+      const kind=l.upper?'upper landing':'lower landing';abutment(terrace,l.center,l.frame,l.width-.24,kind);
+      for(const n of [l.outer+.34,l.inner-.34]){
+        const p=l.point(n,(l.from+l.to)/2);
+        const joist=box(.20,.30,l.depth-.08,M.darkwood,group,p.x,p.y-.38,p.z,Math.atan2(-l.frame.n.z,l.frame.n.x));
+        joist.name=terrace.name+' '+kind+' edge joist';
+      }
+    }
+    const f=.53,p=terrace.stairPoint(f),fr=frameAt(terrace.startStair+(terrace.endStair-terrace.startStair)*f);
+    if(p.y-groundHeight(p.x,p.z)>1.9){abutment(terrace,p,fr,stairWidth+.20,'mid-flight');intermediate++;}
   }
-  group.userData.stairStructure={abutments:abutments.length,stringers:stringers.length,intermediatePosts:0};
+  group.userData.stairStructure={abutments:abutments.length,stringers:stringers.length,intermediateBents:intermediate,intermediatePosts:0,system:'Continuous stair ribs, landing joists, masonry bearings and buried strip footings'};
   return {abutments,stringers,root:group};
 }

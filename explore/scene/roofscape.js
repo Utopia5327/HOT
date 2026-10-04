@@ -2,6 +2,7 @@ import { EYE_HEIGHT } from './navigation-config.js';
 import * as THREE from 'three';
 import {createCourtyardTree} from './courtyard-tree.js';
 import {plantUnderstory} from './planting.js';
+import {terraceStairLayout} from './terrace-stair-layout.js';
 import {buildStairJaali} from './stair-jaali.js';
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),PI=Math.PI,TAU=PI*2;
 import { TERRACE_SPECS } from './navigation-config.js';
@@ -66,25 +67,34 @@ export function buildRoofscape({roofs,architecture,frameAt,pitchedRoofPoint,roof
   deck.name=spec.name;deck.userData.roofTerraceId=spec.id;
   // Fine decking joints define the scale without turning the terrace into a ramp.
   for(let j=1;j<36;j++){const t=j/36,points=[];for(let l=0;l<=12;l++)points.push(deckFn(t,-1+l/6).add(V(0,.008,0)));tube(points,.009,M.darkwood,roofs,false,13);}
-  const endStair=spec.t+.016,startStair=spec.t-.017,stairWidth=1.55;
-  const stairPoint=f=>{const t=startStair+(endStair-startStair)*f,fr=frameAt(t);return fr.p.clone().addScaledVector(fr.n,-fr.w*.5-2.40).setY(spec.base+(spec.level-spec.base)*f);};
+  const layout=terraceStairLayout(spec,frameAt),{startStair,endStair,stairWidth,stairPoint}=layout;
+  const access=new THREE.Group();access.name=spec.name+' — stairs and generous landings';roofs.add(access);
   const count=26,steps=[];
   for(let i=0;i<count;i++){
-   const pa=stairPoint(i/count),pb=stairPoint((i+1)/count),mid=pa.clone().lerp(pb,.5),rise=pb.y-pa.y,run=Math.hypot(pb.x-pa.x,pb.z-pa.z),angle=Math.atan2(pb.x-pa.x,pb.z-pa.z);
-   const step=box(stairWidth,rise+.09,run+.055,M.stairs,roofs,mid.x,pb.y-(rise+.09)/2,mid.z,angle);addSurface(step,'terrace-stair');steps.push({center:mid.clone().setY(pb.y),top:pb.y});
+   const pa=stairPoint(i/count),pb=stairPoint((i+1)/count),rise=pb.y-pa.y;
+   const top=(t,u)=>stairPoint((i+t)/count,u).setY(pb.y),bottom=(t,u)=>top(t,u).add(V(0,-rise-.10,0));
+   const tread=mesh(surfaceGeometry(top,3,8),M.stairs,access);tread.name=spec.name+' tread '+(i+1);addSurface(tread,'terrace-stair');
+   mesh(surfaceGeometry(bottom,3,8,true),M.stairEdge,access);
+   for(const side of [-1,1])mesh(edgeGeometry(t=>top(t,side),t=>bottom(t,side),3),M.stairEdge,access).material.side=THREE.DoubleSide;
+   for(const end of [0,1])mesh(edgeGeometry(u=>top(end,u*2-1),u=>bottom(end,u*2-1),8),M.stairEdge,access).material.side=THREE.DoubleSide;
+   steps.push({center:pa.clone().lerp(pb,.5).setY(pb.y),top:pb.y,rise});
   }
-  function landing(t,y,from,to,along=0){const f=frameAt(t),length=Math.abs(to-from),p=f.p.clone().addScaledVector(f.n,(from+to)/2).addScaledVector(f.d,along).setY(y-.09),o=box(length,.18,1.70,M.stairs,roofs,p.x,p.y,p.z,Math.atan2(-f.n.z,f.n.x));addSurface(o,'terrace-landing');return p.clone().setY(y);}
-  const first=frameAt(startStair),last=frameAt(endStair);
-  const lowerLanding=landing(startStair,spec.base,-first.w*.42,-first.w*.5-3.15),upperLanding=landing(endStair,spec.level,-last.w*.5-.55,-last.w*.5-3.15,.75);
-  // Perforated brick parapets follow both sides while keeping the entries open.
+  for(const landing of [layout.lower,layout.upper]){
+   const {center,frame,width,depth,slab,y}=landing;
+   const deck=box(width,slab,depth,M.stairs,access,center.x,y-slab/2,center.z,Math.atan2(-frame.n.z,frame.n.x));
+   deck.name=spec.name+(landing.upper?' upper':' lower')+' 2.8 m landing';addSurface(deck,'terrace-landing');
+   deck.userData.keepSeparate=true;
+   deck.userData.terraceLanding={terrace:spec.id,upper:landing.upper,width,depth,slab,outline:landing.outline.map(p=>p.toArray())};
+   for(let i=0;i<landing.guards.length;i++)buildStairJaali({parent:access,points:landing.guards[i],M,box,navigationBlocks,startPost:false,name:spec.name+(landing.upper?' upper':' lower')+' landing jaali '+i});
+  }
+  const lowerLanding=layout.lower.center,upperLanding=layout.upper.center;
   for(const side of [-1,1]){
-   const points=[];for(let i=0;i<=count;i++){const f=i/count,p=stairPoint(f),fr=frameAt(startStair+(endStair-startStair)*f);p.addScaledVector(fr.n,side*(stairWidth*.5-.02));points.push(p);}
-   buildStairJaali({parent:roofs,points,M,box,navigationBlocks,name:spec.name+' — stair jaali '+side});
+   const points=[];for(let i=0;i<=count;i++)points.push(stairPoint(i/count,side*(1-.04/stairWidth)));
+   buildStairJaali({parent:access,points,M,box,navigationBlocks,name:spec.name+' — stair jaali '+side});
   }
-  const landingGuard=[[-last.w*.5-3.15,-.10],[-last.w*.5-3.15,1.60],[-last.w*.5-.55,1.60]].map(([n,d])=>last.p.clone().addScaledVector(last.n,n).addScaledVector(last.d,d).setY(spec.level));
-  buildStairJaali({parent:roofs,points:landingGuard,M,box,navigationBlocks,name:spec.name+' — landing jaali'});
+  access.userData.terraceStair={id:spec.id,width:stairWidth,landingDepth:2.8,centerline:Array.from({length:105},(_,i)=>stairPoint(i/104).toArray()),lowerRoute:layout.lower.route.map(p=>p.toArray()),upperRoute:layout.upper.route.map(p=>p.toArray()),steps:steps.map(s=>({center:s.center.toArray(),top:s.top,rise:s.rise}))};
   function rail(points){tube(points.map(p=>p.clone().add(V(0,1.06,0))),.046,M.wood,roofs,false,points.length*2);tube(points.map(p=>p.clone().add(V(0,.55,0))),.020,M.bronze,roofs,false,points.length*2);for(let j=0;j<points.length;j+=2)beam(points[j],points[j].clone().add(V(0,1.06,0)),.040,M.bronze,roofs);}
-  for(const side of [-1,1]){let pts=[];for(let j=0;j<=44;j++){const tt=a+(b-a)*j/44;if(side===-1&&Math.abs(tt-endStair)<.0057){if(pts.length>1)rail(pts);pts=[];continue;}pts.push(deckFn(j/44,side*.985));}if(pts.length>1)rail(pts);}
+  for(const side of [-1,1]){let pts=[];for(let j=0;j<=44;j++){const tt=a+(b-a)*j/44;if(side===-1&&(()=>{const p=deckFn(j/44,side*.985),d=p.clone().sub(layout.upper.frame.p).dot(layout.upper.frame.d);return d>-.25&&d<layout.upper.to+.25;})()){if(pts.length>1)rail(pts);pts=[];continue;}pts.push(deckFn(j/44,side*.985));}if(pts.length>1)rail(pts);}
   for(const end of [0,1]){
    const points=[];for(let j=0;j<=24;j++)points.push(deckFn(end,-.985+j/24*1.97));rail(points);
    // Glazed gable clerestories close the rooms where tiled roof and open deck meet.
@@ -117,7 +127,7 @@ export function buildRoofscape({roofs,architecture,frameAt,pitchedRoofPoint,roof
   artMaterials.push({material:futureMaterial,src:assignedProject?`./assets/labels/${assignedProject.id}.svg`:'./assets/future-projects.svg'});
   const futureExhibit={status:assignedProject?'assigned':'reserved',title:assignedProject?.shortTitle||'Future projects',projectId:assignedProject?.id||null,position:center.p.clone().addScaledVector(center.n,3.10).addScaledVector(center.d,.20).setY(spec.level+.72)};
   const eye=center.p.clone().addScaledVector(center.n,-1.2).addScaledVector(center.d,-1.8).setY(spec.level+EYE_HEIGHT),target=center.p.clone().addScaledVector(center.n,5).setY(spec.level+1.35);
-  terraces.push({...spec,eye,target,position:center.p.clone().setY(spec.level),width:center.w+2.8,deck,steps,stairPoint,lowerLanding,upperLanding,startStair,endStair,plantingBeds,trees:terraceTrees,plantCount:terracePlants.length,futureExhibit});
+  terraces.push({...spec,eye,target,position:center.p.clone().setY(spec.level),width:center.w+2.8,deck,steps,stairPoint,lowerLanding,upperLanding,startStair,endStair,layout,stairWidth,plantingBeds,trees:terraceTrees,plantCount:terracePlants.length,futureExhibit});
  }
  return {terraces,tiles,tiledIntervals};
 }

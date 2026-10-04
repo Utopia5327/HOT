@@ -1,0 +1,154 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Film recorder</title>
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./assets/three.module.js","three/addons/":"./assets/addons/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import {PROJECTS} from './projects.js';
+import {buildCampus} from './campus.js';
+import {enhanceRendering} from './rendering.js';
+import {createSceneLighting} from './lighting.js';
+import {buildTimeline,cameraAt,FPS} from './__film/shots.js';
+
+const params=new URLSearchParams(location.search);
+const WIDTH=+(params.get('w')||1920),HEIGHT=+(params.get('h')||1080);
+const state=document.documentElement.dataset;
+const fail=message=>{state.error=String(message);state.ready='failed';};
+
+// The recorder never renders on a wall clock: the driver asks for frame N, we
+// render frame N however long it takes, and it still occupies 1/FPS of film.
+// preserveDrawingBuffer keeps the rendered pixels readable after the draw call,
+// which is what VideoFrame(canvas) needs — without it the capture reads an
+// already-recycled buffer.
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(1);renderer.setSize(WIDTH,HEIGHT);
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;
+renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;
+document.body.appendChild(renderer.domElement);
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color('#ccdcd8');
+scene.fog=new THREE.FogExp2('#ccdcd8',.0043);
+scene.environmentIntensity=.58;
+const camera=new THREE.PerspectiveCamera(46,WIDTH/HEIGHT,.07,750);
+
+// Constructing a VideoFrame straight from the WebGL canvas kills the renderer
+// process on this driver, so each frame is blitted into a plain 2D canvas and
+// captured from there. One extra copy per frame, and the encoder never has to
+// touch a GPU-backed surface.
+const capture=document.createElement('canvas');capture.width=WIDTH;capture.height=HEIGHT;
+const captureContext=capture.getContext('2d',{alpha:false,willReadFrequently:false});
+
+let campus=null,realism=null,lighting=null,timeline=null;
+
+// Progress is published as it happens: building this scene takes minutes, and
+// without a marker a slow step is indistinguishable from a hung one.
+const step=name=>{state.step=name;return new Promise(r=>setTimeout(r,0));};
+
+async function boot(){
+ await step('lighting');
+ lighting=createSceneLighting({scene,renderer,mobile:false});
+ await step('campus');
+ campus=buildCampus(PROJECTS,{quality:'high'});
+ scene.add(campus.root);
+ await step('rendering');
+ realism=enhanceRendering({scene,renderer,campus,mobile:false});
+ await step('timeline');
+ timeline=buildTimeline(campus);
+ lighting.applyDaylight(0,{campus,realism});
+ await step('artwork');
+ await loadAllArtwork();
+ await step('panorama');
+ // The panorama, the material maps and the water reflection all arrive late.
+ // Filming before they land bakes an untextured frame into the file, so wait
+ // for the loader to go quiet and then hold for a beat longer.
+ await Promise.race([realism.ready.catch(()=>{}),new Promise(r=>setTimeout(r,60000))]);
+ await step('textures');
+ await untilTexturesSettle();
+ await step('first-frame');
+ renderer.shadowMap.needsUpdate=true;
+ renderer.render(scene,camera);
+ state.timeline=JSON.stringify({totalFrames:timeline.totalFrames,fps:timeline.fps,seconds:timeline.seconds,
+  shots:timeline.shots.map(s=>({name:s.name,start:s.start,end:s.end,seconds:s.seconds}))});
+ await step('ready');
+ state.ready='1';
+}
+
+// The gallery streams artwork in as you approach it, which is right for a
+// visitor and wrong for a film: the camera crosses the whole site in 75
+// seconds, so every board has to be populated before the first frame or the
+// exhibits record as blank white panels.
+function loadAllArtwork(){
+ const loader=new THREE.TextureLoader();
+ const anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());
+ const items=campus.artMaterials.filter(item=>item.src);
+ let done=0;
+ return Promise.all(items.map(item=>new Promise(resolve=>{
+  loader.load(item.src,texture=>{
+   texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=anisotropy;
+   item.material.map=texture;item.material.emissiveMap=texture;item.material.needsUpdate=true;
+   state.artwork=(++done)+'/'+items.length;resolve();
+  },undefined,()=>{state.artwork=(++done)+'/'+items.length+' (one failed)';resolve();});
+ })));
+}
+
+// Timer-driven rather than frame-driven: a headless tab may never be composited,
+// and requestAnimationFrame can then simply never fire.
+function untilTexturesSettle(){
+ return new Promise(resolve=>{
+  let quiet=0,waited=0;
+  const tick=()=>{
+   const manager=THREE.DefaultLoadingManager;
+   state.loader=manager.itemsLoaded+'/'+manager.itemsTotal;
+   quiet=(manager.itemsLoaded>=manager.itemsTotal)?quiet+1:0;
+   waited+=100;
+   if(quiet>=12||waited>45000)return resolve();
+   setTimeout(tick,100);
+  };
+  tick();
+ });
+}
+
+function setFrame(frame){
+ const shot=cameraAt(timeline,frame);
+ camera.position.copy(shot.eye);
+ camera.lookAt(shot.target);
+ if(Math.abs(camera.fov-shot.fov)>1e-4){camera.fov=shot.fov;camera.updateProjectionMatrix();}
+ lighting.applyDaylight(shot.dusk,{campus,realism});
+ // A fixed delta, so water and level-of-detail advance identically on a re-run.
+ realism.update(1/FPS,camera);
+ renderer.render(scene,camera);
+ return shot;
+}
+
+// Render one frame and stand still. The driver grabs the canvas itself and
+// ffmpeg does the encoding out of process.
+//
+// An in-page VideoEncoder was the original plan and is the tidier design, but
+// on this machine it kills the renderer process at the first batch boundary,
+// with no recoverable error — a WebCodecs encoder alongside a WebGL context
+// this large is simply not survivable here. Capturing frames is slower and
+// completely stable.
+document.addEventListener('film-render',()=>{
+ try{
+  const frame=+state.frame;
+  const shot=setFrame(frame);
+  state.shotname=shot.shot;
+  state.rendered=String(frame);
+ }catch(e){fail(e.stack||e.message);}
+});
+
+// Contact-sheet mode: render single frames and read them back as data URLs so
+// a cut can be reviewed as stills before committing to a full render.
+document.addEventListener('film-still',()=>{
+ try{
+  const frame=+state.still;
+  const shot=setFrame(frame);
+  state.stillshot=shot.shot;
+  state.stillurl=renderer.domElement.toDataURL('image/png');
+ }catch(e){fail(e.stack||e.message);}
+});
+
+boot().catch(e=>fail(e.stack||e.message));
+</script></body></html>

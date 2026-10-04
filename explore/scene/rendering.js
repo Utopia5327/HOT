@@ -28,18 +28,21 @@ export function enhanceRendering({scene,renderer,campus,mobile=false}){
  if(M.boulder)surface(M.boulder,'rough_concrete',{color:'#b4afa3',roughness:1,normal:.65});
  if(M.gardenPath)surface(M.gardenPath,'rough_concrete',{color:'#e1d8c4',roughness:1,normal:.20});
  if(M.gardenPath){
+  // Courses are laid out in path space — metres across the ribbon by metres
+  // travelled along it — so the bond turns with the path and stays square on a
+  // grade. Keyed to world X/Z it ignored path direction and sheared at every bend.
   M.gardenPath.onBeforeCompile=shader=>{
-   shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vPavingPosition;').replace('#include <begin_vertex>','#include <begin_vertex>\nvPavingPosition=(modelMatrix*vec4(transformed,1.0)).xyz;');
-   shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vPavingPosition;');
+   shader.vertexShader=shader.vertexShader.replace('#include <common>','#include <common>\nvarying vec2 vPavingUV;').replace('#include <begin_vertex>','#include <begin_vertex>\nvPavingUV=uv*2.0;');
+   shader.fragmentShader=shader.fragmentShader.replace('#include <common>','#include <common>\nvarying vec2 vPavingUV;');
    shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
-float course=floor(vPavingPosition.z/.49);
-vec2 tileUV=vec2((vPavingPosition.x+mod(course,2.0)*.345)/.69,vPavingPosition.z/.49);
+float course=floor(vPavingUV.y/.49);
+vec2 tileUV=vec2((vPavingUV.x+mod(course,2.0)*.345)/.69,vPavingUV.y/.49);
 vec2 tileID=floor(tileUV),within=fract(tileUV);
 float joint=min(min(within.x,1.0-within.x)*.69,min(within.y,1.0-within.y)*.49);
-float stone=smoothstep(.005,.015,joint);
+float stone=smoothstep(.004,.013,joint);
 float variation=.93+.12*fract(sin(dot(tileID,vec2(12.9898,78.233)))*43758.5453);
-diffuseColor.rgb*=mix(.72,variation,stone);`);
-  };M.gardenPath.customProgramCacheKey=()=> 'warm-stone-courses-1';M.gardenPath.needsUpdate=true;
+diffuseColor.rgb*=mix(.74,variation,stone);`);
+  };M.gardenPath.customProgramCacheKey=()=> 'warm-stone-courses-2';M.gardenPath.needsUpdate=true;
  }
  if(M.gardenPaving)surface(M.gardenPaving,'concrete_wall_009',{color:'#e0d6bd',roughness:.96,normal:.26});
  for(const name of ['gardenWall','gardenCoping','fireWall'])if(M[name])surface(M[name],'rough_concrete',{color:name==='gardenCoping'?'#e7dfce':'#d9d0bf',roughness:.97,normal:.30});
@@ -71,11 +74,23 @@ diffuseColor.rgb*=mix(.72,variation,stone);`);
   texture.wrapS=THREE.RepeatWrapping;texture.wrapT=THREE.ClampToEdgeWrapping;texture.needsUpdate=true;
   const sky=createMountainPanorama(renderer,texture),old=scene.environment;panorama=sky.background;scene.environment=sky.environment;old?.dispose();scene.environmentRotation.set(0,-.8,0);scene.backgroundRotation.set(0,-.8,0);setAtmosphere(night);renderer.shadowMap.needsUpdate=true;
  }).catch(()=>{ /* The existing sky remains usable if the background cannot load. */ });
+ // `dusk` is an amount from 0 (afternoon) to 1 (dusk); the old boolean callers
+ // still read correctly. Fractions let the film hold the scene mid-evening
+ // instead of cutting between two fixed states.
+ const dayTint=new THREE.Color(),duskTint=new THREE.Color();
+ const blend=(day,night,t)=>dayTint.set(day).lerp(duskTint.set(night),t).clone();
  function setAtmosphere(dusk){
-  M.soffit.emissiveIntensity=dusk?.70:.60;
-  night=dusk;scene.background=panorama||new THREE.Color(dusk?'#536977':'#b9c6cc');scene.backgroundIntensity=dusk?.28:.90;scene.backgroundBlurriness=0;scene.environmentIntensity=dusk?.38:.82;scene.fog.color.set(dusk?'#536977':'#b0c1c8');scene.fog.density=dusk?.005:.0022;
-  water.material.uniforms.sunColor.value.set(dusk?'#edc391':'#ffedc9');water.material.uniforms.waterColor.value.set(dusk?'#35535b':'#779e9e');
-  water.material.uniforms.sunDirection.value.set(-55,dusk?16:38,56).normalize();lastReflection=-Infinity;
+  const t=THREE.MathUtils.clamp(Number(dusk)||0,0,1);
+  M.soffit.emissiveIntensity=THREE.MathUtils.lerp(.60,.70,t);
+  night=t>.5;
+  scene.background=panorama||blend('#b9c6cc','#536977',t);
+  scene.backgroundIntensity=THREE.MathUtils.lerp(.90,.28,t);scene.backgroundBlurriness=0;
+  scene.environmentIntensity=THREE.MathUtils.lerp(.82,.38,t);
+  scene.fog.color.copy(blend('#b0c1c8','#536977',t));
+  scene.fog.density=THREE.MathUtils.lerp(.0022,.005,t);
+  water.material.uniforms.sunColor.value.copy(blend('#ffedc9','#edc391',t));
+  water.material.uniforms.waterColor.value.copy(blend('#779e9e','#35535b',t));
+  water.material.uniforms.sunDirection.value.set(-55,THREE.MathUtils.lerp(38,16,t),56).normalize();lastReflection=-Infinity;
  }
  const details=[];campus.root.traverse(o=>{if(o.userData.detailDistance)details.push(o);});
  function update(delta,camera){water.material.uniforms.time.value+=delta*.32;if(camera)for(const o of details){const p=o.userData.lodCenter,d=Math.hypot(camera.position.x-p[0],camera.position.y-p[1],camera.position.z-p[2]);o.visible=d<o.userData.detailDistance;}}

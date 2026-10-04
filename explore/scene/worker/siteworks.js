@@ -4,7 +4,7 @@ import {dragonScaleGeometry} from './dragon-scales.js';
 import {balconyPoint} from './balcony-layout.js';
 const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z),PI=Math.PI;
 
-export function buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,naturalGroundHeight,roofTerraces,loungePads,box,beam,tube,mesh,edgeGeometry,facadeRoofPoint,roofUndersideAt,isOpening}){
+export function buildSiteStructure({architecture,roofs,navigationBlocks,M,frameAt,groundHeight,naturalGroundHeight,roofTerraces,loungePads,box,beam,tube,mesh,edgeGeometry,facadeRoofPoint,roofUndersideAt,isOpening}){
  const foundations=[],bents=[],retainingWalls=[],shadeSamples=[],southwest=V(-1,0,1).normalize();
  function pier(top,{width=.22,spread=0,dir=V(1,0,0),parent=architecture,kind='floor'}={}){
   const earth=groundHeight(top.x,top.z),underside=top.y;
@@ -26,8 +26,8 @@ export function buildSiteStructure({architecture,roofs,M,frameAt,groundHeight,na
   }
   beam(ends[0].clone().addScaledVector(f.n,-f.w*.16),ends[1].clone().addScaledVector(f.n,f.w*.16),.25,M.darkwood,architecture);bents.push({t,ends});
  }
- // Six masonry abutments replace thirty-six stair and landing support points.
- const stairStructure=buildStairStructure({roofs,M,frameAt,groundHeight,roofTerraces,mesh,box});
+ // Landing-sized masonry bearings and continuous ribs support the stair spans.
+ const stairStructure=buildStairStructure({roofs,navigationBlocks,M,frameAt,groundHeight,roofTerraces,mesh,box});
  for(const pad of loungePads){
   const ends=[];for(const s of [-.52,.52]){
    const top=balconyPoint(frameAt,pad.spec,s,.65).add(V(0,-.37,0));

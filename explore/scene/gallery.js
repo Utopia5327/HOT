@@ -1,3 +1,4 @@
+import {createWalkingMap} from './walking-map.js';
 import {MINI_MAP,createMiniMapKey} from './map-key.js';
 import {masonryCollision} from './navigation-collision.js';
 import { EYE_HEIGHT } from './navigation-config.js';
@@ -6,6 +7,8 @@ import { installIcons, setIcon } from './icons.js';
 import { TERRACE_SPECS } from './navigation-config.js';
 let THREE,OrbitControls,buildCampus,frameAt,nearestRoute,groundHeight,isOpening,galleryFloorHeight,createMuseumMedia,enhanceRendering,inGarden,createViewingZones,createImageCarousels,createViewCube,modelCamera,resizeModelCamera,orbitModelCamera,createElevationSite;
 let scenePromise=null;
+const walkingMap=createWalkingMap(document.getElementById('minimap'));
+let mapDirection;
 let planDrawing=null,planKey=null,planActive=false,requestedModelView='3d';
 let elevationSite=null,cubeDragging=false;
 
@@ -109,7 +112,7 @@ function modeUI(next){
   $('entry-label').textContent=next==='walk'?'Overview':'Explore on foot';setIcon($('enter-btn').querySelector('[data-icon]'),next==='walk'?'orbit':'footprints');
   $('nav-hint').textContent=next==='walk'?'Drag to look · W A S D to walk · E to open project':'Drag to orbit · Scroll to zoom';
   if(controls)controls.enabled=next==='orbit';keys.clear();dragging=false;
-  if(next==='orbit'){$('nearby').hidden=true;nearbyId=null;}
+  if(next==='orbit'){$('nearby').hidden=true;$('map-person').hidden=true;nearbyId=null;for(const node of mapNodes){node.button.classList.remove('active');node.button.removeAttribute('aria-current');}}
 }
 async function goOverview(){
   if(!await enterLandscape())return;closeMenu();museum?.suspend();stopTour();perspectiveCamera();modeUI('orbit');activeGallery=null;cameraTo(campus.overview.eye,campus.overview.target,1.3);
@@ -167,7 +170,7 @@ function updateLocation(){
   else if(campus.bridgeSamples.some(p=>Math.hypot(camera.position.x-p.x,camera.position.z-p.z)<2.0&&Math.abs(camera.position.y-p.y-EYE_HEIGHT)<.35)){setNearby(null);activeGallery=null;$('location-number').textContent='THE CONTOUR GARDEN';$('location-name').textContent='Landscape steps';}
   else if(inGarden(camera.position.x,camera.position.z)&&Math.abs(camera.position.y-groundHeight(camera.position.x,camera.position.z)-EYE_HEIGHT)<1.1){setNearby(null);activeGallery=null;$('location-number').textContent='ART & EXHIBITIONS';$('location-name').textContent='Courtyard garden';}
   else{setNearby(null);$('location-number').textContent='THE CONNECTING LANDSCAPE';$('location-name').textContent='Promenade & gardens';}
-  const x=MINI_MAP.cx+camera.position.x*MINI_MAP.scale,y=MINI_MAP.cy+camera.position.z*MINI_MAP.scale;$('map-person').hidden=mode!=='walk'||x<0||x>MINI_MAP.width||y<0||y>MINI_MAP.height;$('map-person').style.left=x+'px';$('map-person').style.top=y+'px';for(const node of mapNodes)node.button.classList.toggle('active',node.id===nearbyId);
+  for(const node of mapNodes){const active=node.id===nearbyId;node.button.classList.toggle('active',active);if(active)node.button.setAttribute('aria-current','location');else node.button.removeAttribute('aria-current');}
 }
 function setupMap(){
   const point=p=>`${(MINI_MAP.cx+p.x*MINI_MAP.scale).toFixed(2)},${(MINI_MAP.cy+p.z*MINI_MAP.scale).toFixed(2)}`;
@@ -175,7 +178,9 @@ function setupMap(){
   $('map-crossing').setAttribute('d',campus.bridgeCurve.getPoints(50).map((p,i)=>(i?'L':'M')+point(p)).join(' '));
   const routes=[];campus.root.traverse(o=>{if(o.userData.courtyardCirculation)routes.push(o.userData.courtyardCirculation.samples);});
   $('map-garden').setAttribute('d',routes.map(samples=>samples.map((p,i)=>(i?'L':'M')+point({x:p[0],z:p[2]})).join(' ')).join(' '));
-  createMiniMapKey($('minimap'),PROJECTS,goGallery);
+  createMiniMapKey($('map-content'),PROJECTS,goGallery);
+  const arrival=campus.architecture.userData.arrivalAxis;
+  if(arrival)$('map-approach').setAttribute('d','M'+point({x:arrival.start[0],z:arrival.start[2]})+' L'+point({x:arrival.threshold[0],z:arrival.threshold[2]}));
   for(let i=0;i<campus.spots.length;i++){
     const spot=campus.spots[i],p=PROJECTS.find(p=>p.id===spot.id),button=document.createElement('button');button.className='hotspot';button.setAttribute('aria-label',`Enter ${p.zone}: ${p.title}`);button.title=p.shortTitle;button.innerHTML=`<span class="pin">${number(i)}</span><span class="hotspot-title">${esc(p.shortTitle)}</span>`;button.onclick=()=>goGallery(p.id);$('hotspots').appendChild(button);hotNodes.push({button,spot});
     const mb=document.createElement('button');mb.textContent=String(i+1);mb.setAttribute('aria-label',p.zone+': '+p.shortTitle);mb.title=p.shortTitle;mb.style.left=(MINI_MAP.cx+spot.frame.p.x*MINI_MAP.scale)+'px';mb.style.top=(MINI_MAP.cy+spot.frame.p.z*MINI_MAP.scale)+'px';mb.onclick=()=>goGallery(p.id);$('map-stations').appendChild(mb);mapNodes.push({button:mb,id:p.id});
@@ -250,7 +255,7 @@ async function initScene(){
   viewingAreas=createViewingZones({campus,groundHeight});
   museum=createMuseumMedia({screens:campus.videoScreens,viewingZones:viewingAreas.zones,viewport:$('viewport'),onStatus:(id,text)=>{if(id===nearbyId||!id)$('media-status').textContent=text;}});museum.setSound(soundEnabled);
   viewCube?.dispose();viewCube=createViewCube({parent:$('explore-view'),onSelect:selectModelView,onOrbitStart:startCubeOrbit,onOrbit:dragCubeOrbit,onOrbitEnd:endCubeOrbit});
-  setupMap();resize();
+  setupMap();mapDirection=V();resize();
   const loader=new THREE.TextureLoader(),artQueue=campus.artMaterials.map(item=>{
     let object=null;campus.root.traverse(o=>{if(!object&&o.isMesh&&o.material===item.material)object=o;});
     if(!object)return {...item,position:V(0,9,0)};
@@ -271,7 +276,11 @@ function animate(){
   if(transition){const t=Math.min(1,(performance.now()-transition.start)/transition.duration),e=t*t*(3-2*t);camera.position.lerpVectors(transition.from,transition.to,e);controls.target.lerpVectors(transition.targetFrom,transition.targetTo,e);camera.lookAt(controls.target);if(t>=1){transition=null;controls.enabled=mode==='orbit';setAngles();}}
   else if(mode==='walk'){if(tour)moveTour(delta);else{walk(delta);look();}if(frameCount%5===0)updateLocation();}
   else if(!cubeDragging)controls.update();
-  if(frameCount%3===0)viewCube?.update(camera);
+  if(frameCount%3===0){
+   viewCube?.update(camera);
+   camera.getWorldDirection(mapDirection);
+   walkingMap.update({x:camera.position.x,z:camera.position.z,heading:Math.atan2(mapDirection.x,-mapDirection.z),walking:mode==='walk',location:$('location-name').textContent});
+  }
   if(!planActive)realism?.update(delta,camera);viewingAreas?.update(camera,reduced?0:delta,{visible:mode==='walk'&&!cutaway});museum?.update(camera,delta,{walking:mode==='walk',allowed:!transition&&!document.querySelector('dialog[open]')&&!cutaway});if(!planActive)museum?.render(camera);
   imageCarousels?.update(camera,Math.min(raw,1),{allowed:!planActive&&!document.querySelector('dialog[open]')});
   const background=scene.background;if(elevationSite?.root.visible)scene.background=elevationSite.background;

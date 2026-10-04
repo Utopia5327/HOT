@@ -3,7 +3,7 @@ const V=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
 const unitBrick=new THREE.BoxGeometry(1,1,1);
 
 // The same open stretcher bond, warm brick and pale coping as the balcony screens.
-export function buildStairJaali({parent,points,M,box,navigationBlocks,name='Stair brick jaali'}){
+export function buildStairJaali({parent,points,M,box,navigationBlocks,name='Stair brick jaali',startPost=true,endPost=true}){
  const root=new THREE.Group();root.name=name;parent.add(root);
  const lengths=[0];for(let i=1;i<points.length;i++)lengths.push(lengths.at(-1)+points[i].distanceTo(points[i-1]));
  const length=lengths.at(-1),plinth=.12;
@@ -33,7 +33,7 @@ export function buildStairJaali({parent,points,M,box,navigationBlocks,name='Stai
   }
   navigationBlocks?.push({a:[a.x,a.z],b:[b.x,b.z],radius:.16,bottom:Math.min(a.y,b.y)-.08,top:Math.max(a.y,b.y)+top+.10,kind:'stair-jaali'});
  }
- for(const end of [0,length]){
+ for(const end of [...(startPost?[0]:[]),...(endPost?[length]:[])]){
   const p=point(end),dir=point(Math.min(length,end+.03)).sub(point(Math.max(0,end-.03))),angle=Math.atan2(-dir.z,dir.x);
   box(.30,top+.035,.30,M.stairBrick,root,p.x,p.y+(top+.035)/2,p.z,angle);
   box(.34,.075,.34,M.stone,root,p.x,p.y+top+.05,p.z,angle);
