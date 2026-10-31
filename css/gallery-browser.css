@@ -21,6 +21,13 @@ html, body { height: auto; min-height: 100%; overflow-x: hidden; overflow-y: aut
     margin-left: calc(var(--gallery-card-size, 200px) / -2);
     margin-top: calc(var(--gallery-card-size, 200px) / -2);
 }
+/* Cards are links with images: stop native link/image drag (iOS) from cancelling the swipe. */
+.gallery-card, .gallery-card * {
+    touch-action: pan-y pinch-zoom;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+}
 .gallery-card:focus-visible { outline: 3px solid var(--text-primary); outline-offset: 4px; }
 .gallery-card:focus-visible .gallery-card-info { opacity: 1; }
 .scroll-hint {
