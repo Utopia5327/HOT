@@ -32,33 +32,35 @@
             e.preventDefault();
             move(e.key === 'ArrowRight' ? 1 : -1);
         });
-        stage.addEventListener('pointerdown', function (e) {
-            if (e.pointerType !== 'touch' || !e.isPrimary) return;
+        // Touch events rather than pointer events: the browser fires pointercancel when a
+        // touch starts on a 3D-transformed link card, which killed swipes that began on a card.
+        stage.addEventListener('touchstart', function (e) {
+            if (e.touches.length !== 1) { gesture = null; return; }
+            var t = e.touches[0];
             suppressClickUntil = 0;
-            gesture = { id: e.pointerId, x: e.clientX, y: e.clientY, lastX: e.clientX, axis: null };
-        });
-        stage.addEventListener('pointermove', function (e) {
-            if (!gesture || e.pointerId !== gesture.id) return;
-            var dx = e.clientX - gesture.x, dy = e.clientY - gesture.y;
+            gesture = { id: t.identifier, x: t.clientX, y: t.clientY, lastX: t.clientX, axis: null };
+        }, { passive: true });
+        stage.addEventListener('touchmove', function (e) {
+            if (!gesture) return;
+            var t = Array.prototype.find.call(e.changedTouches, function (c) { return c.identifier === gesture.id; });
+            if (!t) return;
+            var dx = t.clientX - gesture.x, dy = t.clientY - gesture.y;
             if (!gesture.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
                 gesture.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
-                if (gesture.axis === 'horizontal') stage.setPointerCapture(e.pointerId);
             }
             if (gesture.axis !== 'horizontal') return;
-            e.preventDefault();
-            move((gesture.lastX - e.clientX) / layout.spacing);
-            gesture.lastX = e.clientX;
-        });
-        function endGesture(e) {
-            if (!gesture || gesture.id !== e.pointerId) return;
+            if (e.cancelable) e.preventDefault();
+            move((gesture.lastX - t.clientX) / layout.spacing);
+            gesture.lastX = t.clientX;
+        }, { passive: false });
+        function endGesture() {
+            if (!gesture) return;
             if (gesture.axis === 'horizontal') suppressClickUntil = performance.now() + 450;
             gesture = null;
             pauseUntil = performance.now() + 2000;
-            if (stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
         }
-        stage.addEventListener('pointerup', endGesture);
-        stage.addEventListener('pointercancel', endGesture);
-        stage.addEventListener('lostpointercapture', endGesture);
+        stage.addEventListener('touchend', endGesture);
+        stage.addEventListener('touchcancel', endGesture);
         stage.addEventListener('click', function (e) {
             if (performance.now() < suppressClickUntil && e.detail !== 0) {
                 e.preventDefault();
