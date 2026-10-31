@@ -537,6 +537,12 @@
       "hasPart": [
         {
           "@type": "CreativeWork",
+          "name": "Indicodes",
+          "description": "Web app that shows what can be built on a Delhi plot.",
+          "url": "https://www.indicodes.com"
+        },
+        {
+          "@type": "CreativeWork",
           "name": "Manav — Ergonomic Furniture AI",
           "description": "AI-assisted ergonomic furniture design using parametric modeling and computational form generation adapted to human body geometry.",
           "url": "https://manasbhatia.com/projects/project1.html"
@@ -599,7 +605,7 @@
     <div class="gallery-main">
         <div class="gallery-top">
             <h1>Computational Design</h1>
-            <p class="gallery-description">A selection of my 2024–25 MS Computational Design Practices program work at Columbia University GSAPP. Open a project to learn more.</p>
+            <p class="gallery-description">Design projects built with code, data and AI: web tools, maps of city data, generative architecture, physical installations and interactive experiences. Open a project to learn more.</p>
         </div>
         <div class="gallery-stage" tabindex="0" role="region" aria-label="Browse projects" aria-describedby="galleryBrowseHint">
             <div class="gallery-ring" id="galleryRing"></div>
@@ -861,15 +867,16 @@
     /* ── Coverflow Gallery ── */
     (function() {
         var PROJECTS = [
-            { idx:'01/09', title:'MANAV',                       type:'Grasshopper · Generative Design',      img:'img/manavthumbnail.jpg',              href:'./projects/project1.html' },
-            { idx:'02/09', title:'TerraCurve Tower',            type:'BIM · Parametric Design',              img:'img/terracurvetowerthumbnail.jpg',     href:'./projects/project2.html' },
-            { idx:'03/09', title:'NYC Carbon Atlas',            type:'GIS · Data Visualization',             img:'img/NYCthumbnail.jpg',                href:'./projects/project3.html' },
-            { idx:'04/09', title:'Co-Design Canvas',            type:'AI Tool · Capstone Project',           img:'img/codesigncanvasthubnail.jpg',       href:'./projects/project4.html' },
-            { idx:'05/09', title:'TensileBloom',                type:'Fabrication · Kinetic Installation',   img:'img/tensilebloomthumb2.jpg',           href:'./projects/project5.html' },
-            { idx:'06/09', title:'EmotionEcho.exe',             type:'Interactive Installation · AI',        img:'img/gamethumb.jpg',                   href:'./projects/project6.html' },
-            { idx:'07/09', title:'Computational Modeling',      type:'GIS · Parametric Analysis',            img:'img/compGISgif.gif',                  href:'./projects/project7.html' },
-            { idx:'08/09', title:'Studio-In-Flux',              type:'Spatial AI · Agent Simulation',        img:'img/spatialaithumb.jpg',              href:'./projects/project8.html' },
-            { idx:'09/09', title:'Environmental Data Analysis', type:'Urban Climate Modeling',               img:'img/edathumbnail.jpg',                href:'./projects/project9.html' }
+            { idx:'01/10', title:'Indicodes',                   type:'Web App · Delhi Building Bylaws',      img:'img/indicodesthumb.jpg',              href:'https://www.indicodes.com', external:true },
+            { idx:'02/10', title:'MANAV',                       type:'Grasshopper · Generative Design',      img:'img/manavthumbnail.jpg',              href:'./projects/project1.html' },
+            { idx:'03/10', title:'TerraCurve Tower',            type:'BIM · Parametric Design',              img:'img/terracurvetowerthumbnail.jpg',     href:'./projects/project2.html' },
+            { idx:'04/10', title:'NYC Carbon Atlas',            type:'GIS · Data Visualization',             img:'img/NYCthumbnail.jpg',                href:'./projects/project3.html' },
+            { idx:'05/10', title:'Co-Design Canvas',            type:'AI Tool · Capstone Project',           img:'img/codesigncanvasthubnail.jpg',       href:'./projects/project4.html' },
+            { idx:'06/10', title:'TensileBloom',                type:'Fabrication · Kinetic Installation',   img:'img/tensilebloomthumb2.jpg',           href:'./projects/project5.html' },
+            { idx:'07/10', title:'EmotionEcho.exe',             type:'Interactive Installation · AI',        img:'img/gamethumb.jpg',                   href:'./projects/project6.html' },
+            { idx:'08/10', title:'Computational Modeling',      type:'GIS · Parametric Analysis',            img:'img/compGISgif.gif',                  href:'./projects/project7.html' },
+            { idx:'09/10', title:'Studio-In-Flux',              type:'Spatial AI · Agent Simulation',        img:'img/spatialaithumb.jpg',              href:'./projects/project8.html' },
+            { idx:'10/10', title:'Environmental Data Analysis', type:'Urban Climate Modeling',               img:'img/edathumbnail.jpg',                href:'./projects/project9.html' }
         ];
 
         var ring = document.getElementById('galleryRing');
@@ -883,8 +890,10 @@
             var card = document.createElement('a');
             card.href = p.href;
             card.className = 'gallery-card';
+            card.draggable = false;
+            if (p.external) { card.target = '_blank'; card.rel = 'noopener'; }
             card.innerHTML =
-                '<img src="' + p.img + '" alt="' + p.title + '" loading="lazy">' +
+                '<img src="' + p.img + '" alt="' + p.title + '" loading="lazy" draggable="false">' +
                 '<div class="gallery-card-info">' +
                     '<p class="gallery-card-index">' + p.idx + '</p>' +
                     '<h2 class="gallery-card-title">' + p.title + '</h2>' +
